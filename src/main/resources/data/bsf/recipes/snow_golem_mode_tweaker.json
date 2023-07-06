@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "BC ",
+    "BC "
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:redstone_torch"
+    },
+    "C": {
+      "item": "minecraft:iron_ingot"
+    },
+    "B": {
+      "item": "minecraft:stone_button"
+    }
+  },
+  "result": {
+    "item": "bsf:snow_golem_mode_tweaker"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "parent": "bsf:unstable_core_craft",
+  "display": {
+    "icon": {
+      "item": "bsf:repulsive_field_generator"
+    },
+    "title": {
+      "translate": "advancements.bsf.repulsive_field_generator.title"
+    },
+    "description": {
+      "translate": "advancements.bsf.repulsive_field_generator.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "annouce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "use_repulsive_field_generator": {
+      "trigger": "minecraft:using_item",
+      "conditions": {
+        "item": {
+          "items": ["bsf:repulsive_field_generator"]
+        }
+      }
+    }
+  },
+  "requirements": [["use_repulsive_field_generator"]]
+}

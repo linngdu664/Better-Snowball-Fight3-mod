@@ -1,0 +1,33 @@
+{
+  "parent": "bsf:root",
+  "display": {
+    "icon": {
+      "item": "bsf:snowball_cannon"
+    },
+    "title": {
+      "translate": "advancements.bsf.snowball_cannon.title"
+    },
+    "description": {
+      "translate": "advancements.bsf.snowball_cannon.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "annouce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "obtain_snowball_cannon": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bsf:snowball_cannon"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [["obtain_snowball_cannon"]]
+}

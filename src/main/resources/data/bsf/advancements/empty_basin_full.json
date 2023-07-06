@@ -1,0 +1,34 @@
+{
+  "parent": "bsf:root",
+  "display": {
+    "icon": {
+      "item": "bsf:basin_of_snow"
+    },
+    "title": {
+      "translate": "advancements.bsf.empty_basin.title"
+    },
+    "description": {
+      "translate": "advancements.bsf.empty_basin.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "annouce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "empty_basin_full": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bsf:basin_of_snow",
+              "bsf:basin_of_powder_snow"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [["empty_basin_full"]]
+}

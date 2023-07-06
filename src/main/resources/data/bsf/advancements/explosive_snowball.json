@@ -1,0 +1,33 @@
+{
+  "parent": "bsf:snowball_clamp_use",
+  "display": {
+    "icon": {
+      "item": "bsf:explosive_snowball"
+    },
+    "title": {
+      "translate": "advancements.bsf.explosive_snowball.title"
+    },
+    "description": {
+      "translate": "advancements.bsf.explosive_snowball.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "annouce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "obtain_explosive_snowball": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bsf:explosive_snowball"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [["obtain_explosive_snowball"]]
+}

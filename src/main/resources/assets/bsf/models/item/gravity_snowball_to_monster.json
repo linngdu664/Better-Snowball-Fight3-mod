@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "bsf:item/gravity_snowball_to_monster"
+  }
+}

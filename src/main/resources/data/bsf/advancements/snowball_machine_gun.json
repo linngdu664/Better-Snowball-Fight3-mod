@@ -1,0 +1,33 @@
+{
+  "parent": "bsf:snowball_cannon",
+  "display": {
+    "icon": {
+      "item": "bsf:snowball_machine_gun"
+    },
+    "title": {
+      "translate": "advancements.bsf.snowball_machine_gun.title"
+    },
+    "description": {
+      "translate": "advancements.bsf.snowball_machine_gun.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "annouce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "obtain_snowball_machine_gun": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bsf:snowball_machine_gun"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [["obtain_snowball_machine_gun"]]
+}

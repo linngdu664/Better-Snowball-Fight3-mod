@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "bsf:smooth_snowball"
+    },
+    "title": {
+      "translate": "advancements.bsf.root.title"
+    },
+    "description": {
+      "translate": "advancements.bsf.root.description"
+    },
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "frame": "task",
+    "show_toast": true,
+    "annouce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "join": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [["join"]]
+}

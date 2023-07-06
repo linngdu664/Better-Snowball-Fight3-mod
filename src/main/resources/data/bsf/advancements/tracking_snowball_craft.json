@@ -1,0 +1,38 @@
+{
+  "parent": "bsf:tracking_core_craft",
+  "display": {
+    "icon": {
+      "item": "bsf:heavy_monster_tracking_snowball"
+    },
+    "title": {
+      "translate": "advancements.bsf.heavy_monster_tracking_snowball.title"
+    },
+    "description": {
+      "translate": "advancements.bsf.heavy_monster_tracking_snowball.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "annouce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "tracking_snowball_craft": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bsf:light_monster_tracking_snowball",
+              "bsf:heavy_monster_tracking_snowball",
+              "bsf:explosive_monster_tracking_snowball",
+              "bsf:light_player_tracking_snowball",
+              "bsf:heavy_player_tracking_snowball",
+              "bsf:explosive_player_tracking_snowball"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [["tracking_snowball_craft"]]
+}

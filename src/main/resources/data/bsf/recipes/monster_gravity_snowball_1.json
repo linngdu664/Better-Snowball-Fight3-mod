@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "WRW",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:snowball"
+    },
+    "R": {
+      "item": "bsf:gravity_core"
+    }
+  },
+  "result": {
+    "item": "bsf:gravity_snowball_to_monster",
+    "count": 8
+  }
+}

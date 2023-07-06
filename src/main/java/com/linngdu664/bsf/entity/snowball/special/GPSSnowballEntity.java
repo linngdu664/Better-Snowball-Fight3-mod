@@ -1,0 +1,59 @@
+package com.linngdu664.bsf.entity.snowball.special;
+
+import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.util.LaunchFrom;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.NotNull;
+
+public class GPSSnowballEntity extends BSFSnowballEntity {
+    private final ItemStack targetLocator;
+
+    public GPSSnowballEntity(LivingEntity livingEntity, Level level, ItemStack targetLocator) {
+        super(livingEntity, level);
+        this.targetLocator = targetLocator;
+        this.setPunch(2.0).setLaunchFrom(LaunchFrom.HAND);
+        this.setItem(new ItemStack(ItemRegister.GPS_SNOWBALL.get()));
+    }
+
+    @Override
+    public Item getCorrespondingItem() {
+        return ItemRegister.IRON_SNOWBALL.get();
+    }
+
+    @Override
+    protected void onHit(@NotNull HitResult pResult) {
+        super.onHit(pResult);
+        if (!level().isClientSide) {
+            this.discard();
+        }
+    }
+
+    @Override
+    protected void onHitEntity(EntityHitResult pResult) {
+        super.onHitEntity(pResult);
+        if (!isCaught && pResult.getEntity() instanceof LivingEntity livingEntity) {
+            //((TargetLocatorItem) targetLocator.getItem()).setLivingEntity(livingEntity);
+            //targetLocator.getTag().putUUID("UUID", livingEntity.getUUID());
+            targetLocator.getTag().putInt("ID", livingEntity.getId());
+            if (getOwner() instanceof Player player) {
+                player.displayClientMessage(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[]{})).append(livingEntity.getName().getString() + " ID:" + livingEntity.getId()), false);
+                if (pResult.getEntity() instanceof Player player1) {
+                    player1.displayClientMessage(MutableComponent.create(new TranslatableContents("targeted.tip", null, new Object[]{})), false);
+                }
+                level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.7F, 1.0F / (level().getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+            }
+            targetLocator.setHoverName(MutableComponent.create(new TranslatableContents("item.bsf.target_locator", null, new Object[]{})).append(":").append(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[]{}))).append(livingEntity.getName().getString() + " ID:" + livingEntity.getId()));
+        }
+    }
+}

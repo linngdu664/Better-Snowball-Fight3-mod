@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "compacted_snowball_set",
+  "ingredients": [
+    {
+      "item": "bsf:smooth_snowball"
+    },
+    {
+      "item": "bsf:smooth_snowball"
+    },
+    {
+      "item": "bsf:smooth_snowball"
+    }
+  ],
+  "result": {
+    "item": "bsf:compacted_snowball_set"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "bsf:snowball_cannon"
+  },
+  "addition": {
+    "item": "bsf:super_power_core"
+  },
+  "result": {
+    "item": "bsf:powerful_snowball_cannon"
+  }
+}

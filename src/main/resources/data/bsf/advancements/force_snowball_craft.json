@@ -1,0 +1,37 @@
+{
+  "parent": "bsf:unstable_core_craft",
+  "display": {
+    "icon": {
+      "item": "bsf:gravity_snowball_to_monster"
+    },
+    "title": {
+      "translate": "advancements.bsf.gravity_snowball_to_monster.title"
+    },
+    "description": {
+      "translate": "advancements.bsf.gravity_snowball_to_monster.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "annouce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "force_snowball_craft": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bsf:gravity_snowball_to_monster",
+              "bsf:gravity_snowball_to_projectile",
+              "bsf:repulsion_snowball_to_monster",
+              "bsf:repulsion_snowball_to_projectile",
+              "bsf:black_hole_snowball"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [["force_snowball_craft"]]
+}

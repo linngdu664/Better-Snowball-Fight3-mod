@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "WDD",
+    "WDD"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:white_wool"
+    },
+    "D": {
+      "item": "minecraft:red_wool"
+    }
+  },
+  "result": {
+    "item": "bsf:glove",
+    "count": 1
+  }
+}
