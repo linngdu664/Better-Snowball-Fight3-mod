@@ -1,7 +1,6 @@
 package com.linngdu664.bsf.item.misc;
 
 import com.linngdu664.bsf.effect.EffectRegister;
-import com.linngdu664.bsf.util.ItemGroup;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.chat.Component;
@@ -26,7 +25,7 @@ import java.util.Objects;
 
 public class VodkaItem extends Item {
     public VodkaItem() {
-        super(new Properties().tab(ItemGroup.MAIN).stacksTo(16).rarity(Rarity.UNCOMMON));
+        super(new Properties().stacksTo(16).rarity(Rarity.UNCOMMON));
     }
 
     @Override
@@ -74,6 +73,6 @@ public class VodkaItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("vodka.tooltip")).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("vodka.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 }

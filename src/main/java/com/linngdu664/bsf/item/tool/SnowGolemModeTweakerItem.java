@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.item.tool;
 
-import com.linngdu664.bsf.util.ItemGroup;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -23,7 +22,7 @@ import java.util.List;
 
 public class SnowGolemModeTweakerItem extends Item {
     public SnowGolemModeTweakerItem() {
-        super(new Properties().tab(ItemGroup.MAIN).rarity(Rarity.UNCOMMON).stacksTo(1));
+        super(new Properties().rarity(Rarity.UNCOMMON).stacksTo(1));
     }
 
     @Override
@@ -34,7 +33,7 @@ public class SnowGolemModeTweakerItem extends Item {
             if (pPlayer.isShiftKeyDown()) {
                 boolean useLocator = !tag.getBoolean("UseLocator");
                 tag.putBoolean("UseLocator", useLocator);
-                pPlayer.displayClientMessage(useLocator ? MutableComponent.create(new TranslatableContents("snow_golem_locator_true.tip", null, new Object[]{})) : MutableComponent.create(new TranslatableContents("snow_golem_locator_false.tip", null, new Object[]{})), false);
+                pPlayer.displayClientMessage(useLocator ? MutableComponent.create(new TranslatableContents("snow_golem_locator_true.tip", null, new Object[0])) : MutableComponent.create(new TranslatableContents("snow_golem_locator_false.tip", null, new Object[0])), false);
             } else {
                 byte status = (byte) ((tag.getByte("Status") + 1) % 5);
                 tag.putByte("Status", status);
@@ -44,7 +43,7 @@ public class SnowGolemModeTweakerItem extends Item {
                     case 2 -> "snow_golem_follow_and_attack.tip";
                     case 3 -> "snow_golem_attack.tip";
                     default -> "snow_golem_turret.tip";
-                }, null, new Object[]{})), false);
+                }, null, new Object[0])), false);
             }
             pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
         }
@@ -59,8 +58,8 @@ public class SnowGolemModeTweakerItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_golem_mode_tweaker.tooltip", null, new Object[]{})).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_golem_mode_tweaker1.tooltip", null, new Object[]{})).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_golem_mode_tweaker2.tooltip", null, new Object[]{})).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_golem_mode_tweaker.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_golem_mode_tweaker1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_golem_mode_tweaker2.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
     }
 }

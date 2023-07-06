@@ -21,10 +21,10 @@ public class ThrustSnowballTank extends AbstractSnowballTankItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_hand.tooltip")).withStyle(ChatFormatting.DARK_RED));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_cannon.tooltip")).withStyle(ChatFormatting.DARK_RED));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_machine_gun.tooltip")).withStyle(ChatFormatting.DARK_RED));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_shotgun.tooltip")).withStyle(ChatFormatting.DARK_RED));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("thrust_snowball.tooltip")).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_hand.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_cannon.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_machine_gun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_shotgun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("thrust_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 }

@@ -1,7 +1,6 @@
 package com.linngdu664.bsf.item.tool;
 
 import com.linngdu664.bsf.item.ItemRegister;
-import com.linngdu664.bsf.util.ItemGroup;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -27,7 +26,7 @@ import java.util.List;
 
 public class SnowballClampItem extends TieredItem {
     public SnowballClampItem(Tier pTier) {
-        super(pTier, new Properties().tab(ItemGroup.MAIN).stacksTo(1));
+        super(pTier, new Properties().stacksTo(1));
     }
 
     @Override
@@ -59,6 +58,6 @@ public class SnowballClampItem extends TieredItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_clamp.tooltip", null, new Object[]{})).withStyle(ChatFormatting.DARK_GREEN));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_clamp.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_GREEN));
     }
 }

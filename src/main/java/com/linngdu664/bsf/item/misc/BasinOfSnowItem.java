@@ -5,7 +5,6 @@ import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.network.ForwardConeParticlesSender;
 import com.linngdu664.bsf.network.Network;
 import com.linngdu664.bsf.util.BSFMthUtil;
-import com.linngdu664.bsf.util.ItemGroup;
 import com.linngdu664.bsf.util.TargetGetter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -17,7 +16,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,7 +35,7 @@ import java.util.List;
 
 public class BasinOfSnowItem extends Item {
     public BasinOfSnowItem() {
-        super(new Properties().tab(ItemGroup.MAIN).stacksTo(1));
+        super(new Properties().stacksTo(1));
     }
 
     @Override
@@ -67,8 +65,7 @@ public class BasinOfSnowItem extends Item {
                             }
                             livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 1));
                         }
-
-                        livingEntity.hurt(DamageSource.playerAttack(pPlayer), Float.MIN_VALUE);
+                        livingEntity.hurt(pLevel.damageSources().playerAttack(pPlayer), Float.MIN_VALUE);
                     }
                 }
             }
@@ -133,7 +130,7 @@ public class BasinOfSnowItem extends Item {
         for (int j = -1; j <= 1; j++) {
             BlockPos blockPos = new BlockPos(Mth.floor(x - offsetX * j), Mth.floor(y), Mth.floor(z + offsetZ * j));
             BlockState blockState = level.getBlockState(blockPos);
-            if (blockState.getMaterial().blocksMotion()) {
+            if (blockState.blocksMotion()) {
                 k++;
             }
         }
@@ -142,7 +139,7 @@ public class BasinOfSnowItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin_of_snow.tooltip1", null, new Object[]{})).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin_of_snow.tooltip", null, new Object[]{})).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin_of_snow.tooltip1", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin_of_snow.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 }

@@ -47,7 +47,7 @@ public class GPSSnowballEntity extends BSFSnowballEntity {
             //targetLocator.getTag().putUUID("UUID", livingEntity.getUUID());
             targetLocator.getTag().putInt("ID", livingEntity.getId());
             if (getOwner() instanceof Player player) {
-                player.displayClientMessage(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[]{})).append(livingEntity.getName().getString() + " ID:" + livingEntity.getId()), false);
+                player.displayClientMessage(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[0])).append(livingEntity.getName().getString() + " ID:" + livingEntity.getId()), false);
                 if (pResult.getEntity() instanceof Player player1) {
                     player1.displayClientMessage(MutableComponent.create(new TranslatableContents("targeted.tip", null, new Object[]{})), false);
                 }

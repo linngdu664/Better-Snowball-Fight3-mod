@@ -106,7 +106,7 @@ public class SnowBlockBlenderItem extends AbstractBSFEnhanceableToolItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_block_blender1.tooltip", null, new Object[]{})).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_block_blender.tooltip", null, new Object[]{})).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_block_blender1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_block_blender.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 }

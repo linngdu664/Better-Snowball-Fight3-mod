@@ -68,7 +68,7 @@ public class ForwardConeParticlesSender {
 
     @OnlyIn(Dist.CLIENT)
     public static boolean handlePacket(double x, double y, double z, double vecX, double vecY, double vecZ, float r, float aStep, float rStep, double loweredVision) {
-        ParticleUtil.spawnForwardConeParticles(Minecraft.getInstance().player.getLevel(), x, y, z, new Vec3(vecX, vecY, vecZ), ParticleTypes.SNOWFLAKE, r, aStep, rStep, loweredVision);
+        ParticleUtil.spawnForwardConeParticles(Minecraft.getInstance().player.level(), x, y, z, new Vec3(vecX, vecY, vecZ), ParticleTypes.SNOWFLAKE, r, aStep, rStep, loweredVision);
         return true;
     }
 

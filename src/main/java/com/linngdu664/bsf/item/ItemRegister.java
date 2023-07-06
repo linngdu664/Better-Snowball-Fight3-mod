@@ -14,7 +14,6 @@ import com.linngdu664.bsf.item.tank.special.*;
 import com.linngdu664.bsf.item.tank.tracking.*;
 import com.linngdu664.bsf.item.tool.*;
 import com.linngdu664.bsf.item.weapon.*;
-import com.linngdu664.bsf.util.ItemGroup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
@@ -130,12 +129,12 @@ public class ItemRegister {
 
 
 
-    public static final RegistryObject<Item> SUPER_POWER_CORE = ITEMS.register("super_power_core", () -> new Item(new Item.Properties().tab(ItemGroup.MAIN).rarity(Rarity.UNCOMMON)));
-    public static final RegistryObject<Item> SUPER_FROZEN_CORE = ITEMS.register("super_frozen_core", () -> new Item(new Item.Properties().tab(ItemGroup.MAIN).rarity(Rarity.UNCOMMON)));
-    public static final RegistryObject<Item> TRACKING_CORE = ITEMS.register("tracking_core", () -> new Item(new Item.Properties().tab(ItemGroup.MAIN).rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SUPER_POWER_CORE = ITEMS.register("super_power_core", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SUPER_FROZEN_CORE = ITEMS.register("super_frozen_core", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> TRACKING_CORE = ITEMS.register("tracking_core", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> UNSTABLE_CORE = ITEMS.register("unstable_core", UnstableCoreItem::new);
-    public static final RegistryObject<Item> REPULSION_CORE = ITEMS.register("repulsion_core", () -> new Item(new Item.Properties().tab(ItemGroup.MAIN).rarity(Rarity.UNCOMMON)));
-    public static final RegistryObject<Item> GRAVITY_CORE = ITEMS.register("gravity_core", () -> new Item(new Item.Properties().tab(ItemGroup.MAIN).rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> REPULSION_CORE = ITEMS.register("repulsion_core", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> GRAVITY_CORE = ITEMS.register("gravity_core", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
 
 

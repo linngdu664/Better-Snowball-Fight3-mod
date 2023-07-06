@@ -2,7 +2,6 @@ package com.linngdu664.bsf.item.tank;
 
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
-import com.linngdu664.bsf.util.ItemGroup;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -17,7 +16,7 @@ public abstract class AbstractSnowballTankItem extends Item {
     private final Item item;
 
     public AbstractSnowballTankItem(Item item) {
-        super(new Properties().tab(ItemGroup.MAIN).stacksTo(1).durability(96).rarity(Rarity.UNCOMMON));
+        super(new Properties().stacksTo(1).durability(96).rarity(Rarity.UNCOMMON));
         this.item = item;
     }
 

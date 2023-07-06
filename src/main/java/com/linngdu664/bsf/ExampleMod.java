@@ -30,8 +30,9 @@ import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(ExampleMod.MODID)
+//@Mod(ExampleMod.MODID)
 public class ExampleMod {
+    /*
     // Define mod id in a common place for everything to reference
     public static final String MODID = "bsf";
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
@@ -114,5 +115,5 @@ public class ExampleMod {
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
         }
-    }
+    }*/
 }

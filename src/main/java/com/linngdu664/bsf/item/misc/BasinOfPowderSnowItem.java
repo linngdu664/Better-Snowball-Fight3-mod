@@ -67,7 +67,7 @@ public class BasinOfPowderSnowItem extends BasinOfSnowItem {
                         if (livingEntity.getTicksFrozen() < t) {
                             livingEntity.setTicksFrozen(t);
                         }
-                        livingEntity.hurt(DamageSource.playerAttack(pPlayer), Float.MIN_VALUE);
+                        livingEntity.hurt(pLevel.damageSources().playerAttack(pPlayer), Float.MIN_VALUE);
                     }
                 }
             }
@@ -82,7 +82,7 @@ public class BasinOfPowderSnowItem extends BasinOfSnowItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin_of_snow.tooltip1", null, new Object[]{})).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin_of_powder_snow.tooltip", null, new Object[]{})).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin_of_snow.tooltip1", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin_of_powder_snow.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 }

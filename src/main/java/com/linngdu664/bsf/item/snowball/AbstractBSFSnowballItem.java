@@ -2,7 +2,6 @@ package com.linngdu664.bsf.item.snowball;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
 import com.linngdu664.bsf.item.ItemRegister;
-import com.linngdu664.bsf.util.ItemGroup;
 import com.linngdu664.bsf.util.LaunchFrom;
 import com.linngdu664.bsf.util.LaunchFunc;
 import net.minecraft.world.InteractionHand;
@@ -18,7 +17,7 @@ import java.util.Objects;
 
 public abstract class AbstractBSFSnowballItem extends Item {
     public AbstractBSFSnowballItem(Rarity rarity) {
-        super(new Properties().tab(ItemGroup.MAIN).stacksTo(16).rarity(rarity));
+        super(new Properties().stacksTo(16).rarity(rarity));
     }
 
     public LaunchFunc getLaunchFunc(float playerBadEffectRate) {

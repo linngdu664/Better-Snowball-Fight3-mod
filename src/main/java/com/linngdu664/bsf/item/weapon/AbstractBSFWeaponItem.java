@@ -4,7 +4,6 @@ import com.linngdu664.bsf.entity.BSFSnowballEntity;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
-import com.linngdu664.bsf.util.ItemGroup;
 import com.linngdu664.bsf.util.LaunchFunc;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractBSFWeaponItem extends Item {
     public AbstractBSFWeaponItem(int durability, Rarity rarity) {
-        super(new Properties().tab(ItemGroup.MAIN).stacksTo(1).durability(durability).rarity(rarity));
+        super(new Properties().stacksTo(1).durability(durability).rarity(rarity));
     }
 
     /**

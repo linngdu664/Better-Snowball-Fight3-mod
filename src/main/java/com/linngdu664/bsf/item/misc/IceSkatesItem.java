@@ -1,7 +1,6 @@
 package com.linngdu664.bsf.item.misc;
 
 import com.linngdu664.bsf.client.model.IceSkatesModel;
-import com.linngdu664.bsf.util.ItemGroup;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -30,12 +29,12 @@ public class IceSkatesItem extends ArmorItem {
     public IceSkatesItem() {
         super(new ArmorMaterial() {
             @Override
-            public int getDurabilityForSlot(@NotNull EquipmentSlot pSlot) {
+            public int getDurabilityForType(@NotNull Type p_266807_) {
                 return 256;
             }
 
             @Override
-            public int getDefenseForSlot(@NotNull EquipmentSlot pSlot) {
+            public int getDefenseForType(@NotNull Type p_267168_) {
                 return 1;
             }
 
@@ -69,7 +68,7 @@ public class IceSkatesItem extends ArmorItem {
                 return 0;
             }
 
-        }, EquipmentSlot.FEET, new Properties().tab(ItemGroup.MAIN).stacksTo(1));
+        }, Type.BOOTS, new Properties().stacksTo(1));
     }
 
     @Override
@@ -105,6 +104,6 @@ public class IceSkatesItem extends ArmorItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("ice_skates.tooltip")).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("ice_skates.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 }

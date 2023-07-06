@@ -1,7 +1,6 @@
 package com.linngdu664.bsf.item.misc;
 
 import com.linngdu664.bsf.item.ItemRegister;
-import com.linngdu664.bsf.util.ItemGroup;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -23,7 +22,7 @@ import java.util.List;
 
 public class EmptyBasinItem extends Item {
     public EmptyBasinItem() {
-        super(new Properties().tab(ItemGroup.MAIN).stacksTo(16));
+        super(new Properties().stacksTo(16));
     }
 
     @Override
@@ -59,7 +58,7 @@ public class EmptyBasinItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("empty_basin.tooltip1")).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("empty_basin.tooltip")).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("empty_basin.tooltip1", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("empty_basin.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 }

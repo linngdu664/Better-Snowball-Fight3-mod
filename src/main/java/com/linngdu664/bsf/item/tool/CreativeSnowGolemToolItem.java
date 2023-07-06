@@ -2,7 +2,6 @@ package com.linngdu664.bsf.item.tool;
 
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.entity.EntityRegister;
-import com.linngdu664.bsf.util.ItemGroup;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -24,7 +23,7 @@ import java.util.List;
 
 public class CreativeSnowGolemToolItem extends Item {
     public CreativeSnowGolemToolItem() {
-        super(new Properties().tab(ItemGroup.MAIN).rarity(Rarity.EPIC).stacksTo(1));
+        super(new Properties().rarity(Rarity.EPIC).stacksTo(1));
     }
 
     @Override
@@ -61,7 +60,7 @@ public class CreativeSnowGolemToolItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("creative_snow_golem_tool.tooltip", null, new Object[]{})).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("creative_snow_golem_tool1.tooltip", null, new Object[]{})).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("creative_snow_golem_tool.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("creative_snow_golem_tool1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
     }
 }

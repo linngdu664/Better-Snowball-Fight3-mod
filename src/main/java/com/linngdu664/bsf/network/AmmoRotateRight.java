@@ -88,7 +88,7 @@ public class AmmoRotateRight {
             list.set(i, list.get(i + 1));
             list.set(i + 1, c);
         }
-        player.displayClientMessage(MutableComponent.create(new TranslatableContents("current_ammunition.tip", null, new Object[]{})).append(MutableComponent.create(new TranslatableContents("item.bsf." + inventory.getItem(list.get(list.size() - 1)).getItem(), null, new Object[]{}))), false);
+        player.displayClientMessage(MutableComponent.create(new TranslatableContents("current_ammunition.tip", null, new Object[0])).append(MutableComponent.create(new TranslatableContents("item.bsf." + inventory.getItem(list.get(list.size() - 1)).getItem(), null, new Object[0]))), false);
     }
 
     private static void exchangeItem(Inventory inventory, int a, int b) {

@@ -1,7 +1,6 @@
 package com.linngdu664.bsf.item.misc;
 
 import com.linngdu664.bsf.item.ItemRegister;
-import com.linngdu664.bsf.util.ItemGroup;
 import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
@@ -27,7 +26,7 @@ import java.util.List;
 
 public class UnstableCoreItem extends Item {
     public UnstableCoreItem() {
-        super(new Properties().tab(ItemGroup.MAIN).rarity(Rarity.EPIC));
+        super(new Properties().rarity(Rarity.EPIC));
     }
 
     @Override
@@ -53,6 +52,6 @@ public class UnstableCoreItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("unstable_core.tooltip")).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("unstable_core.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
     }
 }

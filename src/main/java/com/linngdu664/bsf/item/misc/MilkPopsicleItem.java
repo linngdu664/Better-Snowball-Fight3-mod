@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.item.misc;
 
-import com.linngdu664.bsf.util.ItemGroup;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.chat.Component;
@@ -26,7 +25,7 @@ public class MilkPopsicleItem extends Item {
     private static final FoodProperties food = new FoodProperties.Builder().alwaysEat().build();
 
     public MilkPopsicleItem() {
-        super(new Properties().tab(ItemGroup.MAIN).food(food));
+        super(new Properties().food(food));
     }
 
     @Override
@@ -59,7 +58,7 @@ public class MilkPopsicleItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("milk_popsicle1.tooltip")).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("milk_popsicle.tooltip")).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("milk_popsicle1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("milk_popsicle.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 }

@@ -9,6 +9,7 @@ import com.linngdu664.bsf.event.LivingFallEvent;
 import com.linngdu664.bsf.event.OnPlayerTickEvent;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.particle.ParticleRegister;
+import com.linngdu664.bsf.util.CreativeTabRegister;
 import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -28,6 +29,7 @@ public class Main {
         EffectRegister.EFFECTS.register(bus);
         EnchantmentRegister.REGISTRY.register(bus);
         EntityRegister.ENTITY_TYPES.register(bus);
+        CreativeTabRegister.CREATIVE_TABS.register(bus);
         MinecraftForge.EVENT_BUS.register(new AttackEntityEvent());
         MinecraftForge.EVENT_BUS.register(new OnPlayerTickEvent());
         MinecraftForge.EVENT_BUS.register(new LivingFallEvent());
