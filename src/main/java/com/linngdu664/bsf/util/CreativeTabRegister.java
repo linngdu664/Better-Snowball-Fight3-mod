@@ -103,8 +103,5 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.UNSTABLE_CORE.get());
                 output.accept(ItemRegister.REPULSION_CORE.get());
                 output.accept(ItemRegister.GRAVITY_CORE.get());
-
-
-                // Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).build());
 }
