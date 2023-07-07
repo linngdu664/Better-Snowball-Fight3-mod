@@ -17,7 +17,7 @@ license="MIT"
 # The modid of the mod
 modId="bsf" #mandatory
 # The version number of the mod
-version="${file.jarVersion}" #mandatory
+version="3.0" #mandatory
 # A display name for the mod
 displayName="Better Snowball Fight" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://docs.minecraftforge.net/en/latest/misc/updatechecker/

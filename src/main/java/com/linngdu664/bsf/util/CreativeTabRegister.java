@@ -18,6 +18,15 @@ public class CreativeTabRegister {
             .icon(() -> ItemRegister.EXPLOSIVE_SNOWBALL.get().getDefaultInstance())
             .title(MutableComponent.create(new TranslatableContents("itemGroup.bsf_group", null, new Object[0])))
             .displayItems((parameters, output) -> {
-                output.accept(ItemRegister.SMOOTH_SNOWBALL.get());   // Add the example item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(ItemRegister.SMOOTH_SNOWBALL.get());
+                output.accept(ItemRegister.COMPACTED_SNOWBALL.get());
+                output.accept(ItemRegister.STONE_SNOWBALL.get());
+                output.accept(ItemRegister.GLASS_SNOWBALL.get());
+                output.accept(ItemRegister.IRON_SNOWBALL.get());
+                output.accept(ItemRegister.GOLD_SNOWBALL.get());
+                output.accept(ItemRegister.EXPLOSIVE_SNOWBALL.get());
+                output.accept(ItemRegister.OBSIDIAN_SNOWBALL.get());
+
+                // Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).build());
 }
