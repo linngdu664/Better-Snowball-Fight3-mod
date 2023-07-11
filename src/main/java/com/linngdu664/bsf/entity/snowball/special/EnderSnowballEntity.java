@@ -37,7 +37,6 @@ public class EnderSnowballEntity extends BSFSnowballEntity {
             Entity entity = pResult.getEntity();
             if (entity instanceof Player || entity instanceof Mob) {
                 Entity owner = getOwner();
-                System.out.println(owner);
 //                double x = owner.getX(), y = owner.getY(), z = owner.getZ();
                 Vec3 ownerPos = owner.position();
                 Vec3 v1 = owner.getDeltaMovement();
@@ -62,7 +61,8 @@ public class EnderSnowballEntity extends BSFSnowballEntity {
                 ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL, owner.getX(), owner.getEyeY(), owner.getZ(), 32, 1, 1, 1, 0.1);
                 this.discard();
                 entity.moveTo(ownerPos);
-                entity.setDeltaMovement(v1);
+//                entity.setDeltaMovement(v1);
+                entity.push(v1.x - v2.x, v1.y - v2.y, v2.z - v1.z);
             }
         }
     }
