@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.entity.snowball;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
-import com.linngdu664.bsf.util.MovingAlgorithm;
+import com.linngdu664.bsf.entity.MovingAlgorithm;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;

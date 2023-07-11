@@ -12,8 +12,8 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CreativeTabRegister {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Main.MODID);
-    // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
-    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_TABS.register("example_tab", () -> net.minecraft.world.item.CreativeModeTab.builder()
+    // Creates a creative tab with the id "bsf:bsf_tab" for the example item, that is placed after the combat tab
+    public static final RegistryObject<CreativeModeTab> BSF_TAB = CREATIVE_TABS.register("bsf_tab", () -> net.minecraft.world.item.CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> ItemRegister.EXPLOSIVE_SNOWBALL.get().getDefaultInstance())
             .title(MutableComponent.create(new TranslatableContents("itemGroup.bsf_group", null, new Object[0])))

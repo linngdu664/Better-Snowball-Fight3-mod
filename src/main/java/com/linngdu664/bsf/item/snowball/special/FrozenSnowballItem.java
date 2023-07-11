@@ -43,21 +43,22 @@ public class FrozenSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
-        ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
-        if (!storageInTank(pPlayer, itemStack, ItemRegister.FROZEN_SNOWBALL_TANK.get())) {
-            pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
-            if (!pLevel.isClientSide) {
-                FrozenSnowballEntity snowballEntity = new FrozenSnowballEntity(pPlayer, pLevel, getLaunchFunc(getSnowballDamageRate(pPlayer)));
-                snowballEntity.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 1.125F * getSnowballSlowdownRate(pPlayer), 1.0F);
-                pLevel.addFreshEntity(snowballEntity);
-            }
-            if (!pPlayer.getAbilities().instabuild) {
-                itemStack.shrink(1);
-                pPlayer.getCooldowns().addCooldown(this, 10);
-            }
-        }
-        pPlayer.awardStat(Stats.ITEM_USED.get(this));
-        return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
+        return throwOrStorage(pPlayer, pLevel, ItemRegister.FROZEN_SNOWBALL_TANK.get(), pUsedHand, 1.125F, 10);
+//        ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
+//        if (!storageInTank(pPlayer, itemStack, ItemRegister.FROZEN_SNOWBALL_TANK.get())) {
+//            pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
+//            if (!pLevel.isClientSide) {
+//                FrozenSnowballEntity snowballEntity = new FrozenSnowballEntity(pPlayer, pLevel, getLaunchFunc(getSnowballDamageRate(pPlayer)));
+//                snowballEntity.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 1.125F * getSnowballSlowdownRate(pPlayer), 1.0F);
+//                pLevel.addFreshEntity(snowballEntity);
+//            }
+//            if (!pPlayer.getAbilities().instabuild) {
+//                itemStack.shrink(1);
+//                pPlayer.getCooldowns().addCooldown(this, 10);
+//            }
+//        }
+//        pPlayer.awardStat(Stats.ITEM_USED.get(this));
+//        return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 
     @Override

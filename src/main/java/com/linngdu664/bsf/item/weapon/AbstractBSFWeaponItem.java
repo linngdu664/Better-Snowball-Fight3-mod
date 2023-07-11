@@ -20,33 +20,9 @@ public abstract class AbstractBSFWeaponItem extends Item {
         super(new Properties().stacksTo(1).durability(durability).rarity(rarity));
     }
 
-    /**
-     * Find the ammo of the weapon in player's inventory. It will search tanks first, and then it will search bulk
-     * snowballs if "onlyTank" is false.
-     *
-     * @param player         The user of the weapon.
-     * @param onlyTank       Whether the weapon can only use the snowball in tanks.
-     * @param isNormalWeapon Whether the weapon is a normal weapon (cannon/shotgun).
-     * @return The first valid ammo itemstack. If the method can't find a proper itemstack, it will return null.
-     */
-    protected ItemStack findAmmo(Player player, boolean onlyTank, boolean isNormalWeapon) {
-        int k = player.getInventory().getContainerSize();
-        for (int j = 0; j < k; j++) {
-            ItemStack itemStack = player.getInventory().getItem(j);
-            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && (tank.getSnowball().canBeLaunchedByMachineGun() && !isNormalWeapon || tank.getSnowball().canBeLaunchedByNormalWeapon() && isNormalWeapon)) {
-                return itemStack;
-            }
-        }
-        if (!onlyTank) {
-            for (int j = 0; j < k; j++) {
-                ItemStack itemStack = player.getInventory().getItem(j);
-                if (itemStack.getItem() instanceof AbstractBSFSnowballItem snowball && (snowball.canBeLaunchedByMachineGun() && !isNormalWeapon || snowball.canBeLaunchedByNormalWeapon() && isNormalWeapon)) {
-                    return itemStack;
-                }
-            }
-        }
-        return null;
-    }
+    protected abstract ItemStack findAmmo(Player player);
+
+    public abstract LaunchFunc getLaunchFunc(double damageDropRate);
 
     //Rewrite vanilla "shootFromRotation" method to remove the influence of player's velocity.
     protected void BSFShootFromRotation(Projectile projectile, float pX, float pY, float pVelocity, float pInaccuracy) {

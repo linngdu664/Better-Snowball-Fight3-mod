@@ -3,6 +3,7 @@ package com.linngdu664.bsf.item;
 import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.item.block.SmartSnowBlockItem;
 import com.linngdu664.bsf.item.misc.*;
+import com.linngdu664.bsf.item.snowball.CompactedSnowballSetItem;
 import com.linngdu664.bsf.item.snowball.force.*;
 import com.linngdu664.bsf.item.snowball.normal.*;
 import com.linngdu664.bsf.item.snowball.special.*;

@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.network;
 
-import com.linngdu664.bsf.util.ParticleUtil;
+import com.linngdu664.bsf.particle.ParticleUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;

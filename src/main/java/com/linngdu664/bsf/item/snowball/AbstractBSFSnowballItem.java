@@ -1,10 +1,16 @@
 package com.linngdu664.bsf.item.snowball;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.nomal.CompactedSnowballEntity;
 import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
 import com.linngdu664.bsf.util.LaunchFrom;
 import com.linngdu664.bsf.util.LaunchFunc;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -68,6 +74,26 @@ public abstract class AbstractBSFSnowballItem extends Item {
         return false;
     }
 
+    public InteractionResultHolder<ItemStack> throwOrStorage(Player pPlayer, Level pLevel, Item tank, InteractionHand pUsedHand, float velocity, int coolDown) {
+        ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
+        if (!storageInTank(pPlayer, itemStack, tank)) {
+            pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
+            if (!pLevel.isClientSide) {
+                BSFSnowballEntity snowballEntity = getCorrespondingEntity(pLevel, pPlayer, getLaunchFunc(getSnowballDamageRate(pPlayer)));;
+                snowballEntity.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, velocity * getSnowballSlowdownRate(pPlayer), 1.0F);
+                pLevel.addFreshEntity(snowballEntity);
+            }
+            if (!pPlayer.getAbilities().instabuild) {
+                itemStack.shrink(1);
+                if (coolDown != 0) {
+                    pPlayer.getCooldowns().addCooldown(this, coolDown);
+                }
+            }
+        }
+        pPlayer.awardStat(Stats.ITEM_USED.get(this));
+        return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
+    }
+
     // 1.005^(-ticks)
     public float getSnowballSlowdownRate(Player player) {
         return (float) Math.exp(-0.005 * player.getTicksFrozen());
@@ -76,14 +102,14 @@ public abstract class AbstractBSFSnowballItem extends Item {
     public float getSnowballDamageRate(Player player) {
         float reDamageRate = 1;
         if (player.hasEffect(MobEffects.WEAKNESS)) {
-            reDamageRate -= switch (Objects.requireNonNull(player.getEffect(MobEffects.WEAKNESS)).getAmplifier()) {
+            reDamageRate -= switch (player.getEffect(MobEffects.WEAKNESS).getAmplifier()) {
                 case 0 -> 0.25f;
                 case 1 -> 0.5f;
                 default -> 0.75f;
             };
         }
         if (player.hasEffect(MobEffects.DAMAGE_BOOST)) {
-            if (Objects.requireNonNull(player.getEffect(MobEffects.DAMAGE_BOOST)).getAmplifier() == 0) {
+            if (player.getEffect(MobEffects.DAMAGE_BOOST).getAmplifier() == 0) {
                 reDamageRate += 0.15F;
             } else {
                 reDamageRate += 0.3F;

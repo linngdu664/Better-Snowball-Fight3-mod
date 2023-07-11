@@ -137,7 +137,7 @@ public class BSFSnowballEntity extends ThrowableItemProjectile {
      */
     @Override
     protected @NotNull Item getDefaultItem() {
-        return Items.SNOWBALL;
+        return ItemRegister.SMOOTH_SNOWBALL.get();
     }
 
     /**

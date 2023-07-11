@@ -34,13 +34,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SnowballShotgunItem extends AbstractBSFWeaponItem {
-    private double pushRank;
-
     public SnowballShotgunItem() {
         super(1145, Rarity.EPIC);
     }
 
-    public static LaunchFunc getLaunchFunc() {
+    public LaunchFunc getLaunchFunc(double damageDropRate) {
         return new LaunchFunc() {
             @Override
             public LaunchFrom getLaunchFrom() {
@@ -60,21 +58,27 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
         if (EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.SNOW_GOLEM_EXCLUSIVE.get(), stack) > 0) {
             return InteractionResultHolder.fail(stack);
         }
-        pushRank = 0.24;
+        double pushRank = 0.24;
         int i;
         for (i = 0; i < 4; i++) {
             ItemStack itemStack;
             if (player.isShiftKeyDown()) {
                 itemStack = findPropulsionSnowballAmmo(player);
                 if (itemStack == null) {
-                    itemStack = findAmmo(player, false, true);
+                    itemStack = findAmmo(player);
                 }
             } else {
-                itemStack = findAmmo(player, false, true);
+                itemStack = findAmmo(player);
             }
             if (itemStack != null) {
-                BSFSnowballEntity snowballEntity = ItemToEntity(itemStack.getItem(), player, level, getLaunchFunc());
-                addPush(itemStack.getItem());
+                BSFSnowballEntity snowballEntity = ItemToEntity(itemStack.getItem(), player, level, getLaunchFunc(1.0F));
+                Item item = itemStack.getItem();
+                if (item instanceof AbstractSnowballTankItem tank) {
+                    item = tank.getSnowball();
+                }
+                if (item instanceof AbstractBSFSnowballItem snowball) {
+                    pushRank += snowball.getPushRank();
+                }
                 if (!player.isShiftKeyDown()) {
                     BSFShootFromRotation(snowballEntity, player.getXRot(), player.getYRot(), 2.0F, 10.0F);
                     level.addFreshEntity(snowballEntity);
@@ -108,15 +112,6 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
         return InteractionResultHolder.pass(stack);
     }
 
-    private void addPush(Item item) {
-        if (item instanceof AbstractSnowballTankItem tank) {
-            item = tank.getSnowball();
-        }
-        if (item instanceof AbstractBSFSnowballItem snowball) {
-            pushRank += snowball.getPushRank();
-        }
-    }
-
     private ItemStack findPropulsionSnowballAmmo(Player player) {
         int k = player.getInventory().getContainerSize();
         for (int j = 0; j < k; j++) {
@@ -140,5 +135,23 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_shotgun2.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_PURPLE));
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_shotgun3.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_shotgun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
+    }
+
+    @Override
+    protected ItemStack findAmmo(Player player) {
+        int k = player.getInventory().getContainerSize();
+        for (int j = 0; j < k; j++) {
+            ItemStack itemStack = player.getInventory().getItem(j);
+            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && tank.getSnowball().canBeLaunchedByNormalWeapon()) {
+                return itemStack;
+            }
+        }
+        for (int j = 0; j < k; j++) {
+            ItemStack itemStack = player.getInventory().getItem(j);
+            if (itemStack.getItem() instanceof AbstractBSFSnowballItem snowball && snowball.canBeLaunchedByNormalWeapon()) {
+                return itemStack;
+            }
+        }
+        return null;
     }
 }

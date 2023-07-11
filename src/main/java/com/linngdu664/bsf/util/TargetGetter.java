@@ -6,8 +6,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 // I wonder why IDEA warns list.remove.
 public class TargetGetter {
@@ -23,7 +23,7 @@ public class TargetGetter {
      */
     public static <T extends Entity> Entity getTarget(BSFSnowballEntity snowball, Class<T> t, boolean angleRestriction, double trackingRange) {
         Level level = snowball.level();
-        List<T> list = level.getEntitiesOfClass(t, snowball.getBoundingBox().inflate(trackingRange, trackingRange, trackingRange), (p_186450_) -> true);
+        List<T> list = level.getEntitiesOfClass(t, snowball.getBoundingBox().inflate(trackingRange, trackingRange, trackingRange));
         Entity owner = snowball.getOwner();
         list.remove(snowball);
         list.remove(owner);
@@ -31,34 +31,34 @@ public class TargetGetter {
             list.remove(golem.getOwner());
         }
         if (t == BSFSnowGolemEntity.class) {
-            Vector<Entity> vector = new Vector<>();
+            ArrayList<Entity> arrayList = new ArrayList<>();
             if (owner instanceof BSFSnowGolemEntity golem) {
                 for (T entity : list) {
                     if (((BSFSnowGolemEntity) entity).getTarget() == null || !((BSFSnowGolemEntity) entity).getTarget().equals(golem.getOwner())) {
-                        vector.add(entity);
+                        arrayList.add(entity);
                     }
                 }
             } else {
                 for (T entity : list) {
                     if (((BSFSnowGolemEntity) entity).getTarget() == null || !((BSFSnowGolemEntity) entity).getTarget().equals(owner)) {
-                        vector.add(entity);
+                        arrayList.add(entity);
                     }
                 }
             }
-            for (Entity entity : vector) {
+            for (Entity entity : arrayList) {
                 list.remove(entity);
             }
         }
         if (angleRestriction) {
-            Vector<Entity> vector = new Vector<>();
+            ArrayList<Entity> arrayList = new ArrayList<>();
             Vec3 velocity = snowball.getDeltaMovement();
             for (T entity : list) {
                 Vec3 vec3 = new Vec3(entity.getX() - snowball.getX(), entity.getY() - snowball.getY(), entity.getZ() - snowball.getZ());
                 if (BSFMthUtil.vec3AngleCos(vec3, velocity) < 0.5) {
-                    vector.add(entity);
+                    arrayList.add(entity);
                 }
             }
-            for (Entity entity : vector) {
+            for (Entity entity : arrayList) {
                 list.remove(entity);
             }
         }
@@ -72,15 +72,6 @@ public class TargetGetter {
             }
         }
         return entity1;
-        /*
-        if (angleRestriction) {
-            Vec3 vec3 = new Vec3(entity1.getX() - snowball.getX(), entity1.getY() - snowball.getY(), entity1.getZ() - snowball.getZ());
-            Vec3 velocity = snowball.getDeltaMovement();
-            if (BSFMthUtil.vec3AngleCos(vec3, velocity) < 0.5 || vec3.lengthSqr() > trackingRange * trackingRange) {
-                return null;
-            }
-        }
-        return entity1;*/
     }
 
     /**
@@ -94,7 +85,7 @@ public class TargetGetter {
      */
     public static <T extends Entity> List<T> getTargetList(Entity entity, Class<T> t, double range) {
         Level level = entity.level();
-        List<T> list = level.getEntitiesOfClass(t, entity.getBoundingBox().inflate(range, range, range), (p_186450_) -> true);
+        List<T> list = level.getEntitiesOfClass(t, entity.getBoundingBox().inflate(range, range, range));
         list.remove(entity);
         return list;
     }

@@ -5,6 +5,7 @@ import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.EntityRegister;
 import com.linngdu664.bsf.event.AttackEntityEvent;
+import com.linngdu664.bsf.event.BSFConfig;
 import com.linngdu664.bsf.event.LivingFallEvent;
 import com.linngdu664.bsf.event.OnPlayerTickEvent;
 import com.linngdu664.bsf.item.ItemRegister;
@@ -13,7 +14,9 @@ import com.linngdu664.bsf.util.CreativeTabRegister;
 import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(Main.MODID)
@@ -30,6 +33,7 @@ public class Main {
         EnchantmentRegister.REGISTRY.register(bus);
         EntityRegister.ENTITY_TYPES.register(bus);
         CreativeTabRegister.CREATIVE_TABS.register(bus);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BSFConfig.SPEC);
         MinecraftForge.EVENT_BUS.register(new AttackEntityEvent());
         MinecraftForge.EVENT_BUS.register(new OnPlayerTickEvent());
         MinecraftForge.EVENT_BUS.register(new LivingFallEvent());

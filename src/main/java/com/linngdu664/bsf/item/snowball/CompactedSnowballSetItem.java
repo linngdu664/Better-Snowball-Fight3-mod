@@ -1,8 +1,8 @@
-package com.linngdu664.bsf.item.snowball.normal;
+package com.linngdu664.bsf.item.snowball;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.nomal.CompactedSnowballEntity;
-import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
+import com.linngdu664.bsf.util.LaunchFrom;
 import com.linngdu664.bsf.util.LaunchFunc;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -13,8 +13,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -24,9 +25,28 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class CompactedSnowballSetItem extends AbstractBSFSnowballItem {
+public class CompactedSnowballSetItem extends Item {
     public CompactedSnowballSetItem() {
-        super(Rarity.COMMON);
+        super(new Properties().stacksTo(16).rarity(Rarity.COMMON));
+    }
+
+    private float getSnowballDamageRate(Player player) {
+        float reDamageRate = 1;
+        if (player.hasEffect(MobEffects.WEAKNESS)) {
+            reDamageRate -= switch (player.getEffect(MobEffects.WEAKNESS).getAmplifier()) {
+                case 0 -> 0.25f;
+                case 1 -> 0.5f;
+                default -> 0.75f;
+            };
+        }
+        if (player.hasEffect(MobEffects.DAMAGE_BOOST)) {
+            if (player.getEffect(MobEffects.DAMAGE_BOOST).getAmplifier() == 0) {
+                reDamageRate += 0.15F;
+            } else {
+                reDamageRate += 0.3F;
+            }
+        }
+        return reDamageRate;
     }
 
     @Override
@@ -34,12 +54,24 @@ public class CompactedSnowballSetItem extends AbstractBSFSnowballItem {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
         pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
         if (!pLevel.isClientSide) {
-            CompactedSnowballEntity snowballEntity1 = new CompactedSnowballEntity(pPlayer, pLevel, getLaunchFunc(getSnowballDamageRate(pPlayer)));
-            CompactedSnowballEntity snowballEntity2 = new CompactedSnowballEntity(pPlayer, pLevel, getLaunchFunc(getSnowballDamageRate(pPlayer)));
-            CompactedSnowballEntity snowballEntity3 = new CompactedSnowballEntity(pPlayer, pLevel, getLaunchFunc(getSnowballDamageRate(pPlayer)));
-            snowballEntity1.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, getSnowballSlowdownRate(pPlayer), 10.0F);
-            snowballEntity2.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, getSnowballSlowdownRate(pPlayer), 10.0F);
-            snowballEntity3.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, getSnowballSlowdownRate(pPlayer), 10.0F);
+            LaunchFunc launchFunc = new LaunchFunc() {
+                @Override
+                public LaunchFrom getLaunchFrom() {
+                    return LaunchFrom.HAND;
+                }
+
+                @Override
+                public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
+                    bsfSnowballEntity.setBlazeDamage(bsfSnowballEntity.getBlazeDamage() * getSnowballDamageRate(pPlayer)).setDamage(bsfSnowballEntity.getDamage() * getSnowballDamageRate(pPlayer));
+                }
+            };
+            float slowdownRate = (float) Math.exp(-0.005 * pPlayer.getTicksFrozen());
+            CompactedSnowballEntity snowballEntity1 = new CompactedSnowballEntity(pPlayer, pLevel, launchFunc);
+            CompactedSnowballEntity snowballEntity2 = new CompactedSnowballEntity(pPlayer, pLevel, launchFunc);
+            CompactedSnowballEntity snowballEntity3 = new CompactedSnowballEntity(pPlayer, pLevel, launchFunc);
+            snowballEntity1.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, slowdownRate, 10.0F);
+            snowballEntity2.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, slowdownRate, 10.0F);
+            snowballEntity3.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, slowdownRate, 10.0F);
             pLevel.addFreshEntity(snowballEntity1);
             pLevel.addFreshEntity(snowballEntity2);
             pLevel.addFreshEntity(snowballEntity3);
@@ -51,20 +83,20 @@ public class CompactedSnowballSetItem extends AbstractBSFSnowballItem {
         return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 
-    @Override
-    public BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc) {
-        return null;
-    }
-
-    @Override
-    public boolean canBeLaunchedByMachineGun() {
-        return false;
-    }
-
-    @Override
-    public boolean canBeLaunchedByNormalWeapon() {
-        return false;
-    }
+//    @Override
+//    public BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc) {
+//        return null;
+//    }
+//
+//    @Override
+//    public boolean canBeLaunchedByMachineGun() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean canBeLaunchedByNormalWeapon() {
+//        return false;
+//    }
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {

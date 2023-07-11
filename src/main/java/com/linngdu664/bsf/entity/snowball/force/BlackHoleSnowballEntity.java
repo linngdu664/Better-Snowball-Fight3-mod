@@ -3,7 +3,7 @@ package com.linngdu664.bsf.entity.snowball.force;
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.util.LaunchFunc;
-import com.linngdu664.bsf.util.MovingAlgorithm;
+import com.linngdu664.bsf.entity.MovingAlgorithm;
 import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;

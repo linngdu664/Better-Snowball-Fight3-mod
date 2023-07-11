@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.entity.snowball;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
-import com.linngdu664.bsf.util.MovingAlgorithm;
+import com.linngdu664.bsf.entity.MovingAlgorithm;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;

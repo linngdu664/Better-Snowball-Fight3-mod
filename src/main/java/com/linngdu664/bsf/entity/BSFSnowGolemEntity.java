@@ -10,14 +10,9 @@ import com.linngdu664.bsf.item.tool.CreativeSnowGolemToolItem;
 import com.linngdu664.bsf.item.tool.SnowGolemModeTweakerItem;
 import com.linngdu664.bsf.item.tool.SnowballClampItem;
 import com.linngdu664.bsf.item.tool.TargetLocatorItem;
-import com.linngdu664.bsf.item.weapon.FreezingSnowballCannonItem;
-import com.linngdu664.bsf.item.weapon.PowerfulSnowballCannonItem;
-import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
-import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
-import com.linngdu664.bsf.util.BSFMthUtil;
-import com.linngdu664.bsf.util.LaunchFunc;
-import com.linngdu664.bsf.util.ParticleUtil;
-import com.linngdu664.bsf.util.SoundRegister;
+import com.linngdu664.bsf.item.weapon.*;
+import com.linngdu664.bsf.particle.ParticleUtil;
+import com.linngdu664.bsf.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -393,23 +388,17 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         Level level = level();
         ItemStack weapon = getWeapon();
         ItemStack ammo = getAmmo();
-        float damageChance = 1.0F / (1.0F + EnchantmentHelper.getTagEnchantmentLevel(Enchantments.UNBREAKING, weapon));
-        float v = 3.0F;
-        float accuracy = 1.0F;
-        LaunchFunc launchFunc = null;
-        if (weapon.getItem() == ItemRegister.SNOWBALL_CANNON.get()) {
-            launchFunc = SnowballCannonItem.getLaunchFunc(1);
-        } else if (weapon.getItem() == ItemRegister.POWERFUL_SNOWBALL_CANNON.get()) {
-            launchFunc = PowerfulSnowballCannonItem.getLaunchFunc(1);
-            v = 4.0F;
-        } else if (weapon.getItem() == ItemRegister.FREEZING_SNOWBALL_CANNON.get()) {
-            launchFunc = FreezingSnowballCannonItem.getLaunchFunc(1);
-        } else if (weapon.getItem() == ItemRegister.SNOWBALL_SHOTGUN.get()) {
-            launchFunc = SnowballShotgunItem.getLaunchFunc();
-            v = 2.0F;
-            accuracy = 10.0F;
-        }
-        if (!weapon.isEmpty() && launchFunc != null) {
+        if (!weapon.isEmpty()) {
+            float damageChance = 1.0F / (1.0F + EnchantmentHelper.getTagEnchantmentLevel(Enchantments.UNBREAKING, weapon));
+            float v = 3.0F;
+            float accuracy = 1.0F;
+            LaunchFunc launchFunc = ((AbstractBSFWeaponItem) weapon.getItem()).getLaunchFunc(1);
+            if (launchFunc.getLaunchFrom().equals(LaunchFrom.POWERFUL_CANNON)) {
+                v = 4.0F;
+            } else if (launchFunc.getLaunchFrom().equals(LaunchFrom.SHOTGUN)) {
+                v = 2.0F;
+                accuracy = 10.0F;
+            }
             double h = pTarget.getEyeY() - getEyeY();
             double dx = pTarget.getX() - getX();
             double dz = pTarget.getZ() - getZ();

@@ -32,18 +32,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
-    //private int timer = 0;
     private float recoil;
-    //private float damageChance;
     private ItemStack ammo;
     private boolean isExplosive;
-    //private boolean isOnCoolDown = false;
 
     public SnowballMachineGunItem() {
         super(1919, Rarity.EPIC);
     }//1919
 
-    public LaunchFunc getLaunchFunc() {
+    @Override
+    public LaunchFunc getLaunchFunc(double damageDropRate) {
         return new LaunchFunc() {
             @Override
             public LaunchFrom getLaunchFrom() {
@@ -60,8 +58,7 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
-        //damageChance = 1.0F / (1.0F + EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack));
-        ammo = findAmmo(pPlayer, true, false);
+        ammo = findAmmo(pPlayer);
         if (ammo != null) {
             recoil = ((AbstractSnowballTankItem) ammo.getItem()).getSnowball().getRecoil();
             isExplosive = ammo.getItem() instanceof ExplosiveSnowballTank || ammo.getItem() instanceof ExplosivePlayerTrackingSnowballTank || ammo.getItem() instanceof ExplosiveMonsterTrackingSnowballTank;
@@ -71,72 +68,6 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
         return InteractionResultHolder.fail(stack);
     }
 
-/*
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onUseTick(@NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
-        Player player = (Player) pLivingEntity;
-        float pitch = player.getXRot();
-        float yaw = player.getYRot();
-        boolean flag = false;
-        if (!isOnCoolDown) {
-            ItemStack itemStack = findAmmo(player, true, false);
-            if (itemStack != null) {
-                if (itemStack.getItem() instanceof ExplosiveSnowballTank || itemStack.getItem() instanceof ExplosivePlayerTrackingSnowballTank || itemStack.getItem() instanceof ExplosiveMonsterTrackingSnowballTank) {
-                    flag = true;
-                }
-                if (timer % 3 == 0 && (!flag || timer % 6 == 0)) {
-                    BSFSnowballEntity snowballEntity = ItemToEntity(itemStack.getItem(), player, pLevel, getLaunchFunc());
-                    recoil = ((AbstractSnowballTankItem) itemStack.getItem()).getSnowball().getRecoil();
-                    BSFShootFromRotation(snowballEntity, pitch, yaw, 2.6F, 1.0F);
-                    pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.SNOWBALL_MACHINE_GUN_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                    pLevel.addFreshEntity(snowballEntity);
-
-                    Vec3 cameraVec = Vec3.directionFromRotation(pitch, yaw);
-                    // add push
-                    if (pLevel.isClientSide()) {
-                        player.push(-cameraVec.x * recoil * 0.25, -cameraVec.y * recoil * 0.25, -cameraVec.z * recoil * 0.25);
-                    } else {
-                        // add particles
-                        ((ServerLevel) pLevel).sendParticles(ParticleTypes.SNOWFLAKE, player.getX() + cameraVec.x, player.getEyeY() + cameraVec.y, player.getZ() + cameraVec.z, 4, 0, 0, 0, 0.32);
-                    }
-                    // handle ammo consume and damage weapon.
-                    consumeAmmo(itemStack, player);
-                    if (pLevel.getRandom().nextFloat() <= damageChance && !player.getAbilities().instabuild) {
-                        pStack.setDamageValue(pStack.getDamageValue() + 1);
-                        if (pStack.getDamageValue() == 512) {
-                            player.awardStat(Stats.ITEM_BROKEN.get(pStack.getItem()));
-                            pStack.shrink(1);
-                            pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_BREAK, SoundSource.NEUTRAL, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
-                        }
-                    }
-                }
-            } else {
-                recoil = 0;
-            }
-
-            // set pitch according to recoil.
-            if (pitch > -90.0F && pLevel.isClientSide() && (!flag || timer % 6 < 3)) {
-                player.setXRot(pitch - recoil);
-            }
-
-            // add and check cd time.
-            if (itemStack != null && !pLevel.isClientSide) {
-                timer += 3;
-                if (flag && timer >= 60) {
-                    player.getCooldowns().addCooldown(this, 60);
-                    //isOnCoolDown = true;
-                    timer = 120;
-                } else if (timer >= 120) {
-                    player.getCooldowns().addCooldown(this, 60);
-                    //isOnCoolDown = true;
-                }
-            }
-        }
-    }
-    */
-
-    @SuppressWarnings("deprecation")
     @Override
     public void onUseTick(@NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
         if (pRemainingUseDuration == 1 || ammo == null || ammo.isEmpty()) {
@@ -152,7 +83,7 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
                 // add push
                 player.push(-cameraVec.x * recoil * 0.25, -cameraVec.y * recoil * 0.25, -cameraVec.z * recoil * 0.25);
             } else {
-                BSFSnowballEntity snowballEntity = ItemToEntity(ammo.getItem(), player, pLevel, getLaunchFunc());
+                BSFSnowballEntity snowballEntity = ItemToEntity(ammo.getItem(), player, pLevel, getLaunchFunc(1.0));
                 BSFShootFromRotation(snowballEntity, pitch, yaw, 2.6F, 1.0F);
                 pLevel.addFreshEntity(snowballEntity);
                 pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.SNOWBALL_MACHINE_GUN_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
@@ -161,14 +92,6 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
                 // handle ammo consume and damage weapon.
                 consumeAmmo(ammo, player);
                 pStack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
-             /*   if (pLevel.getRandom().nextFloat() <= damageChance && !player.getAbilities().instabuild) {
-                    pStack.setDamageValue(pStack.getDamageValue() + 1);
-                    if (pStack.getDamageValue() == 512) {
-                        player.awardStat(Stats.ITEM_BROKEN.get(pStack.getItem()));
-                        pStack.shrink(1);
-                        pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_BREAK, SoundSource.NEUTRAL, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
-                    }
-                }*/
             }
         }
         // set pitch according to recoil.
@@ -176,22 +99,6 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
             player.setXRot(pitch - recoil);
         }
     }
-/*
-    @Override
-    public void inventoryTick(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (!pLevel.isClientSide) {
-            if (timer > 0) {
-                timer -= 2;
-            } else {
-                //isOnCoolDown = false;
-            }
-            if (timer < 0) {
-                timer = 0;
-            }
-        }
-        //System.out.println(timer + " " + isOnCoolDown);
-    }*/
-
 
     @Override
     public void releaseUsing(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, int pTimeCharged) {
@@ -214,7 +121,7 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
 
     @Override
     public int getUseDuration(@NotNull ItemStack pStack) {
-        super.getUseDuration(pStack);
+//        super.getUseDuration(pStack);
         if (isExplosive) {
             return 60;
         }
@@ -226,5 +133,17 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_machine_gun1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_machine_gun2.tooltip", null, new Object[0])).withStyle(ChatFormatting.RED));
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_machine_gun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
+    }
+
+    @Override
+    protected ItemStack findAmmo(Player player) {
+        int k = player.getInventory().getContainerSize();
+        for (int j = 0; j < k; j++) {
+            ItemStack itemStack = player.getInventory().getItem(j);
+            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && tank.getSnowball().canBeLaunchedByMachineGun()) {
+                return itemStack;
+            }
+        }
+        return null;
     }
 }

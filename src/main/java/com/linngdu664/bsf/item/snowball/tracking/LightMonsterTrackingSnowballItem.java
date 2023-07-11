@@ -37,8 +37,6 @@ public class LightMonsterTrackingSnowballItem extends AbstractBSFSnowballItem {
         } else {
             storageInTank(pPlayer, itemStack, ItemRegister.LIGHT_MONSTER_TRACKING_SNOWBALL_TANK.get());
         }
-
-
         pPlayer.awardStat(Stats.ITEM_USED.get(this));
         return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
