@@ -1,7 +1,9 @@
-package com.linngdu664.bsf.util;
+package com.linngdu664.bsf.entity;
 
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.TargetGetter;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -42,7 +44,7 @@ public class MovingAlgorithm {
             }
             entity.push(a * rVec.x * ir2, a * rVec.y * ir2, a * rVec.z * ir2);
             //Tell client that player should move because client handles player's movement.
-            if (entity instanceof ServerPlayer player && !player.getAbilities().instabuild) {
+            if (entity instanceof ServerPlayer player && !player.getAbilities().instabuild && !player.getAbilities().invulnerable) {
                 player.connection.send(new ClientboundSetEntityMotionPacket(entity));
             }
         }
