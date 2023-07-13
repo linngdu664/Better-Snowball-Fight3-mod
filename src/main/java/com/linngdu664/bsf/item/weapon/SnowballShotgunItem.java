@@ -2,6 +2,8 @@ package com.linngdu664.bsf.item.weapon;
 
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.snowball.special.ThrustSnowballItem;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
@@ -38,16 +40,51 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
         super(1145, Rarity.EPIC);
     }
 
-    public LaunchFunc getLaunchFunc(double damageDropRate) {
-        return new LaunchFunc() {
+//    public LaunchFunc getLaunchFunc(double damageDropRate) {
+//        return new LaunchFunc() {
+//            @Override
+//            public LaunchFrom getLaunchFrom() {
+//                return LaunchFrom.SHOTGUN;
+//            }
+//
+//            @Override
+//            public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
+//                bsfSnowballEntity.setPunch(1.51);
+//            }
+//        };
+//    }
+
+    @Override
+    public ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball) {
+        return new ILaunchAdjustment() {
             @Override
-            public LaunchFrom getLaunchFrom() {
-                return LaunchFrom.SHOTGUN;
+            public double adjustPunch(double punch) {
+                return punch + 1.51;
             }
 
             @Override
-            public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
-                bsfSnowballEntity.setPunch(1.51);
+            public int adjustWeaknessTicks(int weaknessTicks) {
+                return weaknessTicks;
+            }
+
+            @Override
+            public int adjustFrozenTicks(int frozenTicks) {
+                return frozenTicks;
+            }
+
+            @Override
+            public float adjustDamage(float damage) {
+                return damage;
+            }
+
+            @Override
+            public float adjustBlazeDamage(float blazeDamage) {
+                return blazeDamage;
+            }
+
+            @Override
+            public LaunchFrom getLaunchFrom() {
+                return LaunchFrom.SHOTGUN;
             }
         };
     }
@@ -71,7 +108,7 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
                 itemStack = findAmmo(player);
             }
             if (itemStack != null) {
-                BSFSnowballEntity snowballEntity = ItemToEntity(itemStack.getItem(), player, level, getLaunchFunc(1.0F));
+                AbstractBSFSnowballEntity snowballEntity = ItemToEntity(itemStack.getItem(), player, level, getLaunchAdjustment(1, itemStack.getItem()));
                 Item item = itemStack.getItem();
                 if (item instanceof AbstractSnowballTankItem tank) {
                     item = tank.getSnowball();

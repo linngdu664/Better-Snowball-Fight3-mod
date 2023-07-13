@@ -1,6 +1,8 @@
 package com.linngdu664.bsf.item.weapon;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
@@ -22,7 +24,8 @@ public abstract class AbstractBSFWeaponItem extends Item {
 
     protected abstract ItemStack findAmmo(Player player);
 
-    public abstract LaunchFunc getLaunchFunc(double damageDropRate);
+//    public abstract LaunchFunc getLaunchFunc(double damageDropRate);
+    public abstract ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball);
 
     //Rewrite vanilla "shootFromRotation" method to remove the influence of player's velocity.
     protected void BSFShootFromRotation(Projectile projectile, float pX, float pY, float pVelocity, float pInaccuracy) {
@@ -43,12 +46,12 @@ public abstract class AbstractBSFWeaponItem extends Item {
         }
     }
 
-    protected BSFSnowballEntity ItemToEntity(Item item, Player player, Level level, LaunchFunc launchFunc) {
+    protected AbstractBSFSnowballEntity ItemToEntity(Item item, Player player, Level level, ILaunchAdjustment launchAdjustment) {
         if (item instanceof AbstractSnowballTankItem tank) {
             item = tank.getSnowball();
         }
         if (item instanceof AbstractBSFSnowballItem snowball) {
-            return snowball.getCorrespondingEntity(level, player, launchFunc);
+            return snowball.getCorrespondingEntity(level, player, launchAdjustment);
         }
         return null;
     }

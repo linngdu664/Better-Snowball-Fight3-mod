@@ -2,6 +2,8 @@ package com.linngdu664.bsf.entity;
 
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.ai.goal.*;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.normal.SmoothSnowballItem;
@@ -393,10 +395,11 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
             float damageChance = 1.0F / (1.0F + EnchantmentHelper.getTagEnchantmentLevel(Enchantments.UNBREAKING, weapon));
             float v = 3.0F;
             float accuracy = 1.0F;
-            LaunchFunc launchFunc = ((AbstractBSFWeaponItem) weapon.getItem()).getLaunchFunc(1);
-            if (launchFunc.getLaunchFrom().equals(LaunchFrom.POWERFUL_CANNON)) {
+//            LaunchFunc launchFunc = ((AbstractBSFWeaponItem) weapon.getItem()).getLaunchFunc(1);
+            ILaunchAdjustment launchAdjustment = ((AbstractBSFWeaponItem) weapon.getItem()).getLaunchAdjustment(1, ammo.getItem());
+            if (launchAdjustment.getLaunchFrom().equals(LaunchFrom.POWERFUL_CANNON)) {
                 v = 4.0F;
-            } else if (launchFunc.getLaunchFrom().equals(LaunchFrom.SHOTGUN)) {
+            } else if (launchAdjustment.getLaunchFrom().equals(LaunchFrom.SHOTGUN)) {
                 v = 2.0F;
                 accuracy = 10.0F;
             }
@@ -427,7 +430,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
             int j = weapon.getItem() instanceof SnowballShotgunItem ? 4 : 1;
             for (int i = 0; i < j; i++) {
                 if (ammo.getItem() instanceof AbstractSnowballTankItem tank) {
-                    BSFSnowballEntity snowball = tank.getSnowball().getCorrespondingEntity(level, this, launchFunc);
+                    AbstractBSFSnowballEntity snowball = tank.getSnowball().getCorrespondingEntity(level, this, launchAdjustment);
                     snowball.shoot(dx, sinTheta, dz, v, accuracy);
                     level.addFreshEntity(snowball);
                     if (!getEnhance()) {

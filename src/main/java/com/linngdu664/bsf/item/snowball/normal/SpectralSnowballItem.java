@@ -1,7 +1,9 @@
 package com.linngdu664.bsf.item.snowball.normal;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.nomal.SpectralSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.util.LaunchFunc;
@@ -43,7 +45,7 @@ public class SpectralSnowballItem extends AbstractBSFSnowballItem {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
         return throwOrStorage(pPlayer, pLevel, ItemRegister.SPECTRAL_SNOWBALL_TANK.get(), pUsedHand, 1.5F, 0);
 //        ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
 //        if (!storageInTank(pPlayer, itemStack, ItemRegister.SPECTRAL_SNOWBALL_TANK.get())) {
@@ -62,8 +64,8 @@ public class SpectralSnowballItem extends AbstractBSFSnowballItem {
     }
 
     @Override
-    public BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc) {
-        return new SpectralSnowballEntity(livingEntity, level, launchFunc);
+    public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
+        return new SpectralSnowballEntity(livingEntity, level, launchAdjustment);
     }
 
     @Override

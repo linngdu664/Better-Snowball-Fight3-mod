@@ -1,6 +1,7 @@
 package com.linngdu664.bsf.item.weapon;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.util.LaunchFunc;
 import net.minecraft.ChatFormatting;
@@ -8,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -17,17 +19,52 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class PowerfulSnowballCannonItem extends SnowballCannonItem {
+//    @Override
+//    public LaunchFunc getLaunchFunc(double damageDropRate) {
+//        return new LaunchFunc() {
+//            @Override
+//            public LaunchFrom getLaunchFrom() {
+//                return LaunchFrom.POWERFUL_CANNON;
+//            }
+//
+//            @Override
+//            public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
+//                bsfSnowballEntity.setWeaknessTicks(180).setPunch(damageDropRate * 2.5);
+//            }
+//        };
+//    }
+
     @Override
-    public LaunchFunc getLaunchFunc(double damageDropRate) {
-        return new LaunchFunc() {
+    public ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball) {
+        return new ILaunchAdjustment() {
             @Override
-            public LaunchFrom getLaunchFrom() {
-                return LaunchFrom.POWERFUL_CANNON;
+            public double adjustPunch(double punch) {
+                return punch + damageDropRate * 2.5;
             }
 
             @Override
-            public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
-                bsfSnowballEntity.setWeaknessTicks(180).setPunch(damageDropRate * 2.5);
+            public int adjustWeaknessTicks(int weaknessTicks) {
+                return weaknessTicks + 180;
+            }
+
+            @Override
+            public int adjustFrozenTicks(int frozenTicks) {
+                return frozenTicks;
+            }
+
+            @Override
+            public float adjustDamage(float damage) {
+                return damage;
+            }
+
+            @Override
+            public float adjustBlazeDamage(float blazeDamage) {
+                return blazeDamage;
+            }
+
+            @Override
+            public LaunchFrom getLaunchFrom() {
+                return LaunchFrom.POWERFUL_CANNON;
             }
         };
     }

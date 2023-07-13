@@ -23,21 +23,6 @@ public abstract class AbstractBSFSnowballItem extends Item {
     public AbstractBSFSnowballItem(Rarity rarity) {
         super(new Properties().stacksTo(16).rarity(rarity));
     }
-
-    public LaunchFunc getLaunchFunc(float playerBadEffectRate) {
-        return new LaunchFunc() {
-            @Override
-            public LaunchFrom getLaunchFrom() {
-                return LaunchFrom.HAND;
-            }
-
-            @Override
-            public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
-                bsfSnowballEntity.setBlazeDamage(bsfSnowballEntity.getBlazeDamage() * playerBadEffectRate).setDamage(bsfSnowballEntity.getDamage() * playerBadEffectRate);
-            }
-        };
-    }
-
     public ILaunchAdjustment getLaunchAdjustment(float playerBadEffectRate) {
         return new ILaunchAdjustment() {
             @Override
@@ -64,8 +49,27 @@ public abstract class AbstractBSFSnowballItem extends Item {
             public float adjustBlazeDamage(float blazeDamage) {
                 return blazeDamage * playerBadEffectRate;
             }
+
+            @Override
+            public LaunchFrom getLaunchFrom() {
+                return LaunchFrom.HAND;
+            }
         };
     }
+
+//    public LaunchFunc getLaunchFunc(float playerBadEffectRate) {
+//        return new LaunchFunc() {
+//            @Override
+//            public LaunchFrom getLaunchFrom() {
+//                return LaunchFrom.HAND;
+//            }
+//
+//            @Override
+//            public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
+//                bsfSnowballEntity.setBlazeDamage(bsfSnowballEntity.getBlazeDamage() * playerBadEffectRate).setDamage(bsfSnowballEntity.getDamage() * playerBadEffectRate);
+//            }
+//        };
+//    }
 
     /**
      * Handle the storage of the snowballs.

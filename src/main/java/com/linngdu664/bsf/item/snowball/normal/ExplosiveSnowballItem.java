@@ -1,7 +1,9 @@
 package com.linngdu664.bsf.item.snowball.normal;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.nomal.ExplosiveSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.util.LaunchFunc;
@@ -62,8 +64,8 @@ public class ExplosiveSnowballItem extends AbstractBSFSnowballItem {
     }
 
     @Override
-    public BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc) {
-        return new ExplosiveSnowballEntity(livingEntity, level, launchFunc);
+    public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
+        return new ExplosiveSnowballEntity(livingEntity, level, launchAdjustment);
     }
 
     @Override

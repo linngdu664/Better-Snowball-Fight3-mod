@@ -1,7 +1,10 @@
 package com.linngdu664.bsf.item.snowball.tracking;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.tracking.ExplosiveMonsterTrackingSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.tracking.ExplosivePlayerTrackingSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.util.LaunchFunc;
@@ -41,9 +44,8 @@ public class ExplosivePlayerTrackingSnowballItem extends AbstractBSFSnowballItem
         return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 
-    @Override
-    public BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc) {
-        return new ExplosivePlayerTrackingSnowballEntity(livingEntity, level, launchFunc);
+    public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
+        return new ExplosivePlayerTrackingSnowballEntity(livingEntity, level, launchAdjustment);
     }
 
     @Override

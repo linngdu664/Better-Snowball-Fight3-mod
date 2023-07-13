@@ -1,7 +1,9 @@
 package com.linngdu664.bsf.item.snowball.force;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.special.BlackHoleSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.util.LaunchFunc;
@@ -36,7 +38,7 @@ public class BlackHoleSnowballItem extends AbstractBSFSnowballItem {
         if (!storageInTank(pPlayer, itemStack, ItemRegister.BLACK_HOLE_SNOWBALL_TANK.get())) {
             pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
             if (!pLevel.isClientSide) {
-                BlackHoleSnowballEntity snowballEntity = new BlackHoleSnowballEntity(pPlayer, pLevel, getLaunchFunc(1));
+                BlackHoleSnowballEntity snowballEntity = new BlackHoleSnowballEntity(pPlayer, pLevel, getLaunchAdjustment(1));
                 if (pPlayer.isShiftKeyDown()) {
                     snowballEntity.startTime = 10;
                 }
@@ -53,7 +55,7 @@ public class BlackHoleSnowballItem extends AbstractBSFSnowballItem {
     }
 
     @Override
-    public BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc) {
+    public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
         return null;
     }
 

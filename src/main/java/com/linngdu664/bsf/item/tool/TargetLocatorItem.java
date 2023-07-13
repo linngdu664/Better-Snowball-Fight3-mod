@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.item.tool;
 
-import com.linngdu664.bsf.entity.BSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.special.GPSSnowballEntity;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.normal.IronSnowballItem;
@@ -53,7 +52,7 @@ public class TargetLocatorItem extends AbstractBSFEnhanceableToolItem {
             if (i != pPlayer.getInventory().getContainerSize() || pPlayer.getAbilities().instabuild) {
                 pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
                 if (!pLevel.isClientSide) {
-                    BSFSnowballEntity snowballEntity = new GPSSnowballEntity(pPlayer, pLevel, itemStack);
+                    GPSSnowballEntity snowballEntity = new GPSSnowballEntity(pPlayer, pLevel, itemStack);
                     snowballEntity.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 2.0F, 1.0F);
                     pLevel.addFreshEntity(snowballEntity);
                 }

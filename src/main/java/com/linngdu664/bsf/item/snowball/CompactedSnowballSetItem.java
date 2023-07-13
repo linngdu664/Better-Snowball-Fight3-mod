@@ -55,17 +55,17 @@ public class CompactedSnowballSetItem extends Item {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
         pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
         if (!pLevel.isClientSide) {
-            LaunchFunc launchFunc = new LaunchFunc() {
-                @Override
-                public LaunchFrom getLaunchFrom() {
-                    return LaunchFrom.HAND;
-                }
-
-                @Override
-                public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
-                    bsfSnowballEntity.setBlazeDamage(bsfSnowballEntity.getBlazeDamage() * getSnowballDamageRate(pPlayer)).setDamage(bsfSnowballEntity.getDamage() * getSnowballDamageRate(pPlayer));
-                }
-            };
+//            LaunchFunc launchFunc = new LaunchFunc() {
+//                @Override
+//                public LaunchFrom getLaunchFrom() {
+//                    return LaunchFrom.HAND;
+//                }
+//
+//                @Override
+//                public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
+//                    bsfSnowballEntity.setBlazeDamage(bsfSnowballEntity.getBlazeDamage() * getSnowballDamageRate(pPlayer)).setDamage(bsfSnowballEntity.getDamage() * getSnowballDamageRate(pPlayer));
+//                }
+//            };
             ILaunchAdjustment launchAdjustment = new ILaunchAdjustment() {
                 @Override
                 public double adjustPunch(double punch) {
@@ -90,6 +90,11 @@ public class CompactedSnowballSetItem extends Item {
                 @Override
                 public float adjustBlazeDamage(float blazeDamage) {
                     return blazeDamage * getSnowballDamageRate(pPlayer);
+                }
+
+                @Override
+                public LaunchFrom getLaunchFrom() {
+                    return LaunchFrom.HAND;
                 }
             };
             float slowdownRate = (float) Math.exp(-0.005 * pPlayer.getTicksFrozen());

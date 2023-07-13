@@ -2,6 +2,8 @@ package com.linngdu664.bsf.item.weapon;
 
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
 import com.linngdu664.bsf.network.ForwardConeParticlesSender;
@@ -19,10 +21,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -46,17 +45,52 @@ public class SnowballCannonItem extends AbstractBSFWeaponItem {
         return f;
     }
 
+//    @Override
+//    public LaunchFunc getLaunchFunc(double damageDropRate) {
+//        return new LaunchFunc() {
+//            @Override
+//            public LaunchFrom getLaunchFrom() {
+//                return LaunchFrom.CANNON;
+//            }
+//
+//            @Override
+//            public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
+//                bsfSnowballEntity.setPunch(damageDropRate * 1.51);
+//            }
+//        };
+//    }
+
     @Override
-    public LaunchFunc getLaunchFunc(double damageDropRate) {
-        return new LaunchFunc() {
+    public ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball) {
+        return new ILaunchAdjustment() {
             @Override
-            public LaunchFrom getLaunchFrom() {
-                return LaunchFrom.CANNON;
+            public double adjustPunch(double punch) {
+                return punch + damageDropRate * 1.51;
             }
 
             @Override
-            public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
-                bsfSnowballEntity.setPunch(damageDropRate * 1.51);
+            public int adjustWeaknessTicks(int weaknessTicks) {
+                return weaknessTicks;
+            }
+
+            @Override
+            public int adjustFrozenTicks(int frozenTicks) {
+                return frozenTicks;
+            }
+
+            @Override
+            public float adjustDamage(float damage) {
+                return damage;
+            }
+
+            @Override
+            public float adjustBlazeDamage(float blazeDamage) {
+                return blazeDamage;
+            }
+
+            @Override
+            public LaunchFrom getLaunchFrom() {
+                return LaunchFrom.CANNON;
             }
         };
     }
@@ -73,7 +107,7 @@ public class SnowballCannonItem extends AbstractBSFWeaponItem {
             if (f >= 0.1F) {
                 ItemStack itemStack = findAmmo(player);
                 if (itemStack != null) {
-                    BSFSnowballEntity snowballEntity = ItemToEntity(itemStack.getItem(), player, pLevel, getLaunchFunc(f));
+                    AbstractBSFSnowballEntity snowballEntity = ItemToEntity(itemStack.getItem(), player, pLevel, getLaunchAdjustment(f, itemStack.getItem()));
                     BSFShootFromRotation(snowballEntity, player.getXRot(), player.getYRot(), f * velocity, 0.5F);
                     pLevel.addFreshEntity(snowballEntity);
                     pStack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(p.getUsedItemHand()));
