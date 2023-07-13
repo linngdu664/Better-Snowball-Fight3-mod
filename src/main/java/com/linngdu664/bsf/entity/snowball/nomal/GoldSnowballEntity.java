@@ -50,8 +50,6 @@ public class GoldSnowballEntity extends AbstractBSFSnowballEntity {
         }
     }
 
-
-
     @Override
     public boolean canBeCaught() {
         return true;
