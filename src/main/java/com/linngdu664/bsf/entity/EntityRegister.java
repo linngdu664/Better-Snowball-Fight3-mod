@@ -59,7 +59,7 @@ public class EntityRegister {
     public static final RegistryObject<EntityType<BlackHoleSnowballEntity>> BLACK_HOLE_SNOWBALL =registerTool(BlackHoleSnowballEntity::new,"black_hole_snowball");
     public static final RegistryObject<EntityType<SubspaceSnowballEntity>> SUBSPACE_SNOWBALL =registerTool(SubspaceSnowballEntity::new,"subspace_snowball");
     public static final RegistryObject<EntityType<EnderSnowballEntity>> ENDER_SNOWBALL =registerTool(EnderSnowballEntity::new,"ender_snowball");
-    //GPS Snowball
+    public static final RegistryObject<EntityType<GPSSnowballEntity>> GPS_SNOWBALL =registerTool(GPSSnowballEntity::new,"gps_snowball");
 
 //    public static final RegistryObject<EntityType<ExplosiveSnowballEntity>> EXPLOSIVE_SNOWBALL =
 //            ENTITY_TYPES.register("explosive_snowball", () -> EntityType.Builder.<ExplosiveSnowballEntity>of(ExplosiveSnowballEntity::new, MobCategory.MISC)
