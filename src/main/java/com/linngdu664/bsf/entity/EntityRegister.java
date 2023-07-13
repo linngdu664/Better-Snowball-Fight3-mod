@@ -40,7 +40,7 @@ public class EntityRegister {
     public static final RegistryObject<EntityType<StoneSnowballEntity>> STONE_SNOWBALL = registerTool(StoneSnowballEntity::new,"stone_snowball");
     public static final RegistryObject<EntityType<IceSnowballEntity>> ICE_SNOWBALL = registerTool(IceSnowballEntity::new,"ice_snowball");
     public static final RegistryObject<EntityType<IronSnowballEntity>> IRON_SNOWBALL = registerTool(IronSnowballEntity::new,"iron_snowball");
-    public static final RegistryObject<EntityType<GlassSnowballEntity>> GOLD_SNOWBALL = registerTool(GlassSnowballEntity::new,"gold_snowball");
+    public static final RegistryObject<EntityType<GoldSnowballEntity>> GOLD_SNOWBALL = registerTool(GoldSnowballEntity::new,"gold_snowball");
     public static final RegistryObject<EntityType<ObsidianSnowballEntity>> OBSIDIAN_SNOWBALL = registerTool(ObsidianSnowballEntity::new,"obsidian_snowball");
     public static final RegistryObject<EntityType<ExplosiveSnowballEntity>> EXPLOSIVE_SNOWBALL = registerTool(ExplosiveSnowballEntity::new,"explosive_snowball");
     public static final RegistryObject<EntityType<SpectralSnowballEntity>> SPECTRAL_SNOWBALL = registerTool(SpectralSnowballEntity::new,"spectral_snowball");
@@ -67,16 +67,11 @@ public class EntityRegister {
 //                    .build(new ResourceLocation(Main.MODID, "explosive_snowball").toString()));
 
     /**
-     * A tool to register entity
-     * @param pFactory
-     * @param name
-     * @return
-     * @param <T>
+     * A tool to register snowball entity
      */
     public static <T extends Entity> RegistryObject<EntityType<T>> registerTool(EntityType.EntityFactory<T> pFactory, String name){
         return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(pFactory, MobCategory.MISC)
                 .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10)
                 .build(new ResourceLocation(Main.MODID, name).toString()));
     }
-
 }

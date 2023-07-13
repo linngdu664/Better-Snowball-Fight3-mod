@@ -287,7 +287,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                         playSound(SoundEvents.GLASS_BREAK, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                     }
                 } else {
-                    pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("potionSickness.tip", null, new Object[0])).append("" + getPotionSickness()), false);
+                    pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("potionSickness.tip", null, new Object[0])).append(String.valueOf(getPotionSickness())), false);
                 }
             } else if (itemStack.getItem() instanceof SnowGolemModeTweakerItem) {
                 CompoundTag tag = itemStack.getOrCreateTag();

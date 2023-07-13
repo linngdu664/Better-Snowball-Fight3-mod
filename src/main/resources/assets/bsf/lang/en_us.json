@@ -237,7 +237,7 @@
   "targeted_clear.tip": "Target information is cleared",
   "golem_enhance.tip": "Enhance mode:",
   "current_ammunition.tip": "Ammo in use:",
-  "potionSickness.tip": "Potion Sickness Ticks:",
+  "potionSickness.tip": "Potion Sickness Ticks: ",
   "copy.tip": "Copied",
 
   "block.bsf.smart_snow_block": "Smart Snow Block",

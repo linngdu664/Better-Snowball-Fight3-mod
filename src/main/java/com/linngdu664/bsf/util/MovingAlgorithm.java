@@ -1,5 +1,7 @@
-package com.linngdu664.bsf.entity;
+package com.linngdu664.bsf.util;
 
+import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
+import com.linngdu664.bsf.entity.BSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import com.linngdu664.bsf.util.TargetGetter;

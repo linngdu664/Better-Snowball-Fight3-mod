@@ -36,10 +36,6 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
         super(pEntityType, pLevel);
     }
 
-    public EnderSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.ENDER_SNOWBALL.get(), pX, pY, pZ, pLevel);
-    }
-
     public EnderSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
         super(EntityRegister.ENDER_SNOWBALL.get(), pShooter, pLevel);
         this.launchAdjustment = launchAdjustment;
@@ -57,7 +53,7 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
                 ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL, owner.getX(), owner.getEyeY(), owner.getZ(), 32, 1, 1, 1, 0.1);
                 this.discard();
                 Vec3 ownerPos = owner.position();
-                Vec3 v1 = owner.getDeltaMovement();;
+                Vec3 v1 = owner.getDeltaMovement();
                 Vec3 v2 = entity.getDeltaMovement();
                 float xRot1 = owner.getXRot();
                 float yRot1 = owner.getYRot();

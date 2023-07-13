@@ -28,7 +28,7 @@ public class EnderSnowballItem extends AbstractBSFSnowballItem {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
         return throwOrStorage(pPlayer, pLevel, ItemRegister.ENDER_SNOWBALL_TANK.get(), pUsedHand, 1.125F, 20);
 //        ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
 //        if (!storageInTank(pPlayer, itemStack, ItemRegister.ENDER_SNOWBALL_TANK.get())) {

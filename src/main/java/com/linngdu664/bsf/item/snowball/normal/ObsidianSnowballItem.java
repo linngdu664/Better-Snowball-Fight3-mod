@@ -39,7 +39,7 @@ public class ObsidianSnowballItem extends AbstractBSFSnowballItem {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
         return throwOrStorage(pPlayer, pLevel, ItemRegister.OBSIDIAN_SNOWBALL_TANK.get(), pUsedHand, 0.7F, 0);
 //        ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
 //        if (!storageInTank(pPlayer, itemStack, ItemRegister.OBSIDIAN_SNOWBALL_TANK.get())) {

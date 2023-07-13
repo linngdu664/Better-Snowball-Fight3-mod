@@ -36,11 +36,6 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         this.setNoGravity(true);
     }
 
-    public SubspaceSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.SUBSPACE_SNOWBALL.get(), pX, pY, pZ, pLevel);
-        this.setNoGravity(true);
-    }
-
     public SubspaceSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, boolean release) {
         super(EntityRegister.SUBSPACE_SNOWBALL.get(), pShooter, pLevel);
         this.launchAdjustment = launchAdjustment;

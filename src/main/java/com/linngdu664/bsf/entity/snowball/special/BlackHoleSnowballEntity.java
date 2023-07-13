@@ -26,11 +26,6 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
         this.setNoGravity(true);
     }
 
-    public BlackHoleSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.BLACK_HOLE_SNOWBALL.get(), pX, pY, pZ, pLevel);
-        this.setNoGravity(true);
-    }
-
     public BlackHoleSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
         super(EntityRegister.BLACK_HOLE_SNOWBALL.get(), pShooter, pLevel);
         this.launchAdjustment = launchAdjustment;
