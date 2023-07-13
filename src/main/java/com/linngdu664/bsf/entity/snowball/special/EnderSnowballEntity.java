@@ -51,7 +51,6 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
                 Entity owner = getOwner();
                 ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL, entity.getX(), entity.getEyeY(), entity.getZ(), 32, 1, 1, 1, 0.1);
                 ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL, owner.getX(), owner.getEyeY(), owner.getZ(), 32, 1, 1, 1, 0.1);
-                this.discard();
                 Vec3 ownerPos = owner.position();
                 Vec3 v1 = owner.getDeltaMovement();
                 Vec3 v2 = entity.getDeltaMovement();
@@ -71,9 +70,9 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
                     serverPlayer.connection.send(new ClientboundPlayerPositionPacket(ownerPos.x, ownerPos.y, ownerPos.z, yRot1, xRot1, new HashSet<>(), entity.getId()));
                     serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(entity));
                 }
-
             }
         }
+        this.discard();
     }
 
     @Override

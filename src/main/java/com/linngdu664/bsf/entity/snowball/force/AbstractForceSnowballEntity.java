@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +28,6 @@ public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEnt
     public AbstractForceSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel) {
         super(pEntityType, pShooter, pLevel);
     }
-
 
     @Override
     public void tick() {
@@ -54,6 +54,14 @@ public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEnt
         Vec3 vec3 = this.getDeltaMovement();
         this.push(-vec3.x, -vec3.y, -vec3.z);
         this.setNoGravity(true);
+    }
+
+    @Override
+    protected void onHitEntity(EntityHitResult pResult) {
+        super.onHitEntity(pResult);
+        if (isCaught) {
+            this.discard();
+        }
     }
 
     abstract double getRange();
