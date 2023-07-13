@@ -1,6 +1,5 @@
-package com.linngdu664.bsf.util;
+package com.linngdu664.bsf.entity.snowball.util;
 
-@Deprecated
 public enum LaunchFrom {
     HAND,
     CANNON,

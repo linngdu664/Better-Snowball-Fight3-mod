@@ -1,9 +1,9 @@
 package com.linngdu664.bsf.entity;
 
+import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.tool.GloveItem;
 import com.linngdu664.bsf.particle.ParticleRegister;
-import com.linngdu664.bsf.util.LaunchFrom;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -43,13 +43,13 @@ public class BSFSnowballEntity extends ThrowableItemProjectile {
         super(p_37473_, p_37474_);
     }
 
-    public BSFSnowballEntity(LivingEntity livingEntity, Level level) {
-        super(EntityRegister.BSF_SNOWBALL.get(), livingEntity, level);
-    }
-
-    public BSFSnowballEntity(Level level, double x, double y, double z) {
-        super(EntityRegister.BSF_SNOWBALL.get(), x, y, z, level);
-    }
+//    public BSFSnowballEntity(LivingEntity livingEntity, Level level) {
+//        super(EntityRegister.BSF_SNOWBALL.get(), livingEntity, level);
+//    }
+//
+//    public BSFSnowballEntity(Level level, double x, double y, double z) {
+//        super(EntityRegister.BSF_SNOWBALL.get(), x, y, z, level);
+//    }
 
     /**
      * Triggered when an entity hits an entity

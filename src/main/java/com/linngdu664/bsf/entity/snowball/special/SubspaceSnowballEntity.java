@@ -1,11 +1,9 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
-import com.linngdu664.bsf.entity.AbstractBSFSnowballEntity;
-import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.EntityRegister;
-import com.linngdu664.bsf.entity.ILaunchAdjustment;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
-import com.linngdu664.bsf.util.LaunchFunc;
 import com.linngdu664.bsf.util.SoundRegister;
 import com.linngdu664.bsf.util.TargetGetter;
 import net.minecraft.core.particles.ParticleTypes;
@@ -23,13 +21,16 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
-    private final boolean release;
-    private final Vector<ItemStack> ItemStackVector = new Vector<>();
+    private boolean release = true;
+    private final ArrayList<ItemStack> itemStackArrayList = new ArrayList<>();
     private int timer = 0;
+    private float damage = Float.MIN_NORMAL;
+    private float blazeDamage = 3F;
+
     public SubspaceSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setNoGravity(true);
@@ -37,13 +38,13 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
 
     public SubspaceSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
         super(EntityRegister.SUBSPACE_SNOWBALL.get(), pX, pY, pZ, pLevel);
-        this.launchAdjustment = ILaunchAdjustment.DEFAULT;
         this.setNoGravity(true);
     }
 
-    public SubspaceSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
+    public SubspaceSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, boolean release) {
         super(EntityRegister.SUBSPACE_SNOWBALL.get(), pShooter, pLevel);
         this.launchAdjustment = launchAdjustment;
+        this.release = release;
         this.setNoGravity(true);
     }
 
@@ -64,7 +65,10 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
             List<AbstractBSFSnowballEntity> list = TargetGetter.getTargetList(this, AbstractBSFSnowballEntity.class, 2.5);
             for (AbstractBSFSnowballEntity snowball : list) {
                 if (release) {
-                    ItemStackVector.add(new ItemStack(snowball instanceof GPSSnowballEntity ? null : snowball.getItem().getItem()));
+                    if (!(snowball instanceof GPSSnowballEntity)) {
+                        itemStackArrayList.add(snowball.getItem());
+                    }
+//                    itemStackArrayList.add(new ItemStack(snowball instanceof GPSSnowballEntity ? null : snowball.getItem().getItem()));
                 }
                 ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, snowball.getX(), snowball.getY(), snowball.getZ(), 8, 0, 0, 0, 0.05);
                 snowball.discard();
@@ -73,15 +77,15 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                     this.discard();
                 }
                 if (!release && damage < 15.0F) {
-                    damage += snowball.getPower();
-                    blazeDamage += snowball.getPower();
+                    damage += snowball.getSubspacePower();
+                    blazeDamage += snowball.getSubspacePower();
                 }
                 level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegister.SUBSPACE_SNOWBALL_CUT.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
             List<Snowball> list2 = TargetGetter.getTargetList(this, Snowball.class, 2.5);
             for (Snowball snowball : list2) {
                 if (release) {
-                    ItemStackVector.add(snowball.getItem());
+                    itemStackArrayList.add(snowball.getItem());
                 }
                 ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, snowball.getX(), snowball.getY(), snowball.getZ(), 8, 0, 0, 0, 0.05);
                 snowball.discard();
@@ -91,7 +95,7 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                 }
             }
             if (timer == 150) {
-                for (ItemStack itemStack : ItemStackVector) {
+                for (ItemStack itemStack : itemStackArrayList) {
                     ItemEntity itemEntity = new ItemEntity(level, getX(), getY(), getZ(), itemStack);
                     itemEntity.setDefaultPickUpDelay();
                     level.addFreshEntity(itemEntity);
@@ -108,7 +112,7 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         super.onHitBlock(p_37258_);
         Level level = level();
         if (!level.isClientSide) {
-            for (ItemStack itemStack : ItemStackVector) {
+            for (ItemStack itemStack : itemStackArrayList) {
                 ItemEntity itemEntity = new ItemEntity(level, getX(), getY(), getZ(), itemStack);
                 itemEntity.setDefaultPickUpDelay();
                 level.addFreshEntity(itemEntity);
@@ -136,12 +140,12 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
 
     @Override
     public float getBasicDamage() {
-        return Float.MIN_NORMAL;
+        return damage;
     }
 
     @Override
     public float getBasicBlazeDamage() {
-        return 3;
+        return blazeDamage;
     }
 
     @Override

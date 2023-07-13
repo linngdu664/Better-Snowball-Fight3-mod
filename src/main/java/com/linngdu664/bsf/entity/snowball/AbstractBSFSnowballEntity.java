@@ -1,5 +1,8 @@
-package com.linngdu664.bsf.entity;
+package com.linngdu664.bsf.entity.snowball;
 
+import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
+import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.tool.GloveItem;
 import com.linngdu664.bsf.particle.ParticleRegister;
@@ -34,7 +37,37 @@ import java.util.List;
 
 public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile {
     protected boolean isCaught = false;
-    protected ILaunchAdjustment launchAdjustment;
+    protected ILaunchAdjustment launchAdjustment = new ILaunchAdjustment() {
+        @Override
+        public double adjustPunch(double punch) {
+            return punch;
+        }
+
+        @Override
+        public int adjustWeaknessTicks(int weaknessTicks) {
+            return weaknessTicks;
+        }
+
+        @Override
+        public int adjustFrozenTicks(int frozenTicks) {
+            return frozenTicks;
+        }
+
+        @Override
+        public float adjustDamage(float damage) {
+            return damage;
+        }
+
+        @Override
+        public float adjustBlazeDamage(float blazeDamage) {
+            return blazeDamage;
+        }
+
+        @Override
+        public LaunchFrom getLaunchFrom() {
+            return LaunchFrom.HAND;
+        }
+    };
 
     public AbstractBSFSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);

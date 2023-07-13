@@ -1,12 +1,10 @@
 package com.linngdu664.bsf.item.snowball;
 
-import com.linngdu664.bsf.entity.AbstractBSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
-import com.linngdu664.bsf.entity.ILaunchAdjustment;
-import com.linngdu664.bsf.entity.snowball.nomal.CompactedSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
-import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
-import com.linngdu664.bsf.util.LaunchFrom;
+import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.util.LaunchFunc;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -20,8 +18,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
-
-import java.util.Objects;
 
 public abstract class AbstractBSFSnowballItem extends Item {
     public AbstractBSFSnowballItem(Rarity rarity) {

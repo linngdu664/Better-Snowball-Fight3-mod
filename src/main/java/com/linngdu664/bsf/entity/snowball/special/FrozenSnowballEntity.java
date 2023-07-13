@@ -1,10 +1,11 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.entity.*;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
-import com.linngdu664.bsf.util.LaunchFrom;
-import com.linngdu664.bsf.util.LaunchFunc;
+import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.util.TargetGetter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -19,7 +20,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -31,14 +31,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class FrozenSnowballEntity extends AbstractBSFSnowballEntity {
-    private float frozenRange = 2.5F;
     public FrozenSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
     public FrozenSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
         super(EntityRegister.FROZEN_SNOWBALL.get(), pX, pY, pZ, pLevel);
-        this.launchAdjustment = ILaunchAdjustment.DEFAULT;
     }
 
     public FrozenSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
@@ -64,16 +62,17 @@ public class FrozenSnowballEntity extends AbstractBSFSnowballEntity {
 //    }
 
     @Override
-    public Item getCorrespondingItem() {
-        return ItemRegister.FROZEN_SNOWBALL.get();
-    }
-
-    @Override
     protected void onHit(@NotNull HitResult pResult) {
         super.onHit(pResult);
         Level level = level();
         if (!level.isClientSide) {
             if (!isCaught) {
+                float frozenRange;
+                if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
+                    frozenRange = 3.5F;
+                } else {
+                    frozenRange = 2.5F;
+                }
                 Vec3 location = pResult.getLocation();
                 BlockPos blockPos = new BlockPos(Mth.floor(location.x), Mth.floor(location.y), Mth.floor(location.z));
                 BlockState ice = Blocks.ICE.defaultBlockState();
@@ -107,14 +106,14 @@ public class FrozenSnowballEntity extends AbstractBSFSnowballEntity {
                                 entity.setTicksFrozen(getBasicFrozenTicks());
                             }
                             entity.hurt(level.damageSources().thrown(this, this.getOwner()), Float.MIN_NORMAL);
-                            if (launchFrom == LaunchFrom.FREEZING_CANNON) {
+                            if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
                                 entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 4));
                             }
                             entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 2));
                         }
                     }
                 }
-                if (launchFrom == LaunchFrom.FREEZING_CANNON) {
+                if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
                     ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 400, 0, 0, 0, 0.32);
                 } else {
                     ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 200, 0, 0, 0, 0.32);

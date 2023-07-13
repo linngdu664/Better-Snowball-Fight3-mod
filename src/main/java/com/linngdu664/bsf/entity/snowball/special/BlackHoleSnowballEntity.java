@@ -1,8 +1,9 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.entity.*;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
-import com.linngdu664.bsf.util.LaunchFunc;
 import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -11,7 +12,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -23,11 +23,11 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
     private int timer = 0;
     public BlackHoleSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.setNoGravity(true);
     }
 
     public BlackHoleSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
         super(EntityRegister.BLACK_HOLE_SNOWBALL.get(), pX, pY, pZ, pLevel);
-        this.launchAdjustment = ILaunchAdjustment.DEFAULT;
         this.setNoGravity(true);
     }
 
@@ -65,7 +65,8 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
                 this.playSound(SoundRegister.BLACK_HOLE_START.get(), 3.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
             if (timer > startTime) {
-                MovingAlgorithm.forceEffect(this, Entity.class, 30, 8, 8);
+                forceEffect(Entity.class, 30, 8, 8);
+//                MovingAlgorithm.forceEffect(this, Entity.class, 30, 8, 8);
                 ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 8, 0, 0, 0, 0.12);
             }
             if (timer == endTime) {
@@ -76,9 +77,6 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
         timer++;
     }
 
-    public float getPower() {
-        return 8;
-    }
     @Override
     public boolean canBeCaught() {
         return false;

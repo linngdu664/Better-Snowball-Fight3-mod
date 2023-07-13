@@ -1,12 +1,10 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
-import com.linngdu664.bsf.entity.AbstractBSFSnowballEntity;
-import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.EntityRegister;
-import com.linngdu664.bsf.entity.ILaunchAdjustment;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.particle.ParticleRegister;
-import com.linngdu664.bsf.util.LaunchFunc;
 import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -14,7 +12,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -43,7 +40,6 @@ public class PowderSnowballEntity extends AbstractBSFSnowballEntity {
 
     public PowderSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
         super(EntityRegister.POWDER_SNOWBALL.get(), pX, pY, pZ, pLevel);
-        this.launchAdjustment = ILaunchAdjustment.DEFAULT;
     }
 
     public PowderSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
@@ -94,8 +90,8 @@ public class PowderSnowballEntity extends AbstractBSFSnowballEntity {
 //    public Item getCorrespondingItem() {
 //        return ItemRegister.POWDER_SNOWBALL.get();
 //    }
-@Override
-public boolean canBeCaught() {
+    @Override
+    public boolean canBeCaught() {
     return true;
 }
 

@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.entity;
 
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import com.linngdu664.bsf.util.TargetGetter;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;

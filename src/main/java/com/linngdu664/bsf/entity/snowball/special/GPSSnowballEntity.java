@@ -1,11 +1,8 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
-import com.linngdu664.bsf.entity.AbstractBSFSnowballEntity;
-import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.EntityRegister;
-import com.linngdu664.bsf.entity.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
-import com.linngdu664.bsf.util.LaunchFrom;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.sounds.SoundEvents;
@@ -22,7 +19,7 @@ import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 
 public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
-    private final ItemStack targetLocator;
+    private ItemStack targetLocator;
 
 //    public GPSSnowballEntity(LivingEntity livingEntity, Level level, ItemStack targetLocator) {
 //        super(livingEntity, level);
@@ -34,14 +31,9 @@ public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
         super(pEntityType, pLevel);
     }
 
-    public GPSSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.GPS_SNOWBALL.get(), pX, pY, pZ, pLevel);
-        this.launchAdjustment = ILaunchAdjustment.DEFAULT;
-    }
-
-    public GPSSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
+    public GPSSnowballEntity(LivingEntity pShooter, Level pLevel, ItemStack targetLocator) {
         super(EntityRegister.GPS_SNOWBALL.get(), pShooter, pLevel);
-        this.launchAdjustment = launchAdjustment;
+        this.targetLocator = targetLocator;
     }
 
 //    @Override
@@ -60,7 +52,7 @@ public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
-        if (!isCaught && pResult.getEntity() instanceof LivingEntity livingEntity && targetLocator!= null){
+        if (!isCaught && pResult.getEntity() instanceof LivingEntity livingEntity && targetLocator != null) {
             //((TargetLocatorItem) targetLocator.getItem()).setLivingEntity(livingEntity);
             //targetLocator.getTag().putUUID("UUID", livingEntity.getUUID());
             targetLocator.getTag().putInt("ID", livingEntity.getId());
