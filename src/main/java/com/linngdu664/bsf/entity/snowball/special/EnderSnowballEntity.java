@@ -49,8 +49,10 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
             Entity entity = pResult.getEntity();
             if (entity instanceof Player || entity instanceof Mob) {
                 Entity owner = getOwner();
-                ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL, entity.getX(), entity.getEyeY(), entity.getZ(), 32, 1, 1, 1, 0.1);
-                ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL, owner.getX(), owner.getEyeY(), owner.getZ(), 32, 1, 1, 1, 0.1);
+                if (level instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(ParticleTypes.PORTAL, entity.getX(), entity.getEyeY(), entity.getZ(), 32, 1, 1, 1, 0.1);
+                    serverLevel.sendParticles(ParticleTypes.PORTAL, owner.getX(), owner.getEyeY(), owner.getZ(), 32, 1, 1, 1, 0.1);
+                }
                 Vec3 ownerPos = owner.position();
                 Vec3 v1 = owner.getDeltaMovement();
                 Vec3 v2 = entity.getDeltaMovement();
