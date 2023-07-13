@@ -1,6 +1,7 @@
 package com.linngdu664.bsf.item.snowball;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.nomal.CompactedSnowballEntity;
 import com.linngdu664.bsf.util.LaunchFrom;
 import com.linngdu664.bsf.util.LaunchFunc;
@@ -65,10 +66,39 @@ public class CompactedSnowballSetItem extends Item {
                     bsfSnowballEntity.setBlazeDamage(bsfSnowballEntity.getBlazeDamage() * getSnowballDamageRate(pPlayer)).setDamage(bsfSnowballEntity.getDamage() * getSnowballDamageRate(pPlayer));
                 }
             };
+            ILaunchAdjustment launchAdjustment = new ILaunchAdjustment() {
+                @Override
+                public double adjustPunch(double punch) {
+                    return punch;
+                }
+
+                @Override
+                public int adjustWeaknessTicks(int weaknessTicks) {
+                    return weaknessTicks;
+                }
+
+                @Override
+                public int adjustFrozenTicks(int frozenTicks) {
+                    return frozenTicks;
+                }
+
+                @Override
+                public float adjustDamage(float damage) {
+                    return damage * getSnowballDamageRate(pPlayer);
+                }
+
+                @Override
+                public float adjustBlazeDamage(float blazeDamage) {
+                    return blazeDamage * getSnowballDamageRate(pPlayer);
+                }
+            };
             float slowdownRate = (float) Math.exp(-0.005 * pPlayer.getTicksFrozen());
-            CompactedSnowballEntity snowballEntity1 = new CompactedSnowballEntity(pPlayer, pLevel, launchFunc);
-            CompactedSnowballEntity snowballEntity2 = new CompactedSnowballEntity(pPlayer, pLevel, launchFunc);
-            CompactedSnowballEntity snowballEntity3 = new CompactedSnowballEntity(pPlayer, pLevel, launchFunc);
+//            CompactedSnowballEntity snowballEntity1 = new CompactedSnowballEntity(pPlayer, pLevel, launchFunc);
+//            CompactedSnowballEntity snowballEntity2 = new CompactedSnowballEntity(pPlayer, pLevel, launchFunc);
+//            CompactedSnowballEntity snowballEntity3 = new CompactedSnowballEntity(pPlayer, pLevel, launchFunc);
+            CompactedSnowballEntity snowballEntity1 = new CompactedSnowballEntity(pPlayer, pLevel, launchAdjustment);
+            CompactedSnowballEntity snowballEntity2 = new CompactedSnowballEntity(pPlayer, pLevel, launchAdjustment);
+            CompactedSnowballEntity snowballEntity3 = new CompactedSnowballEntity(pPlayer, pLevel, launchAdjustment);
             snowballEntity1.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, slowdownRate, 10.0F);
             snowballEntity2.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, slowdownRate, 10.0F);
             snowballEntity3.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, slowdownRate, 10.0F);

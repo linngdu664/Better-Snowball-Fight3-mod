@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.item.snowball.force;
 
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
-import com.linngdu664.bsf.entity.snowball.force.BlackHoleSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.special.BlackHoleSnowballEntity;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.util.LaunchFunc;

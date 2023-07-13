@@ -3,14 +3,18 @@ package com.linngdu664.bsf.entity;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.tool.GloveItem;
 import com.linngdu664.bsf.particle.ParticleRegister;
-import com.linngdu664.bsf.util.LaunchFrom;
+import com.linngdu664.bsf.util.TargetGetter;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,7 +22,6 @@ import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.entity.monster.Blaze;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -27,35 +30,25 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-@Deprecated
-public class BSFSnowballEntity extends ThrowableItemProjectile {
+import java.util.List;
+
+public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile {
     protected boolean isCaught = false;
-    protected double punch = 0.0;
-    protected float damage = Float.MIN_NORMAL;
-    protected float blazeDamage = 3.0F;
-    protected LaunchFrom launchFrom;
-    protected int frozenTicks = 0;
-    protected int weaknessTicks = 0;
-    // You need to distinguish between LaunchFrom and LaunchFunc
-    // LaunchFrom is an Enum, LaunchFunc is an Interface
+    protected ILaunchAdjustment launchAdjustment;
 
-    public BSFSnowballEntity(EntityType<? extends BSFSnowballEntity> p_37473_, Level p_37474_) {
-        super(p_37473_, p_37474_);
+    public AbstractBSFSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
     }
 
-    public BSFSnowballEntity(LivingEntity livingEntity, Level level) {
-        super(EntityRegister.BSF_SNOWBALL.get(), livingEntity, level);
+    public AbstractBSFSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, double pX, double pY, double pZ, Level pLevel) {
+        super(pEntityType, pX, pY, pZ, pLevel);
     }
 
-    public BSFSnowballEntity(Level level, double x, double y, double z) {
-        super(EntityRegister.BSF_SNOWBALL.get(), x, y, z, level);
+    public AbstractBSFSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel) {
+        super(pEntityType, pShooter, pLevel);
     }
 
-    /**
-     * Triggered when an entity hits an entity
-     *
-     * @param pResult EntityHitResult
-     */
+
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
         Level level = level();
@@ -68,6 +61,12 @@ public class BSFSnowballEntity extends ThrowableItemProjectile {
                 isCaught = true;
                 return;
             }
+
+            float blazeDamage = launchAdjustment.adjustBlazeDamage(getBasicBlazeDamage());
+            float damage = launchAdjustment.adjustDamage(getBasicDamage());
+            int frozenTicks = launchAdjustment.adjustFrozenTicks(getBasicFrozenTicks());
+            int weaknessTicks = launchAdjustment.adjustWeaknessTicks(getBasicWeaknessTicks());
+            double punch = launchAdjustment.adjustPunch(getBasicPunch());
 
             // Damage entity
             float hurt = entity instanceof Blaze ? blazeDamage : damage;
@@ -88,7 +87,7 @@ public class BSFSnowballEntity extends ThrowableItemProjectile {
             Vec3 vec3d = this.getDeltaMovement().multiply(0.1 * punch, 0.0, 0.1 * punch);
             entity.push(vec3d.x, 0.0, vec3d.z);
         }
-        spawnBasicParticles(level());
+        spawnBasicParticles(level);
     }
 
     /**
@@ -107,42 +106,23 @@ public class BSFSnowballEntity extends ThrowableItemProjectile {
      */
     @Override
     public void tick() {
+        super.tick();
         // Spawn trace particles
         Level level = level();
         if (!level.isClientSide) {
             ((ServerLevel) level).sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
         }
-        super.tick();
-    }
-
-    /**
-     * Do not touch/override this magical fucking method, or the texture of the snowball will become egg!
-     *
-     * @return Who knows.
-     */
-    @Override
-    protected @NotNull Item getDefaultItem() {
-        return ItemRegister.SMOOTH_SNOWBALL.get();
-    }
-
-    /**
-     * You should override this fucking method if you want to catch the snowball!
-     *
-     * @return The corresponding item.
-     */
-    public Item getCorrespondingItem() {
-        return null;
     }
 
     /**
      * @param entity The player who is using the glove.
      * @return If the glove catches return true.
      */
-    protected boolean catchOnGlove(LivingEntity entity) {
-        if (entity instanceof Player player && (player.getOffhandItem().is(ItemRegister.GLOVE.get()) &&
+    private boolean catchOnGlove(LivingEntity entity) {
+        if (entity instanceof Player player && canBeCaught() && (player.getOffhandItem().is(ItemRegister.GLOVE.get()) &&
                 player.getUsedItemHand() == InteractionHand.OFF_HAND || player.getMainHandItem().is(ItemRegister.GLOVE.get()) &&
                 player.getUsedItemHand() == InteractionHand.MAIN_HAND) && player.isUsingItem() && isHeadingToSnowball(player)) {
-            player.getInventory().placeItemBackInInventory(new ItemStack(getCorrespondingItem()));
+            player.getInventory().placeItemBackInInventory(new ItemStack(getDefaultItem()));
             if (player.getMainHandItem().getItem() instanceof GloveItem glove) {
                 player.getMainHandItem().hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
                 glove.releaseUsing(player.getMainHandItem(), player.level(), player, 1);
@@ -161,7 +141,7 @@ public class BSFSnowballEntity extends ThrowableItemProjectile {
     }
 
     // Check whether the player can catch the snowball
-    protected boolean isHeadingToSnowball(Player player) {
+    private boolean isHeadingToSnowball(Player player) {
         Vec3 speedVec = this.getDeltaMovement().normalize();
         Vec3 cameraVec = Vec3.directionFromRotation(player.getXRot(), player.getYRot());
         return Math.abs(cameraVec.dot(speedVec) + 1.0) < 0.2;
@@ -176,55 +156,40 @@ public class BSFSnowballEntity extends ThrowableItemProjectile {
         }
     }
 
-    protected void spawnBasicParticles(Level level) {
+    public void forceEffect(Class<? extends Entity> targetClass, double range, double boundaryR2, double GM) {
+        List<? extends Entity> list = TargetGetter.getTargetList(this, targetClass, range);
+        for (Entity entity : list) {
+            Vec3 rVec = new Vec3(getX() - entity.getX(), getY() - entity.getEyeY(), getZ() - entity.getZ());
+            double r2 = rVec.lengthSqr();
+            double ir2 = Mth.invSqrt(r2);
+            double a;
+            if (r2 > boundaryR2) {
+                a = GM / r2;
+            } else if (r2 > 0.25) {
+                a = GM / boundaryR2;
+            } else {
+                a = 0;
+            }
+            entity.push(a * rVec.x * ir2, a * rVec.y * ir2, a * rVec.z * ir2);
+            //Tell client that player should move because client handles player's movement.
+            if (entity instanceof ServerPlayer player && !player.getAbilities().instabuild && !player.getAbilities().invulnerable) {
+                player.connection.send(new ClientboundSetEntityMotionPacket(entity));
+            }
+        }
+    }
+
+    private void spawnBasicParticles(Level level) {
         if (!level.isClientSide) {
             ((ServerLevel) level).sendParticles(ParticleTypes.ITEM_SNOWBALL, this.getX(), this.getY(), this.getZ(), 8, 0, 0, 0, 0);
             ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 8, 0, 0, 0, 0.04);
         }
     }
 
-    // Setters with builder style
-    // Like this:  snowballEntity.setPunch(2.0).setDamage(2.5f)
-    // If necessary, add setWeaknessTime.
-    public BSFSnowballEntity setPunch(double punch) {
-        this.punch = punch;
-        return this;
-    }
-
-    public BSFSnowballEntity setLaunchFrom(LaunchFrom launchFrom) {
-        this.launchFrom = launchFrom;
-        return this;
-    }
-
-    public BSFSnowballEntity setFrozenTicks(int frozenTicks) {
-        this.frozenTicks = frozenTicks;
-        return this;
-    }
-
-    public BSFSnowballEntity setWeaknessTicks(int weaknessTicks) {
-        this.weaknessTicks = weaknessTicks;
-        return this;
-    }
-
-    public float getBlazeDamage() {
-        return blazeDamage;
-    }
-
-    public BSFSnowballEntity setBlazeDamage(float blazeDamage) {
-        this.blazeDamage = blazeDamage;
-        return this;
-    }
-
-    public float getDamage() {
-        return damage;
-    }
-
-    public BSFSnowballEntity setDamage(float damage) {
-        this.damage = damage;
-        return this;
-    }
-
-    public float getPower() {
-        return 1;
-    }
+    abstract public boolean canBeCaught();
+    abstract public float getBasicDamage();
+    abstract public float getBasicBlazeDamage();
+    abstract public int getBasicWeaknessTicks();
+    abstract public int getBasicFrozenTicks();
+    abstract public double getBasicPunch();
+    abstract public float getSubspacePower();
 }

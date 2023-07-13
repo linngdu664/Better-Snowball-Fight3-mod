@@ -111,6 +111,7 @@ public class FrozenSnowballEntity extends BSFSnowballEntity {
         }
     }
 
+    @Override
     public float getPower() {
         return 1.6f;
     }

@@ -42,8 +42,7 @@ public class EnderSnowballEntity extends BSFSnowballEntity {
                 ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL, owner.getX(), owner.getEyeY(), owner.getZ(), 32, 1, 1, 1, 0.1);
                 this.discard();
                 Vec3 ownerPos = owner.position();
-                Vec3 v1 = owner.getDeltaMovement();
-                System.out.println(v1);
+                Vec3 v1 = owner.getDeltaMovement();;
                 Vec3 v2 = entity.getDeltaMovement();
                 float xRot1 = owner.getXRot();
                 float yRot1 = owner.getYRot();
@@ -61,6 +60,7 @@ public class EnderSnowballEntity extends BSFSnowballEntity {
                     serverPlayer.connection.send(new ClientboundPlayerPositionPacket(ownerPos.x, ownerPos.y, ownerPos.z, yRot1, xRot1, new HashSet<>(), entity.getId()));
                     serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(entity));
                 }
+
             }
         }
     }
@@ -76,6 +76,7 @@ public class EnderSnowballEntity extends BSFSnowballEntity {
         return ItemRegister.ENDER_SNOWBALL.get();
     }
 
+    @Override
     public float getPower() {
         return 1.6f;
     }

@@ -45,7 +45,7 @@ public class BasinOfSnowItem extends Item {
         List<LivingEntity> list = TargetGetter.getTargetList(pPlayer, LivingEntity.class, 8);
         Vec3 cameraVec = Vec3.directionFromRotation(pPlayer.getXRot(), pPlayer.getYRot());
         if (!pLevel.isClientSide) {
-            Network.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesSender(pPlayer, cameraVec, 4.5F, 30, 0.5F, 0.2));
+            Network.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesSender(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2));
             for (LivingEntity livingEntity : list) {
                 if (!(livingEntity instanceof BSFSnowGolemEntity) && !(livingEntity instanceof SnowGolem) && !(livingEntity instanceof ArmorStand)) {
                     Vec3 rVec1 = new Vec3(livingEntity.getX() - pPlayer.getX(), livingEntity.getEyeY() - pPlayer.getEyeY() + 0.2, livingEntity.getZ() - pPlayer.getZ());

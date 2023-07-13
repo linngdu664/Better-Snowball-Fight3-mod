@@ -47,7 +47,7 @@ public class SpectralSnowballEntity extends BSFSnowballEntity {
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
         Entity entity = pResult.getEntity();
-        if (entity instanceof LivingEntity livingEntity) {
+        if (entity instanceof LivingEntity livingEntity && !isCaught) {
             livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 200, 0));
         }
     }

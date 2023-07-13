@@ -19,7 +19,6 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.Vector;
 import java.util.function.Supplier;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AmmoRotateRight {
     final int type, pressedMs;
 
@@ -55,11 +54,6 @@ public class AmmoRotateRight {
                 level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
         }
-    }
-
-    @SubscribeEvent
-    public static void registerMessage(FMLCommonSetupEvent event) {
-        Network.addNetworkMessage(AmmoRotateRight.class, AmmoRotateRight::buffer, AmmoRotateRight::new, AmmoRotateRight::handler);
     }
 
     private static void execute(Player player) {

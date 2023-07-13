@@ -1,6 +1,8 @@
 package com.linngdu664.bsf.item.snowball;
 
+import com.linngdu664.bsf.entity.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.nomal.CompactedSnowballEntity;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
@@ -36,6 +38,35 @@ public abstract class AbstractBSFSnowballItem extends Item {
             @Override
             public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
                 bsfSnowballEntity.setBlazeDamage(bsfSnowballEntity.getBlazeDamage() * playerBadEffectRate).setDamage(bsfSnowballEntity.getDamage() * playerBadEffectRate);
+            }
+        };
+    }
+
+    public ILaunchAdjustment getLaunchAdjustment(float playerBadEffectRate) {
+        return new ILaunchAdjustment() {
+            @Override
+            public double adjustPunch(double punch) {
+                return punch;
+            }
+
+            @Override
+            public int adjustWeaknessTicks(int weaknessTicks) {
+                return weaknessTicks;
+            }
+
+            @Override
+            public int adjustFrozenTicks(int frozenTicks) {
+                return frozenTicks;
+            }
+
+            @Override
+            public float adjustDamage(float damage) {
+                return damage * playerBadEffectRate;
+            }
+
+            @Override
+            public float adjustBlazeDamage(float blazeDamage) {
+                return blazeDamage * playerBadEffectRate;
             }
         };
     }
@@ -79,7 +110,8 @@ public abstract class AbstractBSFSnowballItem extends Item {
         if (!storageInTank(pPlayer, itemStack, tank)) {
             pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
             if (!pLevel.isClientSide) {
-                BSFSnowballEntity snowballEntity = getCorrespondingEntity(pLevel, pPlayer, getLaunchFunc(getSnowballDamageRate(pPlayer)));;
+//                BSFSnowballEntity snowballEntity = getCorrespondingEntity(pLevel, pPlayer, getLaunchFunc(getSnowballDamageRate(pPlayer)));;
+                AbstractBSFSnowballEntity snowballEntity = getCorrespondingEntity(pLevel, pPlayer, getLaunchAdjustment(getSnowballDamageRate(pPlayer)));
                 snowballEntity.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, velocity * getSnowballSlowdownRate(pPlayer), 1.0F);
                 pLevel.addFreshEntity(snowballEntity);
             }
@@ -123,10 +155,10 @@ public abstract class AbstractBSFSnowballItem extends Item {
      *
      * @param level        Level.
      * @param livingEntity The entity who throws/launches the snowball.
-     * @param launchFunc   The launch func.
      * @return The corresponding entity.
      */
-    public abstract BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc);
+//    public abstract BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc);
+    public abstract AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment);
 
     public boolean canBeLaunchedByMachineGun() {
         return true;

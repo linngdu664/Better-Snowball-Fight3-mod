@@ -1,9 +1,12 @@
 package com.linngdu664.bsf.entity;
 
 import com.linngdu664.bsf.Main;
+import com.linngdu664.bsf.entity.snowball.nomal.CompactedSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.nomal.ExplosiveSnowballEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -20,4 +23,12 @@ public class EntityRegister {
             ENTITY_TYPES.register("bsf_snowball", () -> EntityType.Builder.<BSFSnowballEntity>of(BSFSnowballEntity::new, MobCategory.MISC)
                     .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10)
                     .build(new ResourceLocation(Main.MODID, "bsf_snowball").toString()));
+    public static final RegistryObject<EntityType<CompactedSnowballEntity>> COMPACTED_SNOWBALL =
+            ENTITY_TYPES.register("compacted_snowball", () -> EntityType.Builder.<CompactedSnowballEntity>of(CompactedSnowballEntity::new, MobCategory.MISC)
+                    .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10)
+                    .build(new ResourceLocation(Main.MODID, "compacted_snowball").toString()));
+    public static final RegistryObject<EntityType<ExplosiveSnowballEntity>> EXPLOSIVE_SNOWBALL =
+            ENTITY_TYPES.register("explosive_snowball", () -> EntityType.Builder.<ExplosiveSnowballEntity>of(ExplosiveSnowballEntity::new, MobCategory.MISC)
+                    .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10)
+                    .build(new ResourceLocation(Main.MODID, "explosive_snowball").toString()));
 }

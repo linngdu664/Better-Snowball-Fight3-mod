@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.entity.snowball.force;
 
-import com.linngdu664.bsf.entity.snowball.AbstractForceSnowballEntity;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.util.LaunchFunc;
 import net.minecraft.world.entity.LivingEntity;

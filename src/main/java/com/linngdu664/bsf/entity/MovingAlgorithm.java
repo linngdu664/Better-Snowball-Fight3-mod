@@ -1,7 +1,5 @@
 package com.linngdu664.bsf.entity;
 
-import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
-import com.linngdu664.bsf.entity.BSFSnowballEntity;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import com.linngdu664.bsf.util.TargetGetter;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -14,6 +12,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
+@Deprecated
 public class MovingAlgorithm {
     /**
      * This method uses the "inverse square-const-zero" model to simulate gravity/repulsion. If we only use inverse-square
@@ -64,7 +63,7 @@ public class MovingAlgorithm {
      * @param lockFeet           If true, the snowball will track entity's feet to maximum the explosion damage.
      * @param <T>                Extends entity class.
      */
-    public static <T extends Entity> void missilesTracking(BSFSnowballEntity snowball, Class<T> targetClass, double trackingRange, boolean angleRestriction, double maxTurningAngleCos, double maxTurningAngleSin, boolean lockFeet) {
+    public static <T extends Entity> void missilesTracking(AbstractBSFSnowballEntity snowball, Class<T> targetClass, double trackingRange, boolean angleRestriction, double maxTurningAngleCos, double maxTurningAngleSin, boolean lockFeet) {
         Level level = snowball.level();
         Entity target = TargetGetter.getTarget(snowball, targetClass, angleRestriction, trackingRange);
         if (target == null && targetClass == Player.class) {

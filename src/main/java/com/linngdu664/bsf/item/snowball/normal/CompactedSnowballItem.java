@@ -1,6 +1,8 @@
 package com.linngdu664.bsf.item.snowball.normal;
 
+import com.linngdu664.bsf.entity.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.nomal.CompactedSnowballEntity;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
@@ -60,9 +62,13 @@ public class CompactedSnowballItem extends AbstractBSFSnowballItem {
 //        return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 
+//    @Override
+//    public BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc) {
+//        return new CompactedSnowballEntity(livingEntity, level, launchFunc);
+//    }
     @Override
-    public BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc) {
-        return new CompactedSnowballEntity(livingEntity, level, launchFunc);
+    public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
+        return new CompactedSnowballEntity(livingEntity, level, launchAdjustment);
     }
 
     @Override
