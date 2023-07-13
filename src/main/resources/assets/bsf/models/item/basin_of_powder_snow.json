@@ -1,8 +1,8 @@
 {
   "parent": "bsf:custom/basin_of_snow_model",
   "textures": {
-    "1": "bsf:models/basin_of_powder_snow",
-    "particle": "bsf:models/basin_of_powder_snow"
+    "1": "bsf:item/basin_of_powder_snow",
+    "particle": "bsf:item/basin_of_powder_snow"
   },
   "display": {
     "thirdperson_righthand": {

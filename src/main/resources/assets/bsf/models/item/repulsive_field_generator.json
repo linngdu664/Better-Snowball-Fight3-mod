@@ -1,11 +1,11 @@
 {
   "parent": "bsf:custom/repulsive_field_generator_model",
   "textures": {
-    "0": "bsf:models/repulsive_field_generator",
-    "1": "bsf:models/repulsive_field_generator_1",
-    "2": "bsf:models/repulsive_field_generator_2",
-    "3": "bsf:models/repulsive_field_generator_3",
-    "4": "bsf:models/repulsive_field_generator_4",
-    "particle": "bsf:models/repulsive_field_generator"
+    "0": "bsf:item/repulsive_field_generator",
+    "1": "bsf:item/repulsive_field_generator_1",
+    "2": "bsf:item/repulsive_field_generator_2",
+    "3": "bsf:item/repulsive_field_generator_3",
+    "4": "bsf:item/repulsive_field_generator_4",
+    "particle": "bsf:item/repulsive_field_generator"
   }
 }
