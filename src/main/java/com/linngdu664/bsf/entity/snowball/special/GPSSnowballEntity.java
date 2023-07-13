@@ -1,14 +1,19 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
+import com.linngdu664.bsf.entity.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.EntityRegister;
+import com.linngdu664.bsf.entity.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.util.LaunchFrom;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -16,20 +21,33 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 
-public class GPSSnowballEntity extends BSFSnowballEntity {
+public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
     private final ItemStack targetLocator;
 
-    public GPSSnowballEntity(LivingEntity livingEntity, Level level, ItemStack targetLocator) {
-        super(livingEntity, level);
-        this.targetLocator = targetLocator;
-        this.setPunch(2.0).setLaunchFrom(LaunchFrom.HAND);
-        this.setItem(new ItemStack(ItemRegister.GPS_SNOWBALL.get()));
+//    public GPSSnowballEntity(LivingEntity livingEntity, Level level, ItemStack targetLocator) {
+//        super(livingEntity, level);
+//        this.targetLocator = targetLocator;
+//        this.setPunch(2.0).setLaunchFrom(LaunchFrom.HAND);
+//        this.setItem(new ItemStack(ItemRegister.GPS_SNOWBALL.get()));
+//    }
+    public GPSSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
     }
 
-    @Override
-    public Item getCorrespondingItem() {
-        return ItemRegister.IRON_SNOWBALL.get();
+    public GPSSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
+        super(EntityRegister.GPS_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        this.launchAdjustment = ILaunchAdjustment.DEFAULT;
     }
+
+    public GPSSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
+        super(EntityRegister.GPS_SNOWBALL.get(), pShooter, pLevel);
+        this.launchAdjustment = launchAdjustment;
+    }
+
+//    @Override
+//    public Item getCorrespondingItem() {
+//        return ItemRegister.IRON_SNOWBALL.get();
+//    }
 
     @Override
     protected void onHit(@NotNull HitResult pResult) {
@@ -42,7 +60,7 @@ public class GPSSnowballEntity extends BSFSnowballEntity {
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
-        if (!isCaught && pResult.getEntity() instanceof LivingEntity livingEntity) {
+        if (!isCaught && pResult.getEntity() instanceof LivingEntity livingEntity && targetLocator!= null){
             //((TargetLocatorItem) targetLocator.getItem()).setLivingEntity(livingEntity);
             //targetLocator.getTag().putUUID("UUID", livingEntity.getUUID());
             targetLocator.getTag().putInt("ID", livingEntity.getId());
@@ -55,5 +73,44 @@ public class GPSSnowballEntity extends BSFSnowballEntity {
             }
             targetLocator.setHoverName(MutableComponent.create(new TranslatableContents("item.bsf.target_locator", null, new Object[]{})).append(":").append(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[]{}))).append(livingEntity.getName().getString() + " ID:" + livingEntity.getId()));
         }
+    }
+    @Override
+    public boolean canBeCaught() {
+        return true;
+    }
+
+    @Override
+    public float getBasicDamage() {
+        return Float.MIN_NORMAL;
+    }
+
+    @Override
+    public float getBasicBlazeDamage() {
+        return 3;
+    }
+
+    @Override
+    public int getBasicWeaknessTicks() {
+        return 0;
+    }
+
+    @Override
+    public int getBasicFrozenTicks() {
+        return 0;
+    }
+
+    @Override
+    public double getBasicPunch() {
+        return 0;
+    }
+
+    @Override
+    public float getSubspacePower() {
+        return 1;
+    }
+
+    @Override
+    protected @NotNull Item getDefaultItem() {
+        return ItemRegister.IRON_SNOWBALL.get();
     }
 }

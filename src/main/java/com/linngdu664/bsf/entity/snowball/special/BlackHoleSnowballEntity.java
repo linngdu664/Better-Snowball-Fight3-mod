@@ -1,32 +1,48 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
-import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.*;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.util.LaunchFunc;
-import com.linngdu664.bsf.entity.MovingAlgorithm;
 import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-public class BlackHoleSnowballEntity extends BSFSnowballEntity {
+public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
     public int startTime = 20;
     public int endTime = 150;
     private int timer = 0;
+    public BlackHoleSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
+    }
 
-    public BlackHoleSnowballEntity(LivingEntity livingEntity, Level level, LaunchFunc launchFunc) {
-        super(livingEntity, level);
-        this.setDamage(4).setBlazeDamage(6).setLaunchFrom(launchFunc.getLaunchFrom());
-        launchFunc.launchProperties(this);
-        this.setItem(new ItemStack(ItemRegister.BLACK_HOLE_SNOWBALL.get()));
+    public BlackHoleSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
+        super(EntityRegister.BLACK_HOLE_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        this.launchAdjustment = ILaunchAdjustment.DEFAULT;
         this.setNoGravity(true);
     }
+
+    public BlackHoleSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
+        super(EntityRegister.BLACK_HOLE_SNOWBALL.get(), pShooter, pLevel);
+        this.launchAdjustment = launchAdjustment;
+        this.setNoGravity(true);
+    }
+//    public BlackHoleSnowballEntity(LivingEntity livingEntity, Level level, LaunchFunc launchFunc) {
+//        super(livingEntity, level);
+//        this.setDamage(4).setBlazeDamage(6).setLaunchFrom(launchFunc.getLaunchFrom());
+//        launchFunc.launchProperties(this);
+//        this.setItem(new ItemStack(ItemRegister.BLACK_HOLE_SNOWBALL.get()));
+//        this.setNoGravity(true);
+//    }
 
     @Override
     protected void onHitBlock(@NotNull BlockHitResult p_37258_) {
@@ -62,5 +78,44 @@ public class BlackHoleSnowballEntity extends BSFSnowballEntity {
 
     public float getPower() {
         return 8;
+    }
+    @Override
+    public boolean canBeCaught() {
+        return false;
+    }
+
+    @Override
+    public float getBasicDamage() {
+        return 4;
+    }
+
+    @Override
+    public float getBasicBlazeDamage() {
+        return 6;
+    }
+
+    @Override
+    public int getBasicWeaknessTicks() {
+        return 0;
+    }
+
+    @Override
+    public int getBasicFrozenTicks() {
+        return 0;
+    }
+
+    @Override
+    public double getBasicPunch() {
+        return 0;
+    }
+
+    @Override
+    public float getSubspacePower() {
+        return 8;
+    }
+
+    @Override
+    protected @NotNull Item getDefaultItem() {
+        return ItemRegister.BLACK_HOLE_SNOWBALL.get();
     }
 }

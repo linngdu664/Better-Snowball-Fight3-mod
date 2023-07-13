@@ -1,6 +1,9 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
+import com.linngdu664.bsf.entity.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.EntityRegister;
+import com.linngdu664.bsf.entity.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.util.LaunchFunc;
 import net.minecraft.core.particles.ParticleTypes;
@@ -8,9 +11,11 @@ import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -21,13 +26,26 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 
-public class EnderSnowballEntity extends BSFSnowballEntity {
+public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
 
-    public EnderSnowballEntity(LivingEntity livingEntity, Level level, LaunchFunc launchFunc) {
-        super(livingEntity, level);
-        this.setLaunchFrom(launchFunc.getLaunchFrom());
-        launchFunc.launchProperties(this);
-        this.setItem(new ItemStack(ItemRegister.ENDER_SNOWBALL.get()));
+//    public EnderSnowballEntity(LivingEntity livingEntity, Level level, LaunchFunc launchFunc) {
+//        super(livingEntity, level);
+//        this.setLaunchFrom(launchFunc.getLaunchFrom());
+//        launchFunc.launchProperties(this);
+//        this.setItem(new ItemStack(ItemRegister.ENDER_SNOWBALL.get()));
+//    }
+    public EnderSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
+    }
+
+    public EnderSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
+        super(EntityRegister.ENDER_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        this.launchAdjustment = ILaunchAdjustment.DEFAULT;
+    }
+
+    public EnderSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
+        super(EntityRegister.ENDER_SNOWBALL.get(), pShooter, pLevel);
+        this.launchAdjustment = launchAdjustment;
     }
 
     @Override
@@ -71,15 +89,8 @@ public class EnderSnowballEntity extends BSFSnowballEntity {
         this.discard();
     }
 
-    @Override
-    public Item getCorrespondingItem() {
-        return ItemRegister.ENDER_SNOWBALL.get();
-    }
 
-    @Override
-    public float getPower() {
-        return 1.6f;
-    }
+
 
     @Override
     public void tick() {
@@ -88,5 +99,44 @@ public class EnderSnowballEntity extends BSFSnowballEntity {
         if (!level.isClientSide) {
             ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL, this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
         }
+    }
+    @Override
+    public boolean canBeCaught() {
+        return true;
+    }
+
+    @Override
+    public float getBasicDamage() {
+        return Float.MIN_NORMAL;
+    }
+
+    @Override
+    public float getBasicBlazeDamage() {
+        return 3;
+    }
+
+    @Override
+    public int getBasicWeaknessTicks() {
+        return 0;
+    }
+
+    @Override
+    public int getBasicFrozenTicks() {
+        return 0;
+    }
+
+    @Override
+    public double getBasicPunch() {
+        return 0;
+    }
+
+    @Override
+    public float getSubspacePower() {
+        return 1.6f;
+    }
+
+    @Override
+    protected @NotNull Item getDefaultItem() {
+        return ItemRegister.ENDER_SNOWBALL.get();
     }
 }

@@ -1,7 +1,6 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
-import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
-import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.*;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import com.linngdu664.bsf.util.LaunchFrom;
@@ -15,8 +14,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.SnowGolem;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -29,25 +30,38 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class FrozenSnowballEntity extends BSFSnowballEntity {
+public class FrozenSnowballEntity extends AbstractBSFSnowballEntity {
     private float frozenRange = 2.5F;
-
-    public FrozenSnowballEntity(LivingEntity livingEntity, Level level, LaunchFunc launchFunc) {
-        super(livingEntity, level);
-        this.setFrozenTicks(60).setLaunchFrom(launchFunc.getLaunchFrom()).setDamage(3).setBlazeDamage(8);
-        launchFunc.launchProperties(this);
-        this.setItem(new ItemStack(ItemRegister.FROZEN_SNOWBALL.get()));
-        if (launchFrom == LaunchFrom.FREEZING_CANNON) {
-            frozenRange = 3.5f;
-        }
+    public FrozenSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
     }
 
-    //This is only used for dispenser
-    public FrozenSnowballEntity(Level level, double x, double y, double z) {
-        super(level, x, y, z);
-        this.setDamage(3).setBlazeDamage(8).setFrozenTicks(60);
-        this.setItem(new ItemStack(ItemRegister.FROZEN_SNOWBALL.get()));
+    public FrozenSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
+        super(EntityRegister.FROZEN_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        this.launchAdjustment = ILaunchAdjustment.DEFAULT;
     }
+
+    public FrozenSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
+        super(EntityRegister.FROZEN_SNOWBALL.get(), pShooter, pLevel);
+        this.launchAdjustment = launchAdjustment;
+    }
+
+//    public FrozenSnowballEntity(LivingEntity livingEntity, Level level, LaunchFunc launchFunc) {
+//        super(livingEntity, level);
+//        this.setFrozenTicks(60).setLaunchFrom(launchFunc.getLaunchFrom()).setDamage(3).setBlazeDamage(8);
+//        launchFunc.launchProperties(this);
+//        this.setItem(new ItemStack(ItemRegister.FROZEN_SNOWBALL.get()));
+//        if (launchFrom == LaunchFrom.FREEZING_CANNON) {
+//            frozenRange = 3.5f;
+//        }
+//    }
+//
+//    //This is only used for dispenser
+//    public FrozenSnowballEntity(Level level, double x, double y, double z) {
+//        super(level, x, y, z);
+//        this.setDamage(3).setBlazeDamage(8).setFrozenTicks(60);
+//        this.setItem(new ItemStack(ItemRegister.FROZEN_SNOWBALL.get()));
+//    }
 
     @Override
     public Item getCorrespondingItem() {
@@ -88,9 +102,9 @@ public class FrozenSnowballEntity extends BSFSnowballEntity {
                 List<LivingEntity> list = TargetGetter.getTargetList(this, LivingEntity.class, 2.5F);
                 for (LivingEntity entity : list) {
                     if (distanceToSqr(entity) < frozenRange * frozenRange && !(entity instanceof BSFSnowGolemEntity) && !(entity instanceof SnowGolem)) {
-                        if (frozenTicks > 0) {
-                            if (entity.getTicksFrozen() < frozenTicks) {
-                                entity.setTicksFrozen(frozenTicks);
+                        if (getBasicFrozenTicks() > 0) {
+                            if (entity.getTicksFrozen() < getBasicFrozenTicks()) {
+                                entity.setTicksFrozen(getBasicFrozenTicks());
                             }
                             entity.hurt(level.damageSources().thrown(this, this.getOwner()), Float.MIN_NORMAL);
                             if (launchFrom == LaunchFrom.FREEZING_CANNON) {
@@ -112,7 +126,42 @@ public class FrozenSnowballEntity extends BSFSnowballEntity {
     }
 
     @Override
-    public float getPower() {
+    public boolean canBeCaught() {
+        return true;
+    }
+
+    @Override
+    public float getBasicDamage() {
+        return 3;
+    }
+
+    @Override
+    public float getBasicBlazeDamage() {
+        return 8;
+    }
+
+    @Override
+    public int getBasicWeaknessTicks() {
+        return 0;
+    }
+
+    @Override
+    public int getBasicFrozenTicks() {
+        return 60;
+    }
+
+    @Override
+    public double getBasicPunch() {
+        return 0;
+    }
+
+    @Override
+    public float getSubspacePower() {
         return 1.6f;
+    }
+
+    @Override
+    protected @NotNull Item getDefaultItem() {
+        return ItemRegister.FROZEN_SNOWBALL.get();
     }
 }
