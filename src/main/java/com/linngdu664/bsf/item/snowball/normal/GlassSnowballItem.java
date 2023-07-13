@@ -1,6 +1,8 @@
 package com.linngdu664.bsf.item.snowball.normal;
 
+import com.linngdu664.bsf.entity.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.BSFSnowballEntity;
+import com.linngdu664.bsf.entity.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.nomal.GlassSnowballEntity;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
@@ -61,9 +63,10 @@ public class GlassSnowballItem extends AbstractBSFSnowballItem {
 //        return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 
+
     @Override
-    public BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc) {
-        return new GlassSnowballEntity(livingEntity, level, launchFunc);
+    public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
+        return new GlassSnowballEntity(livingEntity, level, launchAdjustment);
     }
 
     @Override

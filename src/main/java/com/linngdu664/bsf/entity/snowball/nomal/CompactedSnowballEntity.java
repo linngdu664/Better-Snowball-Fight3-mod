@@ -86,7 +86,7 @@ public class CompactedSnowballEntity extends AbstractBSFSnowballEntity {
 
     @Override
     public double getBasicPunch() {
-        return 0;
+        return 2;
     }
 
     @Override
