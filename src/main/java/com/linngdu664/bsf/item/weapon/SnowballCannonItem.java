@@ -1,15 +1,13 @@
 package com.linngdu664.bsf.item.weapon;
 
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
-import com.linngdu664.bsf.entity.BSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
+import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
 import com.linngdu664.bsf.network.ForwardConeParticlesSender;
 import com.linngdu664.bsf.network.Network;
-import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
-import com.linngdu664.bsf.util.LaunchFunc;
 import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

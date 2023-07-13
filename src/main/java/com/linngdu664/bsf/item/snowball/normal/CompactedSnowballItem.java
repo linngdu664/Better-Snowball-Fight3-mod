@@ -1,8 +1,8 @@
 package com.linngdu664.bsf.item.snowball.normal;
 
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
-import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.nomal.CompactedSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import net.minecraft.ChatFormatting;

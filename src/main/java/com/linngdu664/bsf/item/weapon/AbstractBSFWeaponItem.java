@@ -1,12 +1,10 @@
 package com.linngdu664.bsf.item.weapon;
 
-import com.linngdu664.bsf.entity.BSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
-import com.linngdu664.bsf.util.LaunchFunc;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;

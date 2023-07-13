@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.entity.snowball.nomal;
 
-import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.EntityRegister;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import net.minecraft.core.particles.ParticleTypes;

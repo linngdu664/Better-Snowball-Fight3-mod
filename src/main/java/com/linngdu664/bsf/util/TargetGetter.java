@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.util;
 
-import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;

@@ -1,14 +1,12 @@
 package com.linngdu664.bsf.item.weapon;
 
-import com.linngdu664.bsf.entity.BSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
+import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
 import com.linngdu664.bsf.item.tank.normal.ExplosiveSnowballTank;
 import com.linngdu664.bsf.item.tank.tracking.ExplosiveMonsterTrackingSnowballTank;
 import com.linngdu664.bsf.item.tank.tracking.ExplosivePlayerTrackingSnowballTank;
-import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
-import com.linngdu664.bsf.util.LaunchFunc;
 import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
