@@ -75,7 +75,7 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                     damage += snowball.getSubspacePower();
                     blazeDamage += snowball.getSubspacePower();
                 }
-                level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegister.SUBSPACE_SNOWBALL_CUT.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegister.SUBSPACE_SNOWBALL_CUT.get(), SoundSource.PLAYERS, 0.4F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
             List<Snowball> list2 = TargetGetter.getTargetList(this, Snowball.class, 2.5);
             for (Snowball snowball : list2) {

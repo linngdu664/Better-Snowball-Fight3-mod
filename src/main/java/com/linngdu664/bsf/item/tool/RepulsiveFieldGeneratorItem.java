@@ -57,7 +57,7 @@ public class RepulsiveFieldGeneratorItem extends AbstractBSFEnhanceableToolItem 
             }
             player.awardStat(Stats.ITEM_USED.get(this));
             player.getCooldowns().addCooldown(this, getUseDuration(pStack) - pTimeCharged + 20);
-            pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.FIELD_PUSH.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+            pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.FIELD_PUSH.get(), SoundSource.PLAYERS, 0.3F, 0.7F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
         }
     }
 
@@ -76,7 +76,7 @@ public class RepulsiveFieldGeneratorItem extends AbstractBSFEnhanceableToolItem 
             this.releaseUsing(pStack, pLevel, pLivingEntity, pRemainingUseDuration);
         } else if (pLivingEntity instanceof Player player && !pLevel.isClientSide) {
             if (pRemainingUseDuration == 60) {
-                pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.FIELD_START.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.FIELD_START.get(), SoundSource.PLAYERS, 0.4F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
             Vec3 vec3 = Vec3.directionFromRotation(player.getXRot(), player.getYRot());
             List<Projectile> list = TargetGetter.getTargetList(player, Projectile.class, 3);
@@ -85,7 +85,7 @@ public class RepulsiveFieldGeneratorItem extends AbstractBSFEnhanceableToolItem 
                 if (BSFMthUtil.vec3AngleCos(rVec, vec3) > 0.86602540F) {
                     if (!(projectile instanceof BlackHoleSnowballEntity)) {
                         if (!projectileVector.contains(projectile)) {
-                            pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.FIELD_SNOWBALL_STOP.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                            pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.FIELD_SNOWBALL_STOP.get(), SoundSource.PLAYERS, 0.4F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                             ((ServerLevel) pLevel).sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), projectile.getX(), projectile.getY(), projectile.getZ(), 10, 0, 0, 0, 0.04);
                         }
                         projectileVector.add(projectile);
