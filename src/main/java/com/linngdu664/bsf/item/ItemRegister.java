@@ -137,6 +137,7 @@ public class ItemRegister {
     public static final RegistryObject<Item> REPULSION_CORE = ITEMS.register("repulsion_core", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> GRAVITY_CORE = ITEMS.register("gravity_core", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> SNOWBALL_CANNON_UPGRADE_SMITHING_TEMPLATE = ITEMS.register("snowball_cannon_upgrade_smithing_template",SnowballCannonUpgradeSmithingTemplateItem::new);
+    public static final RegistryObject<Item> SNOWMAN_IN_HAND = ITEMS.register("snowman_in_hand",SnowmanInHandItem::new);
 
 
 
