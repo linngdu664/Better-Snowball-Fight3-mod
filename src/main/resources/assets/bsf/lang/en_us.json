@@ -84,6 +84,7 @@
   "item.bsf.gravity_core": "Gravity Core",
   "item.bsf.snow_fall_boots": "Snow Fall Boots",
   "item.bsf.creative_snow_golem_tool": "Creative Snow Golem Tool",
+  "item.bsf.snowball_cannon_upgrade_smithing_template": "Smithing Template",
 
   "stone_snowball.tooltip": "This is outrageous!",
   "snowball_clamp.tooltip": "Highly efficient snowballing tool",
@@ -171,6 +172,14 @@
   "thrust_snowball2.tooltip": "Snowball shotgun recoil will be the priority consumption of thrust snowball",
   "thrust_snowball.tooltip": "Hydroxyl terminated polyether prepolymer",
   "ender_snowball.tooltip": "Advanced Spells",
+  "snowball_cannon_upgrade_smithing_template1.tooltip": "Smithing Template",
+  "snowball_cannon_upgrade_smithing_template2.tooltip": "Advanced Snowball Cannon Upgrade",
+  "snowball_cannon_upgrade_smithing_template3.tooltip": "Applies to:",
+  "snowball_cannon_upgrade_smithing_template4.tooltip": " Snowball Cannon",
+  "snowball_cannon_upgrade_smithing_template5.tooltip": "Ingredients:",
+  "snowball_cannon_upgrade_smithing_template6.tooltip": " Snowball Cannon Upgrade Core",
+
+  "void.tooltip": "",
 
   "lunch_yes_hand.tooltip": "thrown by hand: yes",
   "lunch_yes_cannon.tooltip": "shot by cannon: yes",

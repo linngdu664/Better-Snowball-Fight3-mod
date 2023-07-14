@@ -103,5 +103,6 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.UNSTABLE_CORE.get());
                 output.accept(ItemRegister.REPULSION_CORE.get());
                 output.accept(ItemRegister.GRAVITY_CORE.get());
+                output.accept(ItemRegister.SNOWBALL_CANNON_UPGRADE_SMITHING_TEMPLATE.get());
             }).build());
 }

@@ -1,12 +1,15 @@
 {
-  "type": "minecraft:smithing",
-  "base": {
-    "item": "bsf:snowball_cannon"
-  },
+  "type": "minecraft:smithing_transform",
   "addition": {
     "item": "bsf:super_power_core"
   },
+  "base": {
+    "item": "bsf:snowball_cannon"
+  },
   "result": {
     "item": "bsf:powerful_snowball_cannon"
+  },
+  "template": {
+    "item": "bsf:snowball_cannon_upgrade_smithing_template"
   }
 }

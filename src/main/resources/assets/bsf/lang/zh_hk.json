@@ -84,6 +84,7 @@
   "item.bsf.gravity_core": "引力核心",
   "item.bsf.snow_fall_boots": "落雪靴",
   "item.bsf.creative_snow_golem_tool": "創造模式雪傀儡調整器",
+  "item.bsf.snowball_cannon_upgrade_smithing_template": "鍛造模板",
 
 
 
@@ -173,6 +174,12 @@
   "thrust_snowball2.tooltip": "雪球散彈槍推進反沖的時候會優先消耗推力雪球",
   "thrust_snowball.tooltip": "端羥基聚醚預聚物",
   "ender_snowball.tooltip": "高級咒術",
+  "snowball_cannon_upgrade_smithing_template1.tooltip": "原材料",
+  "snowball_cannon_upgrade_smithing_template2.tooltip": "高級雪球炮升級",
+  "snowball_cannon_upgrade_smithing_template3.tooltip": "可套用於：",
+  "snowball_cannon_upgrade_smithing_template4.tooltip": " 雪球炮",
+  "snowball_cannon_upgrade_smithing_template5.tooltip": "所需原材料：",
+  "snowball_cannon_upgrade_smithing_template6.tooltip": " 雪球炮升級核心",
 
   "lunch_yes_hand.tooltip": "用手扔：可以",
   "lunch_yes_cannon.tooltip": "雪球炮：可以",
