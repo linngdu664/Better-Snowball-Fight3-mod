@@ -1,6 +1,7 @@
 package com.linngdu664.bsf;
 
 import com.linngdu664.bsf.block.BlockRegister;
+import com.linngdu664.bsf.blockentity.BlockEntityRegister;
 import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.EntityRegister;
@@ -23,6 +24,7 @@ public class Main {
     public Main() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         BlockRegister.BLOCKS.register(bus);
+        BlockEntityRegister.BLOCK_ENTITIES.register(bus);
         ItemRegister.ITEMS.register(bus);
         SoundRegister.SOUNDS.register(bus);
         ParticleRegister.PARTICLES.register(bus);
