@@ -9,21 +9,21 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-public class CriticalSnowBlockEntity extends BlockEntity {
+public class CriticalSnowEntity extends BlockEntity {
     private int targetAge = BSFMthUtil.randInt(100, 140);
     private int age;
 
-    public CriticalSnowBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(BlockEntityRegister.CRITICAL_SNOW_BLOCK_ENTITY.get(), pPos, pBlockState);
+    public CriticalSnowEntity(BlockPos pPos, BlockState pBlockState) {
+        super(BlockEntityRegister.CRITICAL_SNOW_ENTITY.get(), pPos, pBlockState);
     }
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-        CriticalSnowBlockEntity criticalSnowBlockEntity = (CriticalSnowBlockEntity) blockEntity;
-        if (criticalSnowBlockEntity.age < criticalSnowBlockEntity.targetAge) {
-            criticalSnowBlockEntity.age++;
-            criticalSnowBlockEntity.setChanged();
+        CriticalSnowEntity criticalSnowEntity = (CriticalSnowEntity) blockEntity;
+        if (criticalSnowEntity.age < criticalSnowEntity.targetAge) {
+            criticalSnowEntity.age++;
+            criticalSnowEntity.setChanged();
         } else {
-            criticalSnowBlockEntity.setRemoved();
+            criticalSnowEntity.setRemoved();
             level.setBlock(pos, Blocks.SNOW.defaultBlockState(), 3);
         }
     }
