@@ -11,4 +11,5 @@ public class BlockRegister {
     public static final RegistryObject<SmartSnowBlock> SMART_SNOW_BLOCK = BLOCKS.register("smart_snow_block", SmartSnowBlock::new);
     public static final RegistryObject<LooseSnowBlock> LOOSE_SNOW_BLOCK = BLOCKS.register("loose_snow_block", LooseSnowBlock::new);
     public static final RegistryObject<SnowTrapBlock> SNOW_TRAP_BLOCK = BLOCKS.register("snow_trap_block", SnowTrapBlock::new);
+    public static final RegistryObject<CriticalSnowBlock> CRITICAL_SNOW_BLOCK = BLOCKS.register("critical_snow_block", CriticalSnowBlock::new);
 }

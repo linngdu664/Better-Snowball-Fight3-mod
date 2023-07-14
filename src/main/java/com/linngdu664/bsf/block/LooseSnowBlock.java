@@ -15,7 +15,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import net.minecraft.world.level.block.RedStoneOreBlock;
 
 public class LooseSnowBlock extends Block implements EntityBlock {
     public LooseSnowBlock() {
@@ -24,7 +23,8 @@ public class LooseSnowBlock extends Block implements EntityBlock {
                 .noOcclusion()
                 .pushReaction(PushReaction.DESTROY)
                 .isSuffocating((BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) -> false)
-                .isRedstoneConductor((BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) -> false));
+                .isRedstoneConductor((BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) -> false)
+        );
     }
 
     @SuppressWarnings("deprecation")
