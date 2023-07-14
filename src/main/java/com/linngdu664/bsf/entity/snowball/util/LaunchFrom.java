@@ -6,5 +6,7 @@ public enum LaunchFrom {
     FREEZING_CANNON,
     POWERFUL_CANNON,
     MACHINE_GUN,
-    SHOTGUN
+    SHOTGUN,
+
+    SNOWMAN_IN_HAND,
 }
