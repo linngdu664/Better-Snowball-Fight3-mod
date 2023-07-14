@@ -24,7 +24,7 @@ public class CriticalSnowBlockEntity extends BlockEntity {
             criticalSnowBlockEntity.setChanged();
         } else {
             criticalSnowBlockEntity.setRemoved();
-            level.setBlock(pos, Blocks.SNOW_BLOCK.defaultBlockState(), 3);
+            level.setBlock(pos, Blocks.SNOW.defaultBlockState(), 3);
         }
     }
 
