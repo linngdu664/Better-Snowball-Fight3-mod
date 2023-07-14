@@ -4,10 +4,7 @@ import com.linngdu664.bsf.block.BlockRegister;
 import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.EntityRegister;
-import com.linngdu664.bsf.event.AttackEntityEvent;
-import com.linngdu664.bsf.event.BSFConfig;
-import com.linngdu664.bsf.event.LivingFallEvent;
-import com.linngdu664.bsf.event.OnPlayerTickEvent;
+import com.linngdu664.bsf.event.*;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.particle.ParticleRegister;
 import com.linngdu664.bsf.util.CreativeTabRegister;
@@ -37,5 +34,6 @@ public class Main {
         MinecraftForge.EVENT_BUS.register(new AttackEntityEvent());
         MinecraftForge.EVENT_BUS.register(new OnPlayerTickEvent());
         MinecraftForge.EVENT_BUS.register(new LivingFallEvent());
+        MinecraftForge.EVENT_BUS.register(new LoadLootTableEvent());
     }
 }
