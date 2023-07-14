@@ -31,7 +31,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @SuppressWarnings("deprecation")
 public class SnowTrapBlock extends Block {
     public SnowTrapBlock() {
-        super(Properties.copy(Blocks.SNOW));
+        super(Properties.copy(Blocks.SNOW).noLootTable());
     }
 
     @Override
