@@ -15,11 +15,10 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import net.minecraft.world.level.block.LeavesBlock;
 
 public class LooseSnowBlock extends Block implements EntityBlock {
     public LooseSnowBlock() {
-        super(Properties.of().noLootTable().strength(0.2F).sound(SoundType.SNOW).noOcclusion().isSuffocating((BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) -> false).pushReaction(PushReaction.DESTROY).isRedstoneConductor((BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) -> false));
+        super(Properties.copy(Blocks.SNOW_BLOCK).noLootTable().noOcclusion().isSuffocating((BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) -> false).pushReaction(PushReaction.DESTROY).isRedstoneConductor((BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) -> false));
     }
 
     @SuppressWarnings("deprecation")

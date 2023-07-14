@@ -37,7 +37,7 @@ public class SmartSnowBlock extends HorizontalDirectionalBlock {
     private BlockPattern snowGolemFull;
 
     public SmartSnowBlock() {
-        super(Properties.of().strength(0.5F).sound(SoundType.SNOW));
+        super(Properties.copy(Blocks.SNOW_BLOCK).strength(0.5F).sound(SoundType.SNOW));
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
