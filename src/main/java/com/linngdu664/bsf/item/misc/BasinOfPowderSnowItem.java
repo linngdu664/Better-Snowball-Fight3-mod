@@ -44,30 +44,27 @@ public class BasinOfPowderSnowItem extends BasinOfSnowItem {
                     Vec3 rVec2 = new Vec3(rVec1.x, livingEntity.getY() - pPlayer.getEyeY(), rVec1.z);
                     if (BSFMthUtil.vec3AngleCos(rVec1, cameraVec) > 0.9363291776 && isNotBlocked(rVec1, rVec2, pPlayer, pLevel)) {
                         float r = (float) rVec1.length();
-                        int t = 0;
-                        if (r < 3.0F) {
-                            t = 240;
+                        if (r < 8.0F) {
+                            int t;
+                            if (r < 3.0F) {
+                                t = 240;
+                            } else if (r < 6.0F) {
+                                t = (int) (240.0F - (r - 3.0F) * (r - 3.0F) * (r - 3.0F));
+                            } else {
+                                t = (int) (-15.375F * (r - 8.0F) * (r * (r - 9.4146341F) + 27.414634F));
+                            }
                             if (livingEntity.getTicksFrozen() < t) {
                                 livingEntity.setTicksFrozen(t);
                             }
-                            livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 3));
-                        } else if (r < 6.0F) {
-                            t = (int) (240.0F - (r - 3.0F) * (r - 3.0F) * (r - 3.0F));
-                            if (livingEntity.getTicksFrozen() < t) {
-                                livingEntity.setTicksFrozen(t);
+                            if (r < 3.0F) {
+                                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 3));
+                            } else if (r < 6.0F) {
+                                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 2));
+                            } else {
+                                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 1));
                             }
-                            livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 2));
-                        } else if (r < 8F) {
-                            t = (int) (-15.375F * (r - 8.0F) * (r * (r - 9.4146341F) + 27.414634F));
-                            if (livingEntity.getTicksFrozen() < t) {
-                                livingEntity.setTicksFrozen(t);
-                            }
-                            livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 1));
+                            livingEntity.hurt(pLevel.damageSources().playerAttack(pPlayer), Float.MIN_VALUE);
                         }
-                        if (livingEntity.getTicksFrozen() < t) {
-                            livingEntity.setTicksFrozen(t);
-                        }
-                        livingEntity.hurt(pLevel.damageSources().playerAttack(pPlayer), Float.MIN_VALUE);
                     }
                 }
             }

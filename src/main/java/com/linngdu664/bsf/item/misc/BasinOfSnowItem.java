@@ -52,21 +52,23 @@ public class BasinOfSnowItem extends Item {
                     Vec3 rVec2 = new Vec3(rVec1.x, livingEntity.getY() - pPlayer.getEyeY(), rVec1.z);
                     if (BSFMthUtil.vec3AngleCos(rVec1, cameraVec) > 0.9363291776 && isNotBlocked(rVec1, rVec2, pPlayer, pLevel)) {
                         float r = (float) rVec1.length();
-                        int t;
-                        if (r < 5.0F) {
-                            t = 180;
+                        if (r < 8.0F) {
+                            int t;
+                            if (r < 5.0F) {
+                                t = 180;
+                            } else {
+                                t = (int) (180.0F - 6.6666667F * (r - 5.0F) * (r - 5.0F) * (r - 5.0F));
+                            }
                             if (livingEntity.getTicksFrozen() < t) {
                                 livingEntity.setTicksFrozen(t);
                             }
-                            livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 2));
-                        } else if (r < 8.0F) {
-                            t = (int) (180.0F - 6.6666667F * (r - 5.0F) * (r - 5.0F) * (r - 5.0F));
-                            if (livingEntity.getTicksFrozen() < t) {
-                                livingEntity.setTicksFrozen(t);
+                            if (r < 5.0F) {
+                                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 2));
+                            } else {
+                                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 1));
                             }
-                            livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 1));
+                            livingEntity.hurt(pLevel.damageSources().playerAttack(pPlayer), Float.MIN_VALUE);
                         }
-                        livingEntity.hurt(pLevel.damageSources().playerAttack(pPlayer), Float.MIN_VALUE);
                     }
                 }
             }
@@ -90,8 +92,8 @@ public class BasinOfSnowItem extends Item {
      * @return Both rVec and rVec1 are blocked by solid block: false. Otherwise: true.
      */
     public boolean isNotBlocked(Vec3 rVec, Vec3 rVec1, Player player, Level level) {
-        double offsetX = 0.25 * rVec.z * Mth.fastInvSqrt(BSFMthUtil.modSqr(rVec.x, rVec.z));
-        double offsetZ = 0.25 * rVec.x * Mth.fastInvSqrt(BSFMthUtil.modSqr(rVec.x, rVec.z));
+        double offsetX = 0.25 * rVec.z * Mth.invSqrt(BSFMthUtil.modSqr(rVec.x, rVec.z));
+        double offsetZ = 0.25 * rVec.x * Mth.invSqrt(BSFMthUtil.modSqr(rVec.x, rVec.z));
         double x = player.getX();
         double y = player.getEyeY();
         double z = player.getZ();
