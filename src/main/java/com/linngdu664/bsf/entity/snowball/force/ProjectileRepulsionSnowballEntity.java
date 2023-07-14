@@ -98,6 +98,6 @@ public class ProjectileRepulsionSnowballEntity extends AbstractForceSnowballEnti
 
     @Override
     protected @NotNull Item getDefaultItem() {
-        return ItemRegister.PROJECTILE_GRAVITY_SNOWBALL.get();
+        return ItemRegister.PROJECTILE_REPULSION_SNOWBALL.get();
     }
 }
