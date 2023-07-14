@@ -102,9 +102,10 @@ public class FrozenSnowballEntity extends AbstractBSFSnowballEntity {
                 List<LivingEntity> list = TargetGetter.getTargetList(this, LivingEntity.class, 2.5F);
                 for (LivingEntity entity : list) {
                     if (distanceToSqr(entity) < frozenRange * frozenRange && !(entity instanceof BSFSnowGolemEntity) && !(entity instanceof SnowGolem)) {
-                        if (getBasicFrozenTicks() > 0) {
-                            if (entity.getTicksFrozen() < getBasicFrozenTicks()) {
-                                entity.setTicksFrozen(getBasicFrozenTicks());
+                        int frozenTicks = launchAdjustment.adjustFrozenTicks(getBasicFrozenTicks());
+                        if (frozenTicks > 0) {
+                            if (entity.getTicksFrozen() < frozenTicks) {
+                                entity.setTicksFrozen(frozenTicks);
                             }
                             entity.hurt(level.damageSources().thrown(this, this.getOwner()), Float.MIN_NORMAL);
                             if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
