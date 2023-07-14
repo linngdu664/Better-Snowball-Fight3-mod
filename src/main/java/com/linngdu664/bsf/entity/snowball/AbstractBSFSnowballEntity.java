@@ -3,6 +3,7 @@ package com.linngdu664.bsf.entity.snowball;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
+import com.linngdu664.bsf.event.BSFConfig;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.tool.GloveItem;
 import com.linngdu664.bsf.particle.ParticleRegister;
@@ -182,7 +183,7 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
 
     protected void handleExplosion(float radius) {
         Level level = level();
-        if (level.getGameRules().getBoolean((GameRules.RULE_MOBGRIEFING))) {
+        if (level.getGameRules().getBoolean((GameRules.RULE_MOBGRIEFING)) && BSFConfig.destroyMode) {
             level.explode(null, this.getX(), this.getY(), this.getZ(), radius, Level.ExplosionInteraction.TNT);
         } else {
             level.explode(null, this.getX(), this.getY(), this.getZ(), radius, Level.ExplosionInteraction.NONE);

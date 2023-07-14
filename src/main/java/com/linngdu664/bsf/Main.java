@@ -22,6 +22,7 @@ public class Main {
     public static final String MODID = "bsf";
 
     public Main() {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BSFConfig.SPEC);
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         BlockRegister.BLOCKS.register(bus);
         BlockEntityRegister.BLOCK_ENTITIES.register(bus);
@@ -32,7 +33,6 @@ public class Main {
         EnchantmentRegister.REGISTRY.register(bus);
         EntityRegister.ENTITY_TYPES.register(bus);
         CreativeTabRegister.CREATIVE_TABS.register(bus);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BSFConfig.SPEC);
         MinecraftForge.EVENT_BUS.register(new AttackEntityEvent());
         MinecraftForge.EVENT_BUS.register(new OnPlayerTickEvent());
         MinecraftForge.EVENT_BUS.register(new LivingFallEvent());
