@@ -1,46 +1,37 @@
 package com.linngdu664.bsf.block;
 
-import com.linngdu664.bsf.blockentity.BlockEntityRegister;
-import com.linngdu664.bsf.blockentity.CriticalSnowBlockEntity;
+import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class CriticalSnowBlock extends Block implements EntityBlock {
-    public CriticalSnowBlock() {
-        super(Properties.copy(Blocks.SNOW).speedFactor(0.2F).jumpFactor(0.2F).noLootTable());
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new CriticalSnowBlockEntity(pPos, pState);
-    }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pBlockEntityType == BlockEntityRegister.CRITICAL_SNOW_BLOCK_ENTITY.get() ? CriticalSnowBlockEntity::tick : null;
+public class SnowTrap extends Block {
+    public SnowTrap() {
+        super(Properties.copy(Blocks.SNOW).noLootTable());
     }
 
     @Override
@@ -87,6 +78,25 @@ public class CriticalSnowBlock extends Block implements EntityBlock {
             return true;
         } else {
             return Block.isFaceFull(blockstate.getCollisionShape(pLevel, pPos.below()), Direction.UP);
+        }
+    }
+
+    @Override
+    public void entityInside(@NotNull BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
+        if (pEntity instanceof LivingEntity livingEntity && pLevel instanceof ServerLevel serverLevel) {
+            if (!(livingEntity instanceof BSFSnowGolemEntity) && !(livingEntity instanceof SnowGolem)) {
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 2));
+                if (livingEntity.getTicksFrozen() < 60) {
+                    livingEntity.setTicksFrozen(60);
+                }
+            }
+            pLevel.setBlock(pPos, Blocks.SNOW.defaultBlockState(), 3);
+            double x = pPos.getX() + 0.5;
+            double y = pPos.getY() + 0.5;
+            double z = pPos.getZ() + 0.5;
+            serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, x, y, z, 200, 0, 0, 0, 0.32);
+            serverLevel.playSound(null, x, y, z, SoundEvents.PLAYER_HURT_FREEZE, SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+            serverLevel.playSound(null, x, y, z, SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
         }
     }
 }
