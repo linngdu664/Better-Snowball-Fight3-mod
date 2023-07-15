@@ -144,11 +144,7 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
         // Spawn trace particles
         Level level = level();
         if (!level.isClientSide) {
-            ServerLevel serverLevel = (ServerLevel) level;
-            serverLevel.sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
-            if (launchAdjustment.getLaunchFrom().equals(LaunchFrom.POWERFUL_CANNON)) {
-                serverLevel.sendParticles(new ShriekParticleOption(0), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
-            }
+            ((ServerLevel) level).sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
         }
     }
 
@@ -187,11 +183,14 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
 
     protected void handleExplosion(float radius) {
         Level level = level();
-        if (level.getGameRules().getBoolean((GameRules.RULE_MOBGRIEFING)) && BSFConfig.destroyMode) {
-            level.explode(null, this.getX(), this.getY(), this.getZ(), radius, Level.ExplosionInteraction.TNT);
-        } else {
-            level.explode(null, this.getX(), this.getY(), this.getZ(), radius, Level.ExplosionInteraction.NONE);
+        if (!level.isClientSide){
+            if (level.getGameRules().getBoolean((GameRules.RULE_MOBGRIEFING)) && BSFConfig.destroyMode) {
+                level.explode(null, this.getX(), this.getY(), this.getZ(), radius, Level.ExplosionInteraction.TNT);
+            } else {
+                level.explode(null, this.getX(), this.getY(), this.getZ(), radius, Level.ExplosionInteraction.NONE);
+            }
         }
+
     }
 
     public void forceEffect(Class<? extends Entity> targetClass, double range, double boundaryR2, double GM) {
