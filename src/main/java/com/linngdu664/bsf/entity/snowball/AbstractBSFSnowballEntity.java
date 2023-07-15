@@ -8,10 +8,7 @@ import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.tool.GloveItem;
 import com.linngdu664.bsf.particle.ParticleRegister;
 import com.linngdu664.bsf.util.TargetGetter;
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.core.particles.*;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,7 +33,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import net.minecraft.world.level.block.SculkShriekerBlock;
 
 import java.util.List;
 
