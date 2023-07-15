@@ -1,4 +1,4 @@
-package com.linngdu664.bsf.blockentity;
+package com.linngdu664.bsf.block.entity;
 
 import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.BlockPos;

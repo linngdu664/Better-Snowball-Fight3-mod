@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.block;
 
-import com.linngdu664.bsf.blockentity.BlockEntityRegister;
-import com.linngdu664.bsf.blockentity.LooseSnowBlockEntity;
+import com.linngdu664.bsf.block.entity.BlockEntityRegister;
+import com.linngdu664.bsf.block.entity.LooseSnowBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
