@@ -242,6 +242,10 @@
 			"translation": [0, 3.25, 6.25],
 			"scale": [0.88, 0.88, 0.88]
 		},
+		"thirdperson_lefthand": {
+			"translation": [0, 3.25, 6.25],
+			"scale": [0.88, 0.88, 0.88]
+		},
 		"firstperson_righthand": {
 			"rotation": [25.65, 22.39, -5.08],
 			"translation": [1.75, 0, 1],
