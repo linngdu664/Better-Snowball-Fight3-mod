@@ -61,16 +61,18 @@ public class SpectralSnowballEntity extends AbstractBSFSnowballEntity {
         Level level = level();
         if (!level().isClientSide) {
             if (!isCaught) {
+                boolean flag = false;
                 ((ServerLevel) level).sendParticles( ParticleTypes.FIREWORK, this.getX(), this.getY(), this.getZ(), 60, 0, 0, 0, 0.1);
-                List<LivingEntity> list = TargetGetter.getTargetList(this, LivingEntity.class, 2);
+                List<LivingEntity> list = TargetGetter.getTargetList(this, LivingEntity.class, 2.5);
                 for (LivingEntity livingEntity : list) {
-                    if (this.distanceTo(livingEntity) < 2) {
+                    if (this.distanceTo(livingEntity) < 2.5) {
                         livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 0));
-                        if (livingEntity instanceof ServerPlayer player) {
-                            player.connection.send(new ClientboundSoundPacket(Holder.direct(SoundEvents.BELL_RESONATE), SoundSource.PLAYERS, player.getX(), player.getY(), player.getZ(), 1.0F, 0.67F, 0L));
-                            player.connection.send(new ClientboundSoundPacket(Holder.direct(SoundEvents.EXPERIENCE_ORB_PICKUP), SoundSource.PLAYERS, player.getX(), player.getY(), player.getZ(), 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F, 0L));
-                        }
+                        flag = true;
                     }
+                }
+                if (flag) {
+                    level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.NEUTRAL, 1F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                    level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.BELL_RESONATE, SoundSource.NEUTRAL, 1F, 0.66666667F);
                 }
             }
             this.discard();
