@@ -93,6 +93,7 @@ public class SpectralSnowballEntity extends AbstractBSFSnowballEntity {
             ((ServerLevel) level).sendParticles(ParticleTypes.INSTANT_EFFECT, this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
         }
     }
+
     @Override
     public boolean canBeCaught() {
         return true;

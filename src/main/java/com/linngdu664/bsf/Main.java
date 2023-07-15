@@ -1,7 +1,7 @@
 package com.linngdu664.bsf;
 
 import com.linngdu664.bsf.block.BlockRegister;
-import com.linngdu664.bsf.blockentity.BlockEntityRegister;
+import com.linngdu664.bsf.block.entity.BlockEntityRegister;
 import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.EntityRegister;
@@ -22,8 +22,8 @@ public class Main {
     public static final String MODID = "bsf";
 
     public Main() {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BSFConfig.SPEC);
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BSFConfig.SPEC);
         BlockRegister.BLOCKS.register(bus);
         BlockEntityRegister.BLOCK_ENTITIES.register(bus);
         ItemRegister.ITEMS.register(bus);
