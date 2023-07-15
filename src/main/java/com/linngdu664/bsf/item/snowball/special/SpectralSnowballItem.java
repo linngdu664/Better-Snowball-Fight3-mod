@@ -1,4 +1,4 @@
-package com.linngdu664.bsf.item.snowball.normal;
+package com.linngdu664.bsf.item.snowball.special;
 
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.special.SpectralSnowballEntity;
@@ -40,7 +40,7 @@ public class SpectralSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
-        return throwOrStorage(pPlayer, pLevel, ItemRegister.SPECTRAL_SNOWBALL_TANK.get(), pUsedHand, 1.5F, 0);
+        return throwOrStorage(pPlayer, pLevel, ItemRegister.SPECTRAL_SNOWBALL_TANK.get(), pUsedHand, 1.5F, 10);
 //        ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
 //        if (!storageInTank(pPlayer, itemStack, ItemRegister.SPECTRAL_SNOWBALL_TANK.get())) {
 //            pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));

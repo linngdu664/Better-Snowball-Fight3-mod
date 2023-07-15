@@ -11,11 +11,13 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,10 +62,10 @@ public class SpectralSnowballEntity extends AbstractBSFSnowballEntity {
             if (!isCaught) {
                 boolean flag = false;
                 ((ServerLevel) level).sendParticles( ParticleTypes.FIREWORK, this.getX(), this.getY(), this.getZ(), 60, 0, 0, 0, 0.1);
-                List<LivingEntity> list = TargetGetter.getTargetList(this, LivingEntity.class, 2.5);
+                List<LivingEntity> list = TargetGetter.getTargetList(this, LivingEntity.class, 3.5);
                 for (LivingEntity livingEntity : list) {
-                    if (this.distanceTo(livingEntity) < 2.5) {
-                        livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 0));
+                    if (this.distanceTo(livingEntity) < 3.5) {
+                        livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 70, 0));
                         flag = true;
                     }
                 }
