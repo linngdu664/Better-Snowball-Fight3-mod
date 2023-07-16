@@ -34,8 +34,9 @@ public class Main {
         EntityRegister.ENTITY_TYPES.register(bus);
         CreativeTabRegister.CREATIVE_TABS.register(bus);
         MinecraftForge.EVENT_BUS.register(new AttackEntityEvent());
-        MinecraftForge.EVENT_BUS.register(new OnPlayerTickEvent());
+        MinecraftForge.EVENT_BUS.register(new PlayerTickEvent());
         MinecraftForge.EVENT_BUS.register(new LivingFallEvent());
         MinecraftForge.EVENT_BUS.register(new LoadLootTableEvent());
+        MinecraftForge.EVENT_BUS.register(new RenderOverlayEvent());
     }
 }

@@ -29,12 +29,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
-    private float recoil;
+    private double recoil;
     private ItemStack ammo;
     private boolean isExplosive;
+    public static final int TYPE_FLAG = 4;
+
 
     public SnowballMachineGunItem() {
-        super(1919, Rarity.EPIC);
+        super(1919, Rarity.EPIC, TYPE_FLAG);
     }//1919
 
 //    @Override
@@ -90,9 +92,9 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
-        ammo = findAmmo(pPlayer);
+        ammo = getAmmo(pPlayer);
         if (ammo != null) {
-            recoil = ((AbstractSnowballTankItem) ammo.getItem()).getSnowball().getRecoil();
+            recoil = ((AbstractSnowballTankItem) ammo.getItem()).getSnowball().getMachineGunRecoil();
             isExplosive = ammo.getItem() instanceof ExplosiveSnowballTank || ammo.getItem() instanceof ExplosivePlayerTrackingSnowballTank || ammo.getItem() instanceof ExplosiveMonsterTrackingSnowballTank;
             pPlayer.startUsingItem(pUsedHand);
             return InteractionResultHolder.consume(stack);
@@ -128,7 +130,7 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
         }
         // set pitch according to recoil.
         if (pitch > -90.0F && pLevel.isClientSide() && (!isExplosive || pRemainingUseDuration % 6 < 3)) {
-            player.setXRot(pitch - recoil);
+            player.setXRot(pitch - (float) recoil);
         }
     }
 
@@ -152,6 +154,11 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
     }
 
     @Override
+    public boolean isAllowBulkedSnowball() {
+        return false;
+    }
+
+    @Override
     public int getUseDuration(@NotNull ItemStack pStack) {
 //        super.getUseDuration(pStack);
         if (isExplosive) {
@@ -167,15 +174,15 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_machine_gun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 
-    @Override
-    protected ItemStack findAmmo(Player player) {
-        int k = player.getInventory().getContainerSize();
-        for (int j = 0; j < k; j++) {
-            ItemStack itemStack = player.getInventory().getItem(j);
-            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && tank.getSnowball().canBeLaunchedByMachineGun()) {
-                return itemStack;
-            }
-        }
-        return null;
-    }
+//    @Override
+//    public ItemStack findAmmo(Player player) {
+//        int k = player.getInventory().getContainerSize();
+//        for (int j = 0; j < k; j++) {
+//            ItemStack itemStack = player.getInventory().getItem(j);
+//            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && tank.getSnowball().canBeLaunchedByMachineGun()) {
+//                return itemStack;
+//            }
+//        }
+//        return null;
+//    }
 }

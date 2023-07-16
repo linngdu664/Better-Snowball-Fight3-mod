@@ -3,7 +3,6 @@ package com.linngdu664.bsf.item.weapon;
 import com.linngdu664.bsf.entity.snowball.nomal.SmoothSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
-import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.particle.ParticleRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -25,9 +24,42 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-public class SnowmanInHandItem extends AbstractBSFWeaponItem {
+public class SnowmanInHandItem extends Item {
+    private static final ILaunchAdjustment LAUNCH_ADJUSTMENT = new ILaunchAdjustment() {
+        @Override
+        public double adjustPunch(double punch) {
+            return punch + 1;
+        }
+
+        @Override
+        public int adjustWeaknessTicks(int weaknessTicks) {
+            return weaknessTicks;
+        }
+
+        @Override
+        public int adjustFrozenTicks(int frozenTicks) {
+            return frozenTicks;
+        }
+
+        @Override
+        public float adjustDamage(float damage) {
+            return damage;
+        }
+
+        @Override
+        public float adjustBlazeDamage(float blazeDamage) {
+            return blazeDamage;
+        }
+
+        @Override
+        public LaunchFrom getLaunchFrom() {
+            return LaunchFrom.SNOWMAN_IN_HAND;
+        }
+    };
+
+
     public SnowmanInHandItem() {
-        super(256, Rarity.EPIC);
+        super(new Properties().stacksTo(1).durability(256).rarity(Rarity.EPIC));
     }
 
     @Override
@@ -53,11 +85,11 @@ public class SnowmanInHandItem extends AbstractBSFWeaponItem {
                     player.push(-cameraVec.x * 0.025, -cameraVec.y * 0.025, -cameraVec.z * 0.025);
                 } else {
                     for (int i = 0; i < 3; i++) {
-                        SmoothSnowballEntity snowballEntity = new SmoothSnowballEntity(player, pLevel, getLaunchAdjustment(1, ItemRegister.SMOOTH_SNOWBALL.get()));
+                        SmoothSnowballEntity snowballEntity = new SmoothSnowballEntity(player, pLevel, LAUNCH_ADJUSTMENT);
                         if (player.isShiftKeyDown()) {
-                            BSFShootFromRotation(snowballEntity, pitch, yaw, 1, 10.0F);
+                            snowballEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1, 10.0F);
                         } else {
-                            BSFShootFromRotation(snowballEntity, pitch, yaw, 1, 15.0F);
+                            snowballEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1, 15.0F);
                         }
 
                         pLevel.addFreshEntity(snowballEntity);
@@ -89,47 +121,7 @@ public class SnowmanInHandItem extends AbstractBSFWeaponItem {
     }
 
     @Override
-    protected ItemStack findAmmo(Player player) {
-        return null;
-    }
-
-    @Override
     public int getEnchantmentValue(ItemStack stack) {
         return 0;
-    }
-
-    @Override
-    public ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball) {
-        return new ILaunchAdjustment() {
-            @Override
-            public double adjustPunch(double punch) {
-                return punch + 1;
-            }
-
-            @Override
-            public int adjustWeaknessTicks(int weaknessTicks) {
-                return weaknessTicks;
-            }
-
-            @Override
-            public int adjustFrozenTicks(int frozenTicks) {
-                return frozenTicks;
-            }
-
-            @Override
-            public float adjustDamage(float damage) {
-                return damage;
-            }
-
-            @Override
-            public float adjustBlazeDamage(float blazeDamage) {
-                return blazeDamage;
-            }
-
-            @Override
-            public LaunchFrom getLaunchFrom() {
-                return LaunchFrom.SNOWMAN_IN_HAND;
-            }
-        };
     }
 }

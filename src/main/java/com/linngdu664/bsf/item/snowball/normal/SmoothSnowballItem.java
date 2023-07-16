@@ -20,6 +20,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -47,7 +48,6 @@ public class SmoothSnowballItem extends AbstractBSFSnowballItem {
         if (pUsedHand == InteractionHand.MAIN_HAND) {
             pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
             if (!pLevel.isClientSide) {
-//                AbstractBSFSnowballEntity snowballEntity = getCorrespondingEntity(pLevel, pPlayer, getLaunchAdjustment(getSnowballDamageRate(pPlayer)));
                 SmoothSnowballEntity snowballEntity = new SmoothSnowballEntity(pPlayer, pLevel, getLaunchAdjustment(getSnowballDamageRate(pPlayer)));
                 snowballEntity.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 1.25F * getSnowballSlowdownRate(pPlayer), 1.0F);
                 pLevel.addFreshEntity(snowballEntity);
@@ -71,13 +71,13 @@ public class SmoothSnowballItem extends AbstractBSFSnowballItem {
     }
 
     @Override
-    public boolean canBeLaunchedByMachineGun() {
-        return false;
+    public int getTypeFlag() {
+        return 0;
     }
 
     @Override
-    public boolean canBeLaunchedByNormalWeapon() {
-        return false;
+    public Item getTank() {
+        return ItemRegister.SMOOTH_SNOWBALL.get();
     }
 
     @Override

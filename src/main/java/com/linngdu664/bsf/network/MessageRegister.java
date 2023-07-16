@@ -10,5 +10,6 @@ public class MessageRegister {
     public static void registerMessage(FMLCommonSetupEvent event) {
         Network.addNetworkMessage(AmmoRotateRight.class, AmmoRotateRight::buffer, AmmoRotateRight::new, AmmoRotateRight::handler);
         Network.addNetworkMessage(ForwardConeParticlesSender.class, ForwardConeParticlesSender::encoder, ForwardConeParticlesSender::decoder, ForwardConeParticlesSender::messageConsumer);
+        Network.addNetworkMessage(AmmoTypeSendToServer.class, AmmoTypeSendToServer::encoder, AmmoTypeSendToServer::decoder, AmmoTypeSendToServer::messageConsumer);
     }
 }

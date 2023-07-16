@@ -236,7 +236,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         Level level = level();
         if (!level.isClientSide && pPlayer.equals(getOwner())) {
             ItemStack itemStack = pPlayer.getItemInHand(pHand);
-            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && tank.getSnowball().canBeLaunchedByNormalWeapon() && !(tank instanceof PowderSnowballTank) && getAmmo().isEmpty()) {
+            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && tank.getSnowball().getTypeFlag() == (SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG) && !(tank instanceof PowderSnowballTank) && getAmmo().isEmpty()) {
                 setAmmo(itemStack.copy());
                 if (!pPlayer.getAbilities().instabuild) {
                     itemStack.shrink(1);

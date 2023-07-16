@@ -158,19 +158,21 @@ public abstract class AbstractBSFSnowballItem extends Item {
 //    public abstract BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc);
     public abstract AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment);
 
-    public boolean canBeLaunchedByMachineGun() {
-        return true;
+//    public boolean canBeLaunchedByMachineGun() {
+//        return true;
+//    }
+//
+//    public boolean canBeLaunchedByNormalWeapon() {
+//        return true;
+//    }
+    public abstract int getTypeFlag();
+    public abstract Item getTank();
+
+    public double getMachineGunRecoil() {
+        return 0.075;
     }
 
-    public boolean canBeLaunchedByNormalWeapon() {
-        return true;
-    }
-
-    public float getRecoil() {
-        return 0.075F;
-    }
-
-    public double getPushRank() {
+    public double getShotgunPushRank() {
         return 0.1;
     }
 }

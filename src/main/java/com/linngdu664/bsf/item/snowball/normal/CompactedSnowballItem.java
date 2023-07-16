@@ -5,6 +5,9 @@ import com.linngdu664.bsf.entity.snowball.nomal.CompactedSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
+import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
+import com.linngdu664.bsf.item.weapon.SnowballMachineGunItem;
+import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.Position;
@@ -17,6 +20,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -41,29 +45,21 @@ public class CompactedSnowballItem extends AbstractBSFSnowballItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
         return throwOrStorage(pPlayer, pLevel, ItemRegister.COMPACTED_SNOWBALL_TANK.get(), pUsedHand, 1.5F, 0);
-//        ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
-//        if (!storageInTank(pPlayer, itemStack, ItemRegister.COMPACTED_SNOWBALL_TANK.get())) {
-//            pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
-//            if (!pLevel.isClientSide) {
-//                BSFSnowballEntity snowballEntity = new CompactedSnowballEntity(pPlayer, pLevel, getLaunchFunc(getSnowballDamageRate(pPlayer)));
-//                snowballEntity.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 1.5F * getSnowballSlowdownRate(pPlayer), 1.0F);
-//                pLevel.addFreshEntity(snowballEntity);
-//            }
-//            if (!pPlayer.getAbilities().instabuild) {
-//                itemStack.shrink(1);
-//            }
-//        }
-//        pPlayer.awardStat(Stats.ITEM_USED.get(this));
-//        return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 
-//    @Override
-//    public BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc) {
-//        return new CompactedSnowballEntity(livingEntity, level, launchFunc);
-//    }
     @Override
     public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
         return new CompactedSnowballEntity(livingEntity, level, launchAdjustment);
+    }
+
+    @Override
+    public int getTypeFlag() {
+        return SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG;
+    }
+
+    @Override
+    public Item getTank() {
+        return ItemRegister.COMPACTED_SNOWBALL_TANK.get();
     }
 
     @Override

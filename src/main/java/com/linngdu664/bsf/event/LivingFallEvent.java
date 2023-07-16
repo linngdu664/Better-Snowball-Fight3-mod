@@ -21,7 +21,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class LivingFallEvent {
     @SubscribeEvent
-    public void livingFall(net.minecraftforge.event.entity.living.LivingFallEvent event) {
+    public void onLivingFall(net.minecraftforge.event.entity.living.LivingFallEvent event) {
         if (event.getEntity() instanceof Player player) {
             Level level = player.level();
             ItemStack shoes = player.getItemBySlot(EquipmentSlot.FEET);

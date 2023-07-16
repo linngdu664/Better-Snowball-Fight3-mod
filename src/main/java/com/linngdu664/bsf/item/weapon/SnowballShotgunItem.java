@@ -4,6 +4,7 @@ import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
+import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.snowball.special.ThrustSnowballItem;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
@@ -34,8 +35,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SnowballShotgunItem extends AbstractBSFWeaponItem {
+    public static final int TYPE_FLAG = 2;
+
     public SnowballShotgunItem() {
-        super(1145, Rarity.EPIC);
+        super(1145, Rarity.EPIC, TYPE_FLAG);
     }
 
 //    public LaunchFunc getLaunchFunc(double damageDropRate) {
@@ -88,6 +91,11 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
     }
 
     @Override
+    public boolean isAllowBulkedSnowball() {
+        return true;
+    }
+
+    @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
         if (EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.SNOW_GOLEM_EXCLUSIVE.get(), stack) > 0) {
@@ -96,32 +104,31 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
         double pushRank = 0.24;
         int i;
         for (i = 0; i < 4; i++) {
-            ItemStack itemStack;
-            if (player.isShiftKeyDown()) {
-                itemStack = findPropulsionSnowballAmmo(player);
-                if (itemStack == null) {
-                    itemStack = findAmmo(player);
-                }
-            } else {
-                itemStack = findAmmo(player);
-            }
-            if (itemStack != null) {
-                AbstractBSFSnowballEntity snowballEntity = ItemToEntity(itemStack.getItem(), player, level, getLaunchAdjustment(1, itemStack.getItem()));
-                Item item = itemStack.getItem();
-                if (item instanceof AbstractSnowballTankItem tank) {
-                    item = tank.getSnowball();
-                }
-                if (item instanceof AbstractBSFSnowballItem snowball) {
-                    pushRank += snowball.getPushRank();
-                }
-                if (!player.isShiftKeyDown()) {
-                    BSFShootFromRotation(snowballEntity, player.getXRot(), player.getYRot(), 2.0F, 10.0F);
-                    level.addFreshEntity(snowballEntity);
-                }
-                consumeAmmo(itemStack, player);
-            } else {
+            ItemStack itemStack = getAmmo(player);
+//            if (player.isShiftKeyDown()) {
+//                itemStack = findPropulsionSnowballAmmo(player);
+//                if (itemStack == null) {
+//                    itemStack = findAmmo(player);
+//                }
+//            } else {
+//                itemStack = getAmmo(player);
+//            }
+            if (itemStack == null || !player.isShiftKeyDown() && (itemStack.getItem().equals(ItemRegister.THRUST_SNOWBALL.get()) || itemStack.getItem().equals(ItemRegister.THRUST_SNOWBALL_TANK.get()))) {
                 break;
             }
+            AbstractBSFSnowballEntity snowballEntity = ItemToEntity(itemStack.getItem(), player, level, getLaunchAdjustment(1, itemStack.getItem()));
+            Item item = itemStack.getItem();
+            if (item instanceof AbstractSnowballTankItem tank) {
+                item = tank.getSnowball();
+            }
+            if (item instanceof AbstractBSFSnowballItem snowball) {
+                pushRank += snowball.getShotgunPushRank();
+            }
+            if (!player.isShiftKeyDown()) {
+                BSFShootFromRotation(snowballEntity, player.getXRot(), player.getYRot(), 2.0F, 10.0F);
+                level.addFreshEntity(snowballEntity);
+            }
+            consumeAmmo(itemStack, player);
         }
         if (i > 0) {
             Vec3 cameraVec = Vec3.directionFromRotation(player.getXRot(), player.getYRot());
@@ -147,22 +154,22 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
         return InteractionResultHolder.pass(stack);
     }
 
-    private ItemStack findPropulsionSnowballAmmo(Player player) {
-        int k = player.getInventory().getContainerSize();
-        for (int j = 0; j < k; j++) {
-            ItemStack itemStack = player.getInventory().getItem(j);
-            if (itemStack.getItem() instanceof ThrustSnowballTank) {
-                return itemStack;
-            }
-        }
-        for (int j = 0; j < k; j++) {
-            ItemStack itemStack = player.getInventory().getItem(j);
-            if (itemStack.getItem() instanceof ThrustSnowballItem) {
-                return itemStack;
-            }
-        }
-        return null;
-    }
+//    private ItemStack findPropulsionSnowballAmmo(Player player) {
+//        int k = player.getInventory().getContainerSize();
+//        for (int j = 0; j < k; j++) {
+//            ItemStack itemStack = player.getInventory().getItem(j);
+//            if (itemStack.getItem() instanceof ThrustSnowballTank) {
+//                return itemStack;
+//            }
+//        }
+//        for (int j = 0; j < k; j++) {
+//            ItemStack itemStack = player.getInventory().getItem(j);
+//            if (itemStack.getItem() instanceof ThrustSnowballItem) {
+//                return itemStack;
+//            }
+//        }
+//        return null;
+//    }
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
@@ -172,21 +179,21 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_shotgun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 
-    @Override
-    protected ItemStack findAmmo(Player player) {
-        int k = player.getInventory().getContainerSize();
-        for (int j = 0; j < k; j++) {
-            ItemStack itemStack = player.getInventory().getItem(j);
-            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && tank.getSnowball().canBeLaunchedByNormalWeapon()) {
-                return itemStack;
-            }
-        }
-        for (int j = 0; j < k; j++) {
-            ItemStack itemStack = player.getInventory().getItem(j);
-            if (itemStack.getItem() instanceof AbstractBSFSnowballItem snowball && snowball.canBeLaunchedByNormalWeapon()) {
-                return itemStack;
-            }
-        }
-        return null;
-    }
+//    @Override
+//    public ItemStack findAmmo(Player player) {
+//        int k = player.getInventory().getContainerSize();
+//        for (int j = 0; j < k; j++) {
+//            ItemStack itemStack = player.getInventory().getItem(j);
+//            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && tank.getSnowball().canBeLaunchedByNormalWeapon()) {
+//                return itemStack;
+//            }
+//        }
+//        for (int j = 0; j < k; j++) {
+//            ItemStack itemStack = player.getInventory().getItem(j);
+//            if (itemStack.getItem() instanceof AbstractBSFSnowballItem snowball && snowball.canBeLaunchedByNormalWeapon()) {
+//                return itemStack;
+//            }
+//        }
+//        return null;
+//    }
 }

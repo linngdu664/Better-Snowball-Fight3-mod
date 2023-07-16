@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -55,13 +56,13 @@ public class SubspaceSnowballItem extends AbstractBSFSnowballItem {
     }
 
     @Override
-    public boolean canBeLaunchedByMachineGun() {
-        return false;
+    public int getTypeFlag() {
+        return 0;
     }
 
     @Override
-    public boolean canBeLaunchedByNormalWeapon() {
-        return false;
+    public Item getTank() {
+        return ItemRegister.SUBSPACE_SNOWBALL_TANK.get();
     }
 
     @Override

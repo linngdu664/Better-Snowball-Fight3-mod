@@ -5,6 +5,8 @@ import com.linngdu664.bsf.entity.snowball.tracking.ExplosiveMonsterTrackingSnowb
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
+import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
+import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -14,6 +16,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -47,12 +50,22 @@ public class ExplosiveMonsterTrackingSnowballItem extends AbstractBSFSnowballIte
     }
 
     @Override
-    public float getRecoil() {
-        return 0.12F;
+    public int getTypeFlag() {
+        return SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG;
     }
 
     @Override
-    public double getPushRank() {
+    public Item getTank() {
+        return ItemRegister.EXPLOSIVE_MONSTER_TRACKING_SNOWBALL_TANK.get();
+    }
+
+    @Override
+    public double getMachineGunRecoil() {
+        return 0.12;
+    }
+
+    @Override
+    public double getShotgunPushRank() {
         return 0.42;
     }
 

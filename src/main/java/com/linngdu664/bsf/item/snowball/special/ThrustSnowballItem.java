@@ -4,6 +4,7 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
+import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -12,6 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -39,17 +41,17 @@ public class ThrustSnowballItem extends AbstractBSFSnowballItem {
     }
 
     @Override
-    public boolean canBeLaunchedByMachineGun() {
-        return false;
+    public int getTypeFlag() {
+        return SnowballShotgunItem.TYPE_FLAG;
     }
 
     @Override
-    public boolean canBeLaunchedByNormalWeapon() {
-        return false;
+    public Item getTank() {
+        return ItemRegister.THRUST_SNOWBALL_TANK.get();
     }
 
     @Override
-    public double getPushRank() {
+    public double getShotgunPushRank() {
         return 0.38;
     }
 
