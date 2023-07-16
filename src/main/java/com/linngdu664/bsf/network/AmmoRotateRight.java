@@ -54,32 +54,32 @@ public class AmmoRotateRight {
     }
 
     private static void execute(Player player) {
-        Inventory inventory = player.getInventory();
-        ItemStack itemStack;
-        Vector<Integer> list = new Vector<>();
-        boolean haveTank = false;
-        for (int j = 0; j < inventory.getContainerSize(); j++) {
-            itemStack = inventory.getItem(j);
-            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && (tank.getSnowball().canBeLaunchedByNormalWeapon() || tank.getSnowball().canBeLaunchedByMachineGun()) && !listHaveItem(inventory, list, itemStack)) {
-                list.add(j);
-                haveTank = true;
-            }
-        }
-        if (!haveTank) {
-            for (int i = 0; i < inventory.getContainerSize(); i++) {
-                itemStack = inventory.getItem(i);
-                if (itemStack.getItem() instanceof AbstractBSFSnowballItem snowball && snowball.canBeLaunchedByNormalWeapon() && !listHaveItem(inventory, list, itemStack)) {
-                    list.add(i);
-                }
-            }
-        }
-        for (int i = 0; i < list.size() - 1; i++) {
-            exchangeItem(inventory, list.get(i), list.get(i + 1));
-            int c = list.get(i);
-            list.set(i, list.get(i + 1));
-            list.set(i + 1, c);
-        }
-        player.displayClientMessage(MutableComponent.create(new TranslatableContents("current_ammunition.tip", null, new Object[0])).append(MutableComponent.create(new TranslatableContents("item.bsf." + inventory.getItem(list.get(list.size() - 1)).getItem(), null, new Object[0]))), false);
+//        Inventory inventory = player.getInventory();
+//        ItemStack itemStack;
+//        Vector<Integer> list = new Vector<>();
+//        boolean haveTank = false;
+//        for (int j = 0; j < inventory.getContainerSize(); j++) {
+//            itemStack = inventory.getItem(j);
+//            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && (tank.getSnowball().canBeLaunchedByNormalWeapon() || tank.getSnowball().canBeLaunchedByMachineGun()) && !listHaveItem(inventory, list, itemStack)) {
+//                list.add(j);
+//                haveTank = true;
+//            }
+//        }
+//        if (!haveTank) {
+//            for (int i = 0; i < inventory.getContainerSize(); i++) {
+//                itemStack = inventory.getItem(i);
+//                if (itemStack.getItem() instanceof AbstractBSFSnowballItem snowball && snowball.canBeLaunchedByNormalWeapon() && !listHaveItem(inventory, list, itemStack)) {
+//                    list.add(i);
+//                }
+//            }
+//        }
+//        for (int i = 0; i < list.size() - 1; i++) {
+//            exchangeItem(inventory, list.get(i), list.get(i + 1));
+//            int c = list.get(i);
+//            list.set(i, list.get(i + 1));
+//            list.set(i + 1, c);
+//        }
+//        player.displayClientMessage(MutableComponent.create(new TranslatableContents("current_ammunition.tip", null, new Object[0])).append(MutableComponent.create(new TranslatableContents("item.bsf." + inventory.getItem(list.get(list.size() - 1)).getItem(), null, new Object[0]))), false);
     }
 
     private static void exchangeItem(Inventory inventory, int a, int b) {
