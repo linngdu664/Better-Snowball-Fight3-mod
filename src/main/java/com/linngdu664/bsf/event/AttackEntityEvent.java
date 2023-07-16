@@ -16,7 +16,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class AttackEntityEvent {
     @SubscribeEvent
-    public void attackEntity(net.minecraftforge.event.entity.player.AttackEntityEvent event) {
+    public void onAttackEntity(net.minecraftforge.event.entity.player.AttackEntityEvent event) {
         Player player = event.getEntity();
         Entity entity = event.getTarget();
         Level level = player.level();
