@@ -20,9 +20,10 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public abstract class AbstractBSFWeaponItem extends Item {
-    private ArrayList<Item> launchOrder;      // client only
+    private LinkedList<Item> launchOrder;     // client only
     private ItemStack prevAmmoItemStack;      // client only
     private ItemStack currentAmmoItemStack;   // client only
     private ItemStack nextAmmoItemStack;      // client only
@@ -98,7 +99,7 @@ public abstract class AbstractBSFWeaponItem extends Item {
                 }
             }
             if (launchOrder == null) {
-                launchOrder = arrayList;
+                launchOrder = new LinkedList<>(arrayList);
                 if (launchOrder.isEmpty()) {
                     Network.PACKET_HANDLER.sendToServer(new AmmoTypeSendToServer(Items.AIR));
                 } else {
@@ -107,14 +108,14 @@ public abstract class AbstractBSFWeaponItem extends Item {
             } else {
                 Item oldItem = null;
                 if (!launchOrder.isEmpty()) {
-                    oldItem = launchOrder.get(0);
+                    oldItem = launchOrder.getFirst();
                 }
                 int j = launchOrder.size();
                 int i = 0;
                 while (i < arrayList.size()) {
                     Item item = arrayList.get(i);
                     if (!launchOrder.contains(item)) {
-                        launchOrder.add(item);
+                        launchOrder.addLast(item);
                         arrayList.remove(i);
                     } else {
                         i++;
@@ -133,7 +134,7 @@ public abstract class AbstractBSFWeaponItem extends Item {
                 if (launchOrder.isEmpty()) {
                     Network.PACKET_HANDLER.sendToServer(new AmmoTypeSendToServer(Items.AIR));
                 } else {
-                    Item newItem = launchOrder.get(0);
+                    Item newItem = launchOrder.getFirst();
                     if (!newItem.equals(oldItem)) {
                         Network.PACKET_HANDLER.sendToServer(new AmmoTypeSendToServer(newItem));
                     }
@@ -142,8 +143,8 @@ public abstract class AbstractBSFWeaponItem extends Item {
             if (launchOrder.isEmpty()) {
                 currentAmmoItemStack = null;
             } else {
-                Item item1 = launchOrder.get(launchOrder.size() - 1);
-                Item item2 = launchOrder.get(0);
+                Item item1 = launchOrder.getLast();
+                Item item2 = launchOrder.getFirst();
                 Item item3;
                 if (launchOrder.size() == 1) {
                     item3 = item1;
@@ -211,7 +212,7 @@ public abstract class AbstractBSFWeaponItem extends Item {
         return null;
     }
 
-    public ArrayList<Item> getLaunchOrder() {
+    public LinkedList<Item> getLaunchOrder() {
         return launchOrder;
     }
 
