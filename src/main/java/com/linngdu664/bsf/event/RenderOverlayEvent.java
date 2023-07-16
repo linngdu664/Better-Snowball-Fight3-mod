@@ -8,6 +8,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -48,13 +49,14 @@ public class RenderOverlayEvent {
 //                    int cnt1 = getAmmoCount(itemStack1.getItem(), player, weaponItem);
 //                    int cnt2 = getAmmoCount(itemStack2.getItem(), player, weaponItem);
 //                    int cnt3 = getAmmoCount(itemStack3.getItem(), player, weaponItem);
-                    guiGraphics.renderItem(itemStack1, 0, 90);
-                    guiGraphics.renderItem(itemStack2, 0, 105);
-                    guiGraphics.renderItem(itemStack3, 0, 120);
+                    guiGraphics.renderItem(itemStack1, 3, 93);
+                    guiGraphics.renderItem(itemStack2, 3, 113);
+                    guiGraphics.renderItem(itemStack3, 3, 133);
 //                    instance.font.drawInBatch("sfd", 15F, 95F, 0xffffffff, true, guiGraphics.pose().last().pose(), guiGraphics.bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
-                    guiGraphics.drawString(instance.font, MutableComponent.create(new LiteralContents("123")).withStyle(ChatFormatting.WHITE), 15, 95, 0);
-                    guiGraphics.drawString(instance.font, MutableComponent.create(new LiteralContents("456")).withStyle(ChatFormatting.WHITE), 15, 110, 0);
-                    guiGraphics.drawString(instance.font, MutableComponent.create(new LiteralContents("789")).withStyle(ChatFormatting.WHITE), 15, 125, 0);
+                    guiGraphics.drawString(instance.font, MutableComponent.create(new LiteralContents("123")).withStyle(ChatFormatting.WHITE), 24, 97, 0);
+                    guiGraphics.drawString(instance.font, MutableComponent.create(new LiteralContents("456")).withStyle(ChatFormatting.WHITE), 24, 117, 0);
+                    guiGraphics.drawString(instance.font, MutableComponent.create(new LiteralContents("789")).withStyle(ChatFormatting.WHITE), 24, 137, 0);
+                    guiGraphics.blit(new ResourceLocation("bsf", "textures/gui/snowball_frame.png"), 0, 90, 0, 0, 23, 62,23,62);
                 }
             }
         }
