@@ -22,8 +22,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public abstract class AbstractBSFWeaponItem extends Item {
-    private ArrayList<Item> launchOrder;
-    private Item ammoItem = Items.AIR;
+    private ArrayList<Item> launchOrder;      // client only
+    private ItemStack prevAmmoItemStack;      // client only
+    private ItemStack currentAmmoItemStack;   // client only
+    private ItemStack nextAmmoItemStack;      // client only
+    private Item ammoItem = Items.AIR;        // server only
     private final int typeFlag;
 
     public AbstractBSFWeaponItem(int durability, Rarity rarity, int flag) {
@@ -33,8 +36,9 @@ public abstract class AbstractBSFWeaponItem extends Item {
 
 //    public abstract ItemStack findAmmo(Player player);
 
-//    public abstract LaunchFunc getLaunchFunc(double damageDropRate);
+    //    public abstract LaunchFunc getLaunchFunc(double damageDropRate);
     public abstract ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball);
+
     public abstract boolean isAllowBulkedSnowball();
 
     //Rewrite vanilla "shootFromRotation" method to remove the influence of player's velocity.
@@ -78,7 +82,7 @@ public abstract class AbstractBSFWeaponItem extends Item {
 
     @Override
     public void inventoryTick(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (pIsSelected && pEntity instanceof Player player && pLevel.isClientSide) {
+        if (pLevel.isClientSide && pEntity instanceof Player player && pIsSelected) {
             ArrayList<Item> arrayList = new ArrayList<>();
             Inventory inventory = player.getInventory();
             int k = inventory.getContainerSize();
@@ -135,6 +139,48 @@ public abstract class AbstractBSFWeaponItem extends Item {
                     }
                 }
             }
+            if (launchOrder.isEmpty()) {
+                currentAmmoItemStack = null;
+            } else {
+                Item item1 = launchOrder.get(launchOrder.size() - 1);
+                Item item2 = launchOrder.get(0);
+                Item item3;
+                if (launchOrder.size() == 1) {
+                    item3 = item1;
+                } else {
+                    item3 = launchOrder.get(1);
+                }
+                int i1 = 0, i2 = 0, i3 = 0;
+                for (int i = 0; i < k; i++) {
+                    ItemStack itemStack = inventory.getItem(i);
+                    Item item = itemStack.getItem();
+                    if (item instanceof AbstractSnowballTankItem tank) {
+                        AbstractBSFSnowballItem snowball = tank.getSnowball();
+                        if (snowball.equals(item1)) {
+                            i1 += itemStack.getMaxDamage() - itemStack.getDamageValue();
+                        } else if (snowball.equals(item2)) {
+                            i2 += itemStack.getMaxDamage() - itemStack.getDamageValue();
+                        } else if (snowball.equals(item3)) {
+                            i3 += itemStack.getMaxDamage() - itemStack.getDamageValue();
+                        }
+                    } else if (item.equals(item1)) {
+                        i1 += itemStack.getCount();
+                    } else if (item.equals(item2)) {
+                        i2 += itemStack.getCount();
+                    } else if (item.equals(item3)) {
+                        i3 += itemStack.getCount();
+                    }
+                }
+                if (item3.equals(item1)) {
+                    i3 = i1;
+                }
+                if (item2.equals(item1)) {
+                    i2 = i1;
+                }
+                prevAmmoItemStack = new ItemStack(item1, i1);
+                currentAmmoItemStack = new ItemStack(item2, i2);
+                nextAmmoItemStack = new ItemStack(item3, i3);
+            }
         }
     }
 
@@ -167,6 +213,18 @@ public abstract class AbstractBSFWeaponItem extends Item {
 
     public ArrayList<Item> getLaunchOrder() {
         return launchOrder;
+    }
+
+    public ItemStack getPrevAmmoItemStack() {
+        return prevAmmoItemStack;
+    }
+
+    public ItemStack getCurrentAmmoItemStack() {
+        return currentAmmoItemStack;
+    }
+
+    public ItemStack getNextAmmoItemStack() {
+        return nextAmmoItemStack;
     }
 
     public void setAmmoItem(Item item) {
