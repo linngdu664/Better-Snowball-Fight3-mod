@@ -8,8 +8,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 public class MessageRegister {
     @SubscribeEvent
     public static void registerMessage(FMLCommonSetupEvent event) {
-        Network.addNetworkMessage(AmmoRotateRight.class, AmmoRotateRight::buffer, AmmoRotateRight::new, AmmoRotateRight::handler);
-        Network.addNetworkMessage(ForwardConeParticlesSender.class, ForwardConeParticlesSender::encoder, ForwardConeParticlesSender::decoder, ForwardConeParticlesSender::messageConsumer);
-        Network.addNetworkMessage(AmmoTypeSendToServer.class, AmmoTypeSendToServer::encoder, AmmoTypeSendToServer::decoder, AmmoTypeSendToServer::messageConsumer);
+        Network.addNetworkMessage(ForwardConeParticlesToClient.class, ForwardConeParticlesToClient::encoder, ForwardConeParticlesToClient::decoder, ForwardConeParticlesToClient::messageConsumer);
+        Network.addNetworkMessage(AmmoTypeToServer.class, AmmoTypeToServer::encoder, AmmoTypeToServer::decoder, AmmoTypeToServer::messageConsumer);
     }
 }
