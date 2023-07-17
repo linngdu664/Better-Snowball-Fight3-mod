@@ -12,11 +12,11 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ForwardConeParticlesSender {
+public class ForwardConeParticlesToClient {
     private final double eX, eY, eZ, loweredVision, sX, sY, sZ;
     private final float aStep, rStep, r;
 
-    public ForwardConeParticlesSender(Vec3 eyePos, Vec3 sightVec, float r, float aStep, float rStep, double loweredVision) {
+    public ForwardConeParticlesToClient(Vec3 eyePos, Vec3 sightVec, float r, float aStep, float rStep, double loweredVision) {
         this.eX = eyePos.x;
         this.eY = eyePos.y;
         this.eZ = eyePos.z;
@@ -29,7 +29,7 @@ public class ForwardConeParticlesSender {
         this.loweredVision = loweredVision;
     }
 
-    public static void encoder(ForwardConeParticlesSender message, FriendlyByteBuf buffer) {
+    public static void encoder(ForwardConeParticlesToClient message, FriendlyByteBuf buffer) {
         buffer.writeDouble(message.eX);
         buffer.writeDouble(message.eY);
         buffer.writeDouble(message.eZ);
@@ -42,7 +42,7 @@ public class ForwardConeParticlesSender {
         buffer.writeDouble(message.loweredVision);
     }
 
-    public static ForwardConeParticlesSender decoder(FriendlyByteBuf buffer) {
+    public static ForwardConeParticlesToClient decoder(FriendlyByteBuf buffer) {
         double eX = buffer.readDouble();
         double eY = buffer.readDouble();
         double eZ = buffer.readDouble();
@@ -53,10 +53,10 @@ public class ForwardConeParticlesSender {
         float aStep = buffer.readFloat();
         float rStep = buffer.readFloat();
         double loweredVision = buffer.readDouble();
-        return new ForwardConeParticlesSender(new Vec3(eX, eY, eZ), new Vec3(sX, sY, sZ), r, aStep, rStep, loweredVision);
+        return new ForwardConeParticlesToClient(new Vec3(eX, eY, eZ), new Vec3(sX, sY, sZ), r, aStep, rStep, loweredVision);
     }
 
-    public static void messageConsumer(ForwardConeParticlesSender message, Supplier<NetworkEvent.Context> ctxSupplier) {
+    public static void messageConsumer(ForwardConeParticlesToClient message, Supplier<NetworkEvent.Context> ctxSupplier) {
         NetworkEvent.Context context = ctxSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> handlePacket(message.eX, message.eY, message.eZ, message.sX, message.sY, message.sZ, message.r, message.aStep, message.rStep, message.loweredVision)));
         context.setPacketHandled(true);
