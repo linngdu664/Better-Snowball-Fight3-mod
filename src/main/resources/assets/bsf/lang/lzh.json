@@ -250,7 +250,8 @@
 
   "block.bsf.smart_snow_block": "聰慧雪塊",
 
-  "key.bsf.ammo_rotate_right": "循環右移彈藥",
+  "key.bsf.ammo_switch_prev": "向前迴圈切換彈藥",
+  "key.bsf.ammo_switch_next": "向後迴圈切換彈藥",
   "enchantment.bsf.kinetic_energy_storage": "動能儲存",
   "enchantment.bsf.snow_golem_exclusive": "雪傀儡專屬"
 }

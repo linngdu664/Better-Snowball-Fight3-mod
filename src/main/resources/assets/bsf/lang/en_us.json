@@ -251,7 +251,8 @@
 
   "block.bsf.smart_snow_block": "Smart Snow Block",
 
-  "key.bsf.ammo_rotate_right": "Ammo Rotate Right",
+  "key.bsf.ammo_switch_prev": "Switch to Previous Ammo",
+  "key.bsf.ammo_switch_next": "Switch to Next Ammo",
   "enchantment.bsf.kinetic_energy_storage": "Kinetic Energy Storage",
   "enchantment.bsf.snow_golem_exclusive": "Snow Golem Exclusive"
 }
