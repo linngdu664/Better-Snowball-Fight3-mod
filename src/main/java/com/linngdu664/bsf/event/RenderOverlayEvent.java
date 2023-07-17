@@ -27,18 +27,16 @@ public class RenderOverlayEvent {
             }
             if (weaponItem != null) {
                 ItemStack current = weaponItem.getCurrentAmmoItemStack();
-                if (current != null) {
-                    ItemStack prev = weaponItem.getPrevAmmoItemStack();
-                    ItemStack next = weaponItem.getNextAmmoItemStack();
-                    GuiGraphics guiGraphics = event.getGuiGraphics();
-                    guiGraphics.renderItem(prev, 3, 93);
-                    guiGraphics.renderItem(current, 3, 113);
-                    guiGraphics.renderItem(next, 3, 133);
-                    guiGraphics.drawString(instance.font, String.valueOf(prev.getCount()), 24, 97, 0xffffffff);
-                    guiGraphics.drawString(instance.font, String.valueOf(current.getCount()), 24, 117, 0xffffffff);
-                    guiGraphics.drawString(instance.font, String.valueOf(next.getCount()), 24, 137, 0xffffffff);
-                    guiGraphics.blit(new ResourceLocation("bsf", "textures/gui/snowball_frame.png"), 0, 90, 0, 0, 23, 62,23,62);
-                }
+                ItemStack prev = weaponItem.getPrevAmmoItemStack();
+                ItemStack next = weaponItem.getNextAmmoItemStack();
+                GuiGraphics guiGraphics = event.getGuiGraphics();
+                guiGraphics.renderItem(prev, 3, 93);
+                guiGraphics.renderItem(current, 3, 113);
+                guiGraphics.renderItem(next, 3, 133);
+                guiGraphics.drawString(instance.font, String.valueOf(prev.getCount()), 24, 97, 0xffffffff);
+                guiGraphics.drawString(instance.font, String.valueOf(current.getCount()), 24, 117, 0xffffffff);
+                guiGraphics.drawString(instance.font, String.valueOf(next.getCount()), 24, 137, 0xffffffff);
+                guiGraphics.blit(new ResourceLocation("bsf", "textures/gui/snowball_frame.png"), 0, 90, 0, 0, 23, 62,23,62);
             }
         }
     }

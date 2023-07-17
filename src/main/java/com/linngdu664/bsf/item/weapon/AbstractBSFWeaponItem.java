@@ -5,7 +5,7 @@ import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
-import com.linngdu664.bsf.network.AmmoTypeSendToServer;
+import com.linngdu664.bsf.network.AmmoTypeToServer;
 import com.linngdu664.bsf.network.Network;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public abstract class AbstractBSFWeaponItem extends Item {
-    private LinkedList<Item> launchOrder;     // client only
-    private ItemStack prevAmmoItemStack;      // client only
-    private ItemStack currentAmmoItemStack;   // client only
-    private ItemStack nextAmmoItemStack;      // client only
-    private Item ammoItem = Items.AIR;        // server only
+    private LinkedList<Item> launchOrder;                                      // client only
+    private ItemStack prevAmmoItemStack = Items.AIR.getDefaultInstance();      // client only
+    private ItemStack currentAmmoItemStack = Items.AIR.getDefaultInstance();   // client only
+    private ItemStack nextAmmoItemStack = Items.AIR.getDefaultInstance();      // client only
+    private Item ammoItem = Items.AIR;                                         // server only
     private final int typeFlag;
 
     public AbstractBSFWeaponItem(int durability, Rarity rarity, int flag) {
@@ -83,7 +83,7 @@ public abstract class AbstractBSFWeaponItem extends Item {
 
     @Override
     public void inventoryTick(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (pLevel.isClientSide && pEntity instanceof Player player && pIsSelected) {
+        if (pLevel.isClientSide && pIsSelected && pEntity instanceof Player player) {
             ArrayList<Item> arrayList = new ArrayList<>();
             Inventory inventory = player.getInventory();
             int k = inventory.getContainerSize();
@@ -124,10 +124,10 @@ public abstract class AbstractBSFWeaponItem extends Item {
                 }
             }
             if (launchOrder.isEmpty()) {
-                currentAmmoItemStack = null;
-                Network.PACKET_HANDLER.sendToServer(new AmmoTypeSendToServer(Items.AIR));
+                prevAmmoItemStack = Items.AIR.getDefaultInstance();
+                currentAmmoItemStack = prevAmmoItemStack;
+                nextAmmoItemStack = prevAmmoItemStack;
             } else {
-                Network.PACKET_HANDLER.sendToServer(new AmmoTypeSendToServer(launchOrder.getFirst()));
                 Item item1 = launchOrder.getLast();
                 Item item2 = launchOrder.getFirst();
                 Item item3;
@@ -167,6 +167,7 @@ public abstract class AbstractBSFWeaponItem extends Item {
                 currentAmmoItemStack = new ItemStack(item2, i2);
                 nextAmmoItemStack = new ItemStack(item3, i3);
             }
+            Network.PACKET_HANDLER.sendToServer(new AmmoTypeToServer(currentAmmoItemStack.getItem()));
         }
     }
 
