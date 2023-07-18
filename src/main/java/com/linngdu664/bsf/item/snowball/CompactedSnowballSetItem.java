@@ -53,17 +53,6 @@ public class CompactedSnowballSetItem extends Item {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
         pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
         if (!pLevel.isClientSide) {
-//            LaunchFunc launchFunc = new LaunchFunc() {
-//                @Override
-//                public LaunchFrom getLaunchFrom() {
-//                    return LaunchFrom.HAND;
-//                }
-//
-//                @Override
-//                public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
-//                    bsfSnowballEntity.setBlazeDamage(bsfSnowballEntity.getBlazeDamage() * getSnowballDamageRate(pPlayer)).setDamage(bsfSnowballEntity.getDamage() * getSnowballDamageRate(pPlayer));
-//                }
-//            };
             ILaunchAdjustment launchAdjustment = new ILaunchAdjustment() {
                 @Override
                 public double adjustPunch(double punch) {
@@ -96,9 +85,6 @@ public class CompactedSnowballSetItem extends Item {
                 }
             };
             float slowdownRate = (float) Math.exp(-0.005 * pPlayer.getTicksFrozen());
-//            CompactedSnowballEntity snowballEntity1 = new CompactedSnowballEntity(pPlayer, pLevel, launchFunc);
-//            CompactedSnowballEntity snowballEntity2 = new CompactedSnowballEntity(pPlayer, pLevel, launchFunc);
-//            CompactedSnowballEntity snowballEntity3 = new CompactedSnowballEntity(pPlayer, pLevel, launchFunc);
             CompactedSnowballEntity snowballEntity1 = new CompactedSnowballEntity(pPlayer, pLevel, launchAdjustment);
             CompactedSnowballEntity snowballEntity2 = new CompactedSnowballEntity(pPlayer, pLevel, launchAdjustment);
             CompactedSnowballEntity snowballEntity3 = new CompactedSnowballEntity(pPlayer, pLevel, launchAdjustment);
@@ -115,21 +101,6 @@ public class CompactedSnowballSetItem extends Item {
         pPlayer.awardStat(Stats.ITEM_USED.get(this));
         return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
-
-//    @Override
-//    public BSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, LaunchFunc launchFunc) {
-//        return null;
-//    }
-//
-//    @Override
-//    public boolean canBeLaunchedByMachineGun() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean canBeLaunchedByNormalWeapon() {
-//        return false;
-//    }
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {

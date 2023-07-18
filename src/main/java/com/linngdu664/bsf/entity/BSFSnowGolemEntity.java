@@ -396,7 +396,6 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
             float damageChance = 1.0F / (1.0F + EnchantmentHelper.getTagEnchantmentLevel(Enchantments.UNBREAKING, weapon));
             float v = 3.0F;
             float accuracy = 1.0F;
-//            LaunchFunc launchFunc = ((AbstractBSFWeaponItem) weapon.getItem()).getLaunchFunc(1);
             ILaunchAdjustment launchAdjustment = ((AbstractBSFWeaponItem) weapon.getItem()).getLaunchAdjustment(1, ammo.getItem());
             if (launchAdjustment.getLaunchFrom().equals(LaunchFrom.POWERFUL_CANNON)) {
                 v = 4.0F;

@@ -18,26 +18,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class FreezingSnowballCannonItem extends SnowballCannonItem {
-//    @Override
-//    public LaunchFunc getLaunchFunc(double damageDropRate) {
-//        return new LaunchFunc() {
-//            @Override
-//            public LaunchFrom getLaunchFrom() {
-//                return LaunchFrom.FREEZING_CANNON;
-//            }
-//
-//            @Override
-//            public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
-//                if (bsfSnowballEntity instanceof IceSnowballEntity || bsfSnowballEntity instanceof FrozenSnowballEntity) {
-//                    bsfSnowballEntity.setFrozenTicks(200).setBlazeDamage(bsfSnowballEntity.getBlazeDamage() + 4);
-//                } else {
-//                    bsfSnowballEntity.setFrozenTicks(140).setBlazeDamage(bsfSnowballEntity.getBlazeDamage() + 1);
-//                }
-//                bsfSnowballEntity.setBlazeDamage(bsfSnowballEntity.getBlazeDamage() * (float) damageDropRate).setPunch(damageDropRate * 1.51);
-//            }
-//        };
-//    }
-
     @Override
     public ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball) {
         return new ILaunchAdjustment() {

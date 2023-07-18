@@ -48,21 +48,6 @@ public class SnowballCannonItem extends AbstractBSFWeaponItem {
         return true;
     }
 
-//    @Override
-//    public LaunchFunc getLaunchFunc(double damageDropRate) {
-//        return new LaunchFunc() {
-//            @Override
-//            public LaunchFrom getLaunchFrom() {
-//                return LaunchFrom.CANNON;
-//            }
-//
-//            @Override
-//            public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
-//                bsfSnowballEntity.setPunch(damageDropRate * 1.51);
-//            }
-//        };
-//    }
-
     @Override
     public ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball) {
         return new ILaunchAdjustment() {
@@ -157,22 +142,4 @@ public class SnowballCannonItem extends AbstractBSFWeaponItem {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_cannon3.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_cannon.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
-
-//    @Override
-//    public ItemStack findAmmo(Player player) {
-//        int k = player.getInventory().getContainerSize();
-//        for (int j = 0; j < k; j++) {
-//            ItemStack itemStack = player.getInventory().getItem(j);
-//            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && tank.getSnowball().canBeLaunchedByNormalWeapon()) {
-//                return itemStack;
-//            }
-//        }
-//        for (int j = 0; j < k; j++) {
-//            ItemStack itemStack = player.getInventory().getItem(j);
-//            if (itemStack.getItem() instanceof AbstractBSFSnowballItem snowball && snowball.canBeLaunchedByNormalWeapon()) {
-//                return itemStack;
-//            }
-//        }
-//        return null;
-//    }
 }
