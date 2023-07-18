@@ -8,25 +8,28 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class AmmoTypeSendToServer {
+public class AmmoTypeToServer {
     private final Item item;
 
-    public AmmoTypeSendToServer(Item item) {
+    public AmmoTypeToServer(Item item) {
         this.item = item;
     }
 
-    public static void encoder(AmmoTypeSendToServer message, FriendlyByteBuf buffer) {
+    public static void encoder(AmmoTypeToServer message, FriendlyByteBuf buffer) {
         buffer.writeItem(message.item.getDefaultInstance());
     }
 
-    public static AmmoTypeSendToServer decoder(FriendlyByteBuf buffer) {
-        return new AmmoTypeSendToServer(buffer.readItem().getItem());
+    public static AmmoTypeToServer decoder(FriendlyByteBuf buffer) {
+        return new AmmoTypeToServer(buffer.readItem().getItem());
     }
 
-    public static void messageConsumer(AmmoTypeSendToServer message, Supplier<NetworkEvent.Context> ctxSupplier) {
+    public static void messageConsumer(AmmoTypeToServer message, Supplier<NetworkEvent.Context> ctxSupplier) {
         NetworkEvent.Context context = ctxSupplier.get();
         context.enqueueWork(() -> {
             ServerPlayer sender = context.getSender();
+            if (!sender.level().hasChunkAt(sender.blockPosition())) {
+                return;
+            }
             AbstractBSFWeaponItem weapon = null;
             if (sender.getMainHandItem().getItem() instanceof AbstractBSFWeaponItem item) {
                 weapon = item;

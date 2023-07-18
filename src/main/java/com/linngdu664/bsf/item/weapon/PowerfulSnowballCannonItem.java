@@ -17,21 +17,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class PowerfulSnowballCannonItem extends SnowballCannonItem {
-//    @Override
-//    public LaunchFunc getLaunchFunc(double damageDropRate) {
-//        return new LaunchFunc() {
-//            @Override
-//            public LaunchFrom getLaunchFrom() {
-//                return LaunchFrom.POWERFUL_CANNON;
-//            }
-//
-//            @Override
-//            public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
-//                bsfSnowballEntity.setWeaknessTicks(180).setPunch(damageDropRate * 2.5);
-//            }
-//        };
-//    }
-
     @Override
     public ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball) {
         return new ILaunchAdjustment() {

@@ -4,7 +4,6 @@ import com.linngdu664.bsf.entity.snowball.special.BlackHoleSnowballEntity;
 import com.linngdu664.bsf.particle.ParticleRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import com.linngdu664.bsf.util.SoundRegister;
-import com.linngdu664.bsf.util.TargetGetter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -39,17 +38,11 @@ public class RepulsiveFieldGeneratorItem extends AbstractBSFEnhanceableToolItem 
         if (pLivingEntity instanceof Player player) {
             if (!pLevel.isClientSide) {
                 projectileVector.clear();
-                Vec3 vec3 = Vec3.directionFromRotation(player.getXRot(), player.getYRot());
-                List<Projectile> list = TargetGetter.getTargetList(player, Projectile.class, 3.5);
+                List<Projectile> list = pLevel.getEntitiesOfClass(Projectile.class, player.getBoundingBox().inflate(3.5), p -> BSFMthUtil.vec3AngleCos(new Vec3(p.getX() - player.getX(), p.getY() - player.getEyeY(), p.getZ() - player.getZ()), Vec3.directionFromRotation(player.getXRot(), player.getYRot())) > 0.70710678F && !(p instanceof BlackHoleSnowballEntity));
                 for (Projectile projectile : list) {
-                    Vec3 rVec = new Vec3(projectile.getX() - player.getX(), projectile.getY() - player.getEyeY(), projectile.getZ() - player.getZ());
-                    if (BSFMthUtil.vec3AngleCos(rVec, vec3) > 0.70710678F) {
-                        if (!(projectile instanceof BlackHoleSnowballEntity)) {
-                            Vec3 dvVec = Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(2);
-                            projectile.push(dvVec.x, dvVec.y, dvVec.z);
-                            ((ServerLevel) pLevel).sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), projectile.getX(), projectile.getY(), projectile.getZ(), 10, 0, 0, 0, 0.04);
-                        }
-                    }
+                    Vec3 dvVec = Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(2);
+                    projectile.push(dvVec.x, dvVec.y, dvVec.z);
+                    ((ServerLevel) pLevel).sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), projectile.getX(), projectile.getY(), projectile.getZ(), 10, 0, 0, 0, 0.04);
                 }
             }
             if (!player.getAbilities().instabuild) {
@@ -70,7 +63,6 @@ public class RepulsiveFieldGeneratorItem extends AbstractBSFEnhanceableToolItem 
      * @param pRemainingUseDuration remaining use duration
      */
     @Override
-    @SuppressWarnings("deprecation")
     public void onUseTick(@NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
         if (pRemainingUseDuration == 1) {
             this.releaseUsing(pStack, pLevel, pLivingEntity, pRemainingUseDuration);
@@ -78,22 +70,16 @@ public class RepulsiveFieldGeneratorItem extends AbstractBSFEnhanceableToolItem 
             if (pRemainingUseDuration == 60) {
                 pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.FIELD_START.get(), SoundSource.PLAYERS, 0.4F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
-            Vec3 vec3 = Vec3.directionFromRotation(player.getXRot(), player.getYRot());
-            List<Projectile> list = TargetGetter.getTargetList(player, Projectile.class, 3);
+            List<Projectile> list = pLevel.getEntitiesOfClass(Projectile.class, player.getBoundingBox().inflate(3), p -> BSFMthUtil.vec3AngleCos(new Vec3(p.getX() - player.getX(), p.getY() - player.getEyeY(), p.getZ() - player.getZ()), Vec3.directionFromRotation(player.getXRot(), player.getYRot())) > 0.86602540F && !(p instanceof BlackHoleSnowballEntity));
             for (Projectile projectile : list) {
-                Vec3 rVec = new Vec3(projectile.getX() - player.getX(), projectile.getY() - player.getEyeY(), projectile.getZ() - player.getZ());
-                if (BSFMthUtil.vec3AngleCos(rVec, vec3) > 0.86602540F) {
-                    if (!(projectile instanceof BlackHoleSnowballEntity)) {
-                        if (!projectileVector.contains(projectile)) {
-                            pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.FIELD_SNOWBALL_STOP.get(), SoundSource.PLAYERS, 0.4F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                            ((ServerLevel) pLevel).sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), projectile.getX(), projectile.getY(), projectile.getZ(), 10, 0, 0, 0, 0.04);
-                        }
-                        projectileVector.add(projectile);
-                        Vec3 dvVec = projectile.getDeltaMovement().scale(-0.8);
-                        projectile.push(dvVec.x, dvVec.y, dvVec.z);
-                        ((ServerLevel) pLevel).sendParticles(ParticleTypes.ELECTRIC_SPARK, projectile.getX(), projectile.getY(), projectile.getZ(), 3, 0, 0, 0, 0.04);
-                    }
+                if (!projectileVector.contains(projectile)) {
+                    pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.FIELD_SNOWBALL_STOP.get(), SoundSource.PLAYERS, 0.4F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                    ((ServerLevel) pLevel).sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), projectile.getX(), projectile.getY(), projectile.getZ(), 10, 0, 0, 0, 0.04);
                 }
+                projectileVector.add(projectile);
+                Vec3 dvVec = projectile.getDeltaMovement().scale(-0.8);
+                projectile.push(dvVec.x, dvVec.y, dvVec.z);
+                ((ServerLevel) pLevel).sendParticles(ParticleTypes.ELECTRIC_SPARK, projectile.getX(), projectile.getY(), projectile.getZ(), 3, 0, 0, 0, 0.04);
             }
         }
     }

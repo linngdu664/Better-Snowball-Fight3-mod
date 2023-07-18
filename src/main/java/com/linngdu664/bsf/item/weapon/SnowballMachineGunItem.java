@@ -39,21 +39,6 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
         super(1919, Rarity.EPIC, TYPE_FLAG);
     }//1919
 
-//    @Override
-//    public LaunchFunc getLaunchFunc(double damageDropRate) {
-//        return new LaunchFunc() {
-//            @Override
-//            public LaunchFrom getLaunchFrom() {
-//                return LaunchFrom.MACHINE_GUN;
-//            }
-//
-//            @Override
-//            public void launchProperties(BSFSnowballEntity bsfSnowballEntity) {
-//                bsfSnowballEntity.setPunch(1.2);
-//            }
-//        };
-//    }
-
     @Override
     public ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball) {
         return new ILaunchAdjustment() {
@@ -173,16 +158,4 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_machine_gun2.tooltip", null, new Object[0])).withStyle(ChatFormatting.RED));
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_machine_gun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
-
-//    @Override
-//    public ItemStack findAmmo(Player player) {
-//        int k = player.getInventory().getContainerSize();
-//        for (int j = 0; j < k; j++) {
-//            ItemStack itemStack = player.getInventory().getItem(j);
-//            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && tank.getSnowball().canBeLaunchedByMachineGun()) {
-//                return itemStack;
-//            }
-//        }
-//        return null;
-//    }
 }

@@ -5,7 +5,6 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.util.SoundRegister;
-import com.linngdu664.bsf.util.TargetGetter;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -17,6 +16,7 @@ import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
@@ -37,33 +37,21 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     }
 
     public SubspaceSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, boolean release) {
-        super(EntityRegister.SUBSPACE_SNOWBALL.get(), pShooter, pLevel);
-        this.launchAdjustment = launchAdjustment;
+        super(EntityRegister.SUBSPACE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
         this.release = release;
         this.setNoGravity(true);
     }
-
-//    public SubspaceSnowballEntity(LivingEntity livingEntity, Level level, LaunchFunc launchFunc, boolean canRelease) {
-//        super(livingEntity, level);
-//        this.setLaunchFrom(launchFunc.getLaunchFrom());
-//        launchFunc.launchProperties(this);
-//        this.setItem(new ItemStack(ItemRegister.SUBSPACE_SNOWBALL.get()));
-//        this.setNoGravity(true);
-//        this.release = canRelease;
-//    }
 
     @Override
     public void tick() {
         super.tick();
         Level level = level();
         if (!level.isClientSide) {
-            List<AbstractBSFSnowballEntity> list = TargetGetter.getTargetList(this, AbstractBSFSnowballEntity.class, 2.5);
+            AABB aabb = getBoundingBox().inflate(2.5);
+            List<AbstractBSFSnowballEntity> list = level.getEntitiesOfClass(AbstractBSFSnowballEntity.class, aabb, p -> true);
             for (AbstractBSFSnowballEntity snowball : list) {
-                if (release) {
-                    if (!(snowball instanceof GPSSnowballEntity)) {
-                        itemStackArrayList.add(snowball.getItem());
-                    }
-//                    itemStackArrayList.add(new ItemStack(snowball instanceof GPSSnowballEntity ? null : snowball.getItem().getItem()));
+                if (release && !(snowball instanceof GPSSnowballEntity)) {
+                    itemStackArrayList.add(snowball.getItem());
                 }
                 ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, snowball.getX(), snowball.getY(), snowball.getZ(), 8, 0, 0, 0, 0.05);
                 snowball.discard();
@@ -77,7 +65,7 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                 }
                 level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegister.SUBSPACE_SNOWBALL_CUT.get(), SoundSource.PLAYERS, 0.4F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
-            List<Snowball> list2 = TargetGetter.getTargetList(this, Snowball.class, 2.5);
+            List<Snowball> list2 = level.getEntitiesOfClass(Snowball.class, aabb, p -> true);
             for (Snowball snowball : list2) {
                 if (release) {
                     itemStackArrayList.add(snowball.getItem());

@@ -8,7 +8,7 @@ import java.util.Random;
 public class BSFMthUtil {
     private static final Random random = new Random();
 
-    // Calculate the cosine of the angle between 2 vectors using fast algorithm.
+    // Calculate the cosine of the angle between 2 vectors.
     public static double vec2AngleCos(double x1, double y1, double x2, double y2) {
         return Mth.invSqrt(modSqr(x1, y1)) * Mth.invSqrt(modSqr(x2, y2)) * (x1 * x2 + y1 * y2);
     }

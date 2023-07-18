@@ -25,20 +25,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 
 public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
-
-//    public EnderSnowballEntity(LivingEntity livingEntity, Level level, LaunchFunc launchFunc) {
-//        super(livingEntity, level);
-//        this.setLaunchFrom(launchFunc.getLaunchFrom());
-//        launchFunc.launchProperties(this);
-//        this.setItem(new ItemStack(ItemRegister.ENDER_SNOWBALL.get()));
-//    }
     public EnderSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
     public EnderSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.ENDER_SNOWBALL.get(), pShooter, pLevel);
-        this.launchAdjustment = launchAdjustment;
+        super(EntityRegister.ENDER_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
     }
 
     @Override
@@ -83,9 +75,6 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
         this.discard();
     }
 
-
-
-
     @Override
     public void tick() {
         super.tick();
@@ -94,6 +83,7 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
             ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL, this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
         }
     }
+
     @Override
     public boolean canBeCaught() {
         return true;

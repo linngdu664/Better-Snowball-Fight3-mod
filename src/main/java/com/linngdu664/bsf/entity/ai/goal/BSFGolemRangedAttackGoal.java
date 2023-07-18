@@ -55,41 +55,6 @@ public class BSFGolemRangedAttackGoal extends Goal {
     public boolean requiresUpdateEveryTick() {
         return true;
     }
-/*
-    @Override
-    public void tick() {
-        float attackRadiusSqr = this.attackRadiusSqr;
-        float attackRadius = this.attackRadius;
-        if (golem.getWeapon().getItem() instanceof SnowballShotgunItem) {
-            attackRadius *= 0.2;
-            attackRadiusSqr *= 0.04;
-        }
-        double d0 = golem.distanceToSqr(target.getX(), target.getY(), target.getZ());
-        boolean flag = golem.getSensing().hasLineOfSight(target);
-        if (flag) {
-            ++seeTime;
-        } else {
-            seeTime = 0;
-        }
-
-        if (!(d0 > attackRadiusSqr) && seeTime >= 5 || golem.getStatus() == 4) {
-            golem.getNavigation().stop();
-        } else {
-            golem.getNavigation().moveTo(target, speedModifier);
-        }
-        golem.getLookControl().setLookAt(target, 30.0F, 30.0F);
-        if (--attackTime == 0) {
-            if (!flag) {
-                return;
-            }
-            float f = (float) Math.sqrt(d0) / attackRadius;
-            float f1 = Mth.clamp(f, 0.1F, 1.0F);
-            golem.performRangedAttack(target, f1);
-            attackTime = Mth.floor(f * (float) (attackIntervalMax - attackIntervalMin) + (float) attackIntervalMin);
-        } else if (attackTime < 0) {
-            attackTime = Mth.floor(Mth.lerp(Math.sqrt(d0) / attackRadius, attackIntervalMin, attackIntervalMax));
-        }
-    }*/
 
     private boolean isBlockedByOthers(double d2, LivingEntity target) {
         int d = (int) Math.sqrt(d2);

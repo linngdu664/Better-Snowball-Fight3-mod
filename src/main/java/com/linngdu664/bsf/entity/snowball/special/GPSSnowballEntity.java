@@ -21,12 +21,6 @@ import org.jetbrains.annotations.NotNull;
 public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
     private ItemStack targetLocator;
 
-//    public GPSSnowballEntity(LivingEntity livingEntity, Level level, ItemStack targetLocator) {
-//        super(livingEntity, level);
-//        this.targetLocator = targetLocator;
-//        this.setPunch(2.0).setLaunchFrom(LaunchFrom.HAND);
-//        this.setItem(new ItemStack(ItemRegister.GPS_SNOWBALL.get()));
-//    }
     public GPSSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setItem(new ItemStack(ItemRegister.GPS_SNOWBALL.get()));
@@ -37,11 +31,6 @@ public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
         this.targetLocator = targetLocator;
         this.setItem(new ItemStack(ItemRegister.GPS_SNOWBALL.get()));
     }
-
-//    @Override
-//    public Item getCorrespondingItem() {
-//        return ItemRegister.IRON_SNOWBALL.get();
-//    }
 
     @Override
     protected void onHit(@NotNull HitResult pResult) {
@@ -55,8 +44,6 @@ public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
         if (!isCaught && pResult.getEntity() instanceof LivingEntity livingEntity && targetLocator != null) {
-            //((TargetLocatorItem) targetLocator.getItem()).setLivingEntity(livingEntity);
-            //targetLocator.getTag().putUUID("UUID", livingEntity.getUUID());
             targetLocator.getTag().putInt("ID", livingEntity.getId());
             if (getOwner() instanceof Player player) {
                 player.displayClientMessage(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[0])).append(livingEntity.getName().getString() + " ID:" + livingEntity.getId()), false);
@@ -95,7 +82,7 @@ public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
 
     @Override
     public double getBasicPunch() {
-        return 0;
+        return 1;
     }
 
     @Override

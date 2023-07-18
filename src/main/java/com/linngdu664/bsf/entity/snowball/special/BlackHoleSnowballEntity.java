@@ -8,6 +8,7 @@ import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -21,23 +22,16 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
     public int startTime = 20;
     public int endTime = 150;
     private int timer = 0;
+
     public BlackHoleSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setNoGravity(true);
     }
 
     public BlackHoleSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.BLACK_HOLE_SNOWBALL.get(), pShooter, pLevel);
-        this.launchAdjustment = launchAdjustment;
+        super(EntityRegister.BLACK_HOLE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
         this.setNoGravity(true);
     }
-//    public BlackHoleSnowballEntity(LivingEntity livingEntity, Level level, LaunchFunc launchFunc) {
-//        super(livingEntity, level);
-//        this.setDamage(4).setBlazeDamage(6).setLaunchFrom(launchFunc.getLaunchFrom());
-//        launchFunc.launchProperties(this);
-//        this.setItem(new ItemStack(ItemRegister.BLACK_HOLE_SNOWBALL.get()));
-//        this.setNoGravity(true);
-//    }
 
     @Override
     protected void onHitBlock(@NotNull BlockHitResult p_37258_) {
@@ -60,8 +54,7 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
                 this.playSound(SoundRegister.BLACK_HOLE_START.get(), 3.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
             if (timer > startTime) {
-                forceEffect(Entity.class, 30, 8, 8);
-//                MovingAlgorithm.forceEffect(this, Entity.class, 30, 8, 8);
+                forceEffect(level.getEntitiesOfClass(Entity.class, getBoundingBox().inflate(30), EntitySelector.NO_CREATIVE_OR_SPECTATOR), 8, 8);
                 ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 8, 0, 0, 0, 0.12);
             }
             if (timer == endTime) {

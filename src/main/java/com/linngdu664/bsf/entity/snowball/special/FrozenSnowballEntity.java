@@ -7,7 +7,6 @@ import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
-import com.linngdu664.bsf.util.TargetGetter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -19,6 +18,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.SnowGolem;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -41,26 +41,8 @@ public class FrozenSnowballEntity extends AbstractBSFSnowballEntity {
     }
 
     public FrozenSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.FROZEN_SNOWBALL.get(), pShooter, pLevel);
-        this.launchAdjustment = launchAdjustment;
+        super(EntityRegister.FROZEN_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
     }
-
-//    public FrozenSnowballEntity(LivingEntity livingEntity, Level level, LaunchFunc launchFunc) {
-//        super(livingEntity, level);
-//        this.setFrozenTicks(60).setLaunchFrom(launchFunc.getLaunchFrom()).setDamage(3).setBlazeDamage(8);
-//        launchFunc.launchProperties(this);
-//        this.setItem(new ItemStack(ItemRegister.FROZEN_SNOWBALL.get()));
-//        if (launchFrom == LaunchFrom.FREEZING_CANNON) {
-//            frozenRange = 3.5f;
-//        }
-//    }
-//
-//    //This is only used for dispenser
-//    public FrozenSnowballEntity(Level level, double x, double y, double z) {
-//        super(level, x, y, z);
-//        this.setDamage(3).setBlazeDamage(8).setFrozenTicks(60);
-//        this.setItem(new ItemStack(ItemRegister.FROZEN_SNOWBALL.get()));
-//    }
 
     @Override
     protected void onHit(@NotNull HitResult pResult) {
@@ -99,20 +81,18 @@ public class FrozenSnowballEntity extends AbstractBSFSnowballEntity {
                         }
                     }
                 }
-                List<LivingEntity> list = TargetGetter.getTargetList(this, LivingEntity.class, 2.5F);
+                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4), p -> !(p instanceof BSFSnowGolemEntity) && !(p instanceof SnowGolem) && !(p instanceof Player player && (player.isSpectator() || player.isCreative())) && distanceToSqr(p) < frozenRange * frozenRange);
                 for (LivingEntity entity : list) {
-                    if (distanceToSqr(entity) < frozenRange * frozenRange && !(entity instanceof BSFSnowGolemEntity) && !(entity instanceof SnowGolem)) {
-                        int frozenTicks = launchAdjustment.adjustFrozenTicks(getBasicFrozenTicks());
-                        if (frozenTicks > 0) {
-                            if (entity.getTicksFrozen() < frozenTicks) {
-                                entity.setTicksFrozen(frozenTicks);
-                            }
-                            entity.hurt(level.damageSources().thrown(this, this.getOwner()), Float.MIN_NORMAL);
-                            if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
-                                entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 4));
-                            }
-                            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 2));
+                    int frozenTicks = launchAdjustment.adjustFrozenTicks(getBasicFrozenTicks());
+                    if (frozenTicks > 0) {
+                        if (entity.getTicksFrozen() < frozenTicks) {
+                            entity.setTicksFrozen(frozenTicks);
                         }
+                        entity.hurt(level.damageSources().thrown(this, this.getOwner()), Float.MIN_NORMAL);
+                        if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
+                            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 4));
+                        }
+                        entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 2));
                     }
                 }
                 if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {

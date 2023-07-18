@@ -22,18 +22,6 @@ public class PowderSnowballEntity extends AbstractBSFSnowballEntity {
     private boolean isStart = false;
     private int timer = 0;
 
-//    public PowderSnowballEntity(LivingEntity livingEntity, Level level, LaunchFunc launchFunc) {
-//        super(livingEntity, level);
-//        this.setLaunchFrom(launchFunc.getLaunchFrom());
-//        launchFunc.launchProperties(this);
-//        this.setItem(new ItemStack(ItemRegister.POWDER_SNOWBALL.get()));
-//    }
-//
-//    //This is only used for dispenser
-//    public PowderSnowballEntity(Level level, double x, double y, double z) {
-//        super(level, x, y, z);
-//        this.setItem(new ItemStack(ItemRegister.SMOOTH_SNOWBALL.get()));
-//    }
     public PowderSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -43,8 +31,7 @@ public class PowderSnowballEntity extends AbstractBSFSnowballEntity {
     }
 
     public PowderSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.POWDER_SNOWBALL.get(), pShooter, pLevel);
-        this.launchAdjustment = launchAdjustment;
+        super(EntityRegister.POWDER_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
     }
 
     @Override
@@ -85,11 +72,7 @@ public class PowderSnowballEntity extends AbstractBSFSnowballEntity {
             this.discard();
         }
     }
-//
-//    @Override
-//    public Item getCorrespondingItem() {
-//        return ItemRegister.POWDER_SNOWBALL.get();
-//    }
+
     @Override
     public boolean canBeCaught() {
     return true;
