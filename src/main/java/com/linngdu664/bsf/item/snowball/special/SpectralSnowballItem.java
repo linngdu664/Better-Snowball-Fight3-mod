@@ -44,7 +44,7 @@ public class SpectralSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
-        return throwOrStorage(pPlayer, pLevel, ItemRegister.SPECTRAL_SNOWBALL_TANK.get(), pUsedHand, 1.5F, 10);
+        return throwOrStorage(pPlayer, pLevel, pUsedHand, 1.5F, 10);
     }
 
     @Override

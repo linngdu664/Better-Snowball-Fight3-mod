@@ -31,7 +31,7 @@ public class ThrustSnowballItem extends AbstractBSFSnowballItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
-        storageInTank(pPlayer, itemStack, ItemRegister.THRUST_SNOWBALL_TANK.get());
+        storageInTank(pPlayer, itemStack);
         return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 

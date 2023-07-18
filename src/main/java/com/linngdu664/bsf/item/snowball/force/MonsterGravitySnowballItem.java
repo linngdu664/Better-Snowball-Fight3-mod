@@ -37,7 +37,7 @@ public class MonsterGravitySnowballItem extends AbstractBSFSnowballItem {
         if (pPlayer.isShiftKeyDown()) {
             ItemStack newStack = new ItemStack(ItemRegister.PROJECTILE_GRAVITY_SNOWBALL.get(), itemStack.getCount());
             pPlayer.setItemInHand(pUsedHand, newStack);
-        } else if (!storageInTank(pPlayer, itemStack, ItemRegister.MONSTER_GRAVITY_SNOWBALL_TANK.get())) {
+        } else if (!storageInTank(pPlayer, itemStack)) {
             pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
             if (!pLevel.isClientSide) {
                 MonsterGravitySnowballEntity snowballEntity = new MonsterGravitySnowballEntity(pPlayer, pLevel, getLaunchAdjustment(1));

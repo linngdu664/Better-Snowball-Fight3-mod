@@ -44,7 +44,7 @@ public class StoneSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
-        return throwOrStorage(pPlayer, pLevel, ItemRegister.STONE_SNOWBALL_TANK.get(), pUsedHand, 1.125F, 0);
+        return throwOrStorage(pPlayer, pLevel, pUsedHand, 1.125F, 0);
     }
 
     @Override

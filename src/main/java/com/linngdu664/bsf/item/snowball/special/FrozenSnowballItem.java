@@ -43,7 +43,7 @@ public class FrozenSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
-        return throwOrStorage(pPlayer, pLevel, ItemRegister.FROZEN_SNOWBALL_TANK.get(), pUsedHand, 1.125F, 10);
+        return throwOrStorage(pPlayer, pLevel, pUsedHand, 1.125F, 10);
     }
 
     @Override

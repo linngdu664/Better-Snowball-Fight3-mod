@@ -39,7 +39,7 @@ public class HeavyMonsterTrackingSnowballItem extends AbstractBSFSnowballItem {
             ItemStack newStack = new ItemStack(ItemRegister.HEAVY_PLAYER_TRACKING_SNOWBALL.get(), itemStack.getCount());
             pPlayer.setItemInHand(pUsedHand, newStack);
         } else {
-            storageInTank(pPlayer, itemStack, ItemRegister.HEAVY_MONSTER_TRACKING_SNOWBALL_TANK.get());
+            storageInTank(pPlayer, itemStack);
         }
         pPlayer.awardStat(Stats.ITEM_USED.get(this));
         return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
