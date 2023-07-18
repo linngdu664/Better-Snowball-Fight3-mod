@@ -1,0 +1,109 @@
+package com.linngdu664.bsf.entity.snowball.special;
+
+import com.linngdu664.bsf.entity.EntityRegister;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
+import com.linngdu664.bsf.item.ItemRegister;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
+    public ImpulseSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
+    }
+
+    public ImpulseSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
+        super(EntityRegister.IMPULSE_SNOWBALL_ENTITY.get(), pShooter, pLevel, launchAdjustment);
+    }
+
+    @Override
+    protected void onHit(@NotNull HitResult pResult) {
+        super.onHit(pResult);
+        Level level = level();
+        if (!level.isClientSide) {
+            if (!isCaught) {
+                List<Entity> list = level.getEntitiesOfClass(Entity.class, getBoundingBox().inflate(2), p -> !this.equals(p) && !(p instanceof Player player && (player.isCreative() || player.isSpectator())));
+                impulseForceEffect(list, pResult.getLocation());
+            }
+            discard();
+        }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        Level level = level();
+        if (!level.isClientSide) {
+            List<Projectile> list = level.getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(2), p -> !this.equals(p));
+            if (!list.isEmpty()) {
+                impulseForceEffect(list, new Vec3(getX(), getY(), getZ()));
+                discard();
+            }
+        }
+    }
+
+    private void impulseForceEffect(List<? extends Entity> list, Vec3 pos) {
+        for (Entity entity : list) {
+            Vec3 rVec = new Vec3(entity.getX(), entity.getEyeY(), entity.getZ()).add(pos.reverse());
+            Vec3 norm = rVec.normalize();
+            Vec3 aVec = norm.scale(3).add(rVec.scale(0.5));
+            entity.push(aVec.x, aVec.y, aVec.z);
+            if (entity instanceof ServerPlayer player) {
+                player.connection.send(new ClientboundSetEntityMotionPacket(entity));
+            }
+        }
+    }
+
+    @Override
+    public boolean canBeCaught() {
+        return true;
+    }
+
+    @Override
+    public float getBasicDamage() {
+        return Float.MIN_NORMAL;
+    }
+
+    @Override
+    public float getBasicBlazeDamage() {
+        return 3;
+    }
+
+    @Override
+    public int getBasicWeaknessTicks() {
+        return 0;
+    }
+
+    @Override
+    public int getBasicFrozenTicks() {
+        return 0;
+    }
+
+    @Override
+    public double getBasicPunch() {
+        return 0;
+    }
+
+    @Override
+    public float getSubspacePower() {
+        return 1.5F;
+    }
+
+    @Override
+    protected @NotNull Item getDefaultItem() {
+        return ItemRegister.IMPULSE_SNOWBALL.get();
+    }
+}

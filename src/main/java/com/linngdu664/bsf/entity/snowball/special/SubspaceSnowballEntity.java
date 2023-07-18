@@ -48,7 +48,7 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         Level level = level();
         if (!level.isClientSide) {
             AABB aabb = getBoundingBox().inflate(2.5);
-            List<AbstractBSFSnowballEntity> list = level.getEntitiesOfClass(AbstractBSFSnowballEntity.class, aabb, p -> true);
+            List<AbstractBSFSnowballEntity> list = level.getEntitiesOfClass(AbstractBSFSnowballEntity.class, aabb, p -> !this.equals(p));
             for (AbstractBSFSnowballEntity snowball : list) {
                 if (release && !(snowball instanceof GPSSnowballEntity)) {
                     itemStackArrayList.add(snowball.getItem());

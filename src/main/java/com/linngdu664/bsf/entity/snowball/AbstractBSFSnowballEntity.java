@@ -205,7 +205,7 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
             double a;
             if (r2 > constForceRangeSqr) {
                 a = GM / r2;
-            } else if (r2 > 0.25) {
+            } else if (r2 > 0.25) {         // default 0.25
                 a = GM / constForceRangeSqr;
             } else {
                 a = 0;

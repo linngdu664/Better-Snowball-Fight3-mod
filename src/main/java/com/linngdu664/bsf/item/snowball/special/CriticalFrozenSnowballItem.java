@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CriticalFrozenSnowballItem extends AbstractBSFSnowballItem {
     public CriticalFrozenSnowballItem() {
-        super(Rarity.EPIC);
+        super(Rarity.RARE);
         DispenserBlock.registerBehavior(this, new AbstractProjectileDispenseBehavior() {
             protected @NotNull Projectile getProjectile(@NotNull Level p_123476_, @NotNull Position p_123477_, @NotNull ItemStack p_123478_) {
                 return Util.make(new CriticalFrozenSnowballEntity(p_123476_, p_123477_.x(), p_123477_.y(), p_123477_.z()), (p_123474_) -> {

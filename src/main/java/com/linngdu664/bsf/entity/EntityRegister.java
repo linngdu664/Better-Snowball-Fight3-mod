@@ -52,7 +52,7 @@ public class EntityRegister {
     public static final RegistryObject<EntityType<GPSSnowballEntity>> GPS_SNOWBALL = snowballRegister(GPSSnowballEntity::new,"gps_snowball");
     public static final RegistryObject<EntityType<ExpansionSnowballEntity>> EXPANSION_SNOWBALL = snowballRegister(ExpansionSnowballEntity::new, "expansion_snowball");
     public static final RegistryObject<EntityType<CriticalFrozenSnowballEntity>> CRITICAL_FROZEN_SNOWBALL = snowballRegister(CriticalFrozenSnowballEntity::new, "critical_frozen_snowball");
-
+    public static final RegistryObject<EntityType<ImpulseSnowballEntity>> IMPULSE_SNOWBALL_ENTITY = snowballRegister(ImpulseSnowballEntity::new, "impulse_snowball");
 
     /**
      * A tool to register snowball entity
