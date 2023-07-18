@@ -16,7 +16,7 @@ public class RenderOverlayEvent {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void onRenderOverlay(RenderGuiOverlayEvent.Pre event) {
-        if (event.getOverlay() == VanillaGuiOverlay.AIR_LEVEL.type()) {
+        if (event.getOverlay() == VanillaGuiOverlay.HOTBAR.type()) {
             Minecraft instance = Minecraft.getInstance();
             Player player = instance.player;
             AbstractBSFWeaponItem weaponItem = null;
