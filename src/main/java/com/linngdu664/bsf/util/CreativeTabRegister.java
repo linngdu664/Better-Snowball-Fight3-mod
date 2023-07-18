@@ -30,6 +30,7 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.EXPLOSIVE_SNOWBALL.get());
                 output.accept(ItemRegister.SPECTRAL_SNOWBALL.get());
                 output.accept(ItemRegister.FROZEN_SNOWBALL.get());
+                output.accept(ItemRegister.CRITICAL_FROZEN_SNOWBALL.get());
                 output.accept(ItemRegister.POWDER_SNOWBALL.get());
                 output.accept(ItemRegister.LIGHT_MONSTER_TRACKING_SNOWBALL.get());
                 output.accept(ItemRegister.HEAVY_MONSTER_TRACKING_SNOWBALL.get());
@@ -57,6 +58,7 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.EXPLOSIVE_SNOWBALL_TANK.get());
                 output.accept(ItemRegister.SPECTRAL_SNOWBALL_TANK.get());
                 output.accept(ItemRegister.FROZEN_SNOWBALL_TANK.get());
+                output.accept(ItemRegister.CRITICAL_FROZEN_SNOWBALL_TANK.get());
                 output.accept(ItemRegister.POWDER_SNOWBALL_TANK.get());
                 output.accept(ItemRegister.LIGHT_MONSTER_TRACKING_SNOWBALL_TANK.get());
                 output.accept(ItemRegister.HEAVY_MONSTER_TRACKING_SNOWBALL_TANK.get());

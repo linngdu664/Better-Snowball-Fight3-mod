@@ -54,7 +54,7 @@ public class ItemRegister {
     public static final RegistryObject<Item> THRUST_SNOWBALL = ITEMS.register("thrust_snowball", ThrustSnowballItem::new);
     public static final RegistryObject<Item> ENDER_SNOWBALL = ITEMS.register("ender_snowball", EnderSnowballItem::new);
     public static final RegistryObject<Item> EXPANSION_SNOWBALL = ITEMS.register("expansion_snowball", ExpansionSnowballItem::new);
-
+    public static final RegistryObject<Item> CRITICAL_FROZEN_SNOWBALL = ITEMS.register("critical_frozen_snowball", CriticalFrozenSnowballItem::new);
 
     public static final RegistryObject<Item> EMPTY_SNOWBALL_STORAGE_TANK = ITEMS.register("empty_snowball_tank", EmptySnowballTankItem::new);
     public static final RegistryObject<Item> COMPACTED_SNOWBALL_TANK = ITEMS.register("compacted_snowball_tank", CompactedSnowballTank::new);
@@ -83,7 +83,7 @@ public class ItemRegister {
     public static final RegistryObject<Item> THRUST_SNOWBALL_TANK = ITEMS.register("thrust_snowball_tank", ThrustSnowballTank::new);
     public static final RegistryObject<Item> ENDER_SNOWBALL_TANK = ITEMS.register("ender_snowball_tank", EnderSnowballTank::new);
     public static final RegistryObject<Item> EXPANSION_SNOWBALL_TANK = ITEMS.register("expansion_snowball_tank", ExpansionSnowballTank::new);
-
+    public static final RegistryObject<Item> CRITICAL_FROZEN_SNOWBALL_TANK = ITEMS.register("critical_frozen_snowball_tank", CriticalFrozenSnowballTank::new);
 
 
     public static final RegistryObject<Item> WOOD_SNOWBALL_CLAMP = ITEMS.register("wood_snowball_clamp", () -> new SnowballClampItem(Tiers.WOOD));
