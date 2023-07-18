@@ -35,7 +35,7 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
         Level level = level();
         if (!level.isClientSide) {
             if (!isCaught) {
-                List<Entity> list = level.getEntitiesOfClass(Entity.class, getBoundingBox().inflate(4), p -> !this.equals(p) && !(p instanceof Player player && (player.isCreative() || player.isSpectator())));
+                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4), p -> !(p instanceof Player player && (player.isCreative() || player.isSpectator())));
                 impulseForceEffect(list);
             }
             discard();
