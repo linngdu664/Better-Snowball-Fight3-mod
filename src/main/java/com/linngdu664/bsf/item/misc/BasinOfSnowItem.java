@@ -5,7 +5,6 @@ import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import com.linngdu664.bsf.network.Network;
 import com.linngdu664.bsf.util.BSFMthUtil;
-import com.linngdu664.bsf.util.TargetGetter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -42,35 +41,31 @@ public class BasinOfSnowItem extends Item {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
-        List<LivingEntity> list = TargetGetter.getTargetList(pPlayer, LivingEntity.class, 8);
         Vec3 cameraVec = Vec3.directionFromRotation(pPlayer.getXRot(), pPlayer.getYRot());
         if (!pLevel.isClientSide) {
+            List<LivingEntity> list = pLevel.getEntitiesOfClass(LivingEntity.class, pPlayer.getBoundingBox().inflate(8),
+                    p -> !(p instanceof BSFSnowGolemEntity) && !(p instanceof SnowGolem) && !(p instanceof ArmorStand)
+                            && !(p instanceof Player player && (player.isCreative() || player.isSpectator())) && p.distanceToSqr(pPlayer) < 64
+                            && BSFMthUtil.vec3AngleCos(new Vec3(p.getX() - pPlayer.getX(), p.getEyeY() - pPlayer.getEyeY() + 0.2, p.getZ() - pPlayer.getZ()), Vec3.directionFromRotation(pPlayer.getXRot(), pPlayer.getYRot())) > 0.9363291776
+                            && isNotBlocked(new Vec3(p.getX() - pPlayer.getX(), p.getEyeY() - pPlayer.getEyeY() + 0.2, p.getZ() - pPlayer.getZ()), new Vec3(p.getX() - pPlayer.getX(), p.getY() - pPlayer.getEyeY(), p.getZ() - pPlayer.getZ()), pPlayer, pLevel));
             Network.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesToClient(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2));
             for (LivingEntity livingEntity : list) {
-                if (!(livingEntity instanceof BSFSnowGolemEntity) && !(livingEntity instanceof SnowGolem) && !(livingEntity instanceof ArmorStand)) {
-                    Vec3 rVec1 = new Vec3(livingEntity.getX() - pPlayer.getX(), livingEntity.getEyeY() - pPlayer.getEyeY() + 0.2, livingEntity.getZ() - pPlayer.getZ());
-                    Vec3 rVec2 = new Vec3(rVec1.x, livingEntity.getY() - pPlayer.getEyeY(), rVec1.z);
-                    if (BSFMthUtil.vec3AngleCos(rVec1, cameraVec) > 0.9363291776 && isNotBlocked(rVec1, rVec2, pPlayer, pLevel)) {
-                        float r = (float) rVec1.length();
-                        if (r < 8.0F) {
-                            int t;
-                            if (r < 5.0F) {
-                                t = 180;
-                            } else {
-                                t = (int) (180.0F - 6.6666667F * (r - 5.0F) * (r - 5.0F) * (r - 5.0F));
-                            }
-                            if (livingEntity.getTicksFrozen() < t) {
-                                livingEntity.setTicksFrozen(t);
-                            }
-                            if (r < 5.0F) {
-                                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 2));
-                            } else {
-                                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 1));
-                            }
-                            livingEntity.hurt(pLevel.damageSources().playerAttack(pPlayer), Float.MIN_VALUE);
-                        }
-                    }
+                float r = pPlayer.distanceTo(livingEntity);
+                int t;
+                if (r < 5.0F) {
+                    t = 180;
+                } else {
+                    t = (int) (180.0F - 6.6666667F * (r - 5.0F) * (r - 5.0F) * (r - 5.0F));
                 }
+                if (livingEntity.getTicksFrozen() < t) {
+                    livingEntity.setTicksFrozen(t);
+                }
+                if (r < 5.0F) {
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 2));
+                } else {
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 1));
+                }
+                livingEntity.hurt(pLevel.damageSources().playerAttack(pPlayer), Float.MIN_VALUE);
             }
         }
         if (!pPlayer.getAbilities().instabuild) {
