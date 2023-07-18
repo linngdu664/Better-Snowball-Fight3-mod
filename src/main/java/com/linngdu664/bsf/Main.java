@@ -23,14 +23,14 @@ public class Main {
 
     public Main() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BSFConfig.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BSFConfig.SPEC);
         BlockRegister.BLOCKS.register(bus);
         BlockEntityRegister.BLOCK_ENTITIES.register(bus);
         ItemRegister.ITEMS.register(bus);
         SoundRegister.SOUNDS.register(bus);
         ParticleRegister.PARTICLES.register(bus);
         EffectRegister.EFFECTS.register(bus);
-        EnchantmentRegister.REGISTRY.register(bus);
+        EnchantmentRegister.ENCHANTMENTS.register(bus);
         EntityRegister.ENTITY_TYPES.register(bus);
         CreativeTabRegister.CREATIVE_TABS.register(bus);
         MinecraftForge.EVENT_BUS.register(new AttackEntityEvent());
