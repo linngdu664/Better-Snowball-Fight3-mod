@@ -7,7 +7,6 @@ import com.linngdu664.bsf.event.BSFConfig;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.tool.GloveItem;
 import com.linngdu664.bsf.particle.ParticleRegister;
-import com.linngdu664.bsf.util.TargetGetter;
 import net.minecraft.core.particles.*;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -76,6 +75,11 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
 
     public AbstractBSFSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, double pX, double pY, double pZ, Level pLevel) {
         super(pEntityType, pX, pY, pZ, pLevel);
+    }
+
+    public AbstractBSFSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
+        super(pEntityType, pShooter, pLevel);
+        this.launchAdjustment = launchAdjustment;
     }
 
     public AbstractBSFSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel) {
@@ -193,23 +197,22 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
 
     }
 
-    public void forceEffect(Class<? extends Entity> targetClass, double range, double boundaryR2, double GM) {
-        List<? extends Entity> list = TargetGetter.getTargetList(this, targetClass, range);
+    public void forceEffect(List<? extends Entity> list, double constForceRangeSqr, double GM) {
         for (Entity entity : list) {
             Vec3 rVec = new Vec3(getX() - entity.getX(), getY() - entity.getEyeY(), getZ() - entity.getZ());
             double r2 = rVec.lengthSqr();
             double ir2 = Mth.invSqrt(r2);
             double a;
-            if (r2 > boundaryR2) {
+            if (r2 > constForceRangeSqr) {
                 a = GM / r2;
             } else if (r2 > 0.25) {
-                a = GM / boundaryR2;
+                a = GM / constForceRangeSqr;
             } else {
                 a = 0;
             }
             entity.push(a * rVec.x * ir2, a * rVec.y * ir2, a * rVec.z * ir2);
             //Tell client that player should move because client handles player's movement.
-            if (entity instanceof ServerPlayer player && !player.getAbilities().instabuild && !player.getAbilities().invulnerable) {
+            if (entity instanceof ServerPlayer player) {
                 player.connection.send(new ClientboundSetEntityMotionPacket(entity));
             }
         }
