@@ -199,7 +199,7 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
 
     public void forceEffect(List<? extends Entity> list, double constForceRangeSqr, double GM) {
         for (Entity entity : list) {
-            Vec3 rVec = new Vec3(getX() - entity.getX(), getY() - entity.getEyeY(), getZ() - entity.getZ());
+            Vec3 rVec = new Vec3(getX() - entity.getX(), getY() - (entity.getEyeY() + entity.getY()) * 0.5, getZ() - entity.getZ());
             double r2 = rVec.lengthSqr();
             double ir2 = Mth.invSqrt(r2);
             double a;

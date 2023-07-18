@@ -35,8 +35,8 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
         Level level = level();
         if (!level.isClientSide) {
             if (!isCaught) {
-                List<Entity> list = level.getEntitiesOfClass(Entity.class, getBoundingBox().inflate(2), p -> !this.equals(p) && !(p instanceof Player player && (player.isCreative() || player.isSpectator())));
-                impulseForceEffect(list, pResult.getLocation());
+                List<Entity> list = level.getEntitiesOfClass(Entity.class, getBoundingBox().inflate(4), p -> !this.equals(p) && !(p instanceof Player player && (player.isCreative() || player.isSpectator())));
+                impulseForceEffect(list);
             }
             discard();
         }
@@ -49,17 +49,19 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
         if (!level.isClientSide) {
             List<Projectile> list = level.getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(2), p -> !this.equals(p));
             if (!list.isEmpty()) {
-                impulseForceEffect(list, new Vec3(getX(), getY(), getZ()));
+                List<Projectile> list1 = level.getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(4), p -> !this.equals(p));
+                impulseForceEffect(list1);
                 discard();
             }
         }
     }
 
-    private void impulseForceEffect(List<? extends Entity> list, Vec3 pos) {
+    private void impulseForceEffect(List<? extends Entity> list) {
+        Vec3 pos = new Vec3(getX(), getY(), getZ());
         for (Entity entity : list) {
-            Vec3 rVec = new Vec3(entity.getX(), entity.getEyeY(), entity.getZ()).add(pos.reverse());
+            Vec3 rVec = new Vec3(entity.getX(), (entity.getY() + entity.getEyeY()) * 0.5, entity.getZ()).add(pos.reverse());
             Vec3 norm = rVec.normalize();
-            Vec3 aVec = norm.scale(3).add(rVec.scale(0.5));
+            Vec3 aVec = norm.scale(2).add(rVec.scale(-0.25));
             entity.push(aVec.x, aVec.y, aVec.z);
             if (entity instanceof ServerPlayer player) {
                 player.connection.send(new ClientboundSetEntityMotionPacket(entity));
