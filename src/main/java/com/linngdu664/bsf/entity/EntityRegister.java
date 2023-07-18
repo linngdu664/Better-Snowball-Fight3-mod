@@ -50,7 +50,7 @@ public class EntityRegister {
     public static final RegistryObject<EntityType<SubspaceSnowballEntity>> SUBSPACE_SNOWBALL = snowballRegister(SubspaceSnowballEntity::new,"subspace_snowball");
     public static final RegistryObject<EntityType<EnderSnowballEntity>> ENDER_SNOWBALL = snowballRegister(EnderSnowballEntity::new,"ender_snowball");
     public static final RegistryObject<EntityType<GPSSnowballEntity>> GPS_SNOWBALL = snowballRegister(GPSSnowballEntity::new,"gps_snowball");
-
+    public static final RegistryObject<EntityType<ExpansionSnowballEntity>> EXPANSION_SNOWBALL = snowballRegister(ExpansionSnowballEntity::new, "expansion_snowball");
     /**
      * A tool to register snowball entity
      */
