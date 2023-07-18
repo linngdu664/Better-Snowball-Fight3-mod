@@ -37,7 +37,7 @@ public class ProjectileRepulsionSnowballItem extends AbstractBSFSnowballItem {
         if (pPlayer.isShiftKeyDown()) {
             ItemStack newStack = new ItemStack(ItemRegister.MONSTER_REPULSION_SNOWBALL.get(), itemStack.getCount());
             pPlayer.setItemInHand(pUsedHand, newStack);
-        } else if (!storageInTank(pPlayer, itemStack, ItemRegister.PROJECTILE_REPULSION_SNOWBALL_TANK.get())) {
+        } else if (!storageInTank(pPlayer, itemStack)) {
             pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
             if (!pLevel.isClientSide) {
                 ProjectileRepulsionSnowballEntity snowballEntity = new ProjectileRepulsionSnowballEntity(pPlayer, pLevel, getLaunchAdjustment(1));

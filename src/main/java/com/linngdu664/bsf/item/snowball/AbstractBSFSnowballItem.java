@@ -60,19 +60,18 @@ public abstract class AbstractBSFSnowballItem extends Item {
      *
      * @param pPlayer   The player who uses snowball.
      * @param itemStack The snowball itemstack.
-     * @param tank      The storage tank with the specific type.
      * @return If the method stores snowballs in the tank successfully, it will return true, else return false.
      */
-    public boolean storageInTank(Player pPlayer, ItemStack itemStack, Item tank) {
+    public boolean storageInTank(Player pPlayer, ItemStack itemStack) {
         if (pPlayer.getOffhandItem().getItem() == ItemRegister.EMPTY_SNOWBALL_STORAGE_TANK.get()) {
-            pPlayer.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(tank));
+            pPlayer.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(getTank()));
             pPlayer.getOffhandItem().setDamageValue(96 - pPlayer.getMainHandItem().getCount());
             if (!pPlayer.getAbilities().instabuild) {
                 itemStack.shrink(pPlayer.getMainHandItem().getCount());
             }
             return true;
         }
-        if (pPlayer.getOffhandItem().getItem() == tank && pPlayer.getOffhandItem().getDamageValue() != 0) {
+        if (pPlayer.getOffhandItem().getItem() == getTank() && pPlayer.getOffhandItem().getDamageValue() != 0) {
             if (pPlayer.getOffhandItem().getDamageValue() >= pPlayer.getMainHandItem().getCount()) {
                 pPlayer.getOffhandItem().setDamageValue(pPlayer.getOffhandItem().getDamageValue() - pPlayer.getMainHandItem().getCount());
                 if (!pPlayer.getAbilities().instabuild) {
@@ -89,9 +88,9 @@ public abstract class AbstractBSFSnowballItem extends Item {
         return false;
     }
 
-    public InteractionResultHolder<ItemStack> throwOrStorage(Player pPlayer, Level pLevel, Item tank, InteractionHand pUsedHand, float velocity, int coolDown) {
+    public InteractionResultHolder<ItemStack> throwOrStorage(Player pPlayer, Level pLevel, InteractionHand pUsedHand, float velocity, int coolDown) {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
-        if (!storageInTank(pPlayer, itemStack, tank)) {
+        if (!storageInTank(pPlayer, itemStack)) {
             pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
             if (!pLevel.isClientSide) {
                 AbstractBSFSnowballEntity snowballEntity = getCorrespondingEntity(pLevel, pPlayer, getLaunchAdjustment(getSnowballDamageRate(pPlayer)));
