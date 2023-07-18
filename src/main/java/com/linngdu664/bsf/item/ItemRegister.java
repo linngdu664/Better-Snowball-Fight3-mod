@@ -53,6 +53,7 @@ public class ItemRegister {
     public static final RegistryObject<Item> SUBSPACE_SNOWBALL = ITEMS.register("subspace_snowball", SubspaceSnowballItem::new);
     public static final RegistryObject<Item> THRUST_SNOWBALL = ITEMS.register("thrust_snowball", ThrustSnowballItem::new);
     public static final RegistryObject<Item> ENDER_SNOWBALL = ITEMS.register("ender_snowball", EnderSnowballItem::new);
+    public static final RegistryObject<Item> EXPANSION_SNOWBALL = ITEMS.register("expansion_snowball", ExpansionSnowballItem::new);
 
 
     public static final RegistryObject<Item> EMPTY_SNOWBALL_STORAGE_TANK = ITEMS.register("empty_snowball_tank", EmptySnowballTankItem::new);
@@ -81,7 +82,7 @@ public class ItemRegister {
     public static final RegistryObject<Item> SUBSPACE_SNOWBALL_TANK = ITEMS.register("subspace_snowball_tank", SubspaceSnowballTank::new);
     public static final RegistryObject<Item> THRUST_SNOWBALL_TANK = ITEMS.register("thrust_snowball_tank", ThrustSnowballTank::new);
     public static final RegistryObject<Item> ENDER_SNOWBALL_TANK = ITEMS.register("ender_snowball_tank", EnderSnowballTank::new);
-
+    public static final RegistryObject<Item> EXPANSION_SNOWBALL_TANK = ITEMS.register("expansion_snowball_tank", ExpansionSnowballTank::new);
 
 
 
