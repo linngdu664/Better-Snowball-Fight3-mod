@@ -9,5 +9,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class EffectRegister {
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Main.MODID);
-    public static final RegistryObject<MobEffect> COLD_RESISTANCE_EFFECT = EFFECTS.register("cold_resistance", () -> new ColdResistanceEffect(MobEffectCategory.BENEFICIAL, 0x3498db));
+    public static final RegistryObject<MobEffect> COLD_RESISTANCE = EFFECTS.register("cold_resistance", () -> new ColdResistanceEffect(MobEffectCategory.BENEFICIAL, 0x3498db));
+    public static final RegistryObject<MobEffect> WEAPON_JAM = EFFECTS.register("weapon_jam", () -> new WeaponJamEffect(MobEffectCategory.HARMFUL, 0xffffff));
 }

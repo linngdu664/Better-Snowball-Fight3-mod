@@ -39,7 +39,7 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
         Level level = level();
         if (!isCaught) {
             Entity entity = pResult.getEntity();
-            if (getOwner()!=null && (entity instanceof Player || entity instanceof Mob)) {
+            if (getOwner() != null && (entity instanceof Player || entity instanceof Mob)) {
                 Entity owner = getOwner();
                 if (level instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(ParticleTypes.PORTAL, entity.getX(), entity.getEyeY(), entity.getZ(), 32, 1, 1, 1, 0.1);

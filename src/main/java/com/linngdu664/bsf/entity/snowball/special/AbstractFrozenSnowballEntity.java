@@ -73,7 +73,7 @@ public abstract class AbstractFrozenSnowballEntity extends AbstractBSFSnowballEn
                         }
                     }
                 }
-                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4), p -> !(p instanceof BSFSnowGolemEntity) && !(p instanceof SnowGolem) && !(p instanceof Player player && (player.isSpectator() || player.isCreative())) && distanceToSqr(p) < frozenRange * frozenRange);
+                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4), p -> !(p instanceof BSFSnowGolemEntity) && !(p instanceof SnowGolem) && !(p instanceof Player player && player.isSpectator()) && distanceToSqr(p) < frozenRange * frozenRange);
                 for (LivingEntity entity : list) {
                     int frozenTicks = launchAdjustment.adjustFrozenTicks(getBasicFrozenTicks());
                     if (frozenTicks > 0) {
