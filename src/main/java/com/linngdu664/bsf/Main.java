@@ -10,7 +10,6 @@ import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.particle.ParticleRegister;
 import com.linngdu664.bsf.util.CreativeTabRegister;
 import com.linngdu664.bsf.util.SoundRegister;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -33,10 +32,5 @@ public class Main {
         EnchantmentRegister.ENCHANTMENTS.register(bus);
         EntityRegister.ENTITY_TYPES.register(bus);
         CreativeTabRegister.CREATIVE_TABS.register(bus);
-        MinecraftForge.EVENT_BUS.register(new AttackEntityEvent());
-        MinecraftForge.EVENT_BUS.register(new PlayerTickEvent());
-        MinecraftForge.EVENT_BUS.register(new LivingFallEvent());
-        MinecraftForge.EVENT_BUS.register(new LoadLootTableEvent());
-        MinecraftForge.EVENT_BUS.register(new RenderOverlayEvent());
     }
 }

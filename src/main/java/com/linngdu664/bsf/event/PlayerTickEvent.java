@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.event;
 
+import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.item.misc.IceSkatesItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -12,20 +13,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.UUID;
 
+@Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class PlayerTickEvent {
     public static final UUID SKATES_SPEED_ID = UUID.fromString("00a3641b-33e0-4022-8d92-1c7b74c380b0");
 
-    private void clearSpeedEffect(Player player) {
+    private static void clearSpeedEffect(Player player) {
         if (player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED).getModifier(SKATES_SPEED_ID) != null) {
             player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED).removeModifier(SKATES_SPEED_ID);
             player.setMaxUpStep(0.6f);
         }
     }
 
-    private void addSpeedGoodEffect(Player player) {
+    private static void addSpeedGoodEffect(Player player) {
         AttributeModifier skatesSpeed = new AttributeModifier(SKATES_SPEED_ID, "skates_speed", 0.15, AttributeModifier.Operation.ADDITION);
         if (!player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED).hasModifier(skatesSpeed)) {
             player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED).addPermanentModifier(skatesSpeed);
@@ -33,7 +36,7 @@ public class PlayerTickEvent {
         }
     }
 
-    private void addSpeedBadEffect(Player player) {
+    private static void addSpeedBadEffect(Player player) {
         AttributeModifier skatesSpeed = new AttributeModifier(SKATES_SPEED_ID, "skates_speed", -0.25, AttributeModifier.Operation.MULTIPLY_BASE);
         if (!player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED).hasModifier(skatesSpeed)) {
             player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED).addPermanentModifier(skatesSpeed);
@@ -42,7 +45,7 @@ public class PlayerTickEvent {
     }
 
     @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {
             Player player = event.player;
             ItemStack shoes = player.getItemBySlot(EquipmentSlot.FEET);

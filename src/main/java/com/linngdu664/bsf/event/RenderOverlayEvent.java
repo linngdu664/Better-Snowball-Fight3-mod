@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.event;
 
+import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -7,15 +8,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class RenderOverlayEvent {
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onRenderOverlay(RenderGuiOverlayEvent.Pre event) {
+    public static void onRenderOverlay(RenderGuiOverlayEvent.Pre event) {
         if (event.getOverlay() == VanillaGuiOverlay.HOTBAR.type()) {
             Minecraft instance = Minecraft.getInstance();
             Player player = instance.player;

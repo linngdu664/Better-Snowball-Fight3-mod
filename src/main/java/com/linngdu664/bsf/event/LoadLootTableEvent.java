@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.event;
 
+import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.item.ItemRegister;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -9,10 +10,12 @@ import net.minecraft.world.level.storage.loot.providers.number.BinomialDistribut
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class LoadLootTableEvent {
     @SubscribeEvent
-    public void onLootTableLoad(LootTableLoadEvent event) {
+    public static void onLootTableLoad(LootTableLoadEvent event) {
         if (event.getName().equals(new ResourceLocation("minecraft:chests/shipwreck_treasure")) || event.getName().equals(new ResourceLocation("minecraft:chests/igloo_chest"))) {
             LootTable lootTable = event.getTable();
             lootTable.addPool(LootPool.lootPool()

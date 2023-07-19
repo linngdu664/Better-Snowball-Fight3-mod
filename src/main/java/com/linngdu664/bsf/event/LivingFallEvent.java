@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.event;
 
+import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.item.misc.SnowFallBootsItem;
 import net.minecraft.core.BlockPos;
@@ -18,10 +19,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class LivingFallEvent {
     @SubscribeEvent
-    public void onLivingFall(net.minecraftforge.event.entity.living.LivingFallEvent event) {
+    public static void onLivingFall(net.minecraftforge.event.entity.living.LivingFallEvent event) {
         if (event.getEntity() instanceof Player player) {
             Level level = player.level();
             ItemStack shoes = player.getItemBySlot(EquipmentSlot.FEET);
@@ -34,9 +37,7 @@ public class LivingFallEvent {
                 if (block1.equals(Blocks.SNOW) || block2.equals(Blocks.SNOW_BLOCK) || snowAroundPlayer(level, player, block1)) {
                     event.setDamageMultiplier(0);
                     float h = event.getDistance();
-                    if (level instanceof ServerLevel serverLevel) {
-                        serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, player.getX(), player.getY(), player.getZ(), (int) h * 8, 0, 0, 0, h * 0.01);
-                    }
+                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, player.getX(), player.getY(), player.getZ(), (int) h * 8, 0, 0, 0, h * 0.01);
                     shoes.hurtAndBreak((int) Math.ceil((h - 3) * 0.25), player, (p) -> p.broadcastBreakEvent(EquipmentSlot.FEET));
                     level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                     if (EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.KINETIC_ENERGY_STORAGE.get(), shoes) > 0 && h > 5) {
@@ -47,7 +48,7 @@ public class LivingFallEvent {
         }
     }
 
-    private boolean snowAroundPlayer(Level level, Player player, Block block1) {
+    private static boolean snowAroundPlayer(Level level, Player player, Block block1) {
         int x = Mth.floor(player.getX());
         int y = Mth.floor(player.getY());
         int z = Mth.floor(player.getZ());

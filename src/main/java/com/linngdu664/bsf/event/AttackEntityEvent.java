@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.event;
 
+import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.item.snowball.normal.SmoothSnowballItem;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -13,10 +14,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class AttackEntityEvent {
     @SubscribeEvent
-    public void onAttackEntity(net.minecraftforge.event.entity.player.AttackEntityEvent event) {
+    public static void onAttackEntity(net.minecraftforge.event.entity.player.AttackEntityEvent event) {
         Player player = event.getEntity();
         Entity entity = event.getTarget();
         Level level = player.level();
