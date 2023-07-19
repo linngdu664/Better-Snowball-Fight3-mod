@@ -26,7 +26,7 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
     }
 
     public ImpulseSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.IMPULSE_SNOWBALL_ENTITY.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.IMPULSE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
     }
 
     @Override
