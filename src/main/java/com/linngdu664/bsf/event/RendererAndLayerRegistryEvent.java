@@ -45,7 +45,8 @@ public class RendererAndLayerRegistryEvent {
         event.registerEntityRenderer(EntityRegister.SUBSPACE_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(EntityRegister.EXPANSION_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(EntityRegister.CRITICAL_FROZEN_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(EntityRegister.IMPULSE_SNOWBALL_ENTITY.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(EntityRegister.IMPULSE_SNOWBALL.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(EntityRegister.CHERRY_BLOSSOM_SNOWBALL.get(), ThrownItemRenderer::new);
     }
 
     @SubscribeEvent
