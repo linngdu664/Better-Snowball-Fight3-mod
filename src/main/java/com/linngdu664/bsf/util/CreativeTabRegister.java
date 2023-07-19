@@ -14,13 +14,14 @@ public class CreativeTabRegister {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Main.MODID);
     // Creates a creative tab with the id "bsf:bsf_tab" for the example item, that is placed after the combat tab
     public static final RegistryObject<CreativeModeTab> BSF_TAB = CREATIVE_TABS.register("bsf_tab", () -> net.minecraft.world.item.CreativeModeTab.builder()
-            .withTabsBefore(CreativeModeTabs.COMBAT)
+            .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
             .icon(() -> ItemRegister.EXPLOSIVE_SNOWBALL.get().getDefaultInstance())
             .title(MutableComponent.create(new TranslatableContents("itemGroup.bsf_group", null, new Object[0])))
             .displayItems((parameters, output) -> {
                 output.accept(ItemRegister.SMOOTH_SNOWBALL.get());
                 output.accept(ItemRegister.COMPACTED_SNOWBALL.get());
                 output.accept(ItemRegister.COMPACTED_SNOWBALL_SET.get());
+                output.accept(ItemRegister.CHERRY_BLOSSOM_SNOWBALL.get());
                 output.accept(ItemRegister.STONE_SNOWBALL.get());
                 output.accept(ItemRegister.GLASS_SNOWBALL.get());
                 output.accept(ItemRegister.ICE_SNOWBALL.get());
@@ -52,6 +53,7 @@ public class CreativeTabRegister {
 
                 output.accept(ItemRegister.EMPTY_SNOWBALL_STORAGE_TANK.get());
                 output.accept(ItemRegister.COMPACTED_SNOWBALL_TANK.get());
+                output.accept(ItemRegister.CHERRY_BLOSSOM_SNOWBALL_TANK.get());
                 output.accept(ItemRegister.STONE_SNOWBALL_TANK.get());
                 output.accept(ItemRegister.GLASS_SNOWBALL_TANK.get());
                 output.accept(ItemRegister.ICE_SNOWBALL_TANK.get());
