@@ -36,14 +36,14 @@ public class VodkaItem extends Item {
         }
         if (!pLevel.isClientSide) {
             int t;
-            if (player.hasEffect(EffectRegister.COLD_RESISTANCE_EFFECT.get())) {
-                t = Objects.requireNonNull(pEntityLiving.getEffect(EffectRegister.COLD_RESISTANCE_EFFECT.get())).getDuration();
+            if (player.hasEffect(EffectRegister.COLD_RESISTANCE.get())) {
+                t = Objects.requireNonNull(pEntityLiving.getEffect(EffectRegister.COLD_RESISTANCE.get())).getDuration();
                 player.setRemainingFireTicks(player.getRemainingFireTicks() + 60);
             } else {
                 t = 0;
             }
             player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100 + t));
-            player.addEffect(new MobEffectInstance(EffectRegister.COLD_RESISTANCE_EFFECT.get(), 600));
+            player.addEffect(new MobEffectInstance(EffectRegister.COLD_RESISTANCE.get(), 600));
             player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600));
         }
         player.awardStat(Stats.ITEM_USED.get(this));
@@ -52,7 +52,6 @@ public class VodkaItem extends Item {
             player.getInventory().placeItemBackInInventory(new ItemStack(Items.GLASS_BOTTLE), true);
         }
         pLevel.gameEvent(pEntityLiving, GameEvent.DRINK, pEntityLiving.getEyePosition());
-//        pLevel.gameEvent(pEntityLiving, GameEvent.DRINKING_FINISH, pEntityLiving.eyeBlockPosition());
         return pStack;
     }
 
