@@ -10,17 +10,20 @@ import java.util.function.Supplier;
 
 public class AmmoTypeToServer {
     private final Item item;
+    private final boolean isMainHand;
 
-    public AmmoTypeToServer(Item item) {
+    public AmmoTypeToServer(Item item, boolean isMainHand) {
         this.item = item;
+        this.isMainHand = isMainHand;
     }
 
     public static void encoder(AmmoTypeToServer message, FriendlyByteBuf buffer) {
         buffer.writeItem(message.item.getDefaultInstance());
+        buffer.writeBoolean(message.isMainHand);
     }
 
     public static AmmoTypeToServer decoder(FriendlyByteBuf buffer) {
-        return new AmmoTypeToServer(buffer.readItem().getItem());
+        return new AmmoTypeToServer(buffer.readItem().getItem(), buffer.readBoolean());
     }
 
     public static void messageConsumer(AmmoTypeToServer message, Supplier<NetworkEvent.Context> ctxSupplier) {
@@ -30,13 +33,9 @@ public class AmmoTypeToServer {
             if (!sender.level().hasChunkAt(sender.blockPosition())) {
                 return;
             }
-            AbstractBSFWeaponItem weapon = null;
-            if (sender.getMainHandItem().getItem() instanceof AbstractBSFWeaponItem item) {
-                weapon = item;
-            } else if (sender.getOffhandItem().getItem() instanceof AbstractBSFWeaponItem item) {
-                weapon = item;
-            }
-            if (weapon != null) {
+            if (message.isMainHand && sender.getMainHandItem().getItem() instanceof AbstractBSFWeaponItem weapon) {
+                weapon.setAmmoItem(message.item);
+            } else if (sender.getOffhandItem().getItem() instanceof AbstractBSFWeaponItem weapon) {
                 weapon.setAmmoItem(message.item);
             }
         });

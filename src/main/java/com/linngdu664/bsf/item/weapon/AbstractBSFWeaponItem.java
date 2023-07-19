@@ -83,7 +83,7 @@ public abstract class AbstractBSFWeaponItem extends Item {
 
     @Override
     public void inventoryTick(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (pLevel.isClientSide && pIsSelected && pEntity instanceof Player player) {
+        if (pLevel.isClientSide && pEntity instanceof Player player && (this.equals(player.getMainHandItem().getItem()) || this.equals(player.getOffhandItem().getItem()))) {
             ArrayList<Item> arrayList = new ArrayList<>();
             Inventory inventory = player.getInventory();
             int k = inventory.getContainerSize();
@@ -167,7 +167,7 @@ public abstract class AbstractBSFWeaponItem extends Item {
                 currentAmmoItemStack = new ItemStack(item2, i2);
                 nextAmmoItemStack = new ItemStack(item3, i3);
             }
-            Network.PACKET_HANDLER.sendToServer(new AmmoTypeToServer(currentAmmoItemStack.getItem()));
+            Network.PACKET_HANDLER.sendToServer(new AmmoTypeToServer(currentAmmoItemStack.getItem(), this.equals(player.getMainHandItem().getItem())));
         }
     }
 

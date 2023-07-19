@@ -42,16 +42,18 @@ public class BSFKeyMappings {
                 }
                 if (weaponItem != null) {
                     LinkedList<Item> launchOrder = weaponItem.getLaunchOrder();
-                    if (key == CYCLE_MOVE_AMMO_NEXT.getKey().getValue()) {
-                        Item item = launchOrder.getFirst();
-                        launchOrder.removeFirst();
-                        launchOrder.addLast(item);
-                    } else {
-                        Item item = launchOrder.getLast();
-                        launchOrder.removeLast();
-                        launchOrder.addFirst(item);
+                    if (!launchOrder.isEmpty()) {
+                        if (key == CYCLE_MOVE_AMMO_NEXT.getKey().getValue()) {
+                            Item item = launchOrder.getFirst();
+                            launchOrder.removeFirst();
+                            launchOrder.addLast(item);
+                        } else {
+                            Item item = launchOrder.getLast();
+                            launchOrder.removeLast();
+                            launchOrder.addFirst(item);
+                        }
+                        player.playSound(SoundEvents.DISPENSER_DISPENSE, 1.0F, 1.0F / (player.level().getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                     }
-                    player.playSound(SoundEvents.DISPENSER_DISPENSE, 1.0F, 1.0F / (player.level().getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                 }
             }
         }
