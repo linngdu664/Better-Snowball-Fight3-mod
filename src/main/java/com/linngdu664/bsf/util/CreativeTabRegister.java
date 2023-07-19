@@ -49,6 +49,7 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.ENDER_SNOWBALL.get());
                 output.accept(ItemRegister.EXPANSION_SNOWBALL.get());
                 output.accept(ItemRegister.IMPULSE_SNOWBALL.get());
+                output.accept(ItemRegister.GHOST_SNOWBALL.get());
 
 
                 output.accept(ItemRegister.EMPTY_SNOWBALL_STORAGE_TANK.get());
@@ -81,6 +82,7 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.ENDER_SNOWBALL_TANK.get());
                 output.accept(ItemRegister.EXPANSION_SNOWBALL_TANK.get());
                 output.accept(ItemRegister.IMPULSE_SNOWBALL_TANK.get());
+                output.accept(ItemRegister.GHOST_SNOWBALL_TANK.get());
 
 
                 output.accept(ItemRegister.WOOD_SNOWBALL_CLAMP.get());
