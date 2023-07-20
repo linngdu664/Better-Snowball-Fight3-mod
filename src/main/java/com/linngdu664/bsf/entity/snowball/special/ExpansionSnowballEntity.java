@@ -1,17 +1,22 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.block.BlockRegister;
+import com.linngdu664.bsf.block.LooseSnowBlock;
+import com.linngdu664.bsf.block.entity.LooseSnowBlockEntity;
 import com.linngdu664.bsf.entity.EntityRegister;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -42,9 +47,13 @@ public class ExpansionSnowballEntity extends AbstractBSFSnowballEntity {
                         BlockPos blockPos1 = blockPos.offset(x, y, z);
                         if (level.getBlockState(blockPos1).canBeReplaced()) {
                             level.setBlock(blockPos1, BlockRegister.LOOSE_SNOW_BLOCK.get().defaultBlockState(), 3);
+                        } else if(level.getBlockEntity(blockPos1) instanceof LooseSnowBlockEntity blockEntity){
+                            blockEntity.setAge(0);
+                            blockEntity.setChanged();
                         }
                     }
                 }
+                ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 200, 0, 0, 0, 0.32);
             }
             this.discard();
         }

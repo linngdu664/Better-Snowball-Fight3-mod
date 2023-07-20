@@ -21,6 +21,7 @@ public class LooseSnowBlock extends Block implements EntityBlock {
         super(Properties.copy(Blocks.SNOW_BLOCK)
                 .noLootTable()
                 .noOcclusion()
+                .strength(0.05f)
                 .pushReaction(PushReaction.DESTROY)
                 .isSuffocating((BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) -> false)
                 .isRedstoneConductor((BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) -> false)
