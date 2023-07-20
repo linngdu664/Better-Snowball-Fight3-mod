@@ -1,4 +1,4 @@
-package com.linngdu664.bsf.item.snowball.force;
+package com.linngdu664.bsf.item.snowball.special;
 
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.special.BlackHoleSnowballEntity;

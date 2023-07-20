@@ -1,4 +1,4 @@
-package com.linngdu664.bsf.item.tank.force;
+package com.linngdu664.bsf.item.tank.special;
 
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
