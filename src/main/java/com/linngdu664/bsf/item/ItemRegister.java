@@ -120,7 +120,7 @@ public class ItemRegister {
     public static final RegistryObject<Item> SNOW_GOLEM_MODE_TWEAKER = ITEMS.register("snow_golem_mode_tweaker", SnowGolemModeTweakerItem::new);
     public static final RegistryObject<Item> CREATE_SNOW_GOLEM_TOOL = ITEMS.register("creative_snow_golem_tool", CreativeSnowGolemToolItem::new);
     public static final RegistryObject<Item> TARGET_LOCATOR = ITEMS.register("target_locator", TargetLocatorItem::new);
-
+    public static final RegistryObject<Item> SNOW_TRAP_SETTER = ITEMS.register("snow_trap_setter", SnowTrapSetterItem::new);
 
 
 
