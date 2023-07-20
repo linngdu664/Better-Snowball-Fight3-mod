@@ -20,6 +20,7 @@ public class SoundRegister {
     public static final RegistryObject<SoundEvent> SUBSPACE_SNOWBALL_CUT = build("subspace_snowball_cut");
     public static final RegistryObject<SoundEvent> UNSTABLE_CORE_BREAK = build("unstable_core_break");
     public static final RegistryObject<SoundEvent> MACHINE_GUN_COOLING = build("machine_gun_cooling");
+    public static final RegistryObject<SoundEvent>[] MEME = buildMeme();
 
     private static RegistryObject<SoundEvent> build(String id, float range) {
         return SOUNDS.register(id, () -> SoundEvent.createFixedRangeEvent(new ResourceLocation("bsf", id), range));
@@ -27,5 +28,13 @@ public class SoundRegister {
 
     private static RegistryObject<SoundEvent> build(String id) {
         return SOUNDS.register(id, () -> SoundEvent.createFixedRangeEvent(new ResourceLocation("bsf", id), 16));
+    }
+
+    private static RegistryObject<SoundEvent>[] buildMeme() {
+        RegistryObject<SoundEvent>[] memes = new RegistryObject[25];
+        for (int i = 0; i < 25; i++) {
+            memes[i] = build(String.format("memesound%02d", i + 1));
+        }
+        return memes;
     }
 }
