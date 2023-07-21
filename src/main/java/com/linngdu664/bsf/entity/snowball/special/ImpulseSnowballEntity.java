@@ -5,10 +5,13 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.particle.ParticleRegister;
+import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,10 +41,10 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
         Level level = level();
         if (!level.isClientSide) {
             if (!isCaught) {
-                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4), p -> !(p instanceof Player player && (player.isCreative() || player.isSpectator())));
+                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4), p -> !(p instanceof Player player && player.isSpectator()));
                 impulseForceEffect(list);
                 ((ServerLevel) level).sendParticles(ParticleRegister.IMPULSE.get(), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
-
+                level().playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[0].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
             }
             discard();
         }
@@ -58,7 +61,7 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
                 impulseForceEffect(list1);
                 discard();
                 ((ServerLevel) level).sendParticles(ParticleRegister.IMPULSE.get(), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
-
+                level().playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[0].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
             }
         }
     }
@@ -67,11 +70,14 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
         Vec3 pos = new Vec3(getX(), getY(), getZ());
         for (Entity entity : list) {
             Vec3 rVec = new Vec3(entity.getX(), (entity.getY() + entity.getEyeY()) * 0.5, entity.getZ()).add(pos.reverse());
-            Vec3 norm = rVec.normalize();
-            Vec3 aVec = norm.scale(2).add(rVec.scale(-0.25));
-            entity.push(aVec.x, aVec.y, aVec.z);
-            if (entity instanceof ServerPlayer player) {
-                player.connection.send(new ClientboundSetEntityMotionPacket(entity));
+            System.out.println(rVec.length());
+            if (rVec.length()<4){
+                Vec3 norm = rVec.normalize();
+                Vec3 aVec = norm.scale(2).add(rVec.scale(-0.2));
+                entity.push(aVec.x, aVec.y, aVec.z);
+                if (entity instanceof ServerPlayer player) {
+                    player.connection.send(new ClientboundSetEntityMotionPacket(entity));
+                }
             }
         }
     }
