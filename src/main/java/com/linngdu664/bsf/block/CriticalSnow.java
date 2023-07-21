@@ -11,6 +11,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -26,7 +27,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class CriticalSnow extends Block implements EntityBlock {
+public class CriticalSnow extends SnowLayerBlock implements EntityBlock {
     public CriticalSnow() {
         super(Properties.copy(Blocks.SNOW).speedFactor(0.2F).jumpFactor(0.2F).noLootTable());
     }
