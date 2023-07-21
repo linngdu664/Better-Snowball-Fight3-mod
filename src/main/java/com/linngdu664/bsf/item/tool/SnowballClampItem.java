@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.item.tool;
 
+import com.linngdu664.bsf.item.BSFTiers;
 import com.linngdu664.bsf.item.ItemRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -25,8 +26,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SnowballClampItem extends TieredItem {
-    public SnowballClampItem(Tier pTier) {
-        super(pTier, new Properties().stacksTo(1));
+    public SnowballClampItem(Tier pTier, int durability) {
+        super(pTier, new Properties().stacksTo(1).durability(durability));
     }
 
     @Override
@@ -37,7 +38,11 @@ public class SnowballClampItem extends TieredItem {
         Block block = level.getBlockState(pContext.getClickedPos()).getBlock();
         if ((block == Blocks.SNOW_BLOCK || block == Blocks.SNOW || block == Blocks.POWDER_SNOW) && player != null) {
             if (player.getMainHandItem().isEmpty() || player.getOffhandItem().isEmpty()) {
-                player.getInventory().placeItemBackInInventory(new ItemStack(ItemRegister.SMOOTH_SNOWBALL.get(), 1), true);
+                if (getTier().equals(BSFTiers.EMERALD)) {
+                    player.getInventory().placeItemBackInInventory(ItemRegister.DUCK_SNOWBALL.get().getDefaultInstance(), true);
+                } else {
+                    player.getInventory().placeItemBackInInventory(ItemRegister.SMOOTH_SNOWBALL.get().getDefaultInstance(), true);
+                }
                 itemStack.hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(pContext.getHand()));
             }
             player.awardStat(Stats.ITEM_USED.get(this));
@@ -48,7 +53,11 @@ public class SnowballClampItem extends TieredItem {
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack pStack, @NotNull Player pPlayer, @NotNull LivingEntity pInteractionTarget, @NotNull InteractionHand pUsedHand) {
         if (pInteractionTarget instanceof SnowGolem && (pPlayer.getMainHandItem().isEmpty() || pPlayer.getOffhandItem().isEmpty())) {
-            pPlayer.getInventory().placeItemBackInInventory(new ItemStack(ItemRegister.SMOOTH_SNOWBALL.get(), 1), true);
+            if (getTier().equals(BSFTiers.EMERALD)) {
+                pPlayer.getInventory().placeItemBackInInventory(ItemRegister.DUCK_SNOWBALL.get().getDefaultInstance(), true);
+            } else {
+                pPlayer.getInventory().placeItemBackInInventory(ItemRegister.SMOOTH_SNOWBALL.get().getDefaultInstance(), true);
+            }
             pStack.hurtAndBreak(1, pPlayer, (e) -> e.broadcastBreakEvent(pUsedHand));
             pPlayer.awardStat(Stats.ITEM_USED.get(this));
             return InteractionResult.SUCCESS;
