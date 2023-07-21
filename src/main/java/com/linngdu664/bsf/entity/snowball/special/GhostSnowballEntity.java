@@ -66,7 +66,7 @@ public class GhostSnowballEntity extends AbstractBSFSnowballEntity {
 
     @Override
     public boolean canBeCaught() {
-        return true;
+        return false;
     }
 
     @Override
