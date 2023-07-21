@@ -145,7 +145,6 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
 
     @Override
     public int getUseDuration(@NotNull ItemStack pStack) {
-//        super.getUseDuration(pStack);
         if (isExplosive) {
             return 60;
         }
