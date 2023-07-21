@@ -40,13 +40,16 @@ public class SculkSnowballLauncherItem extends AbstractBSFWeaponItem {
         }
         if (!pLevel.isClientSide) {
             ItemStack stack = getAmmo(pPlayer, itemStack);
-            if (stack != null) {
+            if (stack != null || pPlayer.isCreative()) {
                 pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
                 SculkSnowballEntity snowballEntity = new SculkSnowballEntity(pPlayer, pLevel);
                 snowballEntity.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 2.0F, 1.0F);
                 pLevel.addFreshEntity(snowballEntity);
                 itemStack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pUsedHand));
-                consumeAmmo(stack, pPlayer);
+
+                if (stack != null) {
+                    consumeAmmo(stack, pPlayer);
+                }
                 pPlayer.awardStat(Stats.ITEM_USED.get(this));
             }
         }
