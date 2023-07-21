@@ -19,6 +19,7 @@ public class CreativeTabRegister {
             .title(MutableComponent.create(new TranslatableContents("itemGroup.bsf_group", null, new Object[0])))
             .displayItems((parameters, output) -> {
                 output.accept(ItemRegister.SMOOTH_SNOWBALL.get());
+                output.accept(ItemRegister.DUCK_SNOWBALL.get());
                 output.accept(ItemRegister.COMPACTED_SNOWBALL.get());
                 output.accept(ItemRegister.COMPACTED_SNOWBALL_SET.get());
                 output.accept(ItemRegister.CHERRY_BLOSSOM_SNOWBALL.get());
@@ -91,6 +92,7 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.GOLD_SNOWBALL_CLAMP.get());
                 output.accept(ItemRegister.DIAMOND_SNOWBALL_CLAMP.get());
                 output.accept(ItemRegister.NETHERITE_SNOWBALL_CLAMP.get());
+                output.accept(ItemRegister.EMERALD_SNOWBALL_CLAMP.get());
                 output.accept(ItemRegister.SNOWBALL_CANNON.get());
                 output.accept(ItemRegister.POWERFUL_SNOWBALL_CANNON.get());
                 output.accept(ItemRegister.FREEZING_SNOWBALL_CANNON.get());
