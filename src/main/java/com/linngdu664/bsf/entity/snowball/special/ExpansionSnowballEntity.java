@@ -1,7 +1,6 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.block.BlockRegister;
-import com.linngdu664.bsf.block.LooseSnowBlock;
 import com.linngdu664.bsf.block.entity.LooseSnowBlockEntity;
 import com.linngdu664.bsf.entity.EntityRegister;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
@@ -16,7 +15,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;

@@ -4,7 +4,7 @@ import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
-import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
+import com.linngdu664.bsf.item.tank.SnowballTankItem;
 import com.linngdu664.bsf.item.tank.normal.ExplosiveSnowballTank;
 import com.linngdu664.bsf.item.tank.tracking.ExplosiveMonsterTrackingSnowballTank;
 import com.linngdu664.bsf.item.tank.tracking.ExplosivePlayerTrackingSnowballTank;
@@ -78,9 +78,9 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
-        ammo = getAmmo(pPlayer);
+        ammo = getAmmo(pPlayer, stack);
         if (ammo != null && !pPlayer.hasEffect(EffectRegister.WEAPON_JAM.get())) {
-            recoil = ((AbstractSnowballTankItem) ammo.getItem()).getSnowball().getMachineGunRecoil();
+            recoil = ((SnowballTankItem) ammo.getItem()).getSnowball().getMachineGunRecoil();
             isExplosive = ammo.getItem() instanceof ExplosiveSnowballTank || ammo.getItem() instanceof ExplosivePlayerTrackingSnowballTank || ammo.getItem() instanceof ExplosiveMonsterTrackingSnowballTank;
             pPlayer.startUsingItem(pUsedHand);
             return InteractionResultHolder.consume(stack);

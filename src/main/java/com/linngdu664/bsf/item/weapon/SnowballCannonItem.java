@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SnowballCannonItem extends AbstractBSFWeaponItem {
-    public static final int TYPE_FLAG = 1;
+    public static final int TYPE_FLAG = 2;
 
     public SnowballCannonItem() {
         super(514, Rarity.RARE, TYPE_FLAG);
@@ -94,7 +94,7 @@ public class SnowballCannonItem extends AbstractBSFWeaponItem {
             int i = this.getUseDuration(pStack) - pTimeLeft;
             float f = getPowerForTime(i);
             if (f >= 0.1F) {
-                ItemStack itemStack = getAmmo(player);
+                ItemStack itemStack = getAmmo(player, pStack);
                 if (itemStack != null) {
                     AbstractBSFSnowballEntity snowballEntity = ItemToEntity(itemStack.getItem(), player, pLevel, getLaunchAdjustment(f, itemStack.getItem()));
                     BSFShootFromRotation(snowballEntity, player.getXRot(), player.getYRot(), f * velocity, 0.5F);

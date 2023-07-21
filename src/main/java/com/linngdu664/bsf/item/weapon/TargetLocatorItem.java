@@ -25,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class TargetLocatorItem extends AbstractBSFWeaponItem {
-    public static final int TYPE_FLAG = 16;
+    public static final int TYPE_FLAG = 32;
 
     public TargetLocatorItem() {
         super(514, Rarity.UNCOMMON, TYPE_FLAG);
@@ -46,7 +46,7 @@ public class TargetLocatorItem extends AbstractBSFWeaponItem {
                 pPlayer.getItemInHand(pUsedHand).setHoverName(MutableComponent.create(new TranslatableContents("item.bsf.target_locator", null, new Object[0])));
                 pPlayer.awardStat(Stats.ITEM_USED.get(this));
             } else {
-                ItemStack stack = getAmmo(pPlayer);
+                ItemStack stack = getAmmo(pPlayer, itemStack);
                 if (stack != null) {
                     pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
                     GPSSnowballEntity snowballEntity = new GPSSnowballEntity(pPlayer, pLevel, itemStack);
