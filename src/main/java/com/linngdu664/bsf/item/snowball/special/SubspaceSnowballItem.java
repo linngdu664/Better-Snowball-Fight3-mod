@@ -57,7 +57,7 @@ public class SubspaceSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public int getTypeFlag() {
-        return 0;
+        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
     }
 
     @Override
@@ -65,13 +65,23 @@ public class SubspaceSnowballItem extends AbstractBSFSnowballItem {
         return ItemRegister.SUBSPACE_SNOWBALL_TANK.get();
     }
 
+//    @Override
+//    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_yes_hand.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_GREEN));
+//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_cannon.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
+//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_machine_gun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
+//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_shotgun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
+//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_PURPLE));
+//    }
+
     @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_yes_hand.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_GREEN));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_cannon.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_machine_gun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_shotgun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
+    public void addUsageTips(List<Component> pTooltipComponents) {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+    }
+
+    @Override
+    public void addLastTips(List<Component> pTooltipComponents) {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_PURPLE));
     }
 }

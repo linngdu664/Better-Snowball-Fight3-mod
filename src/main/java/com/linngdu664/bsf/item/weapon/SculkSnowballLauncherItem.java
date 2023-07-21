@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class SculkSnowballLauncherItem extends AbstractBSFWeaponItem {
-    public static final int TYPE_FLAG = 8;
+    public static final int TYPE_FLAG = 16;
 
     public SculkSnowballLauncherItem() {
         super(8192, Rarity.RARE, TYPE_FLAG);
@@ -33,13 +33,13 @@ public class SculkSnowballLauncherItem extends AbstractBSFWeaponItem {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
         if (pPlayer.hasEffect(EffectRegister.WEAPON_JAM.get())) {
             return InteractionResultHolder.fail(itemStack);
         }
         if (!pLevel.isClientSide) {
-            ItemStack stack = getAmmo(pPlayer);
+            ItemStack stack = getAmmo(pPlayer, itemStack);
             if (stack != null) {
                 pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
                 SculkSnowballEntity snowballEntity = new SculkSnowballEntity(pPlayer, pLevel);

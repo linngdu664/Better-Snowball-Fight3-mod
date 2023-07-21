@@ -33,7 +33,6 @@ public class AmmoTypeToClient {
 
     @OnlyIn(Dist.CLIENT)
     public static boolean handlePacket(int slot) {
-        System.out.println("client ok");
         if (Minecraft.getInstance().player.getInventory().getItem(slot).getItem() instanceof AbstractBSFWeaponItem weapon) {
             Network.PACKET_HANDLER.sendToServer(new AmmoTypeToServer(weapon.getCurrentAmmoItemStack().getItem(), slot));
         }

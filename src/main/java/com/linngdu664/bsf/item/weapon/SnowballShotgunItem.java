@@ -8,6 +8,7 @@ import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
+import com.linngdu664.bsf.item.tank.SnowballTankItem;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import com.linngdu664.bsf.network.Network;
 import com.linngdu664.bsf.util.SoundRegister;
@@ -34,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SnowballShotgunItem extends AbstractBSFWeaponItem {
-    public static final int TYPE_FLAG = 2;
+    public static final int TYPE_FLAG = 8;
 
     public SnowballShotgunItem() {
         super(1145, Rarity.EPIC, TYPE_FLAG);
@@ -89,13 +90,13 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
         double pushRank = 0.24;
         int i;
         for (i = 0; i < 4; i++) {
-            ItemStack itemStack = getAmmo(player);
+            ItemStack itemStack = getAmmo(player, stack);
             if (itemStack == null || !player.isShiftKeyDown() && (itemStack.getItem().equals(ItemRegister.THRUST_SNOWBALL.get()) || itemStack.getItem().equals(ItemRegister.THRUST_SNOWBALL_TANK.get()))) {
                 break;
             }
             AbstractBSFSnowballEntity snowballEntity = ItemToEntity(itemStack.getItem(), player, level, getLaunchAdjustment(1, itemStack.getItem()));
             Item item = itemStack.getItem();
-            if (item instanceof AbstractSnowballTankItem tank) {
+            if (item instanceof SnowballTankItem tank) {
                 item = tank.getSnowball();
             }
             if (item instanceof AbstractBSFSnowballItem snowball) {

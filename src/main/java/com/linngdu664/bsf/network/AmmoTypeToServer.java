@@ -1,11 +1,15 @@
 package com.linngdu664.bsf.network;
 
 import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
@@ -34,8 +38,11 @@ public class AmmoTypeToServer {
             if (!sender.level().hasChunkAt(sender.blockPosition())) {
                 return;
             }
-            if (sender.getInventory().getItem(message.slot).getItem() instanceof AbstractBSFWeaponItem weapon) {
-                weapon.setAmmoItem(message.item);
+            ItemStack itemStack = sender.getInventory().getItem(message.slot);
+            if (itemStack.getItem() instanceof AbstractBSFWeaponItem) {
+                CompoundTag compoundTag = itemStack.getOrCreateTag();
+                ResourceLocation resourceLocation = ForgeRegistries.ITEMS.getKey(message.item);
+                compoundTag.putString("ammo_item", resourceLocation.getPath());
             } else {
                 Network.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> sender), new AmmoTypeToClient(message.slot));
             }

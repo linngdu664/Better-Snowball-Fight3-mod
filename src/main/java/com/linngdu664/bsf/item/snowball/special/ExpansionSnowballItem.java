@@ -32,7 +32,7 @@ public class ExpansionSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public int getTypeFlag() {
-        return 0;
+        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
     }
 
     @Override

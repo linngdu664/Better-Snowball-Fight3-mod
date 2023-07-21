@@ -2,6 +2,7 @@ package com.linngdu664.bsf.item.tank;
 
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
+import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -9,24 +10,39 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-@Deprecated
-public abstract class AbstractSnowballTankItem extends Item {
+import java.util.List;
+
+public class SnowballTankItem extends Item {
     private final Item item;
+    private final boolean isLarge;
 
-    public AbstractSnowballTankItem(Item item) {
-        super(new Properties().stacksTo(1).durability(96).rarity(Rarity.UNCOMMON));
+    public SnowballTankItem(Item item, boolean isLarge) {
+        super(new Properties().stacksTo(1).durability(isLarge ? 192 : 96).rarity(Rarity.UNCOMMON));
+        this.isLarge = isLarge;
         this.item = item;
+    }
+
+    public AbstractBSFSnowballItem getSnowball() {
+        return (AbstractBSFSnowballItem) item;
+    }
+
+    public boolean isLarge() {
+        return isLarge;
     }
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
         if (pPlayer.getOffhandItem().isEmpty()) {
-            if (pPlayer.isShiftKeyDown() || itemStack.getDamageValue() >= 80) {
-                int k = 96 - itemStack.getDamageValue();
+            int damageValue = itemStack.getDamageValue();
+            int maxDamage = itemStack.getMaxDamage();
+            if (pPlayer.isShiftKeyDown() || damageValue >= maxDamage- 16) {
+                int k = maxDamage - damageValue;
                 for (int i = 0; i < k / 16; i++) {
                     pPlayer.getInventory().placeItemBackInInventory(new ItemStack(item, 16), true);
                 }
@@ -43,8 +59,11 @@ public abstract class AbstractSnowballTankItem extends Item {
         return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 
-    public AbstractBSFSnowballItem getSnowball() {
-        return (AbstractBSFSnowballItem) item;
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        AbstractBSFSnowballItem snowballItem = getSnowball();
+        snowballItem.generateWeaponTips(pTooltipComponents);
+        snowballItem.addLastTips(pTooltipComponents);
     }
 
     @Override
