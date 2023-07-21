@@ -55,6 +55,7 @@ public class EntityRegister {
     public static final RegistryObject<EntityType<ImpulseSnowballEntity>> IMPULSE_SNOWBALL = snowballRegister(ImpulseSnowballEntity::new, "impulse_snowball");
     public static final RegistryObject<EntityType<CherryBlossomSnowballEntity>> CHERRY_BLOSSOM_SNOWBALL = snowballRegister(CherryBlossomSnowballEntity::new, "cherry_blossom_snowball");
     public static final RegistryObject<EntityType<GhostSnowballEntity>> GHOST_SNOWBALL = snowballRegister(GhostSnowballEntity::new, "ghost_snowball");
+    public static final RegistryObject<EntityType<SculkSnowballEntity>> SCULK_SNOWBALL = snowballRegister(SculkSnowballEntity::new, "sculk_snowball");
 
     /**
      * A tool to register snowball entity

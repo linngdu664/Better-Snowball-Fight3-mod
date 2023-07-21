@@ -48,6 +48,7 @@ public class RendererAndLayerRegistryEvent {
         event.registerEntityRenderer(EntityRegister.IMPULSE_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(EntityRegister.CHERRY_BLOSSOM_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(EntityRegister.GHOST_SNOWBALL.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(EntityRegister.SCULK_SNOWBALL.get(), ThrownItemRenderer::new);
     }
 
     @SubscribeEvent
