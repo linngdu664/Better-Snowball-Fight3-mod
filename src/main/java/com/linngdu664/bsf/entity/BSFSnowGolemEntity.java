@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.entity;
 
+import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.ai.goal.*;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
@@ -398,7 +399,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         Level level = level();
         ItemStack weapon = getWeapon();
         ItemStack ammo = getAmmo();
-        if (!weapon.isEmpty() && !ammo.isEmpty()) {
+        if (!weapon.isEmpty() && !ammo.isEmpty() && !hasEffect(EffectRegister.WEAPON_JAM.get())) {
             AbstractBSFWeaponItem weaponItem = (AbstractBSFWeaponItem) weapon.getItem();
             AbstractBSFSnowballItem snowballItem = ((AbstractSnowballTankItem) ammo.getItem()).getSnowball();
             if ((snowballItem.getTypeFlag() & weaponItem.getTypeFlag()) == 0) {
