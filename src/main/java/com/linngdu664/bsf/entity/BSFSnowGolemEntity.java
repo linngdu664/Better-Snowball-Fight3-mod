@@ -10,8 +10,8 @@ import com.linngdu664.bsf.item.BSFTiers;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.snowball.normal.SmoothSnowballItem;
-import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
 import com.linngdu664.bsf.item.tank.EmptySnowballTankItem;
+import com.linngdu664.bsf.item.tank.SnowballTankItem;
 import com.linngdu664.bsf.item.tool.CreativeSnowGolemToolItem;
 import com.linngdu664.bsf.item.tool.SnowGolemModeTweakerItem;
 import com.linngdu664.bsf.item.tool.SnowballClampItem;
@@ -238,7 +238,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         Level level = level();
         if (!level.isClientSide && pPlayer.equals(getOwner())) {
             ItemStack itemStack = pPlayer.getItemInHand(pHand);
-            if (itemStack.getItem() instanceof AbstractSnowballTankItem && getAmmo().isEmpty()) {
+            if (itemStack.getItem() instanceof SnowballTankItem && getAmmo().isEmpty()) {
                 setAmmo(itemStack.copy());
                 if (!pPlayer.getAbilities().instabuild) {
                     itemStack.shrink(1);
@@ -400,7 +400,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         ItemStack ammo = getAmmo();
         if (!weapon.isEmpty() && !ammo.isEmpty() && !hasEffect(EffectRegister.WEAPON_JAM.get())) {
             AbstractBSFWeaponItem weaponItem = (AbstractBSFWeaponItem) weapon.getItem();
-            AbstractBSFSnowballItem snowballItem = ((AbstractSnowballTankItem) ammo.getItem()).getSnowball();
+            AbstractBSFSnowballItem snowballItem = ((SnowballTankItem) ammo.getItem()).getSnowball();
             if ((snowballItem.getTypeFlag() & weaponItem.getTypeFlag()) == 0) {
                 return;
             }
@@ -444,12 +444,12 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 if (item instanceof EmptySnowballTankItem) {
                     break;
                 }
-                AbstractBSFSnowballEntity snowball = ((AbstractSnowballTankItem) item).getSnowball().getCorrespondingEntity(level, this, launchAdjustment);
+                AbstractBSFSnowballEntity snowball = ((SnowballTankItem) item).getSnowball().getCorrespondingEntity(level, this, launchAdjustment);
                 snowball.shoot(dx, sinTheta, dz, v, accuracy);
                 level.addFreshEntity(snowball);
                 if (!getEnhance()) {
                     ammo.setDamageValue(ammo.getDamageValue() + 1);
-                    if (ammo.getDamageValue() == 96) {
+                    if (ammo.getDamageValue() == ammo.getMaxDamage()) {
                         setAmmo(new ItemStack(ItemRegister.EMPTY_SNOWBALL_STORAGE_TANK.get()));
                     }
                 }
