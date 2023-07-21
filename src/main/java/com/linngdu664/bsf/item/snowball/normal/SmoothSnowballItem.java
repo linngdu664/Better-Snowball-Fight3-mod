@@ -77,7 +77,7 @@ public class SmoothSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public Item getTank() {
-        return ItemRegister.SMOOTH_SNOWBALL.get();
+        return null;
     }
 
     @Override

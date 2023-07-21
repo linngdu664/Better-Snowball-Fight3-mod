@@ -217,4 +217,8 @@ public abstract class AbstractBSFWeaponItem extends Item {
     public void setAmmoItem(Item item) {
         this.ammoItem = item;
     }
+
+    public int getTypeFlag() {
+        return typeFlag;
+    }
 }
