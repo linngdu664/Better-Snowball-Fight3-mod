@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SnowTrapSetterItem extends AbstractBSFEnhanceableToolItem {
     public SnowTrapSetterItem() {
-        super(Rarity.RARE, 500);
+        super(Rarity.RARE, 1000);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class SnowTrapSetterItem extends AbstractBSFEnhanceableToolItem {
 
     @Override
     public int getUseDuration(@NotNull ItemStack pStack) {
-        return 20;
+        return 10;
     }
 
     @Override
