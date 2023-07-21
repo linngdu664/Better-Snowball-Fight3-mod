@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.item.misc;
 
+import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
@@ -36,32 +37,34 @@ public class BasinOfPowderSnowItem extends BasinOfSnowItem {
         Vec3 cameraVec = Vec3.directionFromRotation(pPlayer.getXRot(), pPlayer.getYRot());
         if (!pLevel.isClientSide) {
             List<LivingEntity> list = pLevel.getEntitiesOfClass(LivingEntity.class, pPlayer.getBoundingBox().inflate(8),
-                    p -> !(p instanceof BSFSnowGolemEntity) && !(p instanceof SnowGolem) && !(p instanceof ArmorStand)
-                            && !(p instanceof Player player && player.isSpectator()) && p.distanceToSqr(pPlayer) < 64
+                    p -> !(p instanceof ArmorStand) && !(p instanceof Player player && player.isSpectator()) && p.distanceToSqr(pPlayer) < 64
                             && BSFMthUtil.vec3AngleCos(new Vec3(p.getX() - pPlayer.getX(), p.getEyeY() - pPlayer.getEyeY() + 0.2, p.getZ() - pPlayer.getZ()), Vec3.directionFromRotation(pPlayer.getXRot(), pPlayer.getYRot())) > 0.9363291776
                             && isNotBlocked(new Vec3(p.getX() - pPlayer.getX(), p.getEyeY() - pPlayer.getEyeY() + 0.2, p.getZ() - pPlayer.getZ()), new Vec3(p.getX() - pPlayer.getX(), p.getY() - pPlayer.getEyeY(), p.getZ() - pPlayer.getZ()), pPlayer, pLevel));
             Network.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesToClient(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2));
             for (LivingEntity livingEntity : list) {
-                float r = pPlayer.distanceTo(livingEntity);
-                int t;
-                if (r < 3.0F) {
-                    t = 240;
-                } else if (r < 6.0F) {
-                    t = (int) (240.0F - (r - 3.0F) * (r - 3.0F) * (r - 3.0F));
-                } else {
-                    t = (int) (-15.375F * (r - 8.0F) * (r * (r - 9.4146341F) + 27.414634F));
+                if (!(livingEntity instanceof BSFSnowGolemEntity) && !(livingEntity instanceof SnowGolem)) {
+                    float r = pPlayer.distanceTo(livingEntity);
+                    int t;
+                    if (r < 3.0F) {
+                        t = 240;
+                    } else if (r < 6.0F) {
+                        t = (int) (240.0F - (r - 3.0F) * (r - 3.0F) * (r - 3.0F));
+                    } else {
+                        t = (int) (-15.375F * (r - 8.0F) * (r * (r - 9.4146341F) + 27.414634F));
+                    }
+                    if (livingEntity.getTicksFrozen() < t) {
+                        livingEntity.setTicksFrozen(t);
+                    }
+                    if (r < 3.0F) {
+                        livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 3));
+                    } else if (r < 6.0F) {
+                        livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 2));
+                    } else {
+                        livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 1));
+                    }
+                    livingEntity.hurt(pLevel.damageSources().playerAttack(pPlayer), Float.MIN_VALUE);
                 }
-                if (livingEntity.getTicksFrozen() < t) {
-                    livingEntity.setTicksFrozen(t);
-                }
-                if (r < 3.0F) {
-                    livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 3));
-                } else if (r < 6.0F) {
-                    livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 2));
-                } else {
-                    livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (livingEntity.getTicksFrozen() * 0.5), 1));
-                }
-                livingEntity.hurt(pLevel.damageSources().playerAttack(pPlayer), Float.MIN_VALUE);
+                livingEntity.addEffect(new MobEffectInstance(EffectRegister.WEAPON_JAM.get(), 30, 1));
             }
         }
         if (!pPlayer.getAbilities().instabuild) {
