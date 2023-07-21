@@ -1,4 +1,4 @@
-package com.linngdu664.bsf.entity.snowball.special;
+package com.linngdu664.bsf.entity.snowball.nomal;
 
 import com.linngdu664.bsf.entity.EntityRegister;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
@@ -29,7 +29,7 @@ public class SculkSnowballEntity extends AbstractBSFSnowballEntity {
     @Override
     protected void onHit(@NotNull HitResult pResult) {
         super.onHit(pResult);
-        if (!level().isClientSide) {
+        if (!level().isClientSide && !isCaught) {
             discard();
             level().playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[BSFMthUtil.randInt(0, 25)].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
         }
