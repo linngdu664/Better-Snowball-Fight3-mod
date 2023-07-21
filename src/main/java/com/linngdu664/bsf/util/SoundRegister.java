@@ -21,6 +21,7 @@ public class SoundRegister {
     public static final RegistryObject<SoundEvent> UNSTABLE_CORE_BREAK = build("unstable_core_break");
     public static final RegistryObject<SoundEvent> MACHINE_GUN_COOLING = build("machine_gun_cooling");
     public static final RegistryObject<SoundEvent>[] MEME = buildMeme();
+    public static final RegistryObject<SoundEvent> DUCK = build("duck_sound");
 
     private static RegistryObject<SoundEvent> build(String id, float range) {
         return SOUNDS.register(id, () -> SoundEvent.createFixedRangeEvent(new ResourceLocation("bsf", id), range));
