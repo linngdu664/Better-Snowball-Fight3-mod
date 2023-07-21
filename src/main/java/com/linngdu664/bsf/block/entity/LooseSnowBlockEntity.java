@@ -33,7 +33,7 @@ public class LooseSnowBlockEntity extends BlockEntity {
                 if (level.getBlockState(pos).canBeReplaced() && snow.canSurvive(level, pos)&& !level.getBlockState(pos.below()).getBlock().getName().getString().equals(BlockRegister.LOOSE_SNOW_BLOCK.get().getName().getString())) {
                     level.setBlockAndUpdate(pos, snow);
                 }
-                ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, pos.getX(), pos.getY(), pos.getZ(), 20, 0, 0, 0, 0.12);
+                ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, pos.getX(), pos.getY(), pos.getZ(), 10, 0, 0, 0, 0.12);
 
             }
         }

@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
+import com.linngdu664.bsf.block.entity.CriticalSnowEntity;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
@@ -66,6 +67,9 @@ public abstract class AbstractFrozenSnowballEntity extends AbstractBSFSnowballEn
                                     level.setBlockAndUpdate(blockPos1, basalt);
                                 } else if (blockState.getBlock() == Blocks.FIRE) {
                                     level.setBlockAndUpdate(blockPos1, air);
+                                } else if (level.getBlockEntity(blockPos1) instanceof CriticalSnowEntity blockEntity){
+                                    blockEntity.setAge(0);
+                                    blockEntity.setChanged();
                                 } else if (blockState.canBeReplaced() && newBlock.canSurvive(level, blockPos1)) {
                                     level.setBlockAndUpdate(blockPos1, newBlock);
                                 }

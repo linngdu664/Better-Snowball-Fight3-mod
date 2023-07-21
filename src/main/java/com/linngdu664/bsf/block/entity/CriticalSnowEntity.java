@@ -1,8 +1,11 @@
 package com.linngdu664.bsf.block.entity;
 
+import com.linngdu664.bsf.block.BlockRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -18,14 +21,25 @@ public class CriticalSnowEntity extends BlockEntity {
     }
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-        CriticalSnowEntity criticalSnowEntity = (CriticalSnowEntity) blockEntity;
-        if (criticalSnowEntity.age < criticalSnowEntity.targetAge) {
-            criticalSnowEntity.age++;
-            criticalSnowEntity.setChanged();
-        } else {
-            criticalSnowEntity.setRemoved();
-            level.setBlock(pos, Blocks.SNOW.defaultBlockState(), 3);
+        if (!level.isClientSide) {
+            CriticalSnowEntity criticalSnowEntity = (CriticalSnowEntity) blockEntity;
+            if (criticalSnowEntity.age < criticalSnowEntity.targetAge) {
+                criticalSnowEntity.age++;
+                criticalSnowEntity.setChanged();
+            } else {
+                criticalSnowEntity.setRemoved();
+                BlockState snow = Blocks.SNOW.defaultBlockState();
+                if (level.getBlockState(pos).canBeReplaced() && snow.canSurvive(level, pos)&& !level.getBlockState(pos.below()).getBlock().getName().getString().equals(BlockRegister.LOOSE_SNOW_BLOCK.get().getName().getString())) {
+                    level.setBlockAndUpdate(pos, snow);
+                }else{
+                    level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                }
+                ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, pos.getX(), pos.getY(), pos.getZ(), 5, 0, 0, 0, 0.12);
+            }
         }
+    }
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override
