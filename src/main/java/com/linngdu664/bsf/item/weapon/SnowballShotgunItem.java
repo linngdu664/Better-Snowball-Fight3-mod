@@ -125,7 +125,10 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
                 }
             }
             stack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(p.getUsedItemHand()));
-            player.getCooldowns().addCooldown(this, 20);
+
+            if (!level.isClientSide) {
+                player.getCooldowns().addCooldown(this, 20);
+            }
             player.awardStat(Stats.ITEM_USED.get(this));
         }
         return InteractionResultHolder.pass(stack);

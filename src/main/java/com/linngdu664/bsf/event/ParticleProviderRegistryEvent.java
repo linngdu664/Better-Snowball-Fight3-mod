@@ -2,6 +2,7 @@ package com.linngdu664.bsf.event;
 
 import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.particle.BigLongTimeSnowflake;
+import com.linngdu664.bsf.particle.Impulse;
 import com.linngdu664.bsf.particle.ParticleRegister;
 import com.linngdu664.bsf.particle.ShortTimeSnowflake;
 import net.minecraft.client.Minecraft;
@@ -20,5 +21,6 @@ public class ParticleProviderRegistryEvent {
         ParticleEngine particleEngine = Minecraft.getInstance().particleEngine;
         particleEngine.register(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), ShortTimeSnowflake.Provider::new);
         particleEngine.register(ParticleRegister.BIG_LONG_TIME_SNOWFLAKE.get(), BigLongTimeSnowflake.Provider::new);
+        particleEngine.register(ParticleRegister.IMPULSE.get(), Impulse.Provider::new);
     }
 }
