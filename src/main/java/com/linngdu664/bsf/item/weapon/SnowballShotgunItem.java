@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.item.weapon;
 
+import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
@@ -82,7 +83,7 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
-        if (EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.SNOW_GOLEM_EXCLUSIVE.get(), stack) > 0) {
+        if (EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.SNOW_GOLEM_EXCLUSIVE.get(), stack) > 0 || player.hasEffect(EffectRegister.WEAPON_JAM.get())) {
             return InteractionResultHolder.fail(stack);
         }
         double pushRank = 0.24;

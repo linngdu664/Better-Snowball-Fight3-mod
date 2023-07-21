@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.item.weapon;
 
+import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.entity.snowball.special.GPSSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.util.SoundRegister;
@@ -33,6 +34,9 @@ public class TargetLocatorItem extends AbstractBSFWeaponItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
+        if (pPlayer.hasEffect(EffectRegister.WEAPON_JAM.get())) {
+            return InteractionResultHolder.fail(itemStack);
+        }
         if (!pLevel.isClientSide) {
             if (pPlayer.isShiftKeyDown()) {
                 CompoundTag compoundTag = itemStack.getOrCreateTag();
@@ -51,35 +55,7 @@ public class TargetLocatorItem extends AbstractBSFWeaponItem {
                     itemStack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pUsedHand));
                     consumeAmmo(stack, pPlayer);
                     pPlayer.awardStat(Stats.ITEM_USED.get(this));
-
                 }
-//            ItemStack stack = null;
-//            int i;
-//            for (i = 0; i < pPlayer.getInventory().getContainerSize(); i++) {
-//                stack = pPlayer.getInventory().getItem(i);
-//                if (stack.getItem() instanceof IronSnowballItem || stack.getItem() instanceof IronSnowballTank) {
-//                    break;
-//                }
-//            }
-//            if (i != pPlayer.getInventory().getContainerSize() || pPlayer.getAbilities().instabuild) {
-//                pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
-//                if (!pLevel.isClientSide) {
-//                    GPSSnowballEntity snowballEntity = new GPSSnowballEntity(pPlayer, pLevel, itemStack);
-//                    snowballEntity.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 2.0F, 1.0F);
-//                    pLevel.addFreshEntity(snowballEntity);
-//                }
-//                if (!pPlayer.getAbilities().instabuild) {
-//                    if (stack.getItem() instanceof IronSnowballItem) {
-//                        stack.shrink(1);
-//                        if (stack.isEmpty()) {
-//                            pPlayer.getInventory().removeItem(stack);
-//                        }
-//                    } else {
-//                        stack.hurtAndBreak(1, pPlayer, p -> p.getInventory().placeItemBackInInventory(new ItemStack(ItemRegister.EMPTY_SNOWBALL_STORAGE_TANK.get()), true));
-//                    }
-//                    itemStack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pUsedHand));
-//                }
-//            }
             }
         }
         return InteractionResultHolder.pass(itemStack);

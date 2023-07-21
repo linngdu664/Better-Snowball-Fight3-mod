@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.item.weapon;
 
+import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
@@ -78,7 +79,7 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
         ammo = getAmmo(pPlayer);
-        if (ammo != null) {
+        if (ammo != null && !pPlayer.hasEffect(EffectRegister.WEAPON_JAM.get())) {
             recoil = ((AbstractSnowballTankItem) ammo.getItem()).getSnowball().getMachineGunRecoil();
             isExplosive = ammo.getItem() instanceof ExplosiveSnowballTank || ammo.getItem() instanceof ExplosivePlayerTrackingSnowballTank || ammo.getItem() instanceof ExplosiveMonsterTrackingSnowballTank;
             pPlayer.startUsingItem(pUsedHand);
@@ -89,7 +90,7 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
 
     @Override
     public void onUseTick(@NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
-        if (pRemainingUseDuration == 1 || ammo == null || ammo.isEmpty()) {
+        if (pRemainingUseDuration == 1 || ammo == null || ammo.isEmpty() || pLivingEntity.hasEffect(EffectRegister.WEAPON_JAM.get())) {
             this.releaseUsing(pStack, pLevel, pLivingEntity, pRemainingUseDuration);
             return;
         }

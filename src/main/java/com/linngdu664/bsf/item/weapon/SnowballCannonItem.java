@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.item.weapon;
 
+import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
@@ -118,7 +119,7 @@ public class SnowballCannonItem extends AbstractBSFWeaponItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pHand) {
         ItemStack itemStack = pPlayer.getItemInHand(pHand);
-        if (EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.SNOW_GOLEM_EXCLUSIVE.get(), itemStack) <= 0) {
+        if (EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.SNOW_GOLEM_EXCLUSIVE.get(), itemStack) <= 0 && !pPlayer.hasEffect(EffectRegister.WEAPON_JAM.get())) {
             pPlayer.startUsingItem(pHand);
             return InteractionResultHolder.consume(itemStack);
         }

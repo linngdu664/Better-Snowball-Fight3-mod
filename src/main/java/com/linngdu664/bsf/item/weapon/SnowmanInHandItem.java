@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.item.weapon;
 
+import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.entity.snowball.nomal.SmoothSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
@@ -98,14 +99,15 @@ public class SnowmanInHandItem extends Item {
                     pStack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
                 }
             }
-
-
         }
     }
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
+        if (pPlayer.hasEffect(EffectRegister.WEAPON_JAM.get())) {
+            return InteractionResultHolder.fail(stack);
+        }
         pPlayer.startUsingItem(pUsedHand);
         return InteractionResultHolder.consume(stack);
     }

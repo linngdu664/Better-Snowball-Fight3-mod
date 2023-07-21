@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.item.weapon;
 
+import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.entity.snowball.nomal.SculkSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.util.SoundRegister;
@@ -34,6 +35,9 @@ public class SculkSnowballLauncherItem extends AbstractBSFWeaponItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
+        if (pPlayer.hasEffect(EffectRegister.WEAPON_JAM.get())) {
+            return InteractionResultHolder.fail(itemStack);
+        }
         if (!pLevel.isClientSide) {
             ItemStack stack = getAmmo(pPlayer);
             if (stack != null) {
