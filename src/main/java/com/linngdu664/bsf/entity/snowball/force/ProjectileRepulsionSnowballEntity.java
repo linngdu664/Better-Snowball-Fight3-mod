@@ -6,7 +6,7 @@ import com.linngdu664.bsf.item.ItemRegister;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -75,7 +75,7 @@ public class ProjectileRepulsionSnowballEntity extends AbstractForceSnowballEnti
 
     @Override
     List<? extends Entity> getTargetList() {
-        return level().getEntitiesOfClass(Mob.class, getBoundingBox().inflate(getRange()), (p) -> true);
+        return level().getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(getRange()), (p) -> true);
     }
 
     @Override
