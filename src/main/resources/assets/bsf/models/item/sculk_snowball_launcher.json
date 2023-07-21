@@ -1,0 +1,8 @@
+{
+  "parent": "bsf:custom/sculk_snowball_launcher_model",
+  "textures": {
+    "0": "bsf:item/sculk_snowball_launcher_body",
+    "2": "bsf:item/sculk_snowball_launcher_head",
+    "particle": "bsf:item/sculk_snowball_launcher_body"
+  }
+}
