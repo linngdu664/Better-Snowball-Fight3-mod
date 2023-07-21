@@ -398,10 +398,9 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         Level level = level();
         ItemStack weapon = getWeapon();
         ItemStack ammo = getAmmo();
-        if (!weapon.isEmpty() && !ammo.isEmpty() && !hasEffect(EffectRegister.WEAPON_JAM.get())) {
+        if (!weapon.isEmpty() && ammo.getItem() instanceof SnowballTankItem tankItem && !hasEffect(EffectRegister.WEAPON_JAM.get())) {
             AbstractBSFWeaponItem weaponItem = (AbstractBSFWeaponItem) weapon.getItem();
-            AbstractBSFSnowballItem snowballItem = ((SnowballTankItem) ammo.getItem()).getSnowball();
-            if ((snowballItem.getTypeFlag() & weaponItem.getTypeFlag()) == 0) {
+            if ((tankItem.getSnowball().getTypeFlag() & weaponItem.getTypeFlag()) == 0) {
                 return;
             }
             float damageChance = 1.0F / (1.0F + EnchantmentHelper.getTagEnchantmentLevel(Enchantments.UNBREAKING, weapon));
@@ -441,7 +440,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
             int j = weapon.getItem() instanceof SnowballShotgunItem ? 4 : 1;
             for (int i = 0; i < j; i++) {
                 Item item = ammo.getItem();
-                if (item instanceof EmptySnowballTankItem) {
+                if (!(item instanceof SnowballTankItem)) {
                     break;
                 }
                 AbstractBSFSnowballEntity snowball = ((SnowballTankItem) item).getSnowball().getCorrespondingEntity(level, this, launchAdjustment);
