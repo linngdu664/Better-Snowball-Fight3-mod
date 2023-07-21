@@ -12,7 +12,7 @@ import com.linngdu664.bsf.item.tank.special.PowderSnowballTank;
 import com.linngdu664.bsf.item.tool.CreativeSnowGolemToolItem;
 import com.linngdu664.bsf.item.tool.SnowGolemModeTweakerItem;
 import com.linngdu664.bsf.item.tool.SnowballClampItem;
-import com.linngdu664.bsf.item.tool.TargetLocatorItem;
+import com.linngdu664.bsf.item.weapon.TargetLocatorItem;
 import com.linngdu664.bsf.item.weapon.*;
 import com.linngdu664.bsf.particle.ParticleUtil;
 import com.linngdu664.bsf.util.BSFMthUtil;
