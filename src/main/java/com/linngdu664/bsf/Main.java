@@ -5,7 +5,7 @@ import com.linngdu664.bsf.block.entity.BlockEntityRegister;
 import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.EntityRegister;
-import com.linngdu664.bsf.event.*;
+import com.linngdu664.bsf.event.BSFConfig;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.particle.ParticleRegister;
 import com.linngdu664.bsf.util.CreativeTabRegister;

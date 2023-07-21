@@ -7,7 +7,7 @@ import com.linngdu664.bsf.event.BSFConfig;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.tool.GloveItem;
 import com.linngdu664.bsf.particle.ParticleRegister;
-import net.minecraft.core.particles.*;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
