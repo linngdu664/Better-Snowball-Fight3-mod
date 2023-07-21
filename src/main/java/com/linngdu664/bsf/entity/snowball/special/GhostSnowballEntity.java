@@ -20,10 +20,12 @@ public class GhostSnowballEntity extends AbstractBSFSnowballEntity {
 
     public GhostSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.setNoGravity(true);
     }
 
     public GhostSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
         super(EntityRegister.GHOST_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        this.setNoGravity(true);
     }
 
     @Override
@@ -32,9 +34,8 @@ public class GhostSnowballEntity extends AbstractBSFSnowballEntity {
         if (!level().isClientSide) {
             Entity entity = pResult.getEntity();
             if (entity instanceof LivingEntity livingEntity && !isCaught) {
-                livingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 80, 1));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 160, 1));
             }
-            discard();
         }
     }
 
