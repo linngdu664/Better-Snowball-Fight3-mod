@@ -31,7 +31,7 @@ public class CriticalSnowEntity extends BlockEntity {
                 BlockState snow = Blocks.SNOW.defaultBlockState();
                 if (level.getBlockState(pos).canBeReplaced() && snow.canSurvive(level, pos)&& !level.getBlockState(pos.below()).getBlock().getName().getString().equals(BlockRegister.LOOSE_SNOW_BLOCK.get().getName().getString())) {
                     level.setBlockAndUpdate(pos, snow);
-                }else{
+                } else {
                     level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                 }
                 ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, pos.getX(), pos.getY(), pos.getZ(), 5, 0, 0, 0, 0.12);

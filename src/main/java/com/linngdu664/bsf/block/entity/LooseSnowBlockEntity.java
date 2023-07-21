@@ -34,10 +34,8 @@ public class LooseSnowBlockEntity extends BlockEntity {
                     level.setBlockAndUpdate(pos, snow);
                 }
                 ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, pos.getX(), pos.getY(), pos.getZ(), 10, 0, 0, 0, 0.12);
-
             }
         }
-
     }
 
     public void setAge(int age) {
