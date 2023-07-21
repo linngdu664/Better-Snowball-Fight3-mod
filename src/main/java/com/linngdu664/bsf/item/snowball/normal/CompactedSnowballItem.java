@@ -5,6 +5,7 @@ import com.linngdu664.bsf.entity.snowball.nomal.CompactedSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
+import com.linngdu664.bsf.item.weapon.SculkSnowballLauncherItem;
 import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
 import com.linngdu664.bsf.item.weapon.SnowballMachineGunItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
@@ -54,7 +55,7 @@ public class CompactedSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public int getTypeFlag() {
-        return SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG;
+        return SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG | SculkSnowballLauncherItem.TYPE_FLAG;
     }
 
     @Override

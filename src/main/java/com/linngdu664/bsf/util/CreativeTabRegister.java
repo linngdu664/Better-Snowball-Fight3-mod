@@ -109,6 +109,7 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.CREATE_SNOW_GOLEM_TOOL.get());
                 output.accept(ItemRegister.TARGET_LOCATOR.get());
                 output.accept(ItemRegister.SNOW_TRAP_SETTER.get());
+                output.accept(ItemRegister.SCULK_SNOWBALL_LAUNCHER.get());
 
 
                 output.accept(ItemRegister.POPSICLE.get());
