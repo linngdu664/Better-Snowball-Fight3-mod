@@ -1,6 +1,7 @@
 package com.linngdu664.bsf.enchantment;
 
-import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
+import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +26,6 @@ public class SnowGolemExclusiveEnchantment extends Enchantment {
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack) {
         Item item = stack.getItem();
-        return item == ItemRegister.SNOWBALL_CANNON.get() || item == ItemRegister.POWERFUL_SNOWBALL_CANNON.get() || item == ItemRegister.FREEZING_SNOWBALL_CANNON.get() || item == ItemRegister.SNOWBALL_SHOTGUN.get();
+        return item instanceof SnowballCannonItem || item instanceof SnowballShotgunItem;
     }
 }

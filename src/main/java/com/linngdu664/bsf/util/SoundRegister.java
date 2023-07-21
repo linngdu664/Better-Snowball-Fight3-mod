@@ -27,7 +27,7 @@ public class SoundRegister {
     }
 
     private static RegistryObject<SoundEvent> build(String id) {
-        return SOUNDS.register(id, () -> SoundEvent.createFixedRangeEvent(new ResourceLocation("bsf", id), 16));
+        return SOUNDS.register(id, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation("bsf", id)));
     }
 
     private static RegistryObject<SoundEvent>[] buildMeme() {

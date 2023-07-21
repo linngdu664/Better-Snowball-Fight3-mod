@@ -34,7 +34,7 @@ public class SnowballCannonItem extends AbstractBSFWeaponItem {
         super(514, Rarity.RARE, TYPE_FLAG);
     }
 
-    public static float getPowerForTime(int pCharge) {
+    public float getPowerForTime(int pCharge) {
         float f = (float) pCharge / 20.0F;
         f = (f * f + f * 2.0F) / 3.0F;
         if (f > 1.0F) {
