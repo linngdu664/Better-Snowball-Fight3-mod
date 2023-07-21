@@ -81,8 +81,8 @@ public abstract class AbstractFrozenSnowballEntity extends AbstractBSFSnowballEn
                 for (LivingEntity entity : list) {
                     int frozenTicks = launchAdjustment.adjustFrozenTicks(getBasicFrozenTicks());
                     if (frozenTicks > 0) {
-                        if (entity.getTicksFrozen() < frozenTicks) {
-                            entity.setTicksFrozen(frozenTicks);
+                        if (entity.getTicksFrozen() < 200) {
+                            entity.setTicksFrozen(entity.getTicksFrozen()+frozenTicks);
                         }
                         entity.hurt(level.damageSources().thrown(this, this.getOwner()), Float.MIN_NORMAL);
                         if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
