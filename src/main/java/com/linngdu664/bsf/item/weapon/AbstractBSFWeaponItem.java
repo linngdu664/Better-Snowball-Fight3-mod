@@ -35,11 +35,7 @@ public abstract class AbstractBSFWeaponItem extends Item {
         this.typeFlag = flag;
     }
 
-//    public abstract ItemStack findAmmo(Player player);
-
-    //    public abstract LaunchFunc getLaunchFunc(double damageDropRate);
     public abstract ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball);
-
     public abstract boolean isAllowBulkedSnowball();
 
     //Rewrite vanilla "shootFromRotation" method to remove the influence of player's velocity.
@@ -123,19 +119,21 @@ public abstract class AbstractBSFWeaponItem extends Item {
                     }
                 }
             }
+            Item oldItem = currentAmmoItemStack.getItem();
             if (launchOrder.isEmpty()) {
                 prevAmmoItemStack = Items.AIR.getDefaultInstance();
                 currentAmmoItemStack = prevAmmoItemStack;
                 nextAmmoItemStack = prevAmmoItemStack;
             } else {
-                Item item1 = launchOrder.getLast();
-                Item item2 = launchOrder.getFirst();
-                Item item3;
+                Item item1, item3;
                 if (launchOrder.size() == 1) {
-                    item3 = item1;
+                    item1 = Items.AIR;
+                    item3 = Items.AIR;
                 } else {
+                    item1 = launchOrder.getLast();
                     item3 = launchOrder.get(1);
                 }
+                Item item2 = launchOrder.getFirst();
                 int i1 = 0, i2 = 0, i3 = 0;
                 for (int i = 0; i < k; i++) {
                     ItemStack itemStack = inventory.getItem(i);
@@ -149,25 +147,27 @@ public abstract class AbstractBSFWeaponItem extends Item {
                         } else if (snowball.equals(item3)) {
                             i3 += itemStack.getMaxDamage() - itemStack.getDamageValue();
                         }
-                    } else if (item.equals(item1)) {
-                        i1 += itemStack.getCount();
-                    } else if (item.equals(item2)) {
-                        i2 += itemStack.getCount();
-                    } else if (item.equals(item3)) {
-                        i3 += itemStack.getCount();
+                    } else if (item instanceof AbstractBSFSnowballItem snowball) {
+                        if (snowball.equals(item1)) {
+                            i1 += itemStack.getCount();
+                        } else if (snowball.equals(item2)) {
+                            i2 += itemStack.getCount();
+                        } else if (snowball.equals(item3)) {
+                            i3 += itemStack.getCount();
+                        }
                     }
                 }
                 if (item3.equals(item1)) {
                     i3 = i1;
                 }
-                if (item2.equals(item1)) {
-                    i2 = i1;
-                }
                 prevAmmoItemStack = new ItemStack(item1, i1);
                 currentAmmoItemStack = new ItemStack(item2, i2);
                 nextAmmoItemStack = new ItemStack(item3, i3);
             }
-            Network.PACKET_HANDLER.sendToServer(new AmmoTypeToServer(currentAmmoItemStack.getItem(), this.equals(player.getMainHandItem().getItem())));
+            Item newItem = currentAmmoItemStack.getItem();
+            if (!newItem.equals(oldItem)) {
+                Network.PACKET_HANDLER.sendToServer(new AmmoTypeToServer(newItem, pSlotId));
+            }
         }
     }
 

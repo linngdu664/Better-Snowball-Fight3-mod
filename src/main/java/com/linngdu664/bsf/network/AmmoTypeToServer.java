@@ -5,25 +5,26 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.function.Supplier;
 
 public class AmmoTypeToServer {
     private final Item item;
-    private final boolean isMainHand;
+    private final int slot;
 
-    public AmmoTypeToServer(Item item, boolean isMainHand) {
+    public AmmoTypeToServer(Item item, int slot) {
         this.item = item;
-        this.isMainHand = isMainHand;
+        this.slot = slot;
     }
 
     public static void encoder(AmmoTypeToServer message, FriendlyByteBuf buffer) {
         buffer.writeItem(message.item.getDefaultInstance());
-        buffer.writeBoolean(message.isMainHand);
+        buffer.writeInt(message.slot);
     }
 
     public static AmmoTypeToServer decoder(FriendlyByteBuf buffer) {
-        return new AmmoTypeToServer(buffer.readItem().getItem(), buffer.readBoolean());
+        return new AmmoTypeToServer(buffer.readItem().getItem(), buffer.readInt());
     }
 
     public static void messageConsumer(AmmoTypeToServer message, Supplier<NetworkEvent.Context> ctxSupplier) {
@@ -33,10 +34,10 @@ public class AmmoTypeToServer {
             if (!sender.level().hasChunkAt(sender.blockPosition())) {
                 return;
             }
-            if (message.isMainHand && sender.getMainHandItem().getItem() instanceof AbstractBSFWeaponItem weapon) {
+            if (sender.getInventory().getItem(message.slot).getItem() instanceof AbstractBSFWeaponItem weapon) {
                 weapon.setAmmoItem(message.item);
-            } else if (sender.getOffhandItem().getItem() instanceof AbstractBSFWeaponItem weapon) {
-                weapon.setAmmoItem(message.item);
+            } else {
+                Network.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> sender), new AmmoTypeToClient(message.slot));
             }
         });
         context.setPacketHandled(true);
