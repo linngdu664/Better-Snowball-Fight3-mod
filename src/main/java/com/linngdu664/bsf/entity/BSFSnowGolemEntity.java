@@ -5,10 +5,12 @@ import com.linngdu664.bsf.entity.ai.goal.*;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
+import com.linngdu664.bsf.item.BSFTiers;
 import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.snowball.normal.SmoothSnowballItem;
 import com.linngdu664.bsf.item.tank.AbstractSnowballTankItem;
-import com.linngdu664.bsf.item.tank.special.PowderSnowballTank;
+import com.linngdu664.bsf.item.tank.EmptySnowballTankItem;
 import com.linngdu664.bsf.item.tool.CreativeSnowGolemToolItem;
 import com.linngdu664.bsf.item.tool.SnowGolemModeTweakerItem;
 import com.linngdu664.bsf.item.tool.SnowballClampItem;
@@ -236,7 +238,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         Level level = level();
         if (!level.isClientSide && pPlayer.equals(getOwner())) {
             ItemStack itemStack = pPlayer.getItemInHand(pHand);
-            if (itemStack.getItem() instanceof AbstractSnowballTankItem tank && tank.getSnowball().getTypeFlag() == (SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG) && !(tank instanceof PowderSnowballTank) && getAmmo().isEmpty()) {
+            if (itemStack.getItem() instanceof AbstractSnowballTankItem && getAmmo().isEmpty()) {
                 setAmmo(itemStack.copy());
                 if (!pPlayer.getAbilities().instabuild) {
                     itemStack.shrink(1);
@@ -306,8 +308,12 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                     setTarget(entity);
                 }
                 level.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-            } else if (itemStack.getItem() instanceof SnowballClampItem) {
-                pPlayer.getInventory().placeItemBackInInventory(new ItemStack(ItemRegister.SMOOTH_SNOWBALL.get(), 1), true);
+            } else if (itemStack.getItem() instanceof SnowballClampItem snowballClamp) {
+                if (snowballClamp.getTier().equals(BSFTiers.EMERALD)) {
+                    pPlayer.getInventory().placeItemBackInInventory(ItemRegister.DUCK_SNOWBALL.get().getDefaultInstance(), true);
+                } else {
+                    pPlayer.getInventory().placeItemBackInInventory(ItemRegister.SMOOTH_SNOWBALL.get().getDefaultInstance(), true);
+                }
                 itemStack.hurtAndBreak(1, pPlayer, (e) -> e.broadcastBreakEvent(pHand));
             } else if (itemStack.getItem() instanceof SnowballItem) {
                 setStyle((byte) ((getStyle() + 1) % styleNum));
@@ -392,11 +398,16 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         Level level = level();
         ItemStack weapon = getWeapon();
         ItemStack ammo = getAmmo();
-        if (!weapon.isEmpty()) {
+        if (!weapon.isEmpty() && !ammo.isEmpty()) {
+            AbstractBSFWeaponItem weaponItem = (AbstractBSFWeaponItem) weapon.getItem();
+            AbstractBSFSnowballItem snowballItem = ((AbstractSnowballTankItem) ammo.getItem()).getSnowball();
+            if ((snowballItem.getTypeFlag() & weaponItem.getTypeFlag()) == 0) {
+                return;
+            }
             float damageChance = 1.0F / (1.0F + EnchantmentHelper.getTagEnchantmentLevel(Enchantments.UNBREAKING, weapon));
             float v = 3.0F;
             float accuracy = 1.0F;
-            ILaunchAdjustment launchAdjustment = ((AbstractBSFWeaponItem) weapon.getItem()).getLaunchAdjustment(1, ammo.getItem());
+            ILaunchAdjustment launchAdjustment = weaponItem.getLaunchAdjustment(1, ammo.getItem());
             if (launchAdjustment.getLaunchFrom().equals(LaunchFrom.POWERFUL_CANNON)) {
                 v = 4.0F;
             } else if (launchAdjustment.getLaunchFrom().equals(LaunchFrom.SHOTGUN)) {
@@ -429,30 +440,30 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
             setRealSightZ((float) dz);
             int j = weapon.getItem() instanceof SnowballShotgunItem ? 4 : 1;
             for (int i = 0; i < j; i++) {
-                if (ammo.getItem() instanceof AbstractSnowballTankItem tank) {
-                    AbstractBSFSnowballEntity snowball = tank.getSnowball().getCorrespondingEntity(level, this, launchAdjustment);
-                    snowball.shoot(dx, sinTheta, dz, v, accuracy);
-                    level.addFreshEntity(snowball);
-                    if (!getEnhance()) {
-                        ammo.setDamageValue(ammo.getDamageValue() + 1);
-                        if (ammo.getDamageValue() == 96) {
-                            setAmmo(new ItemStack(ItemRegister.EMPTY_SNOWBALL_STORAGE_TANK.get()));
-                        }
-                    }
-                    if (i == 0) {
-                        playSound(j == 4 ? SoundRegister.SHOTGUN_FIRE_2.get() : SoundRegister.SNOWBALL_CANNON_SHOOT.get(), 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                        if (getRandom().nextFloat() <= damageChance && !getEnhance()) {
-                            weapon.setDamageValue(weapon.getDamageValue() + 1);
-                            if (weapon.getDamageValue() == 256) {
-                                setWeapon(ItemStack.EMPTY);
-                                playSound(SoundEvents.ITEM_BREAK, 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 0.8F));
-                            }
-                        }
-                    }
-                    setWeaponAng(360);
-                } else {
+                Item item = ammo.getItem();
+                if (item instanceof EmptySnowballTankItem) {
                     break;
                 }
+                AbstractBSFSnowballEntity snowball = ((AbstractSnowballTankItem) item).getSnowball().getCorrespondingEntity(level, this, launchAdjustment);
+                snowball.shoot(dx, sinTheta, dz, v, accuracy);
+                level.addFreshEntity(snowball);
+                if (!getEnhance()) {
+                    ammo.setDamageValue(ammo.getDamageValue() + 1);
+                    if (ammo.getDamageValue() == 96) {
+                        setAmmo(new ItemStack(ItemRegister.EMPTY_SNOWBALL_STORAGE_TANK.get()));
+                    }
+                }
+                if (i == 0) {
+                    playSound(j == 4 ? SoundRegister.SHOTGUN_FIRE_2.get() : SoundRegister.SNOWBALL_CANNON_SHOOT.get(), 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                    if (getRandom().nextFloat() <= damageChance && !getEnhance()) {
+                        weapon.setDamageValue(weapon.getDamageValue() + 1);
+                        if (weapon.getDamageValue() == 256) {
+                            setWeapon(ItemStack.EMPTY);
+                            playSound(SoundEvents.ITEM_BREAK, 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 0.8F));
+                        }
+                    }
+                }
+                setWeaponAng(360);
             }
         }
     }
