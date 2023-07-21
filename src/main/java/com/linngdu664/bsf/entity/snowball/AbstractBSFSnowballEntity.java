@@ -218,7 +218,7 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
         }
     }
 
-    private void spawnBasicParticles(Level level) {
+    protected void spawnBasicParticles(Level level) {
         if (!level.isClientSide) {
             ((ServerLevel) level).sendParticles(ParticleTypes.ITEM_SNOWBALL, this.getX(), this.getY(), this.getZ(), 8, 0, 0, 0, 0);
             ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 8, 0, 0, 0, 0.04);
