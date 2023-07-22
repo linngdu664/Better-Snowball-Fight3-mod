@@ -55,6 +55,7 @@ public class ItemRegister {
     public static final RegistryObject<Item> THRUST_SNOWBALL = ITEMS.register("thrust_snowball", ThrustSnowballItem::new);
     public static final RegistryObject<Item> ENDER_SNOWBALL = ITEMS.register("ender_snowball", EnderSnowballItem::new);
     public static final RegistryObject<Item> EXPANSION_SNOWBALL = ITEMS.register("expansion_snowball", ExpansionSnowballItem::new);
+    public static final RegistryObject<Item> RECONSTRUCT_SNOWBALL = ITEMS.register("reconstruct_snowball", ReconstructSnowballItem::new);
     public static final RegistryObject<Item> CRITICAL_FROZEN_SNOWBALL = ITEMS.register("critical_frozen_snowball", CriticalFrozenSnowballItem::new);
     public static final RegistryObject<Item> IMPULSE_SNOWBALL = ITEMS.register("impulse_snowball", ImpulseSnowballItem::new);
     public static final RegistryObject<Item> CHERRY_BLOSSOM_SNOWBALL = ITEMS.register("cherry_blossom_snowball", CherryBlossomSnowballItem::new);
@@ -120,6 +121,7 @@ public class ItemRegister {
     public static final RegistryObject<Item> THRUST_SNOWBALL_TANK = ITEMS.register("thrust_snowball_tank", () -> new SnowballTankItem(ItemRegister.THRUST_SNOWBALL.get(), false));
     public static final RegistryObject<Item> ENDER_SNOWBALL_TANK = ITEMS.register("ender_snowball_tank", () -> new SnowballTankItem(ItemRegister.ENDER_SNOWBALL.get(), false));
     public static final RegistryObject<Item> EXPANSION_SNOWBALL_TANK = ITEMS.register("expansion_snowball_tank", () -> new SnowballTankItem(ItemRegister.EXPANSION_SNOWBALL.get(), false));
+    public static final RegistryObject<Item> RECONSTRUCT_SNOWBALL_TANK = ITEMS.register("reconstruct_snowball_tank", () -> new SnowballTankItem(ItemRegister.RECONSTRUCT_SNOWBALL.get(), false));
     public static final RegistryObject<Item> CRITICAL_FROZEN_SNOWBALL_TANK = ITEMS.register("critical_frozen_snowball_tank", () -> new SnowballTankItem(ItemRegister.CRITICAL_FROZEN_SNOWBALL.get(), false));
     public static final RegistryObject<Item> IMPULSE_SNOWBALL_TANK = ITEMS.register("impulse_snowball_tank", () -> new SnowballTankItem(ItemRegister.IMPULSE_SNOWBALL.get(), false));
     public static final RegistryObject<Item> CHERRY_BLOSSOM_SNOWBALL_TANK = ITEMS.register("cherry_blossom_snowball_tank", () -> new SnowballTankItem(ItemRegister.CHERRY_BLOSSOM_SNOWBALL.get(), false));

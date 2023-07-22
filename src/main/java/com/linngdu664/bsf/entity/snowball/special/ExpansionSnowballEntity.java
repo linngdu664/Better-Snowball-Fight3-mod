@@ -9,6 +9,8 @@ import com.linngdu664.bsf.item.ItemRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -45,6 +47,7 @@ public class ExpansionSnowballEntity extends AbstractBSFSnowballEntity {
                         BlockPos blockPos1 = blockPos.offset(x, y, z);
                         if (level.getBlockState(blockPos1).canBeReplaced()) {
                             level.setBlock(blockPos1, BlockRegister.LOOSE_SNOW_BLOCK.get().defaultBlockState(), 3);
+                            level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                         } else if(level.getBlockEntity(blockPos1) instanceof LooseSnowBlockEntity blockEntity){
                             blockEntity.setAge(0);
                             blockEntity.setChanged();

@@ -6,6 +6,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -34,9 +36,14 @@ public class CriticalSnowEntity extends BlockEntity {
                 } else {
                     level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                 }
+                level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.SNOW_STEP, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                 ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, pos.getX(), pos.getY(), pos.getZ(), 5, 0, 0, 0, 0.12);
             }
         }
+    }
+    public void suicide(){
+        this.age=this.targetAge;
+        this.setChanged();
     }
     public void setAge(int age) {
         this.age = age;
