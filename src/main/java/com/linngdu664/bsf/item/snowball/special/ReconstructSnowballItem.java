@@ -35,7 +35,7 @@ public class ReconstructSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
-        return throwOrStorage(pPlayer, pLevel, pUsedHand, 1.5F, 15);
+        return throwOrStorage(pPlayer, pLevel, pUsedHand, 1.7F, 15);
     }
 
     @Override
@@ -50,17 +50,16 @@ public class ReconstructSnowballItem extends AbstractBSFSnowballItem {
                         BlockState blockState = level.getBlockState(blockPos1);
                         if (blockState.getBlock() == Blocks.SNOW) {
                             stockSnow+=blockState.getValue(SnowLayerBlock.LAYERS);
-                            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, blockPos1.getX(), blockPos1.getY(), blockPos1.getZ(), (blockState.getValue(SnowLayerBlock.LAYERS)*5)/2, 0, 0, 0, 0.12);
+                            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, blockPos1.getX(), blockPos1.getY(), blockPos1.getZ(), 5, 0, 0, 0, 0.12);
                         } else if (blockState.getBlock() == Blocks.SNOW_BLOCK) {
                             stockSnow+=8;
-                            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, blockPos1.getX(), blockPos1.getY(), blockPos1.getZ(), 20, 0, 0, 0, 0.12);
+                            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, blockPos1.getX(), blockPos1.getY(), blockPos1.getZ(), 5, 0, 0, 0, 0.12);
                         } else if (blockState.getBlock() == Blocks.POWDER_SNOW||blockState.getBlock() == Blocks.POWDER_SNOW_CAULDRON) {
                             stockSnow+=12;
-                            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, blockPos1.getX(), blockPos1.getY(), blockPos1.getZ(), 30, 0, 0, 0, 0.12);
+                            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, blockPos1.getX(), blockPos1.getY(), blockPos1.getZ(), 5, 0, 0, 0, 0.12);
                         } else if (level.getBlockEntity(blockPos1) instanceof CriticalSnowEntity criticalSnowEntity){
                             criticalSnowEntity.suicide();
                             stockSnow+=2;
-                            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, blockPos1.getX(), blockPos1.getY(), blockPos1.getZ(), 5, 0, 0, 0, 0.12);
                         }else if (level.getBlockEntity(blockPos1) instanceof LooseSnowBlockEntity looseSnowBlockEntity){
                             looseSnowBlockEntity.suicide();
                             stockSnow+=4;
@@ -69,8 +68,7 @@ public class ReconstructSnowballItem extends AbstractBSFSnowballItem {
                 }
             }
         }
-        System.out.println("存："+stockSnow);
-        return new ReconstructSnowballEntity(livingEntity, level, launchAdjustment,stockSnow);
+        return new ReconstructSnowballEntity(livingEntity, level, launchAdjustment,stockSnow,!livingEntity.isShiftKeyDown());
     }
 
     @Override

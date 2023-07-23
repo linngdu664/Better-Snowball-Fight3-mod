@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.util;
 
+import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
@@ -33,5 +34,13 @@ public class BSFMthUtil {
 
     public static int randInt(int a, int b) {
         return random.nextInt(b - a) + a;
+    }
+
+    public static Vec3 rotationToVector(double r, double theta, double phi){
+        return new Vec3(r*Math.sin(phi)*Math.cos(theta),r*Math.cos(phi),r*Math.sin(phi)*Math.sin(theta));
+    }
+
+    public static Vec3i vec3ToI(Vec3 vec3){
+        return new Vec3i(Mth.floor(vec3.x),Mth.floor(vec3.y),Mth.floor(vec3.z));
     }
 }

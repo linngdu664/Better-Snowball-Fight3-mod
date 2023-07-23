@@ -6,6 +6,7 @@ import com.linngdu664.bsf.entity.EntityRegister;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,64 +17,176 @@ import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class ReconstructSnowballEntity extends AbstractBSFSnowballEntity {
     private static final int generatingDistance = 1;
     private static final int posNum = 10 + generatingDistance;
     private static final int growthConstraint = 3;
 
+    private static final int trySummonIcePickMaxTimes = 20;
+    private static final int icePickMaxNum = 15;
+
+    private static final int trySummonIcePickDetectionRadius = 3;
+
     private int stockSnow = 0;
+    private boolean buildWall = true;
     private int flag =0;
+
+    private boolean icePickBuilding = false;
+    private int icePicksNum=0;
 
 
     private BlockPos[] passingPosArr = new BlockPos[posNum];
+    private IcePick[] icePicks=new IcePick[icePickMaxNum];
+    private BlockPos impactPoint;
+    private class IcePick{
+
+        private Vec3 icePickVec;
+        private double icePickStepSize;
+        private double icePickStepRadium;
+
+        private ArrayList<IcePickPoint> path = new ArrayList<>();
+        private class IcePickPoint{
+            private Vec3 point;
+            private double radium=0;
+            public IcePickPoint(Vec3 point) {
+                this.point = point;
+            }
+            public void pointGenerate(Level level){
+                for (int i = 0; i < Math.floor(radium)+1; i++) {
+                    Vec3 a = icePickVec.cross(new Vec3(0, 1, 0)).normalize();
+                    Vec3 b = a.cross(icePickVec).normalize();
+                    double x = BSFMthUtil.randDouble(0,2*Math.PI);
+                    Vec3 c = a.scale(Math.cos(x)).add(b.scale(Math.sin(x))).normalize().scale(radium);
+                    placeLooseSnowBlock(level,new BlockPos(BSFMthUtil.vec3ToI(point.add(c))));
+
+                }
+                radium+=icePickStepRadium;
+            }
+        }
+
+        public IcePick(Vec3 icePickVec, double icePickStepSize, double icePickStepRadium) {
+            this.icePickVec = icePickVec;
+            this.icePickStepSize = icePickStepSize;
+            this.icePickStepRadium = icePickStepRadium;
+            path.add(new IcePickPoint(impactPoint.getCenter().add(icePickVec)));
+
+        }
+        public void generate(Level level){
+            placeLooseSnowBlock(level,new BlockPos(BSFMthUtil.vec3ToI(impactPoint.getCenter().add(icePickVec))));
+            icePickVec=icePickVec.add(icePickVec.normalize().scale(icePickStepSize));
+            path.add(new IcePickPoint(impactPoint.getCenter().add(icePickVec)));
+            for (IcePickPoint icePickPoint:path){
+                icePickPoint.pointGenerate(level);
+            }
+        }
+
+    }
 
 
     public ReconstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
-    public ReconstructSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int stockSnow) {
-        super(EntityRegister.IMPULSE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
-        this.stockSnow=stockSnow;
+    public ReconstructSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int stockSnow,boolean buildWall) {
+        super(EntityRegister.RECONSTRUCT_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        this.stockSnow = stockSnow;
+        this.buildWall = buildWall;
+    }
+    private void icePickInit(Level level){
+        fixed();
+        this.setNoGravity(true);
+        //Determine the direction of the ice pick
+        //init ice pick
+        for (int i = 0; i < trySummonIcePickMaxTimes; i++) {
+            double theta = BSFMthUtil.randDouble(0,2*Math.PI);
+            double phi = Math.acos(BSFMthUtil.randDouble(-0.999999,0.999999));
+            System.out.println(theta+" "+phi);
+            Vec3 direction = BSFMthUtil.rotationToVector(trySummonIcePickDetectionRadius, theta, phi);
+            BlockPos blockPos1 = impactPoint.offset(Mth.floor(direction.x), Mth.floor(direction.y), Mth.floor(direction.z));
+            if ((level.getBlockState(blockPos1).canBeReplaced()||level.getBlockEntity(blockPos1) instanceof LooseSnowBlockEntity) && icePicksNum< icePickMaxNum){
+                icePicks[icePicksNum++]= new IcePick(direction.normalize(), BSFMthUtil.randDouble(0.3, 1), BSFMthUtil.randDouble(0.1, 0.2));
+            }
+        }
+        if (icePicksNum==0||stockSnow<=0){
+            this.discard();
+        }
+        icePickBuilding = true;
+    }
+
+    @Override
+    protected void onHitEntity(EntityHitResult pResult) {
+        Level level = level();
+        if (!level.isClientSide && !icePickBuilding) {
+            impactPoint = new BlockPos(BSFMthUtil.vec3ToI(pResult.getLocation()));
+            icePickInit(level);
+        }
+        super.onHitEntity(pResult);
 
     }
 
     @Override
     protected void onHitBlock(@NotNull BlockHitResult result) {
         Level level = level();
-        if (!level.isClientSide) {
+        if (!level.isClientSide && !icePickBuilding) {
             if (!(level.getBlockEntity(result.getBlockPos()) instanceof LooseSnowBlockEntity)){
-                System.out.println("剩："+stockSnow);
-                this.discard();
+                impactPoint = result.getBlockPos();
+                icePickInit(level);
             }
         }
         super.onHitBlock(result);
+    }
+    private void handleBuildIcePick(Level level){
+        if (stockSnow<=0) return;
+        for (int i = 0; i < icePicksNum; i++) {
+            icePicks[i].generate(level);
+        }
     }
 
     @Override
     public void tick() {
         super.tick();
+//        if (stockSnow<=0){
+//            this.discard();
+//            return;
+//        }
         Level level = level();
-        if (!level.isClientSide) {
-            if (flag%growthConstraint==0){
-                handleSetBlock(level);
+        if (icePickBuilding){
+            fixed();
+            if (!level.isClientSide){
+                handleBuildIcePick(level);
             }
-            posArrMove(new BlockPos(Mth.floor(this.getX()), Mth.floor(this.getY()), Mth.floor(this.getZ())));
-            flag++;
+        }else{
+            if (!level.isClientSide&&buildWall) {
+                if (flag%growthConstraint==0){
+                    handleSetBlock(level);
+                }
+                posArrMove(new BlockPos(Mth.floor(this.getX()), Mth.floor(this.getY()), Mth.floor(this.getZ())));
+                flag++;
 
+            }
+//            this.push(0,0.01,0);
         }
-        this.push(0,0.01,0);
+
 
     }
+
+    /**
+     * Handle wall building tasks
+     * @param level
+     */
     private void handleSetBlock(Level level){
         if (stockSnow<=0) return;
         for (int i = generatingDistance; i < posNum; i++) {
             if (passingPosArr[i]!=null){
                 placeLooseSnowBlock(level,passingPosArr[i].offset(0,(i- generatingDistance)/growthConstraint,0));
                 placeLooseSnowBlock(level,passingPosArr[i].offset(0,-(i- generatingDistance)/growthConstraint,0));
+                //Fill a gap in the wall
                 if (i+1<posNum && passingPosArr[i+1]!=null){
                     int dx=passingPosArr[i].getX()-passingPosArr[i+1].getX();
                     int dz=passingPosArr[i].getZ()-passingPosArr[i+1].getZ();
@@ -84,7 +197,6 @@ public class ReconstructSnowballEntity extends AbstractBSFSnowballEntity {
                         int x2=passingPosArr[i+1].getX();
                         int z1=passingPosArr[i].getZ();
                         int z2=passingPosArr[i+1].getZ();
-
                         if (adx>adz){
                             float k=(float)((z2-z1)/(x2-x1));
                             float b= z1-k*x1;
@@ -140,7 +252,10 @@ public class ReconstructSnowballEntity extends AbstractBSFSnowballEntity {
                 }
             }
         }
-
+    }
+    private void fixed(){
+        Vec3 vec3 = this.getDeltaMovement();
+        this.push(-vec3.x, -vec3.y, -vec3.z);
     }
     private void placeLooseSnowBlock(Level level, BlockPos blockPos){
         if (stockSnow>0){
@@ -153,6 +268,8 @@ public class ReconstructSnowballEntity extends AbstractBSFSnowballEntity {
                 blockEntity.setChanged();
             }
 
+        }else{
+            this.discard();
         }
 
     }
@@ -164,7 +281,7 @@ public class ReconstructSnowballEntity extends AbstractBSFSnowballEntity {
 
     @Override
     public boolean canBeCaught() {
-        return true;
+        return false;
     }
 
     @Override
@@ -194,7 +311,7 @@ public class ReconstructSnowballEntity extends AbstractBSFSnowballEntity {
 
     @Override
     public float getSubspacePower() {
-        return 1.5F;
+        return 4F;
     }
 
     @Override
