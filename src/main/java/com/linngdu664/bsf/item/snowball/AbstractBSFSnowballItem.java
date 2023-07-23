@@ -1,14 +1,17 @@
 package com.linngdu664.bsf.item.snowball;
 
+import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.item.tank.LargeSnowballTankItem;
 import com.linngdu664.bsf.item.tank.SnowballTankItem;
 import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
 import com.linngdu664.bsf.item.weapon.SnowballMachineGunItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
@@ -25,6 +28,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -77,13 +81,39 @@ public abstract class AbstractBSFSnowballItem extends Item {
      * @return If the method stores snowballs in the tank successfully, it will return true, else return false.
      */
     public boolean storageInTank(Player pPlayer, ItemStack itemStack) {
-        if (pPlayer.getOffhandItem().getItem() == ItemRegister.EMPTY_SNOWBALL_STORAGE_TANK.get()) {
+        ItemStack offhand = pPlayer.getOffhandItem();
+        ItemStack mainHand = pPlayer.getMainHandItem();
+        int count = mainHand.getCount();
+        if (offhand.getItem() == ItemRegister.EMPTY_SNOWBALL_STORAGE_TANK.get()) {
             pPlayer.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(getTank()));
             pPlayer.getOffhandItem().setDamageValue(96 - pPlayer.getMainHandItem().getCount());
             if (!pPlayer.getAbilities().instabuild) {
                 itemStack.shrink(pPlayer.getMainHandItem().getCount());
             }
             return true;
+        }
+        if (offhand.getItem() instanceof LargeSnowballTankItem) {
+            CompoundTag compoundTag = offhand.getOrCreateTag();
+            String path = ForgeRegistries.ITEMS.getKey(this).getPath();
+            int offHandDamage = offhand.getDamageValue();
+            int offHandMaxDamage = offhand.getMaxDamage();
+            if ((path.equals(compoundTag.getString("snowball")) && offHandDamage != 0) || offHandDamage == offHandMaxDamage) {
+                if (offHandDamage == offHandMaxDamage) {
+                    compoundTag.putString("snowball", path);
+                }
+                if (offHandDamage < count) {
+                    if (!pPlayer.getAbilities().instabuild) {
+                        mainHand.shrink(offHandDamage);
+                    }
+                    offhand.setDamageValue(0);
+                } else {
+                    if (!pPlayer.getAbilities().instabuild) {
+                        mainHand.shrink(count);
+                    }
+                    offhand.setDamageValue(offHandDamage - count);
+                }
+                return true;
+            }
         }
         if (pPlayer.getOffhandItem().getItem() instanceof SnowballTankItem tank && this.equals(tank.getSnowball()) && pPlayer.getOffhandItem().getDamageValue() != 0) {
             if (pPlayer.getOffhandItem().getDamageValue() >= pPlayer.getMainHandItem().getCount()) {

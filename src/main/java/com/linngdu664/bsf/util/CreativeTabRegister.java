@@ -7,6 +7,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -127,5 +128,12 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.REPULSION_CORE.get());
                 output.accept(ItemRegister.GRAVITY_CORE.get());
                 output.accept(ItemRegister.SNOWBALL_CANNON_UPGRADE_SMITHING_TEMPLATE.get());
+
+                ItemStack itemStack = ItemRegister.LARGE_SNOWBALL_TANK.get().getDefaultInstance();
+                itemStack.setDamageValue(itemStack.getMaxDamage());
+                output.accept(itemStack);
+                itemStack = ItemRegister.LARGE_SNOWBALL_TANK.get().getDefaultInstance();
+                itemStack.getOrCreateTag().putString("snowball", "compacted_snowball");
+                output.accept(itemStack);
             }).build());
 }

@@ -12,6 +12,7 @@ import com.linngdu664.bsf.item.snowball.normal.*;
 import com.linngdu664.bsf.item.snowball.special.*;
 import com.linngdu664.bsf.item.snowball.tracking.*;
 import com.linngdu664.bsf.item.tank.EmptySnowballTankItem;
+import com.linngdu664.bsf.item.tank.LargeSnowballTankItem;
 import com.linngdu664.bsf.item.tank.SnowballTankItem;
 import com.linngdu664.bsf.item.tool.*;
 import com.linngdu664.bsf.item.weapon.*;
@@ -126,7 +127,7 @@ public class ItemRegister {
     public static final RegistryObject<Item> IMPULSE_SNOWBALL_TANK = ITEMS.register("impulse_snowball_tank", () -> new SnowballTankItem(ItemRegister.IMPULSE_SNOWBALL.get(), false));
     public static final RegistryObject<Item> CHERRY_BLOSSOM_SNOWBALL_TANK = ITEMS.register("cherry_blossom_snowball_tank", () -> new SnowballTankItem(ItemRegister.CHERRY_BLOSSOM_SNOWBALL.get(), false));
     public static final RegistryObject<Item> GHOST_SNOWBALL_TANK = ITEMS.register("ghost_snowball_tank", () -> new SnowballTankItem(ItemRegister.GHOST_SNOWBALL.get(), false));
-
+    public static final RegistryObject<Item> LARGE_SNOWBALL_TANK = ITEMS.register("large_snowball_tank", LargeSnowballTankItem::new);
 
     public static final RegistryObject<Item> WOOD_SNOWBALL_CLAMP = ITEMS.register("wood_snowball_clamp", () -> new SnowballClampItem(Tiers.WOOD, 118));
     public static final RegistryObject<Item> STONE_SNOWBALL_CLAMP = ITEMS.register("stone_snowball_clamp", () -> new SnowballClampItem(Tiers.STONE, 260));
