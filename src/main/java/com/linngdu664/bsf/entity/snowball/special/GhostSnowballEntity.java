@@ -6,6 +6,8 @@ import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.ItemRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -37,6 +39,7 @@ public class GhostSnowballEntity extends AbstractBSFSnowballEntity {
             Entity entity = pResult.getEntity();
             if (entity instanceof LivingEntity livingEntity && !isCaught) {
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 160, 1));
+                level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.WITHER_SPAWN, SoundSource.PLAYERS, 1.0F, 1.0F / (level().getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
         }
     }
