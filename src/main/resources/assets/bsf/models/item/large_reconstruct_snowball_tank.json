@@ -1,5 +1,5 @@
 {
-  "parent": "bsf:item/empty_snowball_tank",
+  "parent": "bsf:item/snowball_tank",
   "textures": {
     "layer0": "bsf:item/large_reconstruct_snowball_tank"
   }
