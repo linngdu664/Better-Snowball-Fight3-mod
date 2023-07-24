@@ -36,9 +36,11 @@ import java.util.List;
 
 public abstract class AbstractBSFSnowballItem extends Item {
     public static final int HAND_TYPE_FLAG = 1;
+
     public AbstractBSFSnowballItem(Rarity rarity) {
         super(new Properties().stacksTo(16).rarity(rarity));
     }
+
     public ILaunchAdjustment getLaunchAdjustment(float playerBadEffectRate) {
         return new ILaunchAdjustment() {
             @Override

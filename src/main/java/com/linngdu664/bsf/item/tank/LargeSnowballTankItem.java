@@ -62,9 +62,8 @@ public class LargeSnowballTankItem extends Item {
         CompoundTag compoundTag = pStack.getOrCreateTag();
         if (compoundTag.contains("snowball")) {
             return MutableComponent.create(new TranslatableContents("item.bsf." + compoundTag.getString("snowball") + "_tank", null, new Object[0]));
-        } else {
-            return super.getName(pStack);
         }
+        return super.getName(pStack);
     }
 
     @Override
