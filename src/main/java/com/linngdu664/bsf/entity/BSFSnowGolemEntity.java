@@ -401,7 +401,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         Level level = level();
         ItemStack weapon = getWeapon();
         ItemStack ammo = getAmmo();
-        if (!weapon.isEmpty() && ammo.getItem() instanceof SnowballTankItem tankItem && !hasEffect(EffectRegister.WEAPON_JAM.get())) {
+        if (!weapon.isEmpty() && ammo.getItem() instanceof SnowballTankItem && !hasEffect(EffectRegister.WEAPON_JAM.get())) {
             CompoundTag compoundTag = ammo.getTag();
             if (!compoundTag.contains("snowball")) {
                 return;
