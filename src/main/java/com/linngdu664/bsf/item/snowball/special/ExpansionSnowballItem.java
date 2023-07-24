@@ -3,13 +3,11 @@ package com.linngdu664.bsf.item.snowball.special;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.special.ExpansionSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
@@ -33,10 +31,5 @@ public class ExpansionSnowballItem extends AbstractBSFSnowballItem {
     @Override
     public int getTypeFlag() {
         return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
-    }
-
-    @Override
-    public Item getTank() {
-        return ItemRegister.EXPANSION_SNOWBALL_TANK.get();
     }
 }

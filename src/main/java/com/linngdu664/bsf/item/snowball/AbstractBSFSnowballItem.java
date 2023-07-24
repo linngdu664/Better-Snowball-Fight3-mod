@@ -1,11 +1,8 @@
 package com.linngdu664.bsf.item.snowball;
 
-import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
-import com.linngdu664.bsf.item.ItemRegister;
-import com.linngdu664.bsf.item.tank.LargeSnowballTankItem;
 import com.linngdu664.bsf.item.tank.SnowballTankItem;
 import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
 import com.linngdu664.bsf.item.weapon.SnowballMachineGunItem;
@@ -79,22 +76,13 @@ public abstract class AbstractBSFSnowballItem extends Item {
      * Handle the storage of the snowballs.
      *
      * @param pPlayer   The player who uses snowball.
-     * @param itemStack The snowball itemstack.
      * @return If the method stores snowballs in the tank successfully, it will return true, else return false.
      */
-    public boolean storageInTank(Player pPlayer, ItemStack itemStack) {
+    public boolean storageInTank(Player pPlayer) {
         ItemStack offhand = pPlayer.getOffhandItem();
         ItemStack mainHand = pPlayer.getMainHandItem();
         int count = mainHand.getCount();
-        if (offhand.getItem() == ItemRegister.EMPTY_SNOWBALL_STORAGE_TANK.get()) {
-            pPlayer.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(getTank()));
-            pPlayer.getOffhandItem().setDamageValue(96 - pPlayer.getMainHandItem().getCount());
-            if (!pPlayer.getAbilities().instabuild) {
-                itemStack.shrink(pPlayer.getMainHandItem().getCount());
-            }
-            return true;
-        }
-        if (offhand.getItem() instanceof LargeSnowballTankItem) {
+        if (offhand.getItem() instanceof SnowballTankItem) {
             CompoundTag compoundTag = offhand.getOrCreateTag();
             String path = ForgeRegistries.ITEMS.getKey(this).getPath();
             int offHandDamage = offhand.getDamageValue();
@@ -117,26 +105,12 @@ public abstract class AbstractBSFSnowballItem extends Item {
                 return true;
             }
         }
-        if (pPlayer.getOffhandItem().getItem() instanceof SnowballTankItem tank && this.equals(tank.getSnowball()) && pPlayer.getOffhandItem().getDamageValue() != 0) {
-            if (pPlayer.getOffhandItem().getDamageValue() >= pPlayer.getMainHandItem().getCount()) {
-                pPlayer.getOffhandItem().setDamageValue(pPlayer.getOffhandItem().getDamageValue() - pPlayer.getMainHandItem().getCount());
-                if (!pPlayer.getAbilities().instabuild) {
-                    itemStack.shrink(pPlayer.getMainHandItem().getCount());
-                }
-            } else {
-                if (!pPlayer.getAbilities().instabuild) {
-                    itemStack.shrink(pPlayer.getOffhandItem().getDamageValue());
-                }
-                pPlayer.getOffhandItem().setDamageValue(0);
-            }
-            return true;
-        }
         return false;
     }
 
     public InteractionResultHolder<ItemStack> throwOrStorage(Player pPlayer, Level pLevel, InteractionHand pUsedHand, float velocity, int coolDown) {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
-        if (!storageInTank(pPlayer, itemStack)) {
+        if (!storageInTank(pPlayer)) {
             pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
             if (!pLevel.isClientSide) {
                 AbstractBSFSnowballEntity snowballEntity = getCorrespondingEntity(pLevel, pPlayer, getLaunchAdjustment(getSnowballDamageRate(pPlayer)));
@@ -222,11 +196,7 @@ public abstract class AbstractBSFSnowballItem extends Item {
      */
     public abstract AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment);
     public abstract int getTypeFlag();
-    public abstract Item getTank();
-
-    public Item getLargeTank() {
-        return null;
-    }
+//    public abstract Item getTank();
 
     public double getMachineGunRecoil() {
         return 0.075;

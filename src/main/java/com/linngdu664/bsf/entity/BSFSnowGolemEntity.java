@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.entity;
 
+import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.ai.goal.*;
@@ -8,7 +9,9 @@ import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.BSFTiers;
 import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.snowball.normal.SmoothSnowballItem;
+import com.linngdu664.bsf.item.tank.LargeSnowballTankItem;
 import com.linngdu664.bsf.item.tank.SnowballTankItem;
 import com.linngdu664.bsf.item.tool.CreativeSnowGolemToolItem;
 import com.linngdu664.bsf.item.tool.SnowGolemModeTweakerItem;
@@ -25,6 +28,7 @@ import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -53,6 +57,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob {
@@ -397,8 +402,12 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         ItemStack weapon = getWeapon();
         ItemStack ammo = getAmmo();
         if (!weapon.isEmpty() && ammo.getItem() instanceof SnowballTankItem tankItem && !hasEffect(EffectRegister.WEAPON_JAM.get())) {
+            CompoundTag compoundTag = ammo.getTag();
+            if (!compoundTag.contains("snowball")) {
+                return;
+            }
             AbstractBSFWeaponItem weaponItem = (AbstractBSFWeaponItem) weapon.getItem();
-            if ((tankItem.getSnowball().getTypeFlag() & weaponItem.getTypeFlag()) == 0) {
+            if ((((AbstractBSFSnowballItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, ammo.getTag().getString("snowball")))).getTypeFlag() & weaponItem.getTypeFlag()) == 0) {
                 return;
             }
             float damageChance = 1.0F / (1.0F + EnchantmentHelper.getTagEnchantmentLevel(Enchantments.UNBREAKING, weapon));
@@ -437,17 +446,23 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
             setRealSightZ((float) dz);
             int j = weapon.getItem() instanceof SnowballShotgunItem ? 4 : 1;
             for (int i = 0; i < j; i++) {
-                Item item = ammo.getItem();
-                if (!(item instanceof SnowballTankItem)) {
+                if (!compoundTag.contains("snowball")) {
                     break;
                 }
-                AbstractBSFSnowballEntity snowball = ((SnowballTankItem) item).getSnowball().getCorrespondingEntity(level, this, launchAdjustment);
+                AbstractBSFSnowballEntity snowball = ((AbstractBSFSnowballItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, compoundTag.getString("snowball")))).getCorrespondingEntity(level, this, launchAdjustment);
                 snowball.shoot(dx, sinTheta, dz, v, accuracy);
                 level.addFreshEntity(snowball);
                 if (!getEnhance()) {
                     ammo.setDamageValue(ammo.getDamageValue() + 1);
                     if (ammo.getDamageValue() == ammo.getMaxDamage()) {
-                        setAmmo(new ItemStack(ItemRegister.EMPTY_SNOWBALL_STORAGE_TANK.get()));
+                        ItemStack empty;
+                        if (ammo.getItem() instanceof LargeSnowballTankItem) {
+                            empty = ItemRegister.LARGE_SNOWBALL_TANK.get().getDefaultInstance();
+                        } else {
+                            empty = ItemRegister.SNOWBALL_TANK.get().getDefaultInstance();
+                        }
+                        empty.setDamageValue(empty.getMaxDamage());
+                        setAmmo(empty);
                     }
                 }
                 if (i == 0) {

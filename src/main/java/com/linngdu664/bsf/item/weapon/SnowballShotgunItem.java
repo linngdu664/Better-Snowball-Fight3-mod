@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.item.weapon;
 
+import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.enchantment.EnchantmentRegister;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
@@ -15,6 +16,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -28,6 +30,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -90,13 +93,13 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
         int i;
         for (i = 0; i < 4; i++) {
             ItemStack itemStack = getAmmo(player, stack);
-            if (itemStack == null || !player.isShiftKeyDown() && (itemStack.getItem().equals(ItemRegister.THRUST_SNOWBALL.get()) || itemStack.getItem().equals(ItemRegister.THRUST_SNOWBALL_TANK.get()))) {
+            if (itemStack == null || !player.isShiftKeyDown() && (itemStack.getItem().equals(ItemRegister.THRUST_SNOWBALL.get()) || ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, itemStack.getTag().getString("snowball"))).equals(ItemRegister.THRUST_SNOWBALL.get()))) {
                 break;
             }
-            AbstractBSFSnowballEntity snowballEntity = ItemToEntity(itemStack.getItem(), player, level, getLaunchAdjustment(1, itemStack.getItem()));
+            AbstractBSFSnowballEntity snowballEntity = ItemToEntity(itemStack, player, level, getLaunchAdjustment(1, itemStack.getItem()));
             Item item = itemStack.getItem();
-            if (item instanceof SnowballTankItem tank) {
-                item = tank.getSnowball();
+            if (item instanceof SnowballTankItem) {
+                item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, itemStack.getTag().getString("snowball")));
             }
             if (item instanceof AbstractBSFSnowballItem snowball) {
                 pushRank += snowball.getShotgunPushRank();

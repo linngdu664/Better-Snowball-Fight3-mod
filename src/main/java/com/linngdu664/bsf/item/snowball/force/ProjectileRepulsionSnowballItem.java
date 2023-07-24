@@ -16,7 +16,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
@@ -35,7 +34,7 @@ public class ProjectileRepulsionSnowballItem extends AbstractBSFSnowballItem {
         if (pPlayer.isShiftKeyDown()) {
             ItemStack newStack = new ItemStack(ItemRegister.MONSTER_REPULSION_SNOWBALL.get(), itemStack.getCount());
             pPlayer.setItemInHand(pUsedHand, newStack);
-        } else if (!storageInTank(pPlayer, itemStack)) {
+        } else if (!storageInTank(pPlayer)) {
             pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
             if (!pLevel.isClientSide) {
                 ProjectileRepulsionSnowballEntity snowballEntity = new ProjectileRepulsionSnowballEntity(pPlayer, pLevel, getLaunchAdjustment(1));
@@ -60,21 +59,6 @@ public class ProjectileRepulsionSnowballItem extends AbstractBSFSnowballItem {
     public int getTypeFlag() {
         return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
     }
-
-    @Override
-    public Item getTank() {
-        return ItemRegister.PROJECTILE_REPULSION_SNOWBALL_TANK.get();
-    }
-
-//    @Override
-//    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_yes_hand.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_GREEN));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_cannon.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_machine_gun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_shotgun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("can_change.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("projectile_repulsion_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_PURPLE));
-//    }
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {

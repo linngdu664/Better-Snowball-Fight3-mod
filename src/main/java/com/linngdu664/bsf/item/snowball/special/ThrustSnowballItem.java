@@ -2,7 +2,6 @@ package com.linngdu664.bsf.item.snowball.special;
 
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import net.minecraft.ChatFormatting;
@@ -13,7 +12,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
@@ -29,7 +27,7 @@ public class ThrustSnowballItem extends AbstractBSFSnowballItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
-        storageInTank(pPlayer, itemStack);
+        storageInTank(pPlayer);
         return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 
@@ -44,25 +42,9 @@ public class ThrustSnowballItem extends AbstractBSFSnowballItem {
     }
 
     @Override
-    public Item getTank() {
-        return ItemRegister.THRUST_SNOWBALL_TANK.get();
-    }
-
-    @Override
     public double getShotgunPushRank() {
         return 0.38;
     }
-
-//    @Override
-//    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_hand.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_cannon.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_machine_gun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_shotgun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("thrust_snowball1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("thrust_snowball2.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("thrust_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
-//    }
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {

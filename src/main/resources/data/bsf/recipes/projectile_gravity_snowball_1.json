@@ -2,10 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "bsf:gravity_snowball_to_monster"
+      "item": "bsf:monster_gravity_snowball"
     }
   ],
   "result": {
-    "item": "bsf:gravity_snowball_to_projectile"
+    "item": "bsf:projectile_gravity_snowball"
   }
 }

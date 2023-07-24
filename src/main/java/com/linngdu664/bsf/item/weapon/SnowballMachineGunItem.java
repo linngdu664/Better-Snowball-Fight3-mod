@@ -1,19 +1,18 @@
 package com.linngdu664.bsf.item.weapon;
 
+import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
-import com.linngdu664.bsf.item.tank.SnowballTankItem;
-import com.linngdu664.bsf.item.tank.normal.ExplosiveSnowballTank;
-import com.linngdu664.bsf.item.tank.tracking.ExplosiveMonsterTrackingSnowballTank;
-import com.linngdu664.bsf.item.tank.tracking.ExplosivePlayerTrackingSnowballTank;
+import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -24,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,8 +80,9 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
         ammo = getAmmo(pPlayer, stack);
         if (ammo != null && !pPlayer.hasEffect(EffectRegister.WEAPON_JAM.get())) {
-            recoil = ((SnowballTankItem) ammo.getItem()).getSnowball().getMachineGunRecoil();
-            isExplosive = ammo.getItem() instanceof ExplosiveSnowballTank || ammo.getItem() instanceof ExplosivePlayerTrackingSnowballTank || ammo.getItem() instanceof ExplosiveMonsterTrackingSnowballTank;
+            String path = ammo.getTag().getString("snowball");
+            recoil = ((AbstractBSFSnowballItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, path))).getMachineGunRecoil();
+            isExplosive = path.contains("explosive");
             pPlayer.startUsingItem(pUsedHand);
             return InteractionResultHolder.consume(stack);
         }
@@ -90,7 +91,7 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
 
     @Override
     public void onUseTick(@NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
-        if (pRemainingUseDuration == 1 || ammo == null || ammo.isEmpty() || pLivingEntity.hasEffect(EffectRegister.WEAPON_JAM.get())) {
+        if (pRemainingUseDuration == 1 || ammo == null || ammo.isEmpty() || !ammo.getTag().contains("snowball") || pLivingEntity.hasEffect(EffectRegister.WEAPON_JAM.get())) {
             this.releaseUsing(pStack, pLevel, pLivingEntity, pRemainingUseDuration);
             return;
         }
@@ -103,7 +104,8 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
                 // add push
                 player.push(-cameraVec.x * recoil * 0.25, -cameraVec.y * recoil * 0.25, -cameraVec.z * recoil * 0.25);
             } else {
-                AbstractBSFSnowballEntity snowballEntity = ItemToEntity(ammo.getItem(), player, pLevel, getLaunchAdjustment(1, ammo.getItem()));
+                System.out.println(ammo);
+                AbstractBSFSnowballEntity snowballEntity = ItemToEntity(ammo, player, pLevel, getLaunchAdjustment(1, ammo.getItem()));
                 BSFShootFromRotation(snowballEntity, pitch, yaw, 2.6F, 1.0F);
                 pLevel.addFreshEntity(snowballEntity);
                 pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.SNOWBALL_MACHINE_GUN_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);

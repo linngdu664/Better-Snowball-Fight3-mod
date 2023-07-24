@@ -1,0 +1,201 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "bsf:item/empty_snowball_tank"
+  },
+  "display": {
+    "head": {
+      "rotation": [180, 180, 0],
+      "translation": [-1.5, 6, 5],
+      "scale": [0.7, 0.7, 0.7]
+    }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "snowball": 0
+      },
+      "model": "bsf:item/compacted_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 1
+      },
+      "model": "bsf:item/cherry_blossom_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 2
+      },
+      "model": "bsf:item/stone_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 3
+      },
+      "model": "bsf:item/glass_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 4
+      },
+      "model": "bsf:item/ice_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 5
+      },
+      "model": "bsf:item/iron_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 6
+      },
+      "model": "bsf:item/gold_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 7
+      },
+      "model": "bsf:item/obsidian_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 8
+      },
+      "model": "bsf:item/explosive_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 9
+      },
+      "model": "bsf:item/spectral_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 10
+      },
+      "model": "bsf:item/powder_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 11
+      },
+      "model": "bsf:item/frozen_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 12
+      },
+      "model": "bsf:item/critical_frozen_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 13
+      },
+      "model": "bsf:item/ender_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 14
+      },
+      "model": "bsf:item/thrust_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 15
+      },
+      "model": "bsf:item/subspace_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 16
+      },
+      "model": "bsf:item/ghost_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 17
+      },
+      "model": "bsf:item/expansion_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 18
+      },
+      "model": "bsf:item/reconstruct_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 19
+      },
+      "model": "bsf:item/impulse_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 20
+      },
+      "model": "bsf:item/black_hole_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 21
+      },
+      "model": "bsf:item/monster_gravity_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 22
+      },
+      "model": "bsf:item/monster_repulsion_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 23
+      },
+      "model": "bsf:item/projectile_gravity_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 24
+      },
+      "model": "bsf:item/projectile_repulsion_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 25
+      },
+      "model": "bsf:item/light_monster_tracking_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 26
+      },
+      "model": "bsf:item/heavy_monster_tracking_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 27
+      },
+      "model": "bsf:item/explosive_monster_tracking_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 28
+      },
+      "model": "bsf:item/light_player_tracking_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 29
+      },
+      "model": "bsf:item/heavy_player_tracking_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 30
+      },
+      "model": "bsf:item/explosive_player_tracking_snowball_tank"
+    }
+  ]
+}

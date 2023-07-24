@@ -3,7 +3,6 @@ package com.linngdu664.bsf.item.snowball.special;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.special.BlackHoleSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -16,7 +15,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
@@ -32,7 +30,7 @@ public class BlackHoleSnowballItem extends AbstractBSFSnowballItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
-        if (!storageInTank(pPlayer, itemStack)) {
+        if (!storageInTank(pPlayer)) {
             pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
             if (!pLevel.isClientSide) {
                 BlackHoleSnowballEntity snowballEntity = new BlackHoleSnowballEntity(pPlayer, pLevel, getLaunchAdjustment(1));
@@ -60,22 +58,6 @@ public class BlackHoleSnowballItem extends AbstractBSFSnowballItem {
     public int getTypeFlag() {
         return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
     }
-
-    @Override
-    public Item getTank() {
-        return ItemRegister.BLACK_HOLE_SNOWBALL_TANK.get();
-    }
-
-//    @Override
-//    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_yes_hand.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_GREEN));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_cannon.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_machine_gun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_shotgun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("black_hole_snowball1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("black_hole_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.OBFUSCATED));
-//        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("black_hole_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_PURPLE));
-//    }
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {

@@ -3,10 +3,8 @@ package com.linngdu664.bsf.item.snowball.special;
 import com.linngdu664.bsf.block.entity.CriticalSnowEntity;
 import com.linngdu664.bsf.block.entity.LooseSnowBlockEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
-import com.linngdu664.bsf.entity.snowball.special.ImpulseSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.special.ReconstructSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.BlockPos;
@@ -17,12 +15,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -75,10 +71,4 @@ public class ReconstructSnowballItem extends AbstractBSFSnowballItem {
     public int getTypeFlag() {
         return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
     }
-
-    @Override
-    public Item getTank() {
-        return ItemRegister.RECONSTRUCT_SNOWBALL_TANK.get();
-    }
-
 }
