@@ -1,7 +1,6 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.block.LooseSnowBlock;
-import com.linngdu664.bsf.block.entity.LooseSnowBlockEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
@@ -13,7 +12,6 @@ import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
-
 import org.jetbrains.annotations.NotNull;
 
 
