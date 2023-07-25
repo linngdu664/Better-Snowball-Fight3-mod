@@ -52,12 +52,13 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     @Override
     public void tick() {
         super.tick();
-        if (snowStock<=0){
-            this.discard();
-            return;
-        }
+
         Level level = level();
         if (!level.isClientSide) {
+            if (snowStock<=0){
+                this.discard();
+                return;
+            }
             if (counter % GROWTH_CONSTRAINT == 0) {
                 handleSetBlock(level);
             }
