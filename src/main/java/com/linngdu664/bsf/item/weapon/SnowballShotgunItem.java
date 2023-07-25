@@ -109,25 +109,23 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
         if (i > 0) {
             Vec3 cameraVec = Vec3.directionFromRotation(player.getXRot(), player.getYRot());
             if (!player.isShiftKeyDown()) {
-                if (level.isClientSide()) {
+                if (level.isClientSide) {
                     player.push(-0.24 * cameraVec.x, -0.24 * cameraVec.y, -0.24 * cameraVec.z);
                 } else {
                     NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ForwardConeParticlesToClient(player.getEyePosition(), cameraVec, 4.5F, 45, 1.5F, 0.1));
                     level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.SHOTGUN_FIRE_2.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                    player.getCooldowns().addCooldown(this, 20);
                 }
             } else {
-                if (level.isClientSide()) {
+                if (level.isClientSide) {
                     player.push(-pushRank * cameraVec.x, -pushRank * cameraVec.y, -pushRank * cameraVec.z);
                 } else {
                     NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ForwardConeParticlesToClient(player.getEyePosition(), cameraVec, 4.5F, 45, 0.5F, 0.1));
                     level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.SHOTGUN_FIRE_1.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                    player.getCooldowns().addCooldown(this, 30);
                 }
             }
             stack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(p.getUsedItemHand()));
-
-            if (!level.isClientSide) {
-                player.getCooldowns().addCooldown(this, 20);
-            }
             player.awardStat(Stats.ITEM_USED.get(this));
         }
         return InteractionResultHolder.pass(stack);
