@@ -1,10 +1,14 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.block.LooseSnowBlock;
+import com.linngdu664.bsf.block.entity.LooseSnowBlockEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
+import com.linngdu664.bsf.registry.BlockRegister;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -139,6 +143,21 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
             passingPosArr[i] = passingPosArr[i - 1];
         }
         passingPosArr[0] = newPos;
+    }
+    @Override
+    protected void placeLooseSnowBlock(Level level, BlockPos blockPos) {
+        if (snowStock > 0) {
+            if (level.getBlockState(blockPos).canBeReplaced()) {
+                level.setBlock(blockPos, BlockRegister.LOOSE_SNOW_BLOCK.get().defaultBlockState(), 3);
+                level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.SNOW_PLACE, SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+            } else if (level.getBlockEntity(blockPos) instanceof LooseSnowBlockEntity blockEntity) {
+                blockEntity.setAge(0);
+                blockEntity.setChanged();
+            }
+            snowStock--;
+        } else {
+            this.discard();
+        }
     }
 
     @Override
