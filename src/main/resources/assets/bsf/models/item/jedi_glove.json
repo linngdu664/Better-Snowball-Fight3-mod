@@ -1,6 +1,14 @@
 {
-  "parent": "item/generated",
+  "parent": "bsf:item/glove",
   "textures": {
     "layer0": "bsf:item/jedi_glove"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "using": 1
+      },
+      "model": "bsf:item/jedi_glove_using"
+    }
+  ]
 }

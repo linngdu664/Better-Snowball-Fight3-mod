@@ -55,6 +55,8 @@ public class ClientSetupEvent {
                     -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F);
             ItemProperties.register(ItemRegister.GLOVE.get(), new ResourceLocation("using"), (itemStack, world, livingEntity, num)
                     -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F);
+            ItemProperties.register(ItemRegister.JEDI_GLOVE.get(), new ResourceLocation("using"), (itemStack, world, livingEntity, num)
+                    -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F);
             ItemProperties.register(ItemRegister.LARGE_SNOWBALL_TANK.get(), new ResourceLocation("snowball"), (itemStack, world, livingEntity, num) -> getSnowballId(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, itemStack.getTag().getString("snowball")))));
             ItemProperties.register(ItemRegister.SNOWBALL_TANK.get(), new ResourceLocation("snowball"), (itemStack, world, livingEntity, num) -> getSnowballId(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, itemStack.getTag().getString("snowball")))));
         });
