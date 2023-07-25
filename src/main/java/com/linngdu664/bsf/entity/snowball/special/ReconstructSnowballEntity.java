@@ -19,16 +19,17 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     private static final int GENERATING_DISTANCE = 1;
     private static final int POS_NUM = 10 + GENERATING_DISTANCE;
     private static final int GROWTH_CONSTRAINT = 3;
-
-    private int counter = 0;
     private final BlockPos[] passingPosArr = new BlockPos[POS_NUM];
+    private int counter = 0;
 
     public ReconstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        setNoGravity(true);
     }
 
     public ReconstructSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
         super(EntityRegister.RECONSTRUCT_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock);
+        setNoGravity(true);
     }
 
     @Override
@@ -55,7 +56,6 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
             posArrMove(new BlockPos(Mth.floor(this.getX()), Mth.floor(this.getY()), Mth.floor(this.getZ())));
             counter++;
         }
-//            this.push(0,0.01,0);
     }
 
     /**
