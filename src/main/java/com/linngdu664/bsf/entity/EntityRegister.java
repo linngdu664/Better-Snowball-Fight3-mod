@@ -1,10 +1,7 @@
 package com.linngdu664.bsf.entity;
 
 import com.linngdu664.bsf.Main;
-import com.linngdu664.bsf.entity.snowball.force.MonsterGravitySnowballEntity;
-import com.linngdu664.bsf.entity.snowball.force.MonsterRepulsionSnowballEntity;
-import com.linngdu664.bsf.entity.snowball.force.ProjectileGravitySnowballEntity;
-import com.linngdu664.bsf.entity.snowball.force.ProjectileRepulsionSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.force.*;
 import com.linngdu664.bsf.entity.snowball.nomal.*;
 import com.linngdu664.bsf.entity.snowball.special.*;
 import com.linngdu664.bsf.entity.snowball.tracking.*;
