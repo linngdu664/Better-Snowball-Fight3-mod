@@ -1,10 +1,10 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
-import com.linngdu664.bsf.entity.EntityRegister;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
-import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.registry.EntityRegister;
+import com.linngdu664.bsf.registry.ItemRegister;
+import com.linngdu664.bsf.registry.SoundRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
-import com.linngdu664.bsf.util.SoundRegister;
 import net.minecraft.core.particles.ShriekParticleOption;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -31,12 +31,13 @@ public class SculkSnowballEntity extends AbstractBSFSnowballEntity {
     @Override
     protected void onHit(@NotNull HitResult pResult) {
         super.onHit(pResult);
-        if (!level().isClientSide && !isCaught) {
+        Level level = level();
+        if (!level.isClientSide && !isCaught) {
             discard();
-            ((ServerLevel)level()).sendParticles(new ShriekParticleOption(0), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
-            ((ServerLevel)level()).sendParticles(new ShriekParticleOption(5), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
-            ((ServerLevel)level()).sendParticles(new ShriekParticleOption(10), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
-            level().playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[BSFMthUtil.randInt(0, 25)].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+            ((ServerLevel) level).sendParticles(new ShriekParticleOption(0), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
+            ((ServerLevel) level).sendParticles(new ShriekParticleOption(5), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
+            ((ServerLevel) level).sendParticles(new ShriekParticleOption(10), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
+            level.playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[BSFMthUtil.randInt(0, 25)].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
         }
     }
 

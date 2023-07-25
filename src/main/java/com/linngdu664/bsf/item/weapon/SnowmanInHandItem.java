@@ -1,10 +1,10 @@
 package com.linngdu664.bsf.item.weapon;
 
-import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.entity.snowball.nomal.SmoothSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
-import com.linngdu664.bsf.particle.ParticleRegister;
+import com.linngdu664.bsf.registry.EffectRegister;
+import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;

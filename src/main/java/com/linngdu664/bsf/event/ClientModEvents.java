@@ -1,7 +1,9 @@
 package com.linngdu664.bsf.event;
 
 import com.linngdu664.bsf.Main;
-import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.client.model.BSFSnowGolemModel;
+import com.linngdu664.bsf.client.model.IceSkatesModel;
+import com.linngdu664.bsf.client.model.SnowFallBootsModel;
 import com.linngdu664.bsf.item.snowball.force.MonsterGravitySnowballItem;
 import com.linngdu664.bsf.item.snowball.force.MonsterRepulsionSnowballItem;
 import com.linngdu664.bsf.item.snowball.force.ProjectileGravitySnowballItem;
@@ -9,17 +11,19 @@ import com.linngdu664.bsf.item.snowball.force.ProjectileRepulsionSnowballItem;
 import com.linngdu664.bsf.item.snowball.normal.*;
 import com.linngdu664.bsf.item.snowball.special.*;
 import com.linngdu664.bsf.item.snowball.tracking.*;
+import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ClientSetupEvent {
+public class ClientModEvents {
     @SubscribeEvent
     public static void setupClient(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
@@ -96,5 +100,12 @@ public class ClientSetupEvent {
         if (item instanceof ExplosivePlayerTrackingSnowballItem) return 30;
         if (item instanceof IcicleSnowballItem) return 31;
         return -1;
+    }
+
+    @SubscribeEvent
+    public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(IceSkatesModel.LAYER_LOCATION, IceSkatesModel::createBodyLayer);
+        event.registerLayerDefinition(SnowFallBootsModel.LAYER_LOCATION, SnowFallBootsModel::createBodyLayer);
+        event.registerLayerDefinition(BSFSnowGolemModel.LAYER_LOCATION, BSFSnowGolemModel::createBodyLayer);
     }
 }

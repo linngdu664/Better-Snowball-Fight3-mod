@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.enchantment;
 
-import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

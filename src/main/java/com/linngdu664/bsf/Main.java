@@ -1,15 +1,8 @@
 package com.linngdu664.bsf;
 
-import com.linngdu664.bsf.block.BlockRegister;
 import com.linngdu664.bsf.block.entity.BlockEntityRegister;
-import com.linngdu664.bsf.effect.EffectRegister;
-import com.linngdu664.bsf.enchantment.EnchantmentRegister;
-import com.linngdu664.bsf.entity.EntityRegister;
-import com.linngdu664.bsf.event.BSFConfig;
-import com.linngdu664.bsf.item.ItemRegister;
-import com.linngdu664.bsf.particle.ParticleRegister;
-import com.linngdu664.bsf.util.CreativeTabRegister;
-import com.linngdu664.bsf.util.SoundRegister;
+import com.linngdu664.bsf.registry.*;
+import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;

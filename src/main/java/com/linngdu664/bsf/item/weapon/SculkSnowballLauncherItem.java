@@ -1,9 +1,9 @@
 package com.linngdu664.bsf.item.weapon;
 
-import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.entity.snowball.special.SculkSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.util.SoundRegister;
+import com.linngdu664.bsf.registry.EffectRegister;
+import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;

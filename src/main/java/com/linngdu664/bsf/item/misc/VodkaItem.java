@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.item.misc;
 
-import com.linngdu664.bsf.effect.EffectRegister;
+import com.linngdu664.bsf.registry.EffectRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.chat.Component;

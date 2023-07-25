@@ -1,10 +1,10 @@
 package com.linngdu664.bsf.item.misc;
 
-import com.linngdu664.bsf.effect.EffectRegister;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
-import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
-import com.linngdu664.bsf.network.Network;
+import com.linngdu664.bsf.registry.EffectRegister;
+import com.linngdu664.bsf.registry.ItemRegister;
+import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -40,7 +40,7 @@ public class BasinOfPowderSnowItem extends BasinOfSnowItem {
                     p -> !(p instanceof ArmorStand) && !(p instanceof Player player && player.isSpectator()) && p.distanceToSqr(pPlayer) < 64
                             && BSFMthUtil.vec3AngleCos(new Vec3(p.getX() - pPlayer.getX(), p.getEyeY() - pPlayer.getEyeY() + 0.2, p.getZ() - pPlayer.getZ()), Vec3.directionFromRotation(pPlayer.getXRot(), pPlayer.getYRot())) > 0.9363291776
                             && isNotBlocked(new Vec3(p.getX() - pPlayer.getX(), p.getEyeY() - pPlayer.getEyeY() + 0.2, p.getZ() - pPlayer.getZ()), new Vec3(p.getX() - pPlayer.getX(), p.getY() - pPlayer.getEyeY(), p.getZ() - pPlayer.getZ()), pPlayer, pLevel));
-            Network.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesToClient(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2));
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesToClient(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2));
             for (LivingEntity livingEntity : list) {
                 if (!(livingEntity instanceof BSFSnowGolemEntity) && !(livingEntity instanceof SnowGolem)) {
                     float r = pPlayer.distanceTo(livingEntity);

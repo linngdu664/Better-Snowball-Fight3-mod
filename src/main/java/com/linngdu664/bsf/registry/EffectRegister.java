@@ -1,6 +1,8 @@
-package com.linngdu664.bsf.effect;
+package com.linngdu664.bsf.registry;
 
 import com.linngdu664.bsf.Main;
+import com.linngdu664.bsf.effect.ColdResistanceEffect;
+import com.linngdu664.bsf.effect.WeaponJamEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraftforge.registries.DeferredRegister;

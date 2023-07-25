@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.item.block;
 
-import com.linngdu664.bsf.block.BlockRegister;
+import com.linngdu664.bsf.registry.BlockRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

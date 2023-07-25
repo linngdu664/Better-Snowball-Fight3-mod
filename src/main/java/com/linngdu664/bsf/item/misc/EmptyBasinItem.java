@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.item.misc;
 
-import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

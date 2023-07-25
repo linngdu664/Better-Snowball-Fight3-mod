@@ -1,6 +1,10 @@
-package com.linngdu664.bsf.block;
+package com.linngdu664.bsf.registry;
 
 import com.linngdu664.bsf.Main;
+import com.linngdu664.bsf.block.CriticalSnow;
+import com.linngdu664.bsf.block.LooseSnowBlock;
+import com.linngdu664.bsf.block.SmartSnowBlock;
+import com.linngdu664.bsf.block.SnowTrap;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

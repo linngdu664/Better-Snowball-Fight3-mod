@@ -1,6 +1,7 @@
 package com.linngdu664.bsf.network;
 
 import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
+import com.linngdu664.bsf.registry.NetworkRegister;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -44,7 +45,7 @@ public class AmmoTypeToServer {
                 ResourceLocation resourceLocation = ForgeRegistries.ITEMS.getKey(message.item);
                 compoundTag.putString("ammo_item", resourceLocation.getPath());
             } else {
-                Network.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> sender), new AmmoTypeToClient(message.slot));
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> sender), new AmmoTypeToClient(message.slot));
             }
         });
         context.setPacketHandled(true);

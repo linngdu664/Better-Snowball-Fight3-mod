@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.item.tool;
 
-import com.linngdu664.bsf.block.BlockRegister;
+import com.linngdu664.bsf.registry.BlockRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

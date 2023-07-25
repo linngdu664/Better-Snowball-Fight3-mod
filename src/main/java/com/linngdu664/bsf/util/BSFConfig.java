@@ -1,4 +1,4 @@
-package com.linngdu664.bsf.event;
+package com.linngdu664.bsf.util;
 
 import com.linngdu664.bsf.Main;
 import net.minecraft.resources.ResourceLocation;

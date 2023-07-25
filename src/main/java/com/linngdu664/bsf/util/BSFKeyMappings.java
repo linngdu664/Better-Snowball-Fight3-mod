@@ -1,4 +1,4 @@
-package com.linngdu664.bsf.event;
+package com.linngdu664.bsf.util;
 
 import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
 import net.minecraft.client.KeyMapping;

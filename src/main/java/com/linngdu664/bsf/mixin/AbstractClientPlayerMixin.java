@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.mixin;
 
-import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
+import com.linngdu664.bsf.registry.ItemRegister;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;

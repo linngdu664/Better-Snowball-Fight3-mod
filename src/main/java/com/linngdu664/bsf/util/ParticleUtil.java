@@ -1,6 +1,5 @@
-package com.linngdu664.bsf.particle;
+package com.linngdu664.bsf.util;
 
-import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;

@@ -1,6 +1,8 @@
-package com.linngdu664.bsf.enchantment;
+package com.linngdu664.bsf.registry;
 
 import com.linngdu664.bsf.Main;
+import com.linngdu664.bsf.enchantment.KineticEnergyStorageEnchantment;
+import com.linngdu664.bsf.enchantment.SnowGolemExclusiveEnchantment;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

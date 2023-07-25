@@ -1,9 +1,9 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.block.entity.LooseSnowBlockEntity;
-import com.linngdu664.bsf.entity.EntityRegister;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.registry.EntityRegister;
+import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
@@ -80,12 +80,14 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     public IcicleSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
         super(EntityRegister.ICICLE_SNOWBALL.get(),pShooter, pLevel, launchAdjustment,snowStock);
     }
+
     private void handleBuildIcicle(Level level) {
         if (snowStock <= 0) return;
         for (int i = 0; i < iciclesNum; i++) {
             icicles[i].generate(level);
         }
     }
+
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
         Level level = level();
@@ -95,6 +97,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
         }
         super.onHitEntity(pResult);
     }
+
     @Override
     protected void onHitBlock(@NotNull BlockHitResult result) {
         Level level = level();
@@ -138,6 +141,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
         }
         isBuildingIcicle = true;
     }
+
     private void stopTheSnowball() {
         Vec3 vec3 = this.getDeltaMovement();
         this.push(-vec3.x, -vec3.y, -vec3.z);
@@ -182,5 +186,4 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     protected @NotNull Item getDefaultItem() {
         return ItemRegister.ICICLE_SNOWBALL.get();
     }
-
 }

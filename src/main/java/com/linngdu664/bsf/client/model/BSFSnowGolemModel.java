@@ -98,10 +98,6 @@ public class BSFSnowGolemModel<T extends BSFSnowGolemEntity> extends EntityModel
             this.right_arm_r1.yRot = 0;
             this.right_arm_r1.zRot = Mth.DEG_TO_RAD * -60;
         }
-//        if(entity.getWeaponAng()>=288){
-//            System.out.println(entity.getEyePosition());
-//            ParticleUtil.spawnForwardParticles(entity.getLevel(), entity, entity.getEyePosition(), ParticleTypes.SNOWFLAKE, 4.5F, 45, 0.5f, 0);
-//        }
     }
 
     @Override

@@ -6,7 +6,7 @@ import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.tank.SnowballTankItem;
 import com.linngdu664.bsf.network.AmmoTypeToServer;
-import com.linngdu664.bsf.network.Network;
+import com.linngdu664.bsf.registry.NetworkRegister;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -175,7 +175,7 @@ public abstract class AbstractBSFWeaponItem extends Item {
             }
             Item newItem = currentAmmoItemStack.getItem();
             if (!newItem.equals(oldItem)) {
-                Network.PACKET_HANDLER.sendToServer(new AmmoTypeToServer(newItem, pSlotId));
+                NetworkRegister.PACKET_HANDLER.sendToServer(new AmmoTypeToServer(newItem, pSlotId));
             }
         }
     }

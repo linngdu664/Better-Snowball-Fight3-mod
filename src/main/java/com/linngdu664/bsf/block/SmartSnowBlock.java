@@ -1,7 +1,8 @@
 package com.linngdu664.bsf.block;
 
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
-import com.linngdu664.bsf.entity.EntityRegister;
+import com.linngdu664.bsf.registry.BlockRegister;
+import com.linngdu664.bsf.registry.EntityRegister;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -1,6 +1,7 @@
 package com.linngdu664.bsf.network;
 
 import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
+import com.linngdu664.bsf.registry.NetworkRegister;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
@@ -34,7 +35,7 @@ public class AmmoTypeToClient {
     @OnlyIn(Dist.CLIENT)
     public static boolean handlePacket(int slot) {
         if (Minecraft.getInstance().player.getInventory().getItem(slot).getItem() instanceof AbstractBSFWeaponItem weapon) {
-            Network.PACKET_HANDLER.sendToServer(new AmmoTypeToServer(weapon.getCurrentAmmoItemStack().getItem(), slot));
+            NetworkRegister.PACKET_HANDLER.sendToServer(new AmmoTypeToServer(weapon.getCurrentAmmoItemStack().getItem(), slot));
         }
         return true;
     }

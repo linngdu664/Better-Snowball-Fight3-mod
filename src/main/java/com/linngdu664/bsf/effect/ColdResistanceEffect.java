@@ -6,7 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class ColdResistanceEffect extends MobEffect {
-    protected ColdResistanceEffect(MobEffectCategory p_19451_, int p_19452_) {
+    public ColdResistanceEffect(MobEffectCategory p_19451_, int p_19452_) {
         super(p_19451_, p_19452_);
     }
 

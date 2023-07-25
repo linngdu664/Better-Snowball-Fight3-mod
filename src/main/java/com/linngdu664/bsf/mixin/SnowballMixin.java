@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.mixin;
 
 import com.linngdu664.bsf.item.tool.GloveItem;
-import com.linngdu664.bsf.particle.ParticleRegister;
+import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;

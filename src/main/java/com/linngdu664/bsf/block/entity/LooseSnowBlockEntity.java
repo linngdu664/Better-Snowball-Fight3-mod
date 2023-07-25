@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.block.entity;
 
-import com.linngdu664.bsf.block.BlockRegister;
+import com.linngdu664.bsf.registry.BlockRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
