@@ -25,6 +25,11 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -65,6 +70,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob {
     private static final int styleNum = 9;
+
+    public int renderWeaponAng=-1;
     /*
      status flag:
      0: standby
@@ -386,16 +393,20 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         if (getPotionSickness() > 0) {
             setPotionSickness(getPotionSickness() - 1);
         }
-        if (getWeaponAng() > 0) {
-            if (getWeaponAng() == 360) {
-                if (getWeapon().getItem() instanceof SnowballCannonItem || getWeapon().getItem() instanceof FreezingSnowballCannonItem) {
+        if(getWeaponAng() == 360){
+            if (getWeapon().getItem() instanceof SnowballCannonItem || getWeapon().getItem() instanceof FreezingSnowballCannonItem) {
                     ParticleUtil.spawnForwardConeParticles(level, this, new Vec3(getRealSightX(), getRealSightY(), getRealSightZ()), ParticleTypes.SNOWFLAKE, 4.5F, 90, 1.5F, 0.1F);
                 } else if (getWeapon().getItem() instanceof SnowballShotgunItem || getWeapon().getItem() instanceof PowerfulSnowballCannonItem) {
                     ParticleUtil.spawnForwardConeParticles(level, this, new Vec3(getRealSightX(), getRealSightY(), getRealSightZ()), ParticleTypes.SNOWFLAKE, 4.5F, 45, 1.5F, 0.1F);
                 }
-            }
-            setWeaponAng(getWeaponAng() - 72);
+            setWeaponAng(0);
         }
+//        if (getWeaponAng() > 0) {
+//            if (getWeaponAng() == 360) {
+//
+//            }
+//            setWeaponAng(getWeaponAng() - 72);
+//        }
         super.tick();
     }
 
@@ -479,6 +490,9 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                     }
                 }
                 setWeaponAng(360);
+//                System.out.println(renderWeaponAng);
+//                renderWeaponAng=0;
+//                System.out.println(renderWeaponAng);
             }
         }
     }
