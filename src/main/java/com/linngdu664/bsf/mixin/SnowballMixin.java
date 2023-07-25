@@ -8,13 +8,13 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -27,9 +27,10 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(Snowball.class)
-public class SnowballMixin extends ThrowableItemProjectile {
+public abstract class SnowballMixin extends ThrowableItemProjectile {
     public SnowballMixin(EntityType<? extends ThrowableItemProjectile> p_37442_, Level p_37443_) {
         super(p_37442_, p_37443_);
     }
@@ -61,37 +62,31 @@ public class SnowballMixin extends ThrowableItemProjectile {
         ci.cancel();
     }
 
-    @Inject(method = "onHitEntity", at = @At(value = "HEAD"), cancellable = true)
-    private void injectedAtHeadOnHitEntity(EntityHitResult pResult, CallbackInfo ci) {
+    @Inject(method = "onHitEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+    private void injectedBeforeInvokeHurtOnHitEntity(EntityHitResult pResult, CallbackInfo ci, Entity entity) {
         Level level = level();
-        if (pResult.getEntity() instanceof Player player && (player.getOffhandItem().is(ItemRegister.GLOVE.get()) &&
-                player.getUsedItemHand() == InteractionHand.OFF_HAND || player.getMainHandItem().is(ItemRegister.GLOVE.get()) &&
-                player.getUsedItemHand() == InteractionHand.MAIN_HAND) && player.isUsingItem() && bsf$isHeadingToSnowball(player)) {
-            player.getInventory().placeItemBackInInventory(Items.SNOWBALL.getDefaultInstance(), true);
-            if (ItemStack.isSameItem(player.getMainHandItem(), ItemRegister.GLOVE.get().getDefaultInstance())) {
-                player.getMainHandItem().hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-            } else if (ItemStack.isSameItem(player.getOffhandItem(), ItemRegister.GLOVE.get().getDefaultInstance())) {
-                player.getOffhandItem().hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.OFFHAND));
-            }
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 3F, 0.4F / level.getRandom().nextFloat() * 0.4F + 0.8F);
-            if (!level.isClientSide) {
-                ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 3, 0, 0, 0, 0.04);
+        if (entity instanceof Player player) {
+            if ((player.getOffhandItem().is(ItemRegister.GLOVE.get()) &&
+                    player.getUsedItemHand() == InteractionHand.OFF_HAND || player.getMainHandItem().is(ItemRegister.GLOVE.get()) &&
+                    player.getUsedItemHand() == InteractionHand.MAIN_HAND) && player.isUsingItem() && bsf$isHeadingToSnowball(player)) {
+                player.getInventory().placeItemBackInInventory(Items.SNOWBALL.getDefaultInstance(), true);
+                if (player.getMainHandItem().is(ItemRegister.GLOVE.get())) {
+                    player.getMainHandItem().hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+                } else if (player.getOffhandItem().is(ItemRegister.GLOVE.get())) {
+                    player.getOffhandItem().hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.OFFHAND));
+                }
+                if (!level.isClientSide) {
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 3F, 0.4F / level.getRandom().nextFloat() * 0.4F + 0.8F);
+                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 3, 0, 0, 0, 0.04);
+                }
+            } else {
+                player.hurt(this.damageSources().thrown(this, this.getOwner()), Float.MIN_NORMAL);
+                bsf$spawnBasicParticles(level());
             }
             ci.cancel();
+        } else {
+            bsf$spawnBasicParticles(level());
         }
-    }
-
-    @Inject(method = "onHitEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"), cancellable = true)
-    private void injectedBeforeInvokeHurtOnHitEntity(EntityHitResult pResult, CallbackInfo ci) {
-        if (pResult.getEntity() instanceof Player player && !player.isCreative()) {
-            player.hurt(this.damageSources().thrown(this, this.getOwner()), Float.MIN_NORMAL);
-            ci.cancel();
-        }
-    }
-
-    @Inject(method = "onHitEntity", at = @At(value = "TAIL"))
-    private void injectedAtTailOnHitEntity(EntityHitResult pResult, CallbackInfo ci) {
-        bsf$spawnBasicParticles(level());
     }
 
     @Unique
