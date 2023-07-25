@@ -196,6 +196,12 @@
         "snowball": 30
       },
       "model": "bsf:item/explosive_player_tracking_snowball_tank"
+    },
+    {
+      "predicate": {
+        "snowball": 31
+      },
+      "model": "bsf:item/icicle_snowball_tank"
     }
   ]
 }
