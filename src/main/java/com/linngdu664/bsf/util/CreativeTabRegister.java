@@ -251,41 +251,6 @@ public class CreativeTabRegister {
                 itemStack.getOrCreateTag().putString("snowball", "black_hole_snowball");
                 output.accept(itemStack);
 
-
-//                output.accept(ItemRegister.EMPTY_SNOWBALL_STORAGE_TANK.get());
-//                output.accept(ItemRegister.COMPACTED_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.CHERRY_BLOSSOM_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.STONE_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.GLASS_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.ICE_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.IRON_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.GOLD_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.OBSIDIAN_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.EXPLOSIVE_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.SPECTRAL_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.FROZEN_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.CRITICAL_FROZEN_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.POWDER_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.LIGHT_MONSTER_TRACKING_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.HEAVY_MONSTER_TRACKING_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.EXPLOSIVE_MONSTER_TRACKING_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.LIGHT_PLAYER_TRACKING_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.HEAVY_PLAYER_TRACKING_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.EXPLOSIVE_PLAYER_TRACKING_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.MONSTER_GRAVITY_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.PROJECTILE_GRAVITY_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.MONSTER_REPULSION_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.PROJECTILE_REPULSION_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.BLACK_HOLE_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.SUBSPACE_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.THRUST_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.ENDER_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.EXPANSION_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.RECONSTRUCT_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.IMPULSE_SNOWBALL_TANK.get());
-//                output.accept(ItemRegister.GHOST_SNOWBALL_TANK.get());
-
-
                 output.accept(ItemRegister.WOOD_SNOWBALL_CLAMP.get());
                 output.accept(ItemRegister.STONE_SNOWBALL_CLAMP.get());
                 output.accept(ItemRegister.IRON_SNOWBALL_CLAMP.get());
@@ -300,6 +265,7 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.SNOWBALL_SHOTGUN.get());
                 output.accept(ItemRegister.SNOWMAN_IN_HAND.get());
                 output.accept(ItemRegister.GLOVE.get());
+                output.accept(ItemRegister.JEDI_GLOVE.get());
                 output.accept(ItemRegister.REPULSIVE_FIELD_GENERATOR.get());
                 output.accept(ItemRegister.ICE_SKATES_ITEM.get());
                 output.accept(ItemRegister.SNOW_FALL_BOOTS.get());

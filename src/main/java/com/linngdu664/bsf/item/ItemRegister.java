@@ -77,6 +77,7 @@ public class ItemRegister {
     public static final RegistryObject<Item> SNOWBALL_MACHINE_GUN = ITEMS.register("snowball_machine_gun", SnowballMachineGunItem::new);
     public static final RegistryObject<Item> SNOWBALL_SHOTGUN = ITEMS.register("snowball_shotgun", SnowballShotgunItem::new);
     public static final RegistryObject<Item> GLOVE = ITEMS.register("glove", GloveItem::new);
+    public static final RegistryObject<Item> JEDI_GLOVE = ITEMS.register("jedi_glove", JediGloveItem::new);
     public static final RegistryObject<Item> REPULSIVE_FIELD_GENERATOR = ITEMS.register("repulsive_field_generator", RepulsiveFieldGeneratorItem::new);
 
 
