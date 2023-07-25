@@ -1,12 +1,10 @@
 package com.linngdu664.bsf.util;
 
 import com.linngdu664.bsf.Main;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 
 // An example config class. This is not required, but it's a good idea to have one to keep your config organized.
 // Demonstrates how to use Forge's config APIs
@@ -14,12 +12,15 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class BSFConfig {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec.BooleanValue DESTROY_MODE = BUILDER
-            .comment("Whether the explosion of explosive snowball (including black hole snowball) can destroy blocks.")
+            .comment("Whether the explosion of explosive snowball (including black hole snowball) can destroy blocks. Default value: true")
             .define("destroyMode", true);
-    public static final ForgeConfigSpec.BooleanValue TEENAGER_MODE = BUILDER
-            .comment("Whether to ban dangerous snowballs.")
-            .define("teenagerMode", false);
-//    public static final ForgeConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
+    public static final ForgeConfigSpec.IntValue RECONSTRUCT_SNOWBALL_CAPACITY = BUILDER
+            .comment("The capacity of reconstruct snowball. Default value: 500.")
+            .defineInRange("reconstruct_snowball_capacity", 500, 0, 1100);
+    public static final ForgeConfigSpec.IntValue ICICLE_SNOWBALL_CAPACITY = BUILDER
+            .comment("The capacity of icicle snowball. Default value: 2147483647.")
+            .defineInRange("icicle_snowball_capacity", 2147483647, 0, Integer.MAX_VALUE);
+    //    public static final ForgeConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
 //            .comment("What you want the introduction message to be for the magic number")
 //            .define("magicNumberIntroduction", "The magic number is... ");
 //    private static final ForgeConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
@@ -34,21 +35,18 @@ public class BSFConfig {
 //            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), BSFConfig::validateItemName);
     public static final ForgeConfigSpec SPEC = BUILDER.build();
     public static boolean destroyMode;
-    public static boolean teenagerMode;
+    public static int reconstructSnowballCapacity;
+    public static int icicleSnowballCapacity;
 //    public static boolean logDirtBlock;
 //    public static int magicNumber;
 //    public static String magicNumberIntroduction;
 //    public static Set<Item> items;
 
-    private static boolean validateItemName(final Object obj) {
-        return obj instanceof final String itemName && ForgeRegistries.ITEMS.containsKey(new ResourceLocation(itemName));
-    }
-
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
         destroyMode = DESTROY_MODE.get();
-        teenagerMode = TEENAGER_MODE.get();
-
+        reconstructSnowballCapacity = RECONSTRUCT_SNOWBALL_CAPACITY.get();
+        icicleSnowballCapacity = ICICLE_SNOWBALL_CAPACITY.get();
 //        logDirtBlock = LOG_DIRT_BLOCK.get();
 //        magicNumber = MAGIC_NUMBER.get();
 //        magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
