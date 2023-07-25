@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.mixin;
 
-import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.item.tool.GloveItem;
 import com.linngdu664.bsf.particle.ParticleRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -15,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -66,14 +67,18 @@ public abstract class SnowballMixin extends ThrowableItemProjectile {
     private void injectedBeforeInvokeHurtOnHitEntity(EntityHitResult pResult, CallbackInfo ci, Entity entity) {
         Level level = level();
         if (entity instanceof Player player) {
-            if ((player.getOffhandItem().is(ItemRegister.GLOVE.get()) &&
-                    player.getUsedItemHand() == InteractionHand.OFF_HAND || player.getMainHandItem().is(ItemRegister.GLOVE.get()) &&
-                    player.getUsedItemHand() == InteractionHand.MAIN_HAND) && player.isUsingItem() && bsf$isHeadingToSnowball(player)) {
+            ItemStack mainHand = player.getMainHandItem();
+            ItemStack offHand = player.getOffhandItem();
+            if ((offHand.getItem() instanceof GloveItem && player.getUsedItemHand() == InteractionHand.OFF_HAND ||
+                    mainHand.getItem() instanceof GloveItem && player.getUsedItemHand() == InteractionHand.MAIN_HAND) &&
+                    player.isUsingItem() && bsf$isHeadingToSnowball(player)) {
                 player.getInventory().placeItemBackInInventory(Items.SNOWBALL.getDefaultInstance(), true);
-                if (player.getMainHandItem().is(ItemRegister.GLOVE.get())) {
-                    player.getMainHandItem().hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-                } else if (player.getOffhandItem().is(ItemRegister.GLOVE.get())) {
-                    player.getOffhandItem().hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.OFFHAND));
+                if (mainHand.getItem() instanceof GloveItem glove) {
+                    mainHand.hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+                    glove.releaseUsing(mainHand, level, player, 1);
+                } else if (offHand.getItem() instanceof GloveItem glove) {
+                    offHand.hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.OFFHAND));
+                    glove.releaseUsing(offHand, level, player, 1);
                 }
                 if (!level.isClientSide) {
                     level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 3F, 0.4F / level.getRandom().nextFloat() * 0.4F + 0.8F);

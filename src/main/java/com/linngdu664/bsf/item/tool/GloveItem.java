@@ -21,8 +21,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class GloveItem extends AbstractBSFEnhanceableToolItem {
+    private final int cd;
+
     public GloveItem() {
         super(Rarity.UNCOMMON, 114);
+        this.cd = 6;
+    }
+
+    public GloveItem(Rarity rarity, int durability, int cd) {
+        super(rarity, durability);
+        this.cd = cd;
     }
 
     @Override
@@ -46,7 +54,7 @@ public class GloveItem extends AbstractBSFEnhanceableToolItem {
     public void releaseUsing(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, int pTimeCharged) {
         if (pLivingEntity instanceof Player player) {
             player.stopUsingItem();
-            player.getCooldowns().addCooldown(this, 6);
+            player.getCooldowns().addCooldown(this, cd);
             player.awardStat(Stats.ITEM_USED.get(this));
         }
     }

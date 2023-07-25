@@ -4,7 +4,6 @@ import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.event.BSFConfig;
-import com.linngdu664.bsf.item.ItemRegister;
 import com.linngdu664.bsf.item.tool.GloveItem;
 import com.linngdu664.bsf.particle.ParticleRegister;
 import net.minecraft.core.particles.ParticleTypes;
@@ -157,23 +156,27 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
      * @return If the glove catches return true.
      */
     private boolean catchOnGlove(LivingEntity entity) {
-        if (entity instanceof Player player && canBeCaught() && (player.getOffhandItem().is(ItemRegister.GLOVE.get()) &&
-                player.getUsedItemHand() == InteractionHand.OFF_HAND || player.getMainHandItem().is(ItemRegister.GLOVE.get()) &&
-                player.getUsedItemHand() == InteractionHand.MAIN_HAND) && player.isUsingItem() && isHeadingToSnowball(player)) {
-            player.getInventory().placeItemBackInInventory(new ItemStack(getDefaultItem()));
-            if (player.getMainHandItem().getItem() instanceof GloveItem glove) {
-                player.getMainHandItem().hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-                glove.releaseUsing(player.getMainHandItem(), player.level(), player, 1);
-            } else if (player.getOffhandItem().getItem() instanceof GloveItem glove) {
-                player.getOffhandItem().hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.OFFHAND));
-                glove.releaseUsing(player.getOffhandItem(), player.level(), player, 1);
+        Level level = level();
+        if (entity instanceof Player player) {
+            ItemStack mainHand = player.getMainHandItem();
+            ItemStack offHand = player.getOffhandItem();
+            if ((offHand.getItem() instanceof GloveItem && player.getUsedItemHand() == InteractionHand.OFF_HAND ||
+                    mainHand.getItem() instanceof GloveItem && player.getUsedItemHand() == InteractionHand.MAIN_HAND) &&
+                    player.isUsingItem() && isHeadingToSnowball(player) && canBeCaught()) {
+                player.getInventory().placeItemBackInInventory(new ItemStack(getDefaultItem()));
+                if (mainHand.getItem() instanceof GloveItem glove) {
+                    mainHand.hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+                    glove.releaseUsing(mainHand, level, player, 1);
+                } else if (offHand.getItem() instanceof GloveItem glove) {
+                    offHand.hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(EquipmentSlot.OFFHAND));
+                    glove.releaseUsing(offHand, level, player, 1);
+                }
+                if (!level.isClientSide) {
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 3F, 0.4F / level.getRandom().nextFloat() * 0.4F + 0.8F);
+                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 3, 0, 0, 0, 0.04);
+                }
+                return true;
             }
-            Level level = level();
-            if (!level.isClientSide) {
-                level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 3F, 0.4F / level.getRandom().nextFloat() * 0.4F + 0.8F);
-                ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 3, 0, 0, 0, 0.04);
-            }
-            return true;
         }
         return false;
     }
