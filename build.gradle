@@ -203,8 +203,8 @@ mixin {
     add sourceSets.main, 'mixins.bsf.refmap.json'
     config 'mixins.bsf.json'
 
-    debug.verbose = true
-    debug.export = true
+//    debug.verbose = true
+//    debug.export = true
 }
 
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing:
