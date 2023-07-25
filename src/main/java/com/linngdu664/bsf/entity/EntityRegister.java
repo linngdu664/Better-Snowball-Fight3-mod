@@ -49,6 +49,7 @@ public class EntityRegister {
     public static final RegistryObject<EntityType<GPSSnowballEntity>> GPS_SNOWBALL = snowballRegister(GPSSnowballEntity::new,"gps_snowball");
     public static final RegistryObject<EntityType<ExpansionSnowballEntity>> EXPANSION_SNOWBALL = snowballRegister(ExpansionSnowballEntity::new, "expansion_snowball");
     public static final RegistryObject<EntityType<ReconstructSnowballEntity>> RECONSTRUCT_SNOWBALL = snowballRegister(ReconstructSnowballEntity::new, "reconstruct_snowball");
+    public static final RegistryObject<EntityType<IcicleSnowballEntity>> ICICLE_SNOWBALL = snowballRegister(IcicleSnowballEntity::new, "icicle_snowball");
     public static final RegistryObject<EntityType<CriticalFrozenSnowballEntity>> CRITICAL_FROZEN_SNOWBALL = snowballRegister(CriticalFrozenSnowballEntity::new, "critical_frozen_snowball");
     public static final RegistryObject<EntityType<ImpulseSnowballEntity>> IMPULSE_SNOWBALL = snowballRegister(ImpulseSnowballEntity::new, "impulse_snowball");
     public static final RegistryObject<EntityType<CherryBlossomSnowballEntity>> CHERRY_BLOSSOM_SNOWBALL = snowballRegister(CherryBlossomSnowballEntity::new, "cherry_blossom_snowball");

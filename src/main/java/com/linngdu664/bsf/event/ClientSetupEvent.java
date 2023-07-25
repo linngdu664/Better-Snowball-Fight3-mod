@@ -94,6 +94,7 @@ public class ClientSetupEvent {
         if (item instanceof LightPlayerTrackingSnowballItem) return 28;
         if (item instanceof HeavyPlayerTrackingSnowballItem) return 29;
         if (item instanceof ExplosivePlayerTrackingSnowballItem) return 30;
+        if (item instanceof IcicleSnowballItem) return 31;
         return -1;
     }
 }

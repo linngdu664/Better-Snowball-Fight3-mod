@@ -52,6 +52,7 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.ENDER_SNOWBALL.get());
                 output.accept(ItemRegister.EXPANSION_SNOWBALL.get());
                 output.accept(ItemRegister.RECONSTRUCT_SNOWBALL.get());
+                output.accept(ItemRegister.ICICLE_SNOWBALL.get());
                 output.accept(ItemRegister.IMPULSE_SNOWBALL.get());
                 output.accept(ItemRegister.GHOST_SNOWBALL.get());
 
@@ -150,6 +151,9 @@ public class CreativeTabRegister {
                 itemStack.getOrCreateTag().putString("snowball", "reconstruct_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
+                itemStack.getOrCreateTag().putString("snowball", "icicle_snowball");
+                output.accept(itemStack);
+                itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("snowball", "black_hole_snowball");
                 output.accept(itemStack);
 
@@ -246,6 +250,9 @@ public class CreativeTabRegister {
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("snowball", "reconstruct_snowball");
+                output.accept(itemStack);
+                itemStack = tank.getDefaultInstance();
+                itemStack.getOrCreateTag().putString("snowball", "icicle_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("snowball", "black_hole_snowball");
