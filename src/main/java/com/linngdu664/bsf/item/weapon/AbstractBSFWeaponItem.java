@@ -26,11 +26,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public abstract class AbstractBSFWeaponItem extends Item {
+    private final int typeFlag;
     private LinkedList<Item> launchOrder;                                      // client only
     private ItemStack prevAmmoItemStack = Items.AIR.getDefaultInstance();      // client only
     private ItemStack currentAmmoItemStack = Items.AIR.getDefaultInstance();   // client only
     private ItemStack nextAmmoItemStack = Items.AIR.getDefaultInstance();      // client only
-    private final int typeFlag;
 
     public AbstractBSFWeaponItem(int durability, Rarity rarity, int flag) {
         super(new Properties().stacksTo(1).durability(durability).rarity(rarity));
@@ -38,6 +38,7 @@ public abstract class AbstractBSFWeaponItem extends Item {
     }
 
     public abstract ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball);
+
     public abstract boolean isAllowBulkedSnowball();
 
     //Rewrite vanilla "shootFromRotation" method to remove the influence of player's velocity.

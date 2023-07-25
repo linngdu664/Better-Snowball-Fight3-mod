@@ -32,7 +32,7 @@ public class LooseSnowBlockEntity extends BlockEntity {
                 looseSnowBlockEntity.setRemoved();
                 level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                 BlockState snow = Blocks.SNOW.defaultBlockState();
-                if (level.getBlockState(pos).canBeReplaced() && snow.canSurvive(level, pos)&& !level.getBlockState(pos.below()).getBlock().getName().getString().equals(BlockRegister.LOOSE_SNOW_BLOCK.get().getName().getString())) {
+                if (level.getBlockState(pos).canBeReplaced() && snow.canSurvive(level, pos) && !level.getBlockState(pos.below()).getBlock().getName().getString().equals(BlockRegister.LOOSE_SNOW_BLOCK.get().getName().getString())) {
                     level.setBlockAndUpdate(pos, snow);
                 }
                 level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.SNOW_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
@@ -40,8 +40,9 @@ public class LooseSnowBlockEntity extends BlockEntity {
             }
         }
     }
-    public void suicide(){
-        this.age=this.targetAge;
+
+    public void suicide() {
+        this.age = this.targetAge;
         this.setChanged();
     }
 

@@ -18,6 +18,7 @@ public class SnowballCannonUpgradeSmithingTemplateItem extends Item {
     public SnowballCannonUpgradeSmithingTemplateItem() {
         super(new Properties().rarity(Rarity.UNCOMMON));
     }
+
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_cannon_upgrade_smithing_template1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));

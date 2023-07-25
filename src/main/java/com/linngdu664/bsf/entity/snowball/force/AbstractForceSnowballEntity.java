@@ -64,7 +64,10 @@ public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEnt
     }
 
     abstract double getRange();
+
     abstract List<? extends Entity> getTargetList();
+
     abstract double getGM();
+
     abstract double getBoundaryR2();
 }

@@ -75,7 +75,7 @@ public abstract class AbstractBSFSnowballItem extends Item {
     /**
      * Handle the storage of the snowballs.
      *
-     * @param pPlayer   The player who uses snowball.
+     * @param pPlayer The player who uses snowball.
      * @return If the method stores snowballs in the tank successfully, it will return true, else return false.
      */
     public boolean storageInTank(Player pPlayer) {
@@ -176,9 +176,11 @@ public abstract class AbstractBSFSnowballItem extends Item {
         }
     }
 
-    public void addUsageTips(List<Component> pTooltipComponents) {}
+    public void addUsageTips(List<Component> pTooltipComponents) {
+    }
 
-    public void addLastTips(List<Component> pTooltipComponents) {}
+    public void addLastTips(List<Component> pTooltipComponents) {
+    }
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
@@ -195,6 +197,7 @@ public abstract class AbstractBSFSnowballItem extends Item {
      * @return The corresponding entity.
      */
     public abstract AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment);
+
     public abstract int getTypeFlag();
 //    public abstract Item getTank();
 

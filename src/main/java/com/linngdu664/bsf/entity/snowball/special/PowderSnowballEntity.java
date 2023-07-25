@@ -75,8 +75,8 @@ public class PowderSnowballEntity extends AbstractBSFSnowballEntity {
 
     @Override
     public boolean canBeCaught() {
-    return true;
-}
+        return true;
+    }
 
     @Override
     public float getBasicDamage() {

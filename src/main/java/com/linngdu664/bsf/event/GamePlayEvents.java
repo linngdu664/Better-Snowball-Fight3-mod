@@ -48,6 +48,8 @@ import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class GamePlayEvents {
+    public static final UUID SKATES_SPEED_ID = UUID.fromString("00a3641b-33e0-4022-8d92-1c7b74c380b0");
+
     @SubscribeEvent
     public static void onAttackEntity(net.minecraftforge.event.entity.player.AttackEntityEvent event) {
         Player player = event.getEntity();
@@ -190,8 +192,6 @@ public class GamePlayEvents {
         }
         return false;
     }
-
-    public static final UUID SKATES_SPEED_ID = UUID.fromString("00a3641b-33e0-4022-8d92-1c7b74c380b0");
 
     private static void clearSpeedEffect(Player player) {
         if (player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED).getModifier(SKATES_SPEED_ID) != null) {

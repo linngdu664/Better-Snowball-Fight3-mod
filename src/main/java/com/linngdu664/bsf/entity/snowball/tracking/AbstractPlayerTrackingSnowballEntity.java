@@ -23,6 +23,7 @@ public abstract class AbstractPlayerTrackingSnowballEntity extends AbstractTrack
     public AbstractPlayerTrackingSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
         super(pEntityType, pShooter, pLevel, launchAdjustment);
     }
+
     @Override
     public double getRange() {
         return 10;

@@ -48,7 +48,7 @@ public class ExpansionSnowballEntity extends AbstractBSFSnowballEntity {
                         if (level.getBlockState(blockPos1).canBeReplaced()) {
                             level.setBlock(blockPos1, BlockRegister.LOOSE_SNOW_BLOCK.get().defaultBlockState(), 3);
                             level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                        } else if(level.getBlockEntity(blockPos1) instanceof LooseSnowBlockEntity blockEntity){
+                        } else if (level.getBlockEntity(blockPos1) instanceof LooseSnowBlockEntity blockEntity) {
                             blockEntity.setAge(0);
                             blockEntity.setChanged();
                         }

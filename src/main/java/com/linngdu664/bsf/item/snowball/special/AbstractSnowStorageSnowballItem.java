@@ -17,8 +17,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class AbstractSnowStorageSnowballItem extends AbstractBSFSnowballItem {
-    protected static final float suckRange = 7f;
+public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowballItem {
+    protected static final float SUCK_RANGE = 7f;
 
     public AbstractSnowStorageSnowballItem(Rarity rarity) {
         super(rarity);
@@ -28,30 +28,34 @@ public class AbstractSnowStorageSnowballItem extends AbstractBSFSnowballItem {
     public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
         return null;
     }
-    protected int absorbSnow(LivingEntity livingEntity,Level level){
-        int stockSnow=0;
+
+    protected int absorbSnow(LivingEntity livingEntity, Level level) {
+        int stockSnow = 0;
         BlockPos blockPos = new BlockPos(Mth.floor(livingEntity.getX()), Mth.floor(livingEntity.getY()), Mth.floor(livingEntity.getZ()));
-        for (int i = (int) (blockPos.getX() - suckRange); i <= (int) (blockPos.getX() + suckRange); i++) {
-            for (int j = (int) (blockPos.getY() - suckRange); j <= (int) (blockPos.getY() + suckRange); j++) {
-                for (int k = (int) (blockPos.getZ() - suckRange); k <= (int) (blockPos.getZ() + suckRange); k++) {
-                    if (BSFMthUtil.modSqr(i - blockPos.getX(), j - blockPos.getY(), k - blockPos.getZ()) <= suckRange * suckRange) {
+        for (int i = (int) (blockPos.getX() - SUCK_RANGE); i <= (int) (blockPos.getX() + SUCK_RANGE); i++) {
+            for (int j = (int) (blockPos.getY() - SUCK_RANGE); j <= (int) (blockPos.getY() + SUCK_RANGE); j++) {
+                for (int k = (int) (blockPos.getZ() - SUCK_RANGE); k <= (int) (blockPos.getZ() + SUCK_RANGE); k++) {
+                    if (BSFMthUtil.modSqr(i - blockPos.getX(), j - blockPos.getY(), k - blockPos.getZ()) <= SUCK_RANGE * SUCK_RANGE) {
                         BlockPos blockPos1 = new BlockPos(i, j, k);
                         BlockState blockState = level.getBlockState(blockPos1);
                         if (blockState.getBlock() == Blocks.SNOW) {
-                            stockSnow+=blockState.getValue(SnowLayerBlock.LAYERS);
+                            stockSnow += blockState.getValue(SnowLayerBlock.LAYERS);
                             ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, blockPos1.getX(), blockPos1.getY(), blockPos1.getZ(), 5, 0, 0, 0, 0.12);
                         } else if (blockState.getBlock() == Blocks.SNOW_BLOCK) {
-                            stockSnow+=8;
+                            stockSnow += 8;
                             ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, blockPos1.getX(), blockPos1.getY(), blockPos1.getZ(), 5, 0, 0, 0, 0.12);
-                        } else if (blockState.getBlock() == Blocks.POWDER_SNOW||blockState.getBlock() == Blocks.POWDER_SNOW_CAULDRON) {
-                            stockSnow+=12;
+                        } else if (blockState.getBlock() == Blocks.POWDER_SNOW || blockState.getBlock() == Blocks.POWDER_SNOW_CAULDRON) {
+                            stockSnow += 12;
                             ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, blockPos1.getX(), blockPos1.getY(), blockPos1.getZ(), 5, 0, 0, 0, 0.12);
-                        } else if (level.getBlockEntity(blockPos1) instanceof CriticalSnowEntity criticalSnowEntity){
+                        } else if (level.getBlockEntity(blockPos1) instanceof CriticalSnowEntity criticalSnowEntity) {
                             criticalSnowEntity.suicide();
-                            stockSnow+=2;
-                        }else if (level.getBlockEntity(blockPos1) instanceof LooseSnowBlockEntity looseSnowBlockEntity){
+                            stockSnow += 2;
+                        } else if (level.getBlockEntity(blockPos1) instanceof LooseSnowBlockEntity looseSnowBlockEntity) {
                             looseSnowBlockEntity.suicide();
-                            stockSnow+=4;
+                            stockSnow += 4;
+                        }
+                        if (stockSnow >= getMaxCapacity()) {
+                            return getMaxCapacity();
                         }
                     }
                 }
@@ -64,4 +68,6 @@ public class AbstractSnowStorageSnowballItem extends AbstractBSFSnowballItem {
     public int getTypeFlag() {
         return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
     }
+
+    public abstract int getMaxCapacity();
 }

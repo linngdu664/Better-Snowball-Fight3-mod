@@ -87,7 +87,7 @@ public class SnowTrap extends Block {
             if (!(livingEntity instanceof BSFSnowGolemEntity) && !(livingEntity instanceof SnowGolem)) {
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 4));
                 if (livingEntity.getTicksFrozen() < 200) {
-                    livingEntity.setTicksFrozen(livingEntity.getTicksFrozen()+160);
+                    livingEntity.setTicksFrozen(livingEntity.getTicksFrozen() + 160);
                 }
             }
             pLevel.setBlock(pPos, Blocks.SNOW.defaultBlockState(), 3);

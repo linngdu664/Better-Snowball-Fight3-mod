@@ -55,6 +55,7 @@ public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
             targetLocator.setHoverName(MutableComponent.create(new TranslatableContents("item.bsf.target_locator", null, new Object[]{})).append(":").append(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[]{}))).append(livingEntity.getName().getString() + " ID:" + livingEntity.getId()));
         }
     }
+
     @Override
     public boolean canBeCaught() {
         return true;

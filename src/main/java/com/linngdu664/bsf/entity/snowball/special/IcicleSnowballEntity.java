@@ -27,58 +27,13 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     private boolean isBuildingIcicle = false;
     private int iciclesNum = 0;
     private BlockPos impactPoint;
-    private class Icicle {
-        private Vec3 icicleVec;
-        private final double icicleStepSize;
-        private final double icicleStepRadius;
-        private final ArrayList<Icicle.IciclePoint> path = new ArrayList<>();
-
-        private class IciclePoint {
-            private final Vec3 point;
-            private double radius = 0;
-
-            public IciclePoint(Vec3 point) {
-                this.point = point;
-            }
-
-            public void pointGenerate(Level level) {
-                for (int i = 0; i < Mth.ceil(radius); i++) {
-                    Vec3 a = icicleVec.cross(new Vec3(0, 1, 0)).normalize();
-                    if (a.lengthSqr() == 0) {
-                        a = icicleVec.cross(new Vec3(1, 0, 0)).normalize();
-                    }
-                    Vec3 b = a.cross(icicleVec).normalize();
-                    float x = (float) BSFMthUtil.randDouble(0, 2 * Mth.PI);
-                    Vec3 c = a.scale(Mth.cos(x)).add(b.scale(Mth.sin(x))).scale(radius);
-                    placeLooseSnowBlock(level, new BlockPos(BSFMthUtil.vec3ToI(point.add(c))));
-                }
-                radius += icicleStepRadius;
-            }
-        }
-
-        public Icicle(Vec3 icicleVec, double icicleStepSize, double icicleStepRadius) {
-            this.icicleVec = icicleVec;
-            this.icicleStepSize = icicleStepSize;
-            this.icicleStepRadius = icicleStepRadius;
-            path.add(new Icicle.IciclePoint(impactPoint.getCenter().add(icicleVec)));
-        }
-
-        public void generate(Level level) {
-            placeLooseSnowBlock(level, new BlockPos(BSFMthUtil.vec3ToI(impactPoint.getCenter().add(icicleVec))));
-            icicleVec = icicleVec.add(icicleVec.normalize().scale(icicleStepSize));
-            path.add(new Icicle.IciclePoint(impactPoint.getCenter().add(icicleVec)));
-            for (Icicle.IciclePoint iciclePoint : path) {
-                iciclePoint.pointGenerate(level);
-            }
-        }
-    }
 
     public IcicleSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
     public IcicleSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
-        super(EntityRegister.ICICLE_SNOWBALL.get(),pShooter, pLevel, launchAdjustment,snowStock);
+        super(EntityRegister.ICICLE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock);
     }
 
     private void handleBuildIcicle(Level level) {
@@ -185,5 +140,51 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     @Override
     protected @NotNull Item getDefaultItem() {
         return ItemRegister.ICICLE_SNOWBALL.get();
+    }
+
+    private class Icicle {
+        private final double icicleStepSize;
+        private final double icicleStepRadius;
+        private final ArrayList<Icicle.IciclePoint> path = new ArrayList<>();
+        private Vec3 icicleVec;
+
+        public Icicle(Vec3 icicleVec, double icicleStepSize, double icicleStepRadius) {
+            this.icicleVec = icicleVec;
+            this.icicleStepSize = icicleStepSize;
+            this.icicleStepRadius = icicleStepRadius;
+            path.add(new Icicle.IciclePoint(impactPoint.getCenter().add(icicleVec)));
+        }
+
+        public void generate(Level level) {
+            placeLooseSnowBlock(level, new BlockPos(BSFMthUtil.vec3ToI(impactPoint.getCenter().add(icicleVec))));
+            icicleVec = icicleVec.add(icicleVec.normalize().scale(icicleStepSize));
+            path.add(new Icicle.IciclePoint(impactPoint.getCenter().add(icicleVec)));
+            for (Icicle.IciclePoint iciclePoint : path) {
+                iciclePoint.pointGenerate(level);
+            }
+        }
+
+        private class IciclePoint {
+            private final Vec3 point;
+            private double radius = 0;
+
+            public IciclePoint(Vec3 point) {
+                this.point = point;
+            }
+
+            public void pointGenerate(Level level) {
+                for (int i = 0; i < Mth.ceil(radius); i++) {
+                    Vec3 a = icicleVec.cross(new Vec3(0, 1, 0)).normalize();
+                    if (a.lengthSqr() == 0) {
+                        a = icicleVec.cross(new Vec3(1, 0, 0)).normalize();
+                    }
+                    Vec3 b = a.cross(icicleVec).normalize();
+                    float x = (float) BSFMthUtil.randDouble(0, 2 * Mth.PI);
+                    Vec3 c = a.scale(Mth.cos(x)).add(b.scale(Mth.sin(x))).scale(radius);
+                    placeLooseSnowBlock(level, new BlockPos(BSFMthUtil.vec3ToI(point.add(c))));
+                }
+                radius += icicleStepRadius;
+            }
+        }
     }
 }

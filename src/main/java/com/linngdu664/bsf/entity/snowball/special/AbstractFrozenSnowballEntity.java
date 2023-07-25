@@ -67,7 +67,7 @@ public abstract class AbstractFrozenSnowballEntity extends AbstractBSFSnowballEn
                                     level.setBlockAndUpdate(blockPos1, basalt);
                                 } else if (blockState.getBlock() == Blocks.FIRE) {
                                     level.setBlockAndUpdate(blockPos1, air);
-                                } else if (level.getBlockEntity(blockPos1) instanceof CriticalSnowEntity blockEntity){
+                                } else if (level.getBlockEntity(blockPos1) instanceof CriticalSnowEntity blockEntity) {
                                     blockEntity.setAge(0);
                                     blockEntity.setChanged();
                                 } else if (blockState.canBeReplaced() && newBlock.canSurvive(level, blockPos1)) {
@@ -82,7 +82,7 @@ public abstract class AbstractFrozenSnowballEntity extends AbstractBSFSnowballEn
                     int frozenTicks = launchAdjustment.adjustFrozenTicks(getBasicFrozenTicks());
                     if (frozenTicks > 0) {
                         if (entity.getTicksFrozen() < 200) {
-                            entity.setTicksFrozen(entity.getTicksFrozen()+frozenTicks);
+                            entity.setTicksFrozen(entity.getTicksFrozen() + frozenTicks);
                         }
                         entity.hurt(level.damageSources().thrown(this, this.getOwner()), Float.MIN_NORMAL);
                         if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {

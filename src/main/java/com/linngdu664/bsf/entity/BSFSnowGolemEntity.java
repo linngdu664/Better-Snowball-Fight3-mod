@@ -364,7 +364,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 return;
             }
             BlockState blockstate = Blocks.SNOW.defaultBlockState();
-            for(int i = 0; i < 4; ++i) {
+            for (int i = 0; i < 4; ++i) {
                 int j = Mth.floor(getX() + (double) ((float) (i % 2 * 2 - 1) * 0.25F));
                 int k = Mth.floor(getY());
                 int l = Mth.floor(getZ() + (double) ((float) (i / 2 % 2 * 2 - 1) * 0.25F));

@@ -30,10 +30,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
+    public static final int TYPE_FLAG = 4;
     private double recoil;
     private ItemStack ammo;
     private boolean isExplosive;
-    public static final int TYPE_FLAG = 4;
 
 
     public SnowballMachineGunItem() {

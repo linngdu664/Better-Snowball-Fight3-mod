@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
-    private boolean release = true;
     private final ArrayList<ItemStack> itemStackArrayList = new ArrayList<>();
+    private boolean release = true;
     private int timer = 0;
     private float damage = Float.MIN_NORMAL;
     private float blazeDamage = 3F;
@@ -116,6 +116,7 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
             this.discard();
         }
     }
+
     @Override
     public boolean canBeCaught() {
         return false;

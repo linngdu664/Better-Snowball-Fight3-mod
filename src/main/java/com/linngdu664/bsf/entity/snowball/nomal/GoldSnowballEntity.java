@@ -14,9 +14,11 @@ public class GoldSnowballEntity extends AbstractNormalSnowballEntity {
     public GoldSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
+
     public GoldSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
         super(EntityRegister.GOLD_SNOWBALL.get(), pX, pY, pZ, pLevel);
     }
+
     public GoldSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
         super(EntityRegister.GOLD_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
     }

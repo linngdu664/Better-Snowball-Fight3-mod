@@ -44,7 +44,9 @@ public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowball
     }
 
     public abstract double getRange();
+
     public abstract Entity getTarget();
+
     public abstract boolean isLockFeet();
 
     /**

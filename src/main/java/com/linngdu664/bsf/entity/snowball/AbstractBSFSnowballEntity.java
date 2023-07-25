@@ -190,7 +190,7 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
 
     protected void handleExplosion(float radius) {
         Level level = level();
-        if (!level.isClientSide){
+        if (!level.isClientSide) {
             if (level.getGameRules().getBoolean((GameRules.RULE_MOBGRIEFING)) && BSFConfig.destroyMode) {
                 level.explode(null, this.getX(), this.getY(), this.getZ(), radius, Level.ExplosionInteraction.TNT);
             } else {
@@ -229,10 +229,16 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
     }
 
     abstract public boolean canBeCaught();
+
     abstract public float getBasicDamage();
+
     abstract public float getBasicBlazeDamage();
+
     abstract public int getBasicWeaknessTicks();
+
     abstract public int getBasicFrozenTicks();
+
     abstract public double getBasicPunch();
+
     abstract public float getSubspacePower();
 }

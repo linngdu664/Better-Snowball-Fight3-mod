@@ -14,9 +14,11 @@ public class GlassSnowballEntity extends AbstractNormalSnowballEntity {
     public GlassSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
+
     public GlassSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
         super(EntityRegister.GLASS_SNOWBALL.get(), pX, pY, pZ, pLevel);
     }
+
     public GlassSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
         super(EntityRegister.GLASS_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
     }
