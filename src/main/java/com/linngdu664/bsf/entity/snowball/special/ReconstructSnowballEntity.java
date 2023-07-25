@@ -1,9 +1,10 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
+import com.linngdu664.bsf.block.LooseSnowBlock;
 import com.linngdu664.bsf.block.entity.LooseSnowBlockEntity;
-import com.linngdu664.bsf.entity.EntityRegister;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.item.ItemRegister;
+import com.linngdu664.bsf.registry.EntityRegister;
+import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -21,43 +22,35 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     private static final int POS_NUM = 10 + GENERATING_DISTANCE;
     private static final int GROWTH_CONSTRAINT = 3;
 
-
-
-
     private int counter = 0;
-
     private final BlockPos[] passingPosArr = new BlockPos[POS_NUM];
 
     public ReconstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
-    public ReconstructSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
-        super(EntityRegister.RECONSTRUCT_SNOWBALL.get(),pShooter, pLevel, launchAdjustment,snowStock);
-    }
 
+    public ReconstructSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
+        super(EntityRegister.RECONSTRUCT_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock);
+    }
 
     @Override
     protected void onHitBlock(@NotNull BlockHitResult result) {
         Level level = level();
-        if (!level.isClientSide) {
-            if (!(level.getBlockEntity(result.getBlockPos()) instanceof LooseSnowBlockEntity)) {
-                this.discard();
-            }
+        if (!level.isClientSide && !(level.getBlockState(result.getBlockPos()).getBlock() instanceof LooseSnowBlock)) {
+            this.discard();
         }
         super.onHitBlock(result);
     }
 
-
-
     @Override
     public void tick() {
         super.tick();
-        if (snowStock<=0){
-            this.discard();
-            return;
-        }
         Level level = level();
         if (!level.isClientSide) {
+            if (snowStock <= 0) {
+                this.discard();
+                return;
+            }
             if (counter % GROWTH_CONSTRAINT == 0) {
                 handleSetBlock(level);
             }
