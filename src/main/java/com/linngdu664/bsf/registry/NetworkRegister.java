@@ -1,7 +1,6 @@
 package com.linngdu664.bsf.registry;
 
 import com.linngdu664.bsf.Main;
-import com.linngdu664.bsf.network.AmmoTypeToClient;
 import com.linngdu664.bsf.network.AmmoTypeToServer;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import net.minecraft.network.FriendlyByteBuf;
@@ -31,6 +30,5 @@ public class NetworkRegister {
     public static void registerMessage(FMLCommonSetupEvent event) {
         NetworkRegister.addNetworkMessage(ForwardConeParticlesToClient.class, ForwardConeParticlesToClient::encoder, ForwardConeParticlesToClient::decoder, ForwardConeParticlesToClient::messageConsumer);
         NetworkRegister.addNetworkMessage(AmmoTypeToServer.class, AmmoTypeToServer::encoder, AmmoTypeToServer::decoder, AmmoTypeToServer::messageConsumer);
-        NetworkRegister.addNetworkMessage(AmmoTypeToClient.class, AmmoTypeToClient::encoder, AmmoTypeToClient::decoder, AmmoTypeToClient::messageConsumer);
     }
 }

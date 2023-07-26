@@ -130,7 +130,6 @@ public abstract class AbstractBSFWeaponItem extends Item {
                     }
                 }
             }
-            Item oldItem = currentAmmoItemStack.getItem();
             if (launchOrder.isEmpty()) {
                 prevAmmoItemStack = Items.AIR.getDefaultInstance();
                 currentAmmoItemStack = prevAmmoItemStack;
@@ -176,7 +175,7 @@ public abstract class AbstractBSFWeaponItem extends Item {
                 nextAmmoItemStack = new ItemStack(item3, i3);
             }
             Item newItem = currentAmmoItemStack.getItem();
-            if (!newItem.equals(oldItem)) {
+            if (!newItem.equals(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, pStack.getOrCreateTag().getString("ammo_item"))))) {
                 NetworkRegister.PACKET_HANDLER.sendToServer(new AmmoTypeToServer(newItem, pSlotId));
             }
         }
