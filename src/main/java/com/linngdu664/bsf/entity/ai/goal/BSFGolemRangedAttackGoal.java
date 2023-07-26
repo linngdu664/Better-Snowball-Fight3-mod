@@ -9,7 +9,6 @@ import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.AABB;
@@ -94,7 +93,7 @@ public class BSFGolemRangedAttackGoal extends Goal {
                     sinTheta = -sinTheta;
                 }
             }
-            List<LivingEntity> list = golem.level().getEntitiesOfClass(LivingEntity.class, golem.getBoundingBox().inflate(x), p -> !golem.equals(p) && !pTarget.equals(p) && (golem.getStatus() != 4 || !(p instanceof Enemy)));
+            List<LivingEntity> list = golem.level().getEntitiesOfClass(LivingEntity.class, golem.getBoundingBox().inflate(x), p -> !golem.equals(p) && !pTarget.equals(p));
             for (LivingEntity entity : list) {
                 double dx1 = entity.getX() - golem.getX();
                 double dz1 = entity.getZ() - golem.getZ();
@@ -107,6 +106,9 @@ public class BSFGolemRangedAttackGoal extends Goal {
                         double t = r * cosAlpha / (v * cosTheta);
                         double y = v * sinTheta * t - 0.015 * t * t + golem.getEyeY();
                         if (y >= aabb.minY - 0.8 && y <= aabb.maxY + 0.8) {
+                            if (entity.getType().equals(golem.getTarget().getType())) {
+                                golem.setTarget(entity);
+                            }
                             attackTime = 1;
                             return false;
                         }
