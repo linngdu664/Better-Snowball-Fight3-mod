@@ -27,21 +27,7 @@ public class BSFSnowGolemHoldItemLayer extends RenderLayer<BSFSnowGolemEntity, B
         if (itemstack != ItemStack.EMPTY) {
             pMatrixStack.pushPose();
             pMatrixStack.translate(-0.05, 0.2, -0.8);
-            pMatrixStack.mulPose(new Quaternionf(new AxisAngle4f(pLivingEntity.renderWeaponAng * Mth.DEG_TO_RAD, 1F, 0F, 0F)));
-            int weaponAng = pLivingEntity.getWeaponAng();
-            if (weaponAng==360){
-                pLivingEntity.renderWeaponAng = weaponAng;
-            }
-
-            if (pLivingEntity.renderWeaponAng>0){
-                pLivingEntity.renderWeaponAng-=15;
-            }
-//            if (pLivingEntity.renderWeaponAng > -1 && pLivingEntity.renderWeaponAng < 360){
-//                pLivingEntity.renderWeaponAng++;
-//            }else if (pLivingEntity.renderWeaponAng >= 360){
-//                pLivingEntity.renderWeaponAng=-1;
-//            }
-
+            pMatrixStack.mulPose(new Quaternionf(new AxisAngle4f(Math.max(pLivingEntity.getWeaponAng() - 60*pPartialTicks, 0) * Mth.DEG_TO_RAD, 1F, 0F, 0F)));
             Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().renderItem(pLivingEntity, itemstack, ItemDisplayContext.HEAD, false, pMatrixStack, pBuffer, pPackedLight);
             pMatrixStack.popPose();
         }
