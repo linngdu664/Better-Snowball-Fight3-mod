@@ -242,11 +242,12 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
-        goalSelector.addGoal(2, new BSFGolemRangedAttackGoal(this, 1.0, 30, 50.0F));
-        goalSelector.addGoal(3, new BSFGolemFollowOwnerGoal(this, 1.0, 6.0F, 3.0F));
-        goalSelector.addGoal(4, new BSFGolemRandomStrollGoal(this, 0.8, 1E-5F));
-        goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-        goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 5.0F));
+        goalSelector.addGoal(2, new BSFGolemJumpHighGoal(this));
+        goalSelector.addGoal(3, new BSFGolemRangedAttackGoal(this, 1.0, 30, 50.0F));
+        goalSelector.addGoal(4, new BSFGolemFollowOwnerGoal(this, 1.0, 6.0F, 3.0F));
+        goalSelector.addGoal(5, new BSFGolemRandomStrollGoal(this, 0.8, 1E-5F));
+        goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 5.0F));
         targetSelector.addGoal(1, new BSFGolemHurtByTargetGoal(this));
         targetSelector.addGoal(2, new BSFGolemNearestAttackableTargetGoal(this, LivingEntity.class, 1, true, false, (p) -> getOwner() == null ? p instanceof Player player && !player.isCreative() && !player.isSpectator() : p instanceof Enemy));
     }
