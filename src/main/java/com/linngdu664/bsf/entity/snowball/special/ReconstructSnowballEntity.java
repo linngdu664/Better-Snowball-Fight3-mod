@@ -144,6 +144,7 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
         }
         passingPosArr[0] = newPos;
     }
+
     @Override
     protected void placeLooseSnowBlock(Level level, BlockPos blockPos) {
         if (snowStock > 0) {
