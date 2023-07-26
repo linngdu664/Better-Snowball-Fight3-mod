@@ -1,7 +1,21 @@
 {
   "variants": {
-    "": {
-      "model": "bsf:block/critical_snow"
-    }
+    "": [
+      {
+        "model": "bsf:block/critical_snow"
+      },
+      {
+        "model": "bsf:block/critical_snow",
+        "y": 90
+      },
+      {
+        "model": "bsf:block/critical_snow",
+        "y": 180
+      },
+      {
+        "model": "bsf:block/critical_snow",
+        "y": 270
+      }
+    ]
   }
 }
