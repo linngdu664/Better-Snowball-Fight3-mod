@@ -1,7 +1,10 @@
 package com.linngdu664.bsf.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.HugeExplosionParticle;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -11,9 +14,10 @@ public class GeneratorFix extends HugeExplosionParticle {
     protected GeneratorFix(ClientLevel pLevel, double pX, double pY, double pZ, double pQuadSizeMultiplier, SpriteSet pSprites) {
         super(pLevel, pX, pY, pZ, pQuadSizeMultiplier, pSprites);
         this.lifetime = 1;
-        this.quadSize=0.3f;
+        this.quadSize = 0.3f;
         this.setSpriteFromAge(pSprites);
     }
+
     @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;

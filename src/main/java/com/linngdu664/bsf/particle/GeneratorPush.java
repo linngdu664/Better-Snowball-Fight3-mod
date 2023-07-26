@@ -14,9 +14,10 @@ public class GeneratorPush extends HugeExplosionParticle {
     protected GeneratorPush(ClientLevel pLevel, double pX, double pY, double pZ, double pQuadSizeMultiplier, SpriteSet pSprites) {
         super(pLevel, pX, pY, pZ, pQuadSizeMultiplier, pSprites);
         this.lifetime = 3;
-        this.quadSize=0.3f;
+        this.quadSize = 0.3f;
         this.setSpriteFromAge(pSprites);
     }
+
     @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
