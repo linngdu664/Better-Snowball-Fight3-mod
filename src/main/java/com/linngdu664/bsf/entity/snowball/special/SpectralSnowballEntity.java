@@ -43,7 +43,7 @@ public class SpectralSnowballEntity extends AbstractBSFSnowballEntity {
                 ((ServerLevel) level).sendParticles(ParticleTypes.FIREWORK, this.getX(), this.getY(), this.getZ(), 60, 0, 0, 0, 0.12);
                 List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4), EntitySelector.NO_SPECTATORS.and(EntitySelector.withinDistance(getX(), getY(), getZ(), 3.5)));
                 for (LivingEntity livingEntity : list) {
-                    livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 70, 1));
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 70, 0));
                 }
                 if (!list.isEmpty()) {
                     level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.NEUTRAL, 1F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
