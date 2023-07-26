@@ -308,7 +308,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("import_state.tip", null, new Object[0])), false);
                 level.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             } else if (itemStack.getItem() instanceof TargetLocatorItem && isUseLocator()) {
-                LivingEntity entity = (LivingEntity) level.getEntity(itemStack.getTag().getInt("ID"));
+                LivingEntity entity = (LivingEntity) level.getEntity(itemStack.getOrCreateTag().getInt("ID"));
                 if (entity != null && entity != this && getOwner() != null) {
                     ((Player) getOwner()).displayClientMessage(MutableComponent.create(new TranslatableContents("snow_golem_locator_tip", null, new Object[0])), false);
                     setTarget(entity);
@@ -405,12 +405,12 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         ItemStack weapon = getWeapon();
         ItemStack ammo = getAmmo();
         if (!weapon.isEmpty() && ammo.getItem() instanceof SnowballTankItem && !hasEffect(EffectRegister.WEAPON_JAM.get())) {
-            CompoundTag compoundTag = ammo.getTag();
+            CompoundTag compoundTag = ammo.getOrCreateTag();
             if (!compoundTag.contains("snowball")) {
                 return;
             }
             AbstractBSFWeaponItem weaponItem = (AbstractBSFWeaponItem) weapon.getItem();
-            if ((((AbstractBSFSnowballItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, ammo.getTag().getString("snowball")))).getTypeFlag() & weaponItem.getTypeFlag()) == 0) {
+            if ((((AbstractBSFSnowballItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, compoundTag.getString("snowball")))).getTypeFlag() & weaponItem.getTypeFlag()) == 0) {
                 return;
             }
             float damageChance = 1.0F / (1.0F + EnchantmentHelper.getTagEnchantmentLevel(Enchantments.UNBREAKING, weapon));
