@@ -68,7 +68,6 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
         Vec3 pos = new Vec3(getX(), getY(), getZ());
         for (Entity entity : list) {
             Vec3 rVec = new Vec3(entity.getX(), (entity.getY() + entity.getEyeY()) * 0.5, entity.getZ()).add(pos.reverse());
-            System.out.println(rVec.length());
             if (rVec.length() < 4) {
                 Vec3 norm = rVec.normalize();
                 Vec3 aVec = norm.scale(2).add(rVec.scale(-0.2));
