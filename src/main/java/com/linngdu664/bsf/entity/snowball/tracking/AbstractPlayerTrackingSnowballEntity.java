@@ -35,7 +35,7 @@ public abstract class AbstractPlayerTrackingSnowballEntity extends AbstractTrack
         Level level = level();
         Entity owner = getOwner();
         AABB aabb = getBoundingBox().inflate(getRange());
-        List<Player> list = level.getEntitiesOfClass(Player.class, aabb, (p) -> !p.isCreative() && !p.isSpectator() && !p.equals(owner) && !(owner instanceof BSFSnowGolemEntity golem && p.equals(golem.getOwner())) && BSFMthUtil.vec3AngleCos(velocity, new Vec3(p.getX() - getX(), p.getY() - getY(), p.getZ() - getZ())) > 0.5);
+        List<Player> list = level.getEntitiesOfClass(Player.class, aabb, (p) -> !p.isSpectator() && !p.equals(owner) && !(owner instanceof BSFSnowGolemEntity golem && p.equals(golem.getOwner())) && BSFMthUtil.vec3AngleCos(velocity, new Vec3(p.getX() - getX(), p.getY() - getY(), p.getZ() - getZ())) > 0.5);
         Entity entity = level.getNearestEntity(list, TargetingConditions.DEFAULT, null, getX(), getY(), getZ());
         if (entity == null) {
             List<BSFSnowGolemEntity> list1 = level.getEntitiesOfClass(BSFSnowGolemEntity.class, aabb, (p) -> p.getTarget() != null && (owner instanceof BSFSnowGolemEntity golem && p.getTarget().equals(golem.getOwner()) || !(owner instanceof BSFSnowGolemEntity) && p.getTarget().equals(owner)) && BSFMthUtil.vec3AngleCos(velocity, new Vec3(p.getX() - getX(), p.getY() - getY(), p.getZ() - getZ())) > 0.5);
