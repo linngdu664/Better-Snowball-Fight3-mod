@@ -1,10 +1,16 @@
 package com.linngdu664.bsf.entity.ai.goal;
 
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
+import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
+import com.linngdu664.bsf.registry.EffectRegister;
+import com.linngdu664.bsf.registry.ItemRegister;
+import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -56,27 +62,64 @@ public class BSFGolemRangedAttackGoal extends Goal {
         return true;
     }
 
-    private boolean isBlockedByOthers(double d2, LivingEntity target) {
-        int d = (int) Math.sqrt(d2);
-        Vec3 sightVec = new Vec3(target.getX() - golem.getX(), target.getEyeY() - golem.getEyeY(), target.getZ() - golem.getZ()).normalize();
-        double x = golem.getX();
-        double y = golem.getEyeY();
-        double z = golem.getZ();
-        for (int i = 0; i <= d; i++) {
-            AABB aabb = new AABB(Mth.floor(x), Mth.floor(y), Mth.floor(z), Mth.ceil(x), Mth.ceil(y), Mth.ceil(z));
-            List<LivingEntity> list = golem.level().getEntitiesOfClass(LivingEntity.class, aabb);
-            list.remove(target);
-            list.remove(golem);
-            if (!list.isEmpty()) {
-                if (!golem.isUseLocator()) {
-                    golem.setTarget(null);
-                }
-                attackTime = 1;
-                return true;
+    private boolean canShoot(LivingEntity pTarget) {
+        ItemStack weapon = golem.getWeapon();
+        if (!weapon.isEmpty() && !golem.hasEffect(EffectRegister.WEAPON_JAM.get())) {
+            AbstractBSFWeaponItem weaponItem = (AbstractBSFWeaponItem) weapon.getItem();
+            float v = 3.0F;
+            float acc = 1.0F;
+            if (weaponItem.equals(ItemRegister.POWERFUL_SNOWBALL_CANNON.get())) {
+                v = 4.0F;
+            } else if (weaponItem.equals(ItemRegister.SNOWBALL_SHOTGUN.get())) {
+                v = 2.0F;
+                acc = 10.0F;
             }
-            x += sightVec.x;
-            y += sightVec.y;
-            z += sightVec.z;
+            double h = pTarget.getEyeY() - golem.getEyeY();
+            double dx = pTarget.getX() - golem.getX();
+            double dz = pTarget.getZ() - golem.getZ();
+            double x2 = BSFMthUtil.modSqr(dx, dz);
+            double d = Math.sqrt(x2 + h * h);
+            double x = Math.sqrt(x2);
+            double k = 0.015 * x2 / (v * v);    // 0.5 * g / 400.0, g = 12
+            double cosTheta = 0.7071067811865475 / d * Math.sqrt(x2 - 2 * k * h + x * Math.sqrt(x2 - 4 * k * k - 4 * k * h));
+            double sinTheta;
+            dx /= x;
+            dz /= x;
+            if (cosTheta > 1) {
+                sinTheta = 0;
+            } else {
+                sinTheta = Math.sqrt(1 - cosTheta * cosTheta);
+                dx *= cosTheta;
+                dz *= cosTheta;
+                if (h < -k) {
+                    sinTheta = -sinTheta;
+                }
+            }
+            List<LivingEntity> list = golem.level().getEntitiesOfClass(LivingEntity.class, golem.getBoundingBox().inflate(x), p -> !golem.equals(p) && !pTarget.equals(p) && (golem.getStatus() != 4 || !(p instanceof Enemy)));
+            for (LivingEntity entity : list) {
+                double dx1 = entity.getX() - golem.getX();
+                double dz1 = entity.getZ() - golem.getZ();
+                double cosAlpha = BSFMthUtil.vec2AngleCos(dx, dz, dx1, dz1);
+                if (cosAlpha > 0.17) {
+                    AABB aabb = entity.getBoundingBox();
+                    double sinAlpha = Math.sqrt(1 - cosAlpha * cosAlpha);
+                    double r = Math.sqrt(BSFMthUtil.modSqr(dx1, dz1));
+                    if (r < x && r * sinAlpha < Math.sqrt(BSFMthUtil.modSqr(aabb.maxX - aabb.minX, aabb.maxZ - aabb.minZ)) * 0.5 + 0.8) {
+                        double t = r * cosAlpha / (v * cosTheta);
+                        double y = v * sinTheta * t - 0.015 * t * t + golem.getEyeY();
+                        if (y >= aabb.minY - 0.8 && y <= aabb.maxY + 0.8) {
+                            attackTime = 1;
+                            return false;
+                        }
+                    }
+                }
+            }
+            golem.setRealSightX((float) dx);
+            golem.setRealSightY((float) sinTheta);
+            golem.setRealSightZ((float) dz);
+            golem.setLaunchAccuracy(acc);
+            golem.setLaunchVelocity(v);
+            return true;
         }
         return false;
     }
@@ -130,7 +173,7 @@ public class BSFGolemRangedAttackGoal extends Goal {
             }
             if (--attackTime <= 0) {
                 if (attackTime == 0) {
-                    if (!flag || isBlockedByOthers(d0, target)) {
+                    if (!flag || !canShoot(target)) {
                         return;
                     }
                     float f = (float) Math.sqrt(d0) / attackRadius;

@@ -4,7 +4,6 @@ import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.entity.ai.goal.*;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.snowball.normal.SmoothSnowballItem;
 import com.linngdu664.bsf.item.tank.LargeSnowballTankItem;
@@ -12,8 +11,10 @@ import com.linngdu664.bsf.item.tank.SnowballTankItem;
 import com.linngdu664.bsf.item.tool.CreativeSnowGolemToolItem;
 import com.linngdu664.bsf.item.tool.SnowGolemModeTweakerItem;
 import com.linngdu664.bsf.item.tool.SnowballClampItem;
-import com.linngdu664.bsf.item.weapon.*;
-import com.linngdu664.bsf.registry.EffectRegister;
+import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
+import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
+import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
+import com.linngdu664.bsf.item.weapon.TargetLocatorItem;
 import com.linngdu664.bsf.registry.EnchantmentRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
@@ -25,11 +26,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -69,7 +65,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob {
-    private static final int styleNum = 9;
+    private static final int STYLE_NUM = 9;
 
     /*
      status flag:
@@ -90,6 +86,8 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     private static final EntityDataAccessor<Float> REAL_SIGHT_Y = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> REAL_SIGHT_Z = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> POTION_SICKNESS = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.INT);
+    private float launchVelocity;
+    private float launchAccuracy;
 
     public BSFSnowGolemEntity(EntityType<? extends TamableAnimal> p_21803_, Level p_21804_) {
         super(p_21803_, p_21804_);
@@ -107,7 +105,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         entityData.define(WEAPON, ItemStack.EMPTY);
         entityData.define(AMMO, ItemStack.EMPTY);
         entityData.define(WEAPON_ANG, 0);
-        entityData.define(STYLE, (byte) (BSFMthUtil.randInt(0, styleNum)));
+        entityData.define(STYLE, (byte) (BSFMthUtil.randInt(0, STYLE_NUM)));
         entityData.define(ENHANCE, false);
         entityData.define(REAL_SIGHT_X, 1F);
         entityData.define(REAL_SIGHT_Y, 0F);
@@ -233,6 +231,14 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         entityData.set(POTION_SICKNESS, i);
     }
 
+    public void setLaunchVelocity(float launchVelocity) {
+        this.launchVelocity = launchVelocity;
+    }
+
+    public void setLaunchAccuracy(float launchAccuracy) {
+        this.launchAccuracy = launchAccuracy;
+    }
+
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
@@ -328,7 +334,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 }
                 itemStack.hurtAndBreak(1, pPlayer, (e) -> e.broadcastBreakEvent(pHand));
             } else if (itemStack.getItem() instanceof SnowballItem) {
-                setStyle((byte) ((getStyle() + 1) % styleNum));
+                setStyle((byte) ((getStyle() + 1) % STYLE_NUM));
             } else if (itemStack.getItem() instanceof CreativeSnowGolemToolItem) {
                 if (pPlayer.isShiftKeyDown()) {
                     CompoundTag tag = itemStack.getOrCreateTag();
@@ -394,9 +400,10 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         }
         if (getWeaponAng() > 0) {
             if (getWeaponAng() == 360) {
-                if (getWeapon().getItem() instanceof SnowballCannonItem || getWeapon().getItem() instanceof FreezingSnowballCannonItem) {
+                Item item = getWeapon().getItem();
+                if (item.equals(ItemRegister.SNOWBALL_CANNON.get()) || item.equals(ItemRegister.FREEZING_SNOWBALL_CANNON.get())) {
                     ParticleUtil.spawnForwardConeParticles(level, this, new Vec3(getRealSightX(), getRealSightY(), getRealSightZ()), ParticleTypes.SNOWFLAKE, 4.5F, 90, 1.5F, 0.1F);
-                } else if (getWeapon().getItem() instanceof SnowballShotgunItem || getWeapon().getItem() instanceof PowerfulSnowballCannonItem) {
+                } else if (item.equals(ItemRegister.SNOWBALL_SHOTGUN.get()) || item.equals(ItemRegister.POWERFUL_SNOWBALL_CANNON.get())) {
                     ParticleUtil.spawnForwardConeParticles(level, this, new Vec3(getRealSightX(), getRealSightY(), getRealSightZ()), ParticleTypes.SNOWFLAKE, 4.5F, 45, 1.5F, 0.1F);
                 }
             }
@@ -410,85 +417,45 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         Level level = level();
         ItemStack weapon = getWeapon();
         ItemStack ammo = getAmmo();
-        if (!weapon.isEmpty() && ammo.getItem() instanceof SnowballTankItem && !hasEffect(EffectRegister.WEAPON_JAM.get())) {
-            CompoundTag compoundTag = ammo.getOrCreateTag();
+        CompoundTag compoundTag = ammo.getOrCreateTag();
+        AbstractBSFWeaponItem weaponItem = (AbstractBSFWeaponItem) weapon.getItem();
+        if (!compoundTag.contains("snowball") || (((AbstractBSFSnowballItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, compoundTag.getString("snowball")))).getTypeFlag() & weaponItem.getTypeFlag()) == 0) {
+            return;
+        }
+        float damageChance = 1.0F / (1.0F + EnchantmentHelper.getTagEnchantmentLevel(Enchantments.UNBREAKING, weapon));
+        ILaunchAdjustment launchAdjustment = weaponItem.getLaunchAdjustment(1, ammo.getItem());
+        int j = weapon.getItem() instanceof SnowballShotgunItem ? 4 : 1;
+        for (int i = 0; i < j; i++) {
             if (!compoundTag.contains("snowball")) {
-                return;
+                break;
             }
-            AbstractBSFWeaponItem weaponItem = (AbstractBSFWeaponItem) weapon.getItem();
-            if ((((AbstractBSFSnowballItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, compoundTag.getString("snowball")))).getTypeFlag() & weaponItem.getTypeFlag()) == 0) {
-                return;
-            }
-            float damageChance = 1.0F / (1.0F + EnchantmentHelper.getTagEnchantmentLevel(Enchantments.UNBREAKING, weapon));
-            float v = 3.0F;
-            float accuracy = 1.0F;
-            ILaunchAdjustment launchAdjustment = weaponItem.getLaunchAdjustment(1, ammo.getItem());
-            if (launchAdjustment.getLaunchFrom().equals(LaunchFrom.POWERFUL_CANNON)) {
-                v = 4.0F;
-            } else if (launchAdjustment.getLaunchFrom().equals(LaunchFrom.SHOTGUN)) {
-                v = 2.0F;
-                accuracy = 10.0F;
-            }
-            double h = pTarget.getEyeY() - getEyeY();
-            double dx = pTarget.getX() - getX();
-            double dz = pTarget.getZ() - getZ();
-            double x2 = BSFMthUtil.modSqr(dx, dz);
-            double d = Math.sqrt(x2 + h * h);
-            double x = Math.sqrt(x2);
-            double k = 0.015 * x2 / (v * v);    // 0.5 * g / 400.0, g = 12
-            double cosTheta = 0.7071067811865475 / d * Math.sqrt(x2 - 2 * k * h + x * Math.sqrt(x2 - 4 * k * k - 4 * k * h));
-            double sinTheta;
-            dx /= x;
-            dz /= x;
-            if (cosTheta > 1) {
-                sinTheta = 0;
-            } else {
-                sinTheta = Math.sqrt(1 - cosTheta * cosTheta);
-                dx *= cosTheta;
-                dz *= cosTheta;
-                if (h < -k) {
-                    sinTheta = -sinTheta;
+            AbstractBSFSnowballEntity snowball = ((AbstractBSFSnowballItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, compoundTag.getString("snowball")))).getCorrespondingEntity(level, this, launchAdjustment);
+            snowball.shoot(getRealSightX(), getRealSightY(), getRealSightZ(), launchVelocity, launchAccuracy);
+            level.addFreshEntity(snowball);
+            if (!getEnhance()) {
+                ammo.setDamageValue(ammo.getDamageValue() + 1);
+                if (ammo.getDamageValue() == ammo.getMaxDamage()) {
+                    ItemStack empty;
+                    if (ammo.getItem() instanceof LargeSnowballTankItem) {
+                        empty = ItemRegister.LARGE_SNOWBALL_TANK.get().getDefaultInstance();
+                    } else {
+                        empty = ItemRegister.SNOWBALL_TANK.get().getDefaultInstance();
+                    }
+                    empty.setDamageValue(empty.getMaxDamage());
+                    setAmmo(empty);
                 }
             }
-            setRealSightX((float) dx);
-            setRealSightY((float) sinTheta);
-            setRealSightZ((float) dz);
-            int j = weapon.getItem() instanceof SnowballShotgunItem ? 4 : 1;
-            for (int i = 0; i < j; i++) {
-                if (!compoundTag.contains("snowball")) {
-                    break;
-                }
-                AbstractBSFSnowballEntity snowball = ((AbstractBSFSnowballItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, compoundTag.getString("snowball")))).getCorrespondingEntity(level, this, launchAdjustment);
-                snowball.shoot(dx, sinTheta, dz, v, accuracy);
-                level.addFreshEntity(snowball);
-                if (!getEnhance()) {
-                    ammo.setDamageValue(ammo.getDamageValue() + 1);
-                    if (ammo.getDamageValue() == ammo.getMaxDamage()) {
-                        ItemStack empty;
-                        if (ammo.getItem() instanceof LargeSnowballTankItem) {
-                            empty = ItemRegister.LARGE_SNOWBALL_TANK.get().getDefaultInstance();
-                        } else {
-                            empty = ItemRegister.SNOWBALL_TANK.get().getDefaultInstance();
-                        }
-                        empty.setDamageValue(empty.getMaxDamage());
-                        setAmmo(empty);
+            if (i == 0) {
+                playSound(j == 4 ? SoundRegister.SHOTGUN_FIRE_2.get() : SoundRegister.SNOWBALL_CANNON_SHOOT.get(), 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                if (getRandom().nextFloat() <= damageChance && !getEnhance()) {
+                    weapon.setDamageValue(weapon.getDamageValue() + 1);
+                    if (weapon.getDamageValue() == 256) {
+                        setWeapon(ItemStack.EMPTY);
+                        playSound(SoundEvents.ITEM_BREAK, 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 0.8F));
                     }
                 }
-                if (i == 0) {
-                    playSound(j == 4 ? SoundRegister.SHOTGUN_FIRE_2.get() : SoundRegister.SNOWBALL_CANNON_SHOOT.get(), 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                    if (getRandom().nextFloat() <= damageChance && !getEnhance()) {
-                        weapon.setDamageValue(weapon.getDamageValue() + 1);
-                        if (weapon.getDamageValue() == 256) {
-                            setWeapon(ItemStack.EMPTY);
-                            playSound(SoundEvents.ITEM_BREAK, 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 0.8F));
-                        }
-                    }
-                }
-                setWeaponAng(360);
-//                System.out.println(renderWeaponAng);
-//                renderWeaponAng=0;
-//                System.out.println(renderWeaponAng);
             }
+            setWeaponAng(360);
         }
     }
 
