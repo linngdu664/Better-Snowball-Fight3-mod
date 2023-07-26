@@ -42,7 +42,7 @@ public class RepulsiveFieldGeneratorItem extends AbstractBSFEnhanceableToolItem 
                 for (Projectile projectile : list) {
                     Vec3 dvVec = Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(2);
                     projectile.push(dvVec.x, dvVec.y, dvVec.z);
-                    ((ServerLevel) pLevel).sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), projectile.getX(), projectile.getY(), projectile.getZ(), 10, 0, 0, 0, 0.04);
+                    ((ServerLevel) pLevel).sendParticles(ParticleRegister.GENERATOR_PUSH.get(), projectile.getX(), projectile.getY(), projectile.getZ(), 1, 0, 0, 0, 0);
                 }
             }
             if (!player.getAbilities().instabuild) {
@@ -79,7 +79,7 @@ public class RepulsiveFieldGeneratorItem extends AbstractBSFEnhanceableToolItem 
                 projectileVector.add(projectile);
                 Vec3 dvVec = projectile.getDeltaMovement().scale(-0.8);
                 projectile.push(dvVec.x, dvVec.y, dvVec.z);
-                ((ServerLevel) pLevel).sendParticles(ParticleTypes.ELECTRIC_SPARK, projectile.getX(), projectile.getY(), projectile.getZ(), 3, 0, 0, 0, 0.04);
+                ((ServerLevel) pLevel).sendParticles(ParticleRegister.GENERATOR_FIX.get(), projectile.getX(), projectile.getY(), projectile.getZ(), 1, 0, 0, 0, 0);
             }
         }
     }

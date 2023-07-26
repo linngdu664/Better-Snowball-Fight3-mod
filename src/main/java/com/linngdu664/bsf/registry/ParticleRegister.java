@@ -1,9 +1,7 @@
 package com.linngdu664.bsf.registry;
 
 import com.linngdu664.bsf.Main;
-import com.linngdu664.bsf.particle.BigLongTimeSnowflake;
-import com.linngdu664.bsf.particle.Impulse;
-import com.linngdu664.bsf.particle.ShortTimeSnowflake;
+import com.linngdu664.bsf.particle.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleType;
@@ -23,6 +21,8 @@ public class ParticleRegister {
     public static final RegistryObject<SimpleParticleType> SHORT_TIME_SNOWFLAKE = PARTICLES.register("short_time_snowflake", (Lazy<SimpleParticleType>) () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> BIG_LONG_TIME_SNOWFLAKE = PARTICLES.register("big_long_time_snowflake", (Lazy<SimpleParticleType>) () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> IMPULSE = PARTICLES.register("impulse", (Lazy<SimpleParticleType>) () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> GENERATOR_FIX = PARTICLES.register("generator_fix", (Lazy<SimpleParticleType>) () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> GENERATOR_PUSH = PARTICLES.register("generator_push", (Lazy<SimpleParticleType>) () -> new SimpleParticleType(false));
 
     @SubscribeEvent
     public static void registerParticleProvider(RegisterParticleProvidersEvent event) {
@@ -32,5 +32,7 @@ public class ParticleRegister {
         particleEngine.register(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), ShortTimeSnowflake.Provider::new);
         particleEngine.register(ParticleRegister.BIG_LONG_TIME_SNOWFLAKE.get(), BigLongTimeSnowflake.Provider::new);
         particleEngine.register(ParticleRegister.IMPULSE.get(), Impulse.Provider::new);
+        particleEngine.register(ParticleRegister.GENERATOR_FIX.get(), GeneratorFix.Provider::new);
+        particleEngine.register(ParticleRegister.GENERATOR_PUSH.get(), GeneratorPush.Provider::new);
     }
 }
