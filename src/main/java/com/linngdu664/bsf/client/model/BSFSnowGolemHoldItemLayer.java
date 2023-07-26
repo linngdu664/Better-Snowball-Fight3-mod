@@ -27,7 +27,7 @@ public class BSFSnowGolemHoldItemLayer extends RenderLayer<BSFSnowGolemEntity, B
         if (itemstack != ItemStack.EMPTY) {
             pMatrixStack.pushPose();
             pMatrixStack.translate(-0.05, 0.2, -0.8);
-            pMatrixStack.mulPose(new Quaternionf(new AxisAngle4f(Math.max(pLivingEntity.getWeaponAng() - 60*pPartialTicks, 0) * Mth.DEG_TO_RAD, 1F, 0F, 0F)));
+            pMatrixStack.mulPose(new Quaternionf(new AxisAngle4f(Math.max(pLivingEntity.getWeaponAng() - 60 * pPartialTicks, 0) * Mth.DEG_TO_RAD, 1F, 0F, 0F)));
             Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().renderItem(pLivingEntity, itemstack, ItemDisplayContext.HEAD, false, pMatrixStack, pBuffer, pPackedLight);
             pMatrixStack.popPose();
         }
