@@ -133,26 +133,6 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     }
 
     @Override
-    public int getBasicWeaknessTicks() {
-        return 0;
-    }
-
-    @Override
-    public int getBasicFrozenTicks() {
-        return 0;
-    }
-
-    @Override
-    public double getBasicPunch() {
-        return 0;
-    }
-
-    @Override
-    public float getSubspacePower() {
-        return 1;
-    }
-
-    @Override
     protected @NotNull Item getDefaultItem() {
         return ItemRegister.SUBSPACE_SNOWBALL.get();
     }

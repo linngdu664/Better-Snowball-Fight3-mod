@@ -38,12 +38,9 @@ public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowball
         }
     }
 
-    @Override
-    public boolean canBeCaught() {
-        return true;
+    public double getRange() {
+        return 10;
     }
-
-    public abstract double getRange();
 
     public abstract Entity getTarget();
 

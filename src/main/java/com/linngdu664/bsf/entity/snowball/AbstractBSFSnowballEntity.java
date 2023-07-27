@@ -228,17 +228,31 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
         }
     }
 
-    abstract public boolean canBeCaught();
+    public boolean canBeCaught() {
+        return true;
+    }
 
-    abstract public float getBasicDamage();
+    public float getBasicDamage() {
+        return Float.MIN_NORMAL;
+    }
 
-    abstract public float getBasicBlazeDamage();
+    public float getBasicBlazeDamage() {
+        return 3;
+    }
 
-    abstract public int getBasicWeaknessTicks();
+    public int getBasicWeaknessTicks() {
+        return 0;
+    }
 
-    abstract public int getBasicFrozenTicks();
+    public int getBasicFrozenTicks() {
+        return 0;
+    }
 
-    abstract public double getBasicPunch();
+    public double getBasicPunch() {
+        return 0;
+    }
 
-    abstract public float getSubspacePower();
+    public float getSubspacePower() {
+        return 1;
+    }
 }

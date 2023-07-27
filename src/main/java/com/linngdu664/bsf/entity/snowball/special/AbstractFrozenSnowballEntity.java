@@ -103,11 +103,6 @@ public abstract class AbstractFrozenSnowballEntity extends AbstractBSFSnowballEn
     }
 
     @Override
-    public boolean canBeCaught() {
-        return true;
-    }
-
-    @Override
     public float getBasicDamage() {
         return 3;
     }
@@ -118,18 +113,8 @@ public abstract class AbstractFrozenSnowballEntity extends AbstractBSFSnowballEn
     }
 
     @Override
-    public int getBasicWeaknessTicks() {
-        return 0;
-    }
-
-    @Override
     public int getBasicFrozenTicks() {
         return 60;
-    }
-
-    @Override
-    public double getBasicPunch() {
-        return 0;
     }
 
     @Override

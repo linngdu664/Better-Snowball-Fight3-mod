@@ -30,21 +30,6 @@ public class HeavyMonsterTrackingSnowballEntity extends AbstractMonsterTrackingS
     }
 
     @Override
-    public int getBasicWeaknessTicks() {
-        return 0;
-    }
-
-    @Override
-    public int getBasicFrozenTicks() {
-        return 0;
-    }
-
-    @Override
-    public double getBasicPunch() {
-        return 0;
-    }
-
-    @Override
     public float getSubspacePower() {
         return 1.5F;
     }

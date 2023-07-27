@@ -20,36 +20,6 @@ public class LightMonsterTrackingSnowballEntity extends AbstractMonsterTrackingS
     }
 
     @Override
-    public float getBasicDamage() {
-        return Float.MIN_NORMAL;
-    }
-
-    @Override
-    public float getBasicBlazeDamage() {
-        return 3;
-    }
-
-    @Override
-    public int getBasicWeaknessTicks() {
-        return 0;
-    }
-
-    @Override
-    public int getBasicFrozenTicks() {
-        return 0;
-    }
-
-    @Override
-    public double getBasicPunch() {
-        return 0;
-    }
-
-    @Override
-    public float getSubspacePower() {
-        return 1;
-    }
-
-    @Override
     public boolean isLockFeet() {
         return false;
     }

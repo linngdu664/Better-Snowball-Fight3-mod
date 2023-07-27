@@ -63,6 +63,11 @@ public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEnt
         }
     }
 
+    @Override
+    public float getSubspacePower() {
+        return 3;
+    }
+
     abstract double getRange();
 
     abstract List<? extends Entity> getTargetList();

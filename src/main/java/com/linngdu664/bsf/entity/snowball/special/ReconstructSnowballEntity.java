@@ -167,31 +167,6 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     }
 
     @Override
-    public float getBasicDamage() {
-        return Float.MIN_NORMAL;
-    }
-
-    @Override
-    public float getBasicBlazeDamage() {
-        return 3;
-    }
-
-    @Override
-    public int getBasicWeaknessTicks() {
-        return 0;
-    }
-
-    @Override
-    public int getBasicFrozenTicks() {
-        return 0;
-    }
-
-    @Override
-    public double getBasicPunch() {
-        return 0;
-    }
-
-    @Override
     public float getSubspacePower() {
         return 4F;
     }

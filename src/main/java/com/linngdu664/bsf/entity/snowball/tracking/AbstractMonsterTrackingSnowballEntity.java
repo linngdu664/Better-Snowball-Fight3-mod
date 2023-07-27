@@ -24,11 +24,6 @@ public abstract class AbstractMonsterTrackingSnowballEntity extends AbstractTrac
     }
 
     @Override
-    public double getRange() {
-        return 10;
-    }
-
-    @Override
     public Entity getTarget() {
         Level level = level();
         Vec3 velocity = getDeltaMovement();

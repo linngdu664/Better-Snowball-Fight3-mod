@@ -42,21 +42,6 @@ public class ExplosiveSnowballEntity extends AbstractNormalSnowballEntity {
         return 5;
     }
 
-    @Override
-    public int getBasicWeaknessTicks() {
-        return 0;
-    }
-
-    @Override
-    public int getBasicFrozenTicks() {
-        return 0;
-    }
-
-    @Override
-    public double getBasicPunch() {
-        return 0;
-    }
-
     public float getSubspacePower() {
         return 3;
     }

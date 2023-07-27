@@ -29,9 +29,4 @@ public abstract class AbstractNormalSnowballEntity extends AbstractBSFSnowballEn
             this.discard();
         }
     }
-
-    @Override
-    public boolean canBeCaught() {
-        return true;
-    }
 }
