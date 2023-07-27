@@ -22,10 +22,10 @@
         "items": [
           {
             "items": [
-              "bsf:gravity_snowball_to_monster",
-              "bsf:gravity_snowball_to_projectile",
-              "bsf:repulsion_snowball_to_monster",
-              "bsf:repulsion_snowball_to_projectile",
+              "bsf:monster_gravity_snowball",
+              "bsf:projectile_gravity_snowball",
+              "bsf:monster_repulsion_snowball",
+              "bsf:projectile_repulsion_snowball",
               "bsf:black_hole_snowball"
             ]
           }
