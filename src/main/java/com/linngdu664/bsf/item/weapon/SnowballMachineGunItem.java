@@ -128,9 +128,9 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
         if (pLivingEntity instanceof Player player) {
             player.stopUsingItem();
             if (isExplosive) {
-                player.getCooldowns().addCooldown(this, getUseDuration(pStack) - pTimeCharged);
+                player.getCooldowns().addCooldown(this, (getUseDuration(pStack) - pTimeCharged)*3+10);
             } else {
-                player.getCooldowns().addCooldown(this, (getUseDuration(pStack) - pTimeCharged) / 2);
+                player.getCooldowns().addCooldown(this, (int)((getUseDuration(pStack) - pTimeCharged)*1.5+10));
             }
             player.awardStat(Stats.ITEM_USED.get(this));
         }

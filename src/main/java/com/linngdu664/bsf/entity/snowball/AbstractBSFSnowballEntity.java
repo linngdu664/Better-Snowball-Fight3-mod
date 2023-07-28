@@ -144,6 +144,9 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
     @Override
     public void tick() {
         super.tick();
+        generateParticles();
+    }
+    protected void generateParticles(){
         // Spawn trace particles
         Level level = level();
         if (!level.isClientSide) {

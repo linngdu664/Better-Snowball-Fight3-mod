@@ -1,9 +1,6 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
-import com.linngdu664.bsf.block.LooseSnowBlock;
-import com.linngdu664.bsf.block.entity.LooseSnowBlockEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.registry.BlockRegister;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.core.BlockPos;
@@ -16,6 +13,7 @@ import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -34,32 +32,37 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     public ReconstructSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
         super(EntityRegister.RECONSTRUCT_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock);
         setNoGravity(true);
+        this.destroyStepSize=snowStock/40;
     }
 
     @Override
     protected void onHitBlock(@NotNull BlockHitResult result) {
         Level level = level();
-        if (!level.isClientSide && !(level.getBlockState(result.getBlockPos()).getBlock() instanceof LooseSnowBlock)) {
-            this.discard();
+        if (!level.isClientSide && !(posIsLooseSnow(level,result.getBlockPos()))) {
+            if(!inBlockDuration){
+                startTimingOfDiscard(new Vec3(this.getX(),this.getY(),this.getZ()));
+            }
         }
         super.onHitBlock(result);
     }
 
     @Override
     public void tick() {
-        super.tick();
         Level level = level();
-        if (!level.isClientSide) {
-            if (snowStock <= 0) {
-                this.discard();
-                return;
+        if (snowStock <= 0) {
+            if(!inBlockDuration){
+                startTimingOfDiscard(new Vec3(this.getX(),this.getY(),this.getZ()));
             }
-            if (counter % GROWTH_CONSTRAINT == 0) {
-                handleSetBlock(level);
-            }
-            posArrMove(new BlockPos(Mth.floor(this.getX()), Mth.floor(this.getY()), Mth.floor(this.getZ())));
-            counter++;
         }
+        if (counter % GROWTH_CONSTRAINT == 0) {
+            handleSetBlock(level);
+        }
+        if (!level.isClientSide) {
+            posArrMove(new BlockPos(Mth.floor(this.getX()), Mth.floor(this.getY()), Mth.floor(this.getZ())));
+        }
+        counter++;
+
+        super.tick();
     }
 
     /**
@@ -69,8 +72,8 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
         if (snowStock <= 0) return;
         for (int i = GENERATING_DISTANCE; i < POS_NUM; i++) {
             if (passingPosArr[i] != null) {
-                placeLooseSnowBlock(level, passingPosArr[i].offset(0, (i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, 0));
-                placeLooseSnowBlock(level, passingPosArr[i].offset(0, -(i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, 0));
+                tryPlaceLooseSnowBlock(level, passingPosArr[i].offset(0, (i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, 0));
+                tryPlaceLooseSnowBlock(level, passingPosArr[i].offset(0, -(i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, 0));
                 //Fill a gap in the wall
                 if (i + 1 < POS_NUM && passingPosArr[i + 1] != null) {
                     int dx = passingPosArr[i].getX() - passingPosArr[i + 1].getX();
@@ -93,8 +96,8 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
                                     } else if (k <= 0 && k * (x1 + j) + b < z1 + h) {
                                         h--;
                                     }
-                                    placeLooseSnowBlock(level, passingPosArr[i].offset(j, (i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, h));
-                                    placeLooseSnowBlock(level, passingPosArr[i].offset(j, -(i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, h));
+                                    tryPlaceLooseSnowBlock(level, passingPosArr[i].offset(j, (i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, h));
+                                    tryPlaceLooseSnowBlock(level, passingPosArr[i].offset(j, -(i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, h));
                                 }
                             } else {
                                 for (int j = 1; j < adx; j++) {
@@ -103,8 +106,8 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
                                     } else if (k <= 0 && k * (x2 + j) + b < z2 + h) {
                                         h--;
                                     }
-                                    placeLooseSnowBlock(level, passingPosArr[i + 1].offset(j, (i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, h));
-                                    placeLooseSnowBlock(level, passingPosArr[i + 1].offset(j, -(i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, h));
+                                    tryPlaceLooseSnowBlock(level, passingPosArr[i + 1].offset(j, (i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, h));
+                                    tryPlaceLooseSnowBlock(level, passingPosArr[i + 1].offset(j, -(i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, h));
                                 }
                             }
                         } else {
@@ -117,8 +120,8 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
                                     } else if (h <= 0 && k * (z1 + j) + b < x1 + h) {
                                         h--;
                                     }
-                                    placeLooseSnowBlock(level, passingPosArr[i].offset(h, (i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, j));
-                                    placeLooseSnowBlock(level, passingPosArr[i].offset(h, -(i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, j));
+                                    tryPlaceLooseSnowBlock(level, passingPosArr[i].offset(h, (i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, j));
+                                    tryPlaceLooseSnowBlock(level, passingPosArr[i].offset(h, -(i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, j));
                                 }
                             } else {
                                 for (int j = 1; j < adz; j++) {
@@ -127,8 +130,8 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
                                     } else if (k <= 0 && k * (z2 + j) + b < x2 + h) {
                                         h--;
                                     }
-                                    placeLooseSnowBlock(level, passingPosArr[i + 1].offset(h, (i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, j));
-                                    placeLooseSnowBlock(level, passingPosArr[i + 1].offset(h, -(i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, j));
+                                    tryPlaceLooseSnowBlock(level, passingPosArr[i + 1].offset(h, (i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, j));
+                                    tryPlaceLooseSnowBlock(level, passingPosArr[i + 1].offset(h, -(i - GENERATING_DISTANCE) / GROWTH_CONSTRAINT, j));
                                 }
                             }
                         }
@@ -145,19 +148,21 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
         passingPosArr[0] = newPos;
     }
 
-    @Override
-    protected void placeLooseSnowBlock(Level level, BlockPos blockPos) {
+    protected void tryPlaceLooseSnowBlock(Level level, BlockPos blockPos) {
         if (snowStock > 0) {
-            if (level.getBlockState(blockPos).canBeReplaced()) {
-                level.setBlock(blockPos, BlockRegister.LOOSE_SNOW_BLOCK.get().defaultBlockState(), 3);
-                level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.SNOW_PLACE, SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-            } else if (level.getBlockEntity(blockPos) instanceof LooseSnowBlockEntity blockEntity) {
-                blockEntity.setAge(0);
-                blockEntity.setChanged();
+            if (!level.isClientSide){
+                if (level.getBlockState(blockPos).canBeReplaced()) {
+                    placeAndRecordBlock(level,blockPos);
+                    level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.SNOW_PLACE, SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+
+                }
+
             }
             snowStock--;
         } else {
-            this.discard();
+            if(!inBlockDuration){
+                startTimingOfDiscard(new Vec3(this.getX(),this.getY(),this.getZ()));
+            }
         }
     }
 
