@@ -39,7 +39,7 @@ public class BSFGolemJumpHighGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        return golem.getTarget() != null && golem.distanceToSqr(golem.getTarget()) < 4 && (golem.getStatus() == 2 || golem.getStatus() == 3);
+        return golem.getTarget() != null && golem.distanceToSqr(golem.getTarget()) < 9;
     }
 
     @Override
