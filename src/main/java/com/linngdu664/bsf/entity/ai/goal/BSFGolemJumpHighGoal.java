@@ -31,6 +31,7 @@ public class BSFGolemJumpHighGoal extends Goal {
             {1.478F, 1.383F, 1.282F, 1.165F, 0.000F, 0.000F, 0.000F, 0.000F}};
 
     private final BSFSnowGolemEntity golem;
+    private Vec3 pushVec;
 
     public BSFGolemJumpHighGoal(BSFSnowGolemEntity golem) {
         this.golem = golem;
@@ -39,35 +40,36 @@ public class BSFGolemJumpHighGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        return golem.getTarget() != null && golem.distanceToSqr(golem.getTarget()) < 9;
+        if (golem.getTarget() != null && golem.distanceToSqr(golem.getTarget()) < 9) {
+            Level level = golem.level();
+            Vec3 pos1 = golem.getTarget().getPosition(0);
+            Vec3 pos2 = golem.getPosition(0);
+            Vec3 vec31 = pos2.subtract(pos1);
+            float len = Mth.sqrt((float) BSFMthUtil.modSqr(vec31.x, vec31.z));
+            float initX = (float) (vec31.x / len);
+            float initZ = (float) (vec31.z / len);
+            for (int h = 0; h <= 8; h++) {
+                pushVec = getPushVec(level, h, pos2, initX, initZ);
+                if (pushVec != null) {
+                    System.out.println("ok. vec3 is: " + pushVec);
+                    return true;
+                }
+            }
+            for (int h = -1; h >= -8; h--) {
+                pushVec = getPushVec(level, h, pos2, initX, initZ);
+                if (pushVec != null) {
+                    System.out.println("ok. vec3 is: " + pushVec);
+                    return true;
+                }
+            }
+            System.out.println("failed.");
+        }
+        return false;
     }
 
     @Override
     public void start() {
-        Level level = golem.level();
-        Vec3 pos1 = golem.getTarget().getPosition(0);
-        Vec3 pos2 = golem.getPosition(0);
-        Vec3 vec31 = pos2.subtract(pos1);
-        float len = Mth.sqrt((float) BSFMthUtil.modSqr(vec31.x, vec31.z));
-        float initX = (float) (vec31.x / len);
-        float initZ = (float) (vec31.z / len);
-        for (int h = 0; h <= 8; h++) {
-            Vec3 pushVec = getPushVec(level, h, pos2, initX, initZ);
-            if (pushVec != null) {
-                System.out.println("ok. vec3 is: " + pushVec);
-                golem.push(pushVec.x, pushVec.y, pushVec.z);
-                return;
-            }
-        }
-        for (int h = -1; h >= -8; h--) {
-            Vec3 pushVec = getPushVec(level, h, pos2, initX, initZ);
-            if (pushVec != null) {
-                System.out.println("ok. vec3 is: " + pushVec);
-                golem.push(pushVec.x, pushVec.y, pushVec.z);
-                return;
-            }
-        }
-        System.out.println("failed.");
+        golem.push(pushVec.x, pushVec.y, pushVec.z);
     }
 
     private Vec3 getPushVec(Level level, int h, Vec3 golemPos, float initX, float initZ) {
@@ -88,7 +90,7 @@ public class BSFGolemJumpHighGoal extends Goal {
                     System.out.println("try blockPos: " + blockPos);
                     System.out.println("blocks motion: " + level.getBlockState(blockPos.below()).blocksMotion());
                     if (level.getBlockState(blockPos.below()).blocksMotion() && isNotBlocked(level, r, theta, x1, z1, golemPos)) {
-                        return new Vec3(x1 * Mth.cos(theta), Mth.sin(theta), z1 * Mth.cos(theta)).scale(2);
+                        return new Vec3(x1 * Mth.cos(theta), Mth.sin(theta), z1 * Mth.cos(theta)).scale(1.75);
                     }
                     x1 = p1 - p2;
                     z1 = -p3 + p4;
@@ -96,7 +98,7 @@ public class BSFGolemJumpHighGoal extends Goal {
                     System.out.println("try blockPos: " + blockPos);
                     System.out.println("blocks motion: " + level.getBlockState(blockPos.below()).blocksMotion());
                     if (level.getBlockState(blockPos.below()).blocksMotion() && isNotBlocked(level, r, theta, x1, z1, golemPos)) {
-                        return new Vec3(x1 * Mth.cos(theta), Mth.sin(theta), z1 * Mth.cos(theta)).scale(2);
+                        return new Vec3(x1 * Mth.cos(theta), Mth.sin(theta), z1 * Mth.cos(theta)).scale(1.75);
                     }
                 }
             }
@@ -126,11 +128,11 @@ public class BSFGolemJumpHighGoal extends Goal {
                     !level.getBlockState(blockPos3).isAir() || !level.getBlockState(blockPos4).isAir() || !level.getBlockState(blockPos5).isAir() ||
                     !level.getBlockState(blockPos6).isAir() || !level.getBlockState(blockPos7).isAir() || !level.getBlockState(blockPos8).isAir()) {
                 System.out.println("ok. not blocked.");
-                return false;
+                return true;
             }
         }
         System.out.println("blocked.");
-        return true;
+        return false;
     }
 
     @Override
