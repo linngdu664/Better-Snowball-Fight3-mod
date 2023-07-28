@@ -53,6 +53,8 @@ public class BSFGolemRangedAttackGoal extends Goal {
     public void stop() {
         seeTime = 0;
         attackTime = 0;
+        golem.getMoveControl().strafe(0, 0);
+        golem.setDeltaMovement(0, 0, 0);
     }
 
     @Override
