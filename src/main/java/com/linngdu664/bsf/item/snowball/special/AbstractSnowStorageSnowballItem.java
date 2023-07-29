@@ -56,9 +56,6 @@ public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowbal
                             destroyBlock(level,blockPos1);
                             stockSnow += 4;
                         }
-                        if (stockSnow >= getMaxCapacity()) {
-                            return getMaxCapacity();
-                        }
                     }
                 }
             }

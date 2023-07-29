@@ -32,7 +32,8 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     public ReconstructSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
         super(EntityRegister.RECONSTRUCT_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock);
         setNoGravity(true);
-        this.destroyStepSize=snowStock/40;
+        this.destroyStepSize=Math.max(snowStock/40,1);
+
     }
 
     @Override

@@ -25,7 +25,7 @@ public class IcicleSnowballItem extends AbstractSnowStorageSnowballItem {
 
     @Override
     public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
-        return new IcicleSnowballEntity(livingEntity, level, launchAdjustment, absorbSnow(livingEntity, level));
+        return new IcicleSnowballEntity(livingEntity, level, launchAdjustment, Math.min(absorbSnow(livingEntity, level), getMaxCapacity()));
     }
 
     @Override

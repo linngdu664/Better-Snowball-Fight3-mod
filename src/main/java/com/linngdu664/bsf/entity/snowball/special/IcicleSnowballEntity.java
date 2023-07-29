@@ -5,6 +5,7 @@ import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.BlockRegister;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
+import com.linngdu664.bsf.registry.SoundRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -48,7 +49,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     public IcicleSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
         super(EntityRegister.ICICLE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock);
         this.initSnowStock=snowStock;
-        this.destroyStepSize=snowStock/60;
+        this.destroyStepSize=Math.max(snowStock/60,1);
     }
 
     private void handleBuildIcicle(Level level) {
@@ -124,7 +125,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
         if (posIsLooseSnow(level,blockPos) && blockState.getValue(LooseSnowBlock.FROZEN)==0 && BSFMthUtil.randDouble(0,1)<FREEZE_PROPAGATION_RATE && freezingCount<initSnowStock*FREEZE_PERCENTAGE){
             tmpFreezingBlocks.offer(blockPos);
             level.setBlockAndUpdate(blockPos,blockState.setValue(LooseSnowBlock.FROZEN,1));
-            level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.PLAYER_HURT_FREEZE, SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+            level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundRegister.FREEZING.get(), SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             freezingCount++;
         }
     }

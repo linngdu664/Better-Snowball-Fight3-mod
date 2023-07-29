@@ -5,6 +5,7 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.BlockRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
+import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -146,11 +147,7 @@ public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowbal
     private void destroyBlock(Level level,BlockPos pos){
         if (posIsLooseSnow(level,pos)){
             BlockState blockState = level.getBlockState(pos);
-            if (blockState.getValue(LooseSnowBlock.FROZEN)==1){
-                level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.GLASS_BREAK, SoundSource.NEUTRAL, 0.4F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-            }else{
-                level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-            }
+            level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             BlockState snow = Blocks.SNOW.defaultBlockState();
             if (blockState.canBeReplaced() && snow.canSurvive(level, pos) && !posIsLooseSnow(level,pos.below())) {

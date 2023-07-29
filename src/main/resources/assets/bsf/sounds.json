@@ -188,5 +188,10 @@
     "sounds": [
       "bsf:memesound25"
     ]
+  },
+  "freezing": {
+    "sounds": [
+      "bsf:freezing"
+    ]
   }
 }
