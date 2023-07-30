@@ -52,8 +52,8 @@ public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowbal
                         } else if (level.getBlockEntity(blockPos1) instanceof CriticalSnowEntity criticalSnowEntity) {
                             criticalSnowEntity.suicide();
                             stockSnow += 2;
-                        } else if (posIsLooseSnow(level,blockPos1)) {
-                            destroyBlock(level,blockPos1);
+                        } else if (posIsLooseSnow(level, blockPos1)) {
+                            destroyBlock(level, blockPos1);
                             stockSnow += 4;
                         }
                     }
@@ -62,18 +62,20 @@ public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowbal
         }
         return stockSnow;
     }
-    private void destroyBlock(Level level,BlockPos pos){
-        if (posIsLooseSnow(level,pos)){
+
+    private void destroyBlock(Level level, BlockPos pos) {
+        if (posIsLooseSnow(level, pos)) {
             level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             BlockState snow = Blocks.SNOW.defaultBlockState();
-            if (level.getBlockState(pos).canBeReplaced() && snow.canSurvive(level, pos) && !posIsLooseSnow(level,pos.below())) {
+            if (level.getBlockState(pos).canBeReplaced() && snow.canSurvive(level, pos) && !posIsLooseSnow(level, pos.below())) {
                 level.setBlockAndUpdate(pos, snow);
             }
             level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.SNOW_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, pos.getX(), pos.getY(), pos.getZ(), 5, 0, 0, 0, 0.12);
         }
     }
-    protected boolean posIsLooseSnow(Level level,BlockPos pos){
+
+    protected boolean posIsLooseSnow(Level level, BlockPos pos) {
         return level.getBlockState(pos).getBlock() instanceof LooseSnowBlock;
     }
 

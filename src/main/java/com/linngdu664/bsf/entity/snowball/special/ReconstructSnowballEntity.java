@@ -32,16 +32,16 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     public ReconstructSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
         super(EntityRegister.RECONSTRUCT_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock);
         setNoGravity(true);
-        this.destroyStepSize=Math.max(snowStock/40,1);
+        this.destroyStepSize = Math.max(snowStock / 40, 1);
 
     }
 
     @Override
     protected void onHitBlock(@NotNull BlockHitResult result) {
         Level level = level();
-        if (!level.isClientSide && !(posIsLooseSnow(level,result.getBlockPos()))) {
-            if(!inBlockDuration){
-                startTimingOfDiscard(new Vec3(this.getX(),this.getY(),this.getZ()));
+        if (!level.isClientSide && !(posIsLooseSnow(level, result.getBlockPos()))) {
+            if (!inBlockDuration) {
+                startTimingOfDiscard(new Vec3(this.getX(), this.getY(), this.getZ()));
             }
         }
         super.onHitBlock(result);
@@ -51,8 +51,8 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     public void tick() {
         Level level = level();
         if (snowStock <= 0) {
-            if(!inBlockDuration){
-                startTimingOfDiscard(new Vec3(this.getX(),this.getY(),this.getZ()));
+            if (!inBlockDuration) {
+                startTimingOfDiscard(new Vec3(this.getX(), this.getY(), this.getZ()));
             }
         }
         if (counter % GROWTH_CONSTRAINT == 0) {
@@ -151,9 +151,9 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
 
     protected void tryPlaceLooseSnowBlock(Level level, BlockPos blockPos) {
         if (snowStock > 0) {
-            if (!level.isClientSide){
+            if (!level.isClientSide) {
                 if (level.getBlockState(blockPos).canBeReplaced()) {
-                    placeAndRecordBlock(level,blockPos);
+                    placeAndRecordBlock(level, blockPos);
                     level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.SNOW_PLACE, SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
 
                 }
@@ -161,8 +161,8 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
             }
             snowStock--;
         } else {
-            if(!inBlockDuration){
-                startTimingOfDiscard(new Vec3(this.getX(),this.getY(),this.getZ()));
+            if (!inBlockDuration) {
+                startTimingOfDiscard(new Vec3(this.getX(), this.getY(), this.getZ()));
             }
         }
     }
