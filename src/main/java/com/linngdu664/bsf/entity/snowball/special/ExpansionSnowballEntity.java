@@ -42,7 +42,7 @@ public class ExpansionSnowballEntity extends AbstractConstructSnowballEntity {
                         int y = Mth.floor(3 * Mth.sin(j * eighthPi) + 0.5F);
                         int z = Mth.floor(3 * Mth.sin(i * eighthPi) * Mth.cos(j * eighthPi) + 0.5F);
                         BlockPos blockPos1 = blockPos.offset(x, y, z);
-                        if (level.getBlockState(blockPos1).canBeReplaced()) {
+                        if (posIsLooseSnow(level, blockPos) || level.getBlockState(blockPos1).canBeReplaced()) {
                             placeAndRecordBlock(level, blockPos1);
                             level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                         }

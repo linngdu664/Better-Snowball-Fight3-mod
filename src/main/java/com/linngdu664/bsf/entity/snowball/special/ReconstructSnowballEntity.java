@@ -4,6 +4,7 @@ import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -15,6 +16,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity {
@@ -33,7 +37,31 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
         super(EntityRegister.RECONSTRUCT_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock);
         setNoGravity(true);
         this.destroyStepSize = Math.max(snowStock / 40, 1);
+    }
 
+    @Override
+    public void addAdditionalSaveData(CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        pCompound.putInt("counter", counter);
+        List<Integer> tmpList = new ArrayList<>();
+        for (int i = 0; i < POS_NUM && passingPosArr[i] != null; i++) {
+            tmpList.add(passingPosArr[i].getX());
+            tmpList.add(passingPosArr[i].getY());
+            tmpList.add(passingPosArr[i].getZ());
+        }
+        pCompound.putIntArray("passingPosArr", tmpList);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+        counter = pCompound.getInt("counter");
+        int[] tmpArr = pCompound.getIntArray("passingPosArr");
+        if (tmpArr.length % 3 == 0) {
+            for (int i = 0; i < tmpArr.length; i += 3) {
+                allBlock.push(new BlockPos(tmpArr[i], tmpArr[i + 1], tmpArr[i + 2]));
+            }
+        }
     }
 
     @Override
@@ -152,7 +180,7 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     protected void tryPlaceLooseSnowBlock(Level level, BlockPos blockPos) {
         if (snowStock > 0) {
             if (!level.isClientSide) {
-                if (level.getBlockState(blockPos).canBeReplaced()) {
+                if (posIsLooseSnow(level, blockPos) || level.getBlockState(blockPos).canBeReplaced()) {
                     placeAndRecordBlock(level, blockPos);
                     level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.SNOW_PLACE, SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
 

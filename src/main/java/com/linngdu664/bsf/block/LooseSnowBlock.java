@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class LooseSnowBlock extends Block {
     public static final IntegerProperty FROZEN = IntegerProperty.create("frozen", 0, 1);
+
     public LooseSnowBlock() {
         super(Properties.copy(Blocks.SNOW_BLOCK)
                 .noLootTable()

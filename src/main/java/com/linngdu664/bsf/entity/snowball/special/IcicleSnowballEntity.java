@@ -8,6 +8,7 @@ import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -31,15 +32,15 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     private static final int ICICLE_MAX_NUM = 15;
     private static final int TRY_SUMMON_ICICLE_DETECTION_RADIUS = 3;
     private static final double FREEZE_PERCENTAGE = BSFMthUtil.randDouble(0.6, 0.9);
-    private static final int FREEZE_TIME = BSFMthUtil.randInt(25, 50);
+    private static final int FREEZE_TIME = BSFMthUtil.randInt(40, 50);
     private static final float FREEZE_PROPAGATION_RATE = 0.1f;
     private final Icicle[] icicles = new Icicle[ICICLE_MAX_NUM];
-    private final Queue<BlockPos> tmpFreezingBlocks = new LinkedList<>();
     private boolean isBuildingIcicle = false;
     private boolean isFreezing = false;
     private int iciclesNum = 0;
     private int initSnowStock = 0;
     private int freezingCount = 0;
+    private final Queue<BlockPos> tmpFreezingBlocks = new LinkedList<>();
     private BlockPos impactPoint;
 
     public IcicleSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
@@ -50,6 +51,12 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
         super(EntityRegister.ICICLE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock);
         this.initSnowStock = snowStock;
         this.destroyStepSize = Math.max(snowStock / 60, 1);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+        startTimingOfDiscard(new Vec3(this.getX(), this.getY(), this.getZ()));
     }
 
     private void handleBuildIcicle(Level level) {
@@ -122,6 +129,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     }
 
     private void tryAddBlockState(Level level, int x, int y, int z) {
+
         BlockPos blockPos = new BlockPos(x, y, z);
         BlockState blockState = level.getBlockState(blockPos);
         if (posIsLooseSnow(level, blockPos) && blockState.getValue(LooseSnowBlock.FROZEN) == 0 && BSFMthUtil.randDouble(0, 1) < FREEZE_PROPAGATION_RATE && freezingCount < initSnowStock * FREEZE_PERCENTAGE) {
@@ -155,7 +163,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
 
     protected void tryPlaceLooseSnowBlock(Level level, BlockPos blockPos) {
         if (snowStock > 0) {
-            if (level.getBlockState(blockPos).canBeReplaced()) {
+            if (posIsLooseSnow(level, blockPos) || level.getBlockState(blockPos).canBeReplaced()) {
                 if (!level.isClientSide) {
                     placeAndRecordBlock(level, blockPos);
                     level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.SNOW_PLACE, SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
@@ -201,7 +209,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     private class Icicle {
         private final double icicleStepSize;
         private final double icicleStepRadius;
-        private final ArrayList<Icicle.IciclePoint> path = new ArrayList<>();
+        private final ArrayList<IciclePoint> path = new ArrayList<>();
         private Vec3 icicleVec;
 
         public Icicle(Vec3 icicleVec, double icicleStepSize, double icicleStepRadius) {
@@ -215,7 +223,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
             tryPlaceLooseSnowBlock(level, new BlockPos(BSFMthUtil.vec3ToI(impactPoint.getCenter().add(icicleVec))));
             icicleVec = icicleVec.add(icicleVec.normalize().scale(icicleStepSize));
             path.add(new Icicle.IciclePoint(impactPoint.getCenter().add(icicleVec)));
-            for (Icicle.IciclePoint iciclePoint : path) {
+            for (IciclePoint iciclePoint : path) {
                 iciclePoint.pointGenerate(level);
             }
         }
