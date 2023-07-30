@@ -80,7 +80,7 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
         ammo = getAmmo(pPlayer, stack);
         if (ammo != null && !pPlayer.hasEffect(EffectRegister.WEAPON_JAM.get())) {
-            String path = ammo.getOrCreateTag().getString("snowball");
+            String path = ammo.getOrCreateTag().getString("Snowball");
             recoil = ((AbstractBSFSnowballItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, path))).getMachineGunRecoil();
             isExplosive = path.contains("explosive");
             pPlayer.startUsingItem(pUsedHand);
@@ -91,7 +91,7 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
 
     @Override
     public void onUseTick(@NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
-        if (pRemainingUseDuration == 1 || ammo == null || ammo.isEmpty() || !ammo.getOrCreateTag().contains("snowball") || pLivingEntity.hasEffect(EffectRegister.WEAPON_JAM.get())) {
+        if (pRemainingUseDuration == 1 || ammo == null || ammo.isEmpty() || !ammo.getOrCreateTag().contains("Snowball") || pLivingEntity.hasEffect(EffectRegister.WEAPON_JAM.get())) {
             this.releaseUsing(pStack, pLevel, pLivingEntity, pRemainingUseDuration);
             return;
         }

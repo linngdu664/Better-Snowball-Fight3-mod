@@ -87,9 +87,9 @@ public abstract class AbstractBSFSnowballItem extends Item {
             String path = ForgeRegistries.ITEMS.getKey(this).getPath();
             int offHandDamage = offhand.getDamageValue();
             int offHandMaxDamage = offhand.getMaxDamage();
-            if ((path.equals(compoundTag.getString("snowball")) && offHandDamage != 0) || offHandDamage == offHandMaxDamage) {
+            if ((path.equals(compoundTag.getString("Snowball")) && offHandDamage != 0) || offHandDamage == offHandMaxDamage) {
                 if (offHandDamage == offHandMaxDamage) {
-                    compoundTag.putString("snowball", path);
+                    compoundTag.putString("Snowball", path);
                 }
                 if (offHandDamage < count) {
                     if (!pPlayer.getAbilities().instabuild) {
@@ -199,7 +199,6 @@ public abstract class AbstractBSFSnowballItem extends Item {
     public abstract AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment);
 
     public abstract int getTypeFlag();
-//    public abstract Item getTank();
 
     public double getMachineGunRecoil() {
         return 0.075;

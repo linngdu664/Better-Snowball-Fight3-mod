@@ -89,13 +89,13 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
         int i;
         for (i = 0; i < 4; i++) {
             ItemStack itemStack = getAmmo(player, stack);
-            if (itemStack == null || !player.isShiftKeyDown() && (itemStack.getItem().equals(ItemRegister.THRUST_SNOWBALL.get()) || ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, itemStack.getOrCreateTag().getString("snowball"))).equals(ItemRegister.THRUST_SNOWBALL.get()))) {
+            if (itemStack == null || !player.isShiftKeyDown() && (itemStack.getItem().equals(ItemRegister.THRUST_SNOWBALL.get()) || ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, itemStack.getOrCreateTag().getString("Snowball"))).equals(ItemRegister.THRUST_SNOWBALL.get()))) {
                 break;
             }
             AbstractBSFSnowballEntity snowballEntity = ItemToEntity(itemStack, player, level, getLaunchAdjustment(1, itemStack.getItem()));
             Item item = itemStack.getItem();
             if (item instanceof SnowballTankItem) {
-                item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, itemStack.getOrCreateTag().getString("snowball")));
+                item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, itemStack.getOrCreateTag().getString("Snowball")));
             }
             if (item instanceof AbstractBSFSnowballItem snowball) {
                 pushRank += snowball.getShotgunPushRank();

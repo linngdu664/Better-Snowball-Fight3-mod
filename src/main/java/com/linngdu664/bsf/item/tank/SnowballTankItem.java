@@ -35,7 +35,7 @@ public class SnowballTankItem extends Item {
         ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
         if (pPlayer.getOffhandItem().isEmpty()) {
             CompoundTag compoundTag = itemStack.getOrCreateTag();
-            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, compoundTag.getString("snowball")));
+            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, compoundTag.getString("Snowball")));
             if (item != null && !Items.AIR.equals(item)) {
                 int damageValue = itemStack.getDamageValue();
                 int maxDamage = itemStack.getMaxDamage();
@@ -44,7 +44,7 @@ public class SnowballTankItem extends Item {
                     int k = maxDamage - damageValue;
                     itemStack.setDamageValue(maxDamage);
                     if (!pPlayer.getAbilities().instabuild) {
-                        compoundTag.remove("snowball");
+                        compoundTag.remove("Snowball");
                     }
                     for (int i = 0; i < k / 16; i++) {
                         inventory.placeItemBackInInventory(new ItemStack(item, 16), true);
@@ -64,15 +64,15 @@ public class SnowballTankItem extends Item {
     @Override
     public @NotNull Component getName(ItemStack pStack) {
         CompoundTag compoundTag = pStack.getOrCreateTag();
-        if (compoundTag.contains("snowball")) {
-            return MutableComponent.create(new TranslatableContents("item.bsf." + compoundTag.getString("snowball") + "_tank", null, new Object[0]));
+        if (compoundTag.contains("Snowball")) {
+            return MutableComponent.create(new TranslatableContents("item.bsf." + compoundTag.getString("Snowball") + "_tank", null, new Object[0]));
         }
         return super.getName(pStack);
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, pStack.getOrCreateTag().getString("snowball")));
+        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, pStack.getOrCreateTag().getString("Snowball")));
         if (item instanceof AbstractBSFSnowballItem snowballItem) {
             snowballItem.generateWeaponTips(pTooltipComponents);
             snowballItem.addLastTips(pTooltipComponents);

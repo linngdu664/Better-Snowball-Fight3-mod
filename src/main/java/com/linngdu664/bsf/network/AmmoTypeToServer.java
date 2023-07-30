@@ -39,7 +39,7 @@ public class AmmoTypeToServer {
             ItemStack itemStack = sender.getInventory().getItem(message.slot);
             if (itemStack.getItem() instanceof AbstractBSFWeaponItem) {
                 ResourceLocation resourceLocation = ForgeRegistries.ITEMS.getKey(message.item);
-                itemStack.getOrCreateTag().putString("ammo_item", resourceLocation.getPath());
+                itemStack.getOrCreateTag().putString("AmmoItem", resourceLocation.getPath());
             }
         });
         context.setPacketHandled(true);
