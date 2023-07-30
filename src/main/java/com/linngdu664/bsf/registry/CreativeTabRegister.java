@@ -280,11 +280,11 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.BASIN_OF_SNOW.get());
                 output.accept(ItemRegister.BASIN_OF_POWDER_SNOW.get());
                 output.accept(ItemRegister.SNOW_GOLEM_MODE_TWEAKER.get());
-                output.accept(ItemRegister.CREATE_SNOW_GOLEM_TOOL.get());
+                output.accept(ItemRegister.CREATIVE_SNOW_GOLEM_TOOL.get());
                 output.accept(ItemRegister.TARGET_LOCATOR.get());
                 output.accept(ItemRegister.SNOW_TRAP_SETTER.get());
                 output.accept(ItemRegister.SCULK_SNOWBALL_LAUNCHER.get());
-
+                output.accept(ItemRegister.SNOW_GOLEM_CONTAINER.get());
 
                 output.accept(ItemRegister.POPSICLE.get());
                 output.accept(ItemRegister.MILK_POPSICLE.get());

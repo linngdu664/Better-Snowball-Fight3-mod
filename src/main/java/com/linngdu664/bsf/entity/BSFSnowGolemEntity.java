@@ -5,16 +5,12 @@ import com.linngdu664.bsf.entity.ai.goal.*;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
-import com.linngdu664.bsf.item.snowball.normal.SmoothSnowballItem;
 import com.linngdu664.bsf.item.tank.LargeSnowballTankItem;
 import com.linngdu664.bsf.item.tank.SnowballTankItem;
-import com.linngdu664.bsf.item.tool.CreativeSnowGolemToolItem;
-import com.linngdu664.bsf.item.tool.SnowGolemModeTweakerItem;
 import com.linngdu664.bsf.item.tool.SnowballClampItem;
 import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
 import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
-import com.linngdu664.bsf.item.weapon.TargetLocatorItem;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import com.linngdu664.bsf.registry.EnchantmentRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
@@ -51,7 +47,9 @@ import net.minecraft.world.entity.ai.goal.SitWhenOrderedToGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -224,12 +222,13 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         Level level = level();
         if (!level.isClientSide && pPlayer.equals(getOwner())) {
             ItemStack itemStack = pPlayer.getItemInHand(pHand);
-            if (itemStack.getItem() instanceof SnowballTankItem && getAmmo().isEmpty()) {
+            Item item = itemStack.getItem();
+            if (item instanceof SnowballTankItem && getAmmo().isEmpty()) {
                 setAmmo(itemStack.copy());
                 if (!pPlayer.getAbilities().instabuild) {
                     itemStack.shrink(1);
                 }
-            } else if ((itemStack.getItem() instanceof SnowballCannonItem || itemStack.getItem() instanceof SnowballShotgunItem) && getWeapon().isEmpty()) {
+            } else if ((item instanceof SnowballCannonItem || item instanceof SnowballShotgunItem) && getWeapon().isEmpty()) {
                 setWeapon(itemStack.copy());
                 if (!pPlayer.getAbilities().instabuild) {
                     if (EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.SNOW_GOLEM_EXCLUSIVE.get(), itemStack) > 0) {
@@ -248,16 +247,15 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                     pPlayer.getInventory().placeItemBackInInventory(getAmmo(), true);
                     setAmmo(ItemStack.EMPTY);
                 }
-            } else if (itemStack.getItem() instanceof SmoothSnowballItem || itemStack.getItem() instanceof SolidBucketItem || itemStack.getItem().equals(Items.SNOW_BLOCK) || itemStack.getItem().equals(Items.ICE)) {
+            } else if (item.equals(ItemRegister.SMOOTH_SNOWBALL.get()) || item.equals(Items.POWDER_SNOW_BUCKET) || item.equals(Items.SNOW_BLOCK) || item.equals(Items.ICE)) {
                 if (potionSickness == 0) {
-                    Item item = itemStack.getItem();
                     itemStack.shrink(1);
-                    if (item instanceof SmoothSnowballItem) {
+                    if (item.equals(ItemRegister.SMOOTH_SNOWBALL.get())) {
                         heal(2);
                         potionSickness = 20;
                         ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getEyeY(), this.getZ(), 8, 0, 0, 0, 0.04);
                         playSound(SoundEvents.SNOW_BREAK, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                    } else if (item instanceof SolidBucketItem) {
+                    } else if (item.equals(Items.POWDER_SNOW_BUCKET)) {
                         pPlayer.getInventory().placeItemBackInInventory(new ItemStack(Items.BUCKET, 1), true);
                         heal(8);
                         potionSickness = 100;
@@ -277,7 +275,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 } else {
                     pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("potionSickness.tip", null, new Object[0])).append(String.valueOf(potionSickness)), false);
                 }
-            } else if (itemStack.getItem() instanceof SnowGolemModeTweakerItem) {
+            } else if (item.equals(ItemRegister.SNOW_GOLEM_MODE_TWEAKER.get())) {
                 CompoundTag tag = itemStack.getOrCreateTag();
                 if (tag.getBoolean("UseLocator") != useLocator) {
                     setTarget(null);
@@ -287,49 +285,57 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 setOrderedToSit(statusFlag == 0);
                 pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("import_state.tip", null, new Object[0])), false);
                 level.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-            } else if (itemStack.getItem() instanceof TargetLocatorItem && useLocator) {
+            } else if (item.equals(ItemRegister.TARGET_LOCATOR.get()) && useLocator) {
                 Entity entity = ((ServerLevel) level).getEntity(itemStack.getOrCreateTag().getUUID("UUID"));
                 if (entity instanceof LivingEntity livingEntity && entity != this) {
                     pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("snow_golem_locator_tip", null, new Object[0])), false);
                     setTarget(livingEntity);
                 }
                 level.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-            } else if (itemStack.getItem() instanceof SnowballClampItem snowballClamp) {
+            } else if (item instanceof SnowballClampItem snowballClamp) {
                 if (snowballClamp.getTier().equals(BSFTiers.EMERALD)) {
                     pPlayer.getInventory().placeItemBackInInventory(ItemRegister.DUCK_SNOWBALL.get().getDefaultInstance(), true);
                 } else {
                     pPlayer.getInventory().placeItemBackInInventory(ItemRegister.SMOOTH_SNOWBALL.get().getDefaultInstance(), true);
                 }
                 itemStack.hurtAndBreak(1, pPlayer, (e) -> e.broadcastBreakEvent(pHand));
-            } else if (itemStack.getItem() instanceof SnowballItem) {
+            } else if (item.equals(Items.SNOWBALL)) {
                 setStyle((byte) ((getStyle() + 1) % STYLE_NUM));
-            } else if (itemStack.getItem() instanceof CreativeSnowGolemToolItem) {
+            } else if (item.equals(ItemRegister.CREATIVE_SNOW_GOLEM_TOOL.get())) {
                 if (pPlayer.isShiftKeyDown()) {
-                    CompoundTag tag = itemStack.getOrCreateTag();
-                    CompoundTag tag1 = new CompoundTag();
-                    getAmmo().save(tag1);
-                    tag.put("Ammo", tag1);
-                    tag1 = new CompoundTag();
-                    getWeapon().save(tag1);
-                    tag.put("Weapon", tag1);
-                    tag.putBoolean("Enhance", enhance);
-                    tag.putBoolean("UseLocator", useLocator);
-                    tag.putByte("Status", statusFlag);
-                    tag.putByte("Style", getStyle());
-                    if (getTarget() != null) {
-                        tag.putUUID("UUID", getTarget().getUUID());
-                    } else {
-                        tag.remove("UUID");
-                    }
+                    saveToItemStack(itemStack.getOrCreateTag());
                     pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("copy.tip", null, new Object[0])), false);
                 } else {
                     enhance = !enhance;
                     pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("golem_enhance.tip", null, new Object[0])).append(String.valueOf(enhance)), false);
                 }
                 level.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+            } else if (item.equals(ItemRegister.SNOW_GOLEM_CONTAINER.get())) {
+                CompoundTag tag = itemStack.getOrCreateTag();
+                saveToItemStack(tag);
+                tag.putBoolean("HasGolem", true);
+                discard();
             }
         }
         return InteractionResult.SUCCESS;
+    }
+
+    private void saveToItemStack(CompoundTag tag) {
+        CompoundTag tag1 = new CompoundTag();
+        getAmmo().save(tag1);
+        tag.put("Ammo", tag1);
+        tag1 = new CompoundTag();
+        getWeapon().save(tag1);
+        tag.put("Weapon", tag1);
+        tag.putBoolean("Enhance", enhance);
+        tag.putBoolean("UseLocator", useLocator);
+        tag.putByte("Status", statusFlag);
+        tag.putByte("Style", getStyle());
+        if (getTarget() != null) {
+            tag.putUUID("UUID", getTarget().getUUID());
+        } else {
+            tag.remove("UUID");
+        }
     }
 
     @Override
