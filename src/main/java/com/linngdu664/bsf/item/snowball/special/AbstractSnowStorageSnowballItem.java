@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.item.snowball.special;
 
+import com.linngdu664.bsf.block.LooseSnowBlock;
 import com.linngdu664.bsf.block.entity.CriticalSnowEntity;
-import com.linngdu664.bsf.block.entity.LooseSnowBlockEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
@@ -9,6 +9,8 @@ import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Rarity;
@@ -50,18 +52,29 @@ public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowbal
                         } else if (level.getBlockEntity(blockPos1) instanceof CriticalSnowEntity criticalSnowEntity) {
                             criticalSnowEntity.suicide();
                             stockSnow += 2;
-                        } else if (level.getBlockEntity(blockPos1) instanceof LooseSnowBlockEntity looseSnowBlockEntity) {
-                            looseSnowBlockEntity.suicide();
+                        } else if (posIsLooseSnow(level,blockPos1)) {
+                            destroyBlock(level,blockPos1);
                             stockSnow += 4;
-                        }
-                        if (stockSnow >= getMaxCapacity()) {
-                            return getMaxCapacity();
                         }
                     }
                 }
             }
         }
         return stockSnow;
+    }
+    private void destroyBlock(Level level,BlockPos pos){
+        if (posIsLooseSnow(level,pos)){
+            level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+            BlockState snow = Blocks.SNOW.defaultBlockState();
+            if (level.getBlockState(pos).canBeReplaced() && snow.canSurvive(level, pos) && !posIsLooseSnow(level,pos.below())) {
+                level.setBlockAndUpdate(pos, snow);
+            }
+            level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.SNOW_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, pos.getX(), pos.getY(), pos.getZ(), 5, 0, 0, 0, 0.12);
+        }
+    }
+    protected boolean posIsLooseSnow(Level level,BlockPos pos){
+        return level.getBlockState(pos).getBlock() instanceof LooseSnowBlock;
     }
 
     @Override

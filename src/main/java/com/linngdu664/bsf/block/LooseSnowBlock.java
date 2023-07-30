@@ -1,24 +1,20 @@
 package com.linngdu664.bsf.block;
 
-import com.linngdu664.bsf.block.entity.BlockEntityRegister;
-import com.linngdu664.bsf.block.entity.LooseSnowBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public class LooseSnowBlock extends Block implements EntityBlock {
+
+public class LooseSnowBlock extends Block {
+    public static final IntegerProperty FROZEN = IntegerProperty.create("frozen", 0, 1);
     public LooseSnowBlock() {
         super(Properties.copy(Blocks.SNOW_BLOCK)
                 .noLootTable()
@@ -28,6 +24,7 @@ public class LooseSnowBlock extends Block implements EntityBlock {
                 .isSuffocating((BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) -> false)
                 .isRedstoneConductor((BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) -> false)
         );
+        this.registerDefaultState(this.stateDefinition.any().setValue(FROZEN, 0));
     }
 
     @SuppressWarnings("deprecation")
@@ -36,15 +33,9 @@ public class LooseSnowBlock extends Block implements EntityBlock {
         return Shapes.empty();
     }
 
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
-        return new LooseSnowBlockEntity(pPos, pState);
-    }
 
-    @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
-        return pBlockEntityType == BlockEntityRegister.LOOSE_SNOW_BLOCK_ENTITY.get() ? LooseSnowBlockEntity::tick : null;
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(FROZEN);
     }
 }

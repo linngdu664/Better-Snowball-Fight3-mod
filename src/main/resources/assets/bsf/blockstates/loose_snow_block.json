@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "frozen=0": {
       "model": "bsf:block/loose_snow_block"
+    },
+    "frozen=1": {
+      "model": "bsf:block/loose_snow_block_1"
     }
   }
 }
