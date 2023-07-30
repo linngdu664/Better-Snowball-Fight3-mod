@@ -21,6 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Stack;
 
@@ -50,13 +51,13 @@ public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowbal
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putBoolean("invisible", getInvisible());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         setInvisible(pCompound.getBoolean("invisible"));
     }
@@ -94,7 +95,7 @@ public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowbal
     }
 
     @Override
-    public void remove(RemovalReason pReason) {
+    public void remove(@NotNull RemovalReason pReason) {
         while (!allBlock.isEmpty()) {
             destroyBlock(level(), allBlock.pop());
         }
@@ -120,8 +121,8 @@ public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowbal
     /**
      * All subclasses of Snowball must use this method to generate blocks
      *
-     * @param level
-     * @param blockPos
+     * @param level level
+     * @param blockPos blockpos
      */
     protected void placeAndRecordBlock(Level level, BlockPos blockPos) {
         allBlock.push(blockPos);
