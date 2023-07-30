@@ -40,8 +40,8 @@ public class TargetLocatorItem extends AbstractBSFWeaponItem {
         if (!pLevel.isClientSide) {
             if (pPlayer.isShiftKeyDown()) {
                 CompoundTag compoundTag = itemStack.getOrCreateTag();
-                compoundTag.remove("ID");
-                itemStack.setTag(compoundTag);
+                compoundTag.remove("UUID");
+//                itemStack.setTag(compoundTag);
                 pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("targeted_clear.tip", null, new Object[0])), false);
                 pPlayer.getItemInHand(pUsedHand).setHoverName(MutableComponent.create(new TranslatableContents("item.bsf.target_locator", null, new Object[0])));
                 pPlayer.awardStat(Stats.ITEM_USED.get(this));

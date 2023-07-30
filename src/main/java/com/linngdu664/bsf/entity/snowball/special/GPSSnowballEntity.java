@@ -44,15 +44,15 @@ public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
         if (!isCaught && pResult.getEntity() instanceof LivingEntity livingEntity && targetLocator != null) {
-            targetLocator.getTag().putInt("ID", livingEntity.getId());
+            targetLocator.getOrCreateTag().putUUID("UUID", livingEntity.getUUID());
             if (getOwner() instanceof Player player) {
-                player.displayClientMessage(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[0])).append(livingEntity.getName().getString() + " ID:" + livingEntity.getId()), false);
+                player.displayClientMessage(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[0])).append(livingEntity.getName().getString() + " UUID:" + livingEntity.getUUID()), false);
                 if (pResult.getEntity() instanceof Player player1) {
                     player1.displayClientMessage(MutableComponent.create(new TranslatableContents("targeted.tip", null, new Object[]{})), false);
                 }
                 level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.7F, 1.0F / (level().getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
-            targetLocator.setHoverName(MutableComponent.create(new TranslatableContents("item.bsf.target_locator", null, new Object[]{})).append(":").append(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[]{}))).append(livingEntity.getName().getString() + " ID:" + livingEntity.getId()));
+            targetLocator.setHoverName(MutableComponent.create(new TranslatableContents("item.bsf.target_locator", null, new Object[]{})).append(":").append(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[]{}))).append(livingEntity.getName().getString() + " UUID:" + livingEntity.getUUID()));
         }
     }
 

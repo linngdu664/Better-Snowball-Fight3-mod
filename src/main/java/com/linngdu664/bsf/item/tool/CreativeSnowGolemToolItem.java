@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -28,7 +29,8 @@ public class CreativeSnowGolemToolItem extends Item {
 
     @Override
     public @NotNull InteractionResult useOn(UseOnContext pContext) {
-        if (!pContext.getLevel().isClientSide) {
+        Level level = pContext.getLevel();
+        if (!level.isClientSide) {
             ItemStack itemStack = pContext.getItemInHand();
             CompoundTag tag = itemStack.getOrCreateTag();
             ItemStack ammo = ItemStack.of(tag.getCompound("Ammo"));
@@ -37,7 +39,6 @@ public class CreativeSnowGolemToolItem extends Item {
             boolean enhance = tag.getBoolean("Enhance");
             byte status = tag.getByte("Status");
             byte style = tag.getByte("Style");
-            Level level = pContext.getLevel();
             BSFSnowGolemEntity snowGolem = EntityRegister.BSF_SNOW_GOLEM.get().create(level);
             snowGolem.setTame(true);
             snowGolem.setOwnerUUID(pContext.getPlayer().getUUID());
@@ -51,8 +52,8 @@ public class CreativeSnowGolemToolItem extends Item {
             BlockPos blockPos = pContext.getClickedPos();
             snowGolem.moveTo(blockPos.getX() + 0.5D, blockPos.getY() + 1, blockPos.getZ() + 0.5D, 0.0F, 0.0F);
             level.addFreshEntity(snowGolem);
-            if (tag.contains("ID")) {
-                snowGolem.setTarget((LivingEntity) level.getEntity(tag.getInt("ID")));
+            if (tag.contains("UUID") && ((ServerLevel) level).getEntity(tag.getUUID("UUID")) instanceof LivingEntity livingEntity) {
+                snowGolem.setTarget(livingEntity);
             }
         }
         return InteractionResult.SUCCESS;
