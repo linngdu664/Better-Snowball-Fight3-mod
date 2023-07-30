@@ -32,12 +32,9 @@ public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowbal
 
     protected int destroyStepSize = 5;
     protected boolean inBlockDuration = false;
-
-    private boolean inDestroying = false;
-
-    private Vec3 fixLocation;
-
     protected Stack<BlockPos> allBlock = new Stack<>();
+    private boolean inDestroying = false;
+    private Vec3 fixLocation;
     private SnowDataStorage data;
     private HashMap<String, UUID> map;
 

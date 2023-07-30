@@ -33,24 +33,19 @@ public class CreativeSnowGolemToolItem extends Item {
         if (!level.isClientSide) {
             ItemStack itemStack = pContext.getItemInHand();
             CompoundTag tag = itemStack.getOrCreateTag();
-            ItemStack ammo = ItemStack.of(tag.getCompound("Ammo"));
-            ItemStack weapon = ItemStack.of(tag.getCompound("Weapon"));
-            boolean useLocator = tag.getBoolean("UseLocator");
-            boolean enhance = tag.getBoolean("Enhance");
             byte status = tag.getByte("Status");
-            byte style = tag.getByte("Style");
             BSFSnowGolemEntity snowGolem = EntityRegister.BSF_SNOW_GOLEM.get().create(level);
             snowGolem.setTame(true);
             snowGolem.setOwnerUUID(pContext.getPlayer().getUUID());
             snowGolem.setOrderedToSit(status == 0);
             snowGolem.setStatus(status);
-            snowGolem.setUseLocator(useLocator);
-            snowGolem.setAmmo(ammo);
-            snowGolem.setWeapon(weapon);
-            snowGolem.setEnhance(enhance);
-            snowGolem.setStyle(style);
+            snowGolem.setUseLocator(tag.getBoolean("UseLocator"));
+            snowGolem.setAmmo(ItemStack.of(tag.getCompound("Ammo")));
+            snowGolem.setWeapon(ItemStack.of(tag.getCompound("Weapon")));
+            snowGolem.setEnhance(tag.getBoolean("Enhance"));
+            snowGolem.setStyle(tag.getByte("Style"));
             BlockPos blockPos = pContext.getClickedPos();
-            snowGolem.moveTo(blockPos.getX() + 0.5D, blockPos.getY() + 1, blockPos.getZ() + 0.5D, 0.0F, 0.0F);
+            snowGolem.moveTo(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5, 0.0F, 0.0F);
             level.addFreshEntity(snowGolem);
             if (tag.contains("UUID") && ((ServerLevel) level).getEntity(tag.getUUID("UUID")) instanceof LivingEntity livingEntity) {
                 snowGolem.setTarget(livingEntity);

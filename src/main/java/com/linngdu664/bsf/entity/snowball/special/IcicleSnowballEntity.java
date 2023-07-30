@@ -35,12 +35,12 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     private static final int FREEZE_TIME = BSFMthUtil.randInt(40, 50);
     private static final float FREEZE_PROPAGATION_RATE = 0.1f;
     private final Icicle[] icicles = new Icicle[ICICLE_MAX_NUM];
+    private final Queue<BlockPos> tmpFreezingBlocks = new LinkedList<>();
     private boolean isBuildingIcicle = false;
     private boolean isFreezing = false;
     private int iciclesNum = 0;
     private int initSnowStock = 0;
     private int freezingCount = 0;
-    private final Queue<BlockPos> tmpFreezingBlocks = new LinkedList<>();
     private BlockPos impactPoint;
 
     public IcicleSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
