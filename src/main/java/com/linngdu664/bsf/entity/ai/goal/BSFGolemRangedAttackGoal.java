@@ -54,7 +54,6 @@ public class BSFGolemRangedAttackGoal extends Goal {
         seeTime = 0;
         attackTime = 0;
         golem.getMoveControl().strafe(0, 0);
-        golem.setDeltaMovement(0, 0, 0);
     }
 
     @Override
@@ -117,9 +116,9 @@ public class BSFGolemRangedAttackGoal extends Goal {
                     }
                 }
             }
-            golem.setRealSightX((float) dx);
-            golem.setRealSightY((float) sinTheta);
-            golem.setRealSightZ((float) dz);
+            golem.setShootX(dx);
+            golem.setShootY(sinTheta);
+            golem.setShootZ(dz);
             golem.setLaunchAccuracy(acc);
             golem.setLaunchVelocity(v);
             return true;
