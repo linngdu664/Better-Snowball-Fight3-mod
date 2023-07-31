@@ -16,9 +16,8 @@ import com.linngdu664.bsf.item.tank.SnowballTankItem;
 import com.linngdu664.bsf.item.tool.*;
 import com.linngdu664.bsf.item.weapon.*;
 import com.linngdu664.bsf.util.BSFTiers;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.item.*;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -112,6 +111,16 @@ public class ItemRegister {
     public static final RegistryObject<Item> GRAVITY_CORE = ITEMS.register("gravity_core", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> SNOWBALL_CANNON_UPGRADE_SMITHING_TEMPLATE = ITEMS.register("snowball_cannon_upgrade_smithing_template", SnowballCannonUpgradeSmithingTemplateItem::new);
     public static final RegistryObject<Item> SNOWMAN_IN_HAND = ITEMS.register("snowman_in_hand", SnowmanInHandItem::new);
+
+    public static final RegistryObject<Item> THRUST_GOLEM_CORE = ITEMS.register("thrust_golem_core", () -> new SnowGolemCoreItem(Rarity.UNCOMMON, 120, new String[0], new ChatFormatting[0]));
+    public static final RegistryObject<Item> SWIFTNESS_GOLEM_CORE = ITEMS.register("swiftness_golem_core", () -> new SnowGolemCoreItem(Rarity.UNCOMMON, 0, new String[0], new ChatFormatting[0]));
+    public static final RegistryObject<Item> REGENERATION_GOLEM_CORE = ITEMS.register("regeneration_golem_core", () -> new SnowGolemCoreItem(Rarity.UNCOMMON, 100, new String[0], new ChatFormatting[0]));
+    public static final RegistryObject<Item> CRITICAL_SNOW_GOLEM_CORE = ITEMS.register("critical_snow_golem_core", () -> new SnowGolemCoreItem(Rarity.UNCOMMON, 0, new String[0], new ChatFormatting[0]));
+    public static final RegistryObject<Item> REPULSIVE_FIELD_GOLEM_CORE = ITEMS.register("repulsive_field_golem_core", () -> new SnowGolemCoreItem(Rarity.UNCOMMON, 100, new String[0], new ChatFormatting[0]));
+    public static final RegistryObject<Item> NEAR_TELEPORTATION_GOLEM_CORE = ITEMS.register("near_teleportation_golem_core", () -> new SnowGolemCoreItem(Rarity.RARE, 160, new String[0], new ChatFormatting[0]));
+    public static final RegistryObject<Item> ENDER_TELEPORTATION_GOLEM_CORE = ITEMS.register("ender_teleportation_golem_core", () -> new SnowGolemCoreItem(Rarity.RARE, 200, new String[0], new ChatFormatting[0]));
+    public static final RegistryObject<Item> ACTIVE_TELEPORTATION_GOLEM_CORE = ITEMS.register("active_teleportation_golem_core", () -> new SnowGolemCoreItem(Rarity.RARE, 240, new String[0], new ChatFormatting[0]));
+    public static final RegistryObject<Item> SNOW_GOLEM_CORE_REMOVER = ITEMS.register("snow_golem_core_remover", () -> new Item(new Item.Properties().stacksTo(1)));
 
 
     public static final RegistryObject<Item> GPS_SNOWBALL = ITEMS.register("gps_snowball", () -> new Item(new Item.Properties()));    //This item does not need to be added to the group
