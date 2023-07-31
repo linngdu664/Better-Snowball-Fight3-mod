@@ -29,13 +29,14 @@ public class CreativeSnowGolemToolItem extends Item {
     public @NotNull InteractionResult useOn(UseOnContext pContext) {
         Level level = pContext.getLevel();
         if (!level.isClientSide) {
-            ItemStack itemStack = pContext.getItemInHand();
-            CompoundTag tag = itemStack.getOrCreateTag();
-            BSFSnowGolemEntity snowGolem = EntityRegister.BSF_SNOW_GOLEM.get().create(level);
-            snowGolem.readAdditionalSaveData(tag);
-            BlockPos blockPos = pContext.getClickedPos();
-            snowGolem.moveTo(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5, 0.0F, 0.0F);
-            level.addFreshEntity(snowGolem);
+            CompoundTag tag = pContext.getItemInHand().getOrCreateTag();
+            if (tag.contains("Owner")) {
+                BSFSnowGolemEntity snowGolem = EntityRegister.BSF_SNOW_GOLEM.get().create(level);
+                snowGolem.readAdditionalSaveData(tag);
+                BlockPos blockPos = pContext.getClickedPos();
+                snowGolem.moveTo(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5, 0.0F, 0.0F);
+                level.addFreshEntity(snowGolem);
+            }
         }
         return InteractionResult.SUCCESS;
     }

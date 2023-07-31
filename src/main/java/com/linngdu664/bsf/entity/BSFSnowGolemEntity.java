@@ -331,13 +331,13 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 }
             } else if (item instanceof SnowGolemCoreItem && getCore().isEmpty()) {
                 setCore(itemStack.copy());
+                resetCoreCoolDown();
                 if (!pPlayer.getAbilities().instabuild) {
                     itemStack.shrink(1);
                 }
             } else if (item.equals(ItemRegister.SNOW_GOLEM_CORE_REMOVER.get())) {
                 pPlayer.getInventory().placeItemBackInInventory(getCore(), true);
                 setCore(ItemStack.EMPTY);
-                resetCoreCoolDown();
             }
         }
         return InteractionResult.SUCCESS;
