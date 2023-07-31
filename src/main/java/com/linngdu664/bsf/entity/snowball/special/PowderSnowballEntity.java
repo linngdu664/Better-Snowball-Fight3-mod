@@ -36,14 +36,14 @@ public class PowderSnowballEntity extends AbstractFixableSnowballEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("Timer", timer);
         pCompound.putBoolean("IsStart", isStart);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         timer = pCompound.getInt("Timer");
         isStart = pCompound.getBoolean("IsStart");

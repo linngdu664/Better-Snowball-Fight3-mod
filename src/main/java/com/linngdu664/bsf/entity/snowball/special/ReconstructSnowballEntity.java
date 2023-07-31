@@ -40,7 +40,7 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("Timer", timer);
         List<Integer> tmpList = new ArrayList<>();
@@ -53,7 +53,7 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         timer = pCompound.getInt("Timer");
         int[] tmpArr = pCompound.getIntArray("PassingPosArr");

@@ -44,7 +44,7 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("Timer", timer);
         pCompound.putFloat("Damage", damage);
@@ -53,7 +53,7 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         timer = pCompound.getInt("Timer");
         damage = pCompound.getFloat("Damage");

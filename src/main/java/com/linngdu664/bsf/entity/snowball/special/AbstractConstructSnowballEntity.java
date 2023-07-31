@@ -21,6 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putBoolean("Invisible", getInvisible());
         pCompound.putInt("BlockDurationTick", blockDurationTick);
@@ -69,7 +70,7 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         setInvisible(pCompound.getBoolean("Invisible"));
         blockDurationTick = pCompound.getInt("BlockDurationTick");
@@ -120,7 +121,7 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
     }
 
     @Override
-    public void remove(RemovalReason pReason) {
+    public void remove(@NotNull RemovalReason pReason) {
         while (!allBlock.isEmpty()) {
             destroyBlock(level(), allBlock.pop());
         }
@@ -145,11 +146,11 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
     /**
      * All subclasses of Snowball must use this method to generate blocks
      *
-     * @param level
-     * @param blockPos
+     * @param level level
+     * @param blockPos blockPos
      */
     protected void placeAndRecordBlock(Level level, BlockPos blockPos) {
-        if (level instanceof ServerLevel serverLevel) {
+        if (level instanceof ServerLevel) {
             if (level.getBlockState(blockPos).canBeReplaced()) {
                 level.setBlock(blockPos, BlockRegister.LOOSE_SNOW_BLOCK.get().defaultBlockState(), 3);
                 allBlock.push(blockPos);
@@ -182,7 +183,7 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
     private void destroyBlock(Level level, BlockPos pos) {
         if (posIsLooseSnow(level, pos)) {
             if (level instanceof ServerLevel) {
-                BlockState blockState = level.getBlockState(pos);
+//                BlockState blockState = level.getBlockState(pos);
                 level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                 level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                 BlockState snow = Blocks.SNOW.defaultBlockState();

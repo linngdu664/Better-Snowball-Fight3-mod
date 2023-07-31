@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractFixableSnowballEntity extends AbstractBSFSnowballEntity {
     protected Vec3 fixLocation;
@@ -24,7 +25,7 @@ public abstract class AbstractFixableSnowballEntity extends AbstractBSFSnowballE
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         if (fixLocation != null) {
             pCompound.putDouble("FixLocationX", fixLocation.x);
@@ -34,7 +35,7 @@ public abstract class AbstractFixableSnowballEntity extends AbstractBSFSnowballE
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         if (pCompound.contains("FixLocationX")) {
             double x = pCompound.getDouble("FixLocationX");

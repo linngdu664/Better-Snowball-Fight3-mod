@@ -148,16 +148,8 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         return statusFlag;
     }
 
-    public void setStatus(byte status) {
-        this.statusFlag = status;
-    }
-
     public boolean isUseLocator() {
         return useLocator;
-    }
-
-    public void setUseLocator(boolean useLocator) {
-        this.useLocator = useLocator;
     }
 
     public ItemStack getWeapon() {
@@ -198,10 +190,6 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
 
     public void setStyle(byte style) {
         entityData.set(STYLE, style);
-    }
-
-    public void setEnhance(boolean enhance) {
-        this.enhance = enhance;
     }
 
     public void setLaunchVelocity(float launchVelocity) {
