@@ -550,6 +550,22 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         return null;
     }
 
+    @Override
+    protected float getBlockSpeedFactor() {
+        if (level().getBlockState(new BlockPos(BSFMthUtil.vec3ToI(getPosition(0)))).getBlock().equals(BlockRegister.CRITICAL_SNOW.get())) {
+            return 1.0F;
+        }
+        return super.getBlockSpeedFactor();
+    }
+
+    @Override
+    protected float getBlockJumpFactor() {
+        if (level().getBlockState(new BlockPos(BSFMthUtil.vec3ToI(getPosition(0)))).getBlock().equals(BlockRegister.CRITICAL_SNOW.get())) {
+            return 1.0F;
+        }
+        return super.getBlockJumpFactor();
+    }
+
     public void resetCoreCoolDown() {
         coreCoolDown = ((SnowGolemCoreItem) getCore().getItem()).getCoolDown();
     }
