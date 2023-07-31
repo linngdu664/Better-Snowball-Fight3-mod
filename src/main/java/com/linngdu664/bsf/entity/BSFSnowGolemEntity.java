@@ -127,6 +127,11 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         pCompound.putBoolean("Enhance", enhance);
         pCompound.putInt("PotionSickness", potionSickness);
         pCompound.putInt("CoreCoolDown", coreCoolDown);
+        if (getTarget() != null) {
+            pCompound.putUUID("TargetUUID", getTarget().getUUID());
+        } else {
+            pCompound.remove("TargetUUID");
+        }
     }
 
     @Override
@@ -142,6 +147,9 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         enhance = pCompound.getBoolean("Enhance");
         potionSickness = pCompound.getInt("PotionSickness");
         coreCoolDown = pCompound.getInt("CoreCoolDown");
+        if (pCompound.contains("TargetUUID")) {
+            setTarget((LivingEntity) ((ServerLevel) level()).getEntity(pCompound.getUUID("TargetUUID")));
+        }
     }
 
     public byte getStatus() {
