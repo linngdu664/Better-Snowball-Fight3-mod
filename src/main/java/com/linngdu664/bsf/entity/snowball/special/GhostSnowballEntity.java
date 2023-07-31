@@ -52,7 +52,7 @@ public class GhostSnowballEntity extends AbstractBSFSnowballEntity {
             Entity entity = pResult.getEntity();
             if (entity instanceof LivingEntity livingEntity && !isCaught) {
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 160, 1));
-                level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.WITHER_SPAWN, SoundSource.NEUTRAL, 1.0F, 1.0F / (level().getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.WITHER_SPAWN, SoundSource.NEUTRAL, 0.3F, 1.0F / (level().getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
         }
     }
