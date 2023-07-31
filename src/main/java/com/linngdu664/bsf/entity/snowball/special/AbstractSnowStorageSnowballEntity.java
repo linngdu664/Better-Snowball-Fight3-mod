@@ -25,14 +25,15 @@ public abstract class AbstractSnowStorageSnowballEntity extends AbstractConstruc
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("snowStock", snowStock);
+        pCompound.putInt("SnowStock", snowStock);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        snowStock = pCompound.getInt("snowStock");
+        snowStock = pCompound.getInt("SnowStock");
     }
+
     @Override
     protected void placeAndRecordBlock(Level level, BlockPos blockPos) {
 

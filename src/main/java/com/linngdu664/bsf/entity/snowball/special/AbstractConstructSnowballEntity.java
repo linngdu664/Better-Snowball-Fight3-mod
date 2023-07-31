@@ -22,7 +22,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 public abstract class AbstractConstructSnowballEntity extends AbstractFixableSnowballEntity {
     private static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(AbstractConstructSnowballEntity.class, EntityDataSerializers.BOOLEAN);
@@ -51,11 +53,11 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putBoolean("invisible", getInvisible());
-        pCompound.putInt("blockDurationTick", blockDurationTick);
-        pCompound.putFloat("destroyStepSize", destroyStepSize);
-        pCompound.putBoolean("inBlockDuration", inBlockDuration);
-        pCompound.putBoolean("inDestroying", inDestroying);
+        pCompound.putBoolean("Invisible", getInvisible());
+        pCompound.putInt("BlockDurationTick", blockDurationTick);
+        pCompound.putFloat("DestroyStepSize", destroyStepSize);
+        pCompound.putBoolean("InBlockDuration", inBlockDuration);
+        pCompound.putBoolean("InDestroying", inDestroying);
 
         List<Integer> tmpList = new ArrayList<>();
         for (BlockPos blockPos : allBlock) {
@@ -63,24 +65,23 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
             tmpList.add(blockPos.getY());
             tmpList.add(blockPos.getZ());
         }
-        pCompound.putIntArray("allBlock", tmpList);
+        pCompound.putIntArray("AllBlock", tmpList);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        setInvisible(pCompound.getBoolean("invisible"));
-        blockDurationTick = pCompound.getInt("blockDurationTick");
-        destroyStepSize = pCompound.getFloat("destroyStepSize");
-        inBlockDuration = pCompound.getBoolean("inBlockDuration");
-        inDestroying = pCompound.getBoolean("inDestroying");
-        int[] tmpArr = pCompound.getIntArray("allBlock");
+        setInvisible(pCompound.getBoolean("Invisible"));
+        blockDurationTick = pCompound.getInt("BlockDurationTick");
+        destroyStepSize = pCompound.getFloat("DestroyStepSize");
+        inBlockDuration = pCompound.getBoolean("InBlockDuration");
+        inDestroying = pCompound.getBoolean("InDestroying");
+        int[] tmpArr = pCompound.getIntArray("AllBlock");
         if (tmpArr.length % 3 == 0) {
             for (int i = tmpArr.length - 1; i > 0; i -= 3) {
                 allBlock.push(new BlockPos(tmpArr[i - 2], tmpArr[i - 1], tmpArr[i]));
             }
         }
-
     }
 
 
@@ -193,7 +194,6 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
 
         }
     }
-
 
 
     protected boolean posIsLooseSnow(Level level, BlockPos pos) {

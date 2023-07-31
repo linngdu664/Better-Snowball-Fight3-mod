@@ -36,13 +36,13 @@ public class GhostSnowballEntity extends AbstractBSFSnowballEntity {
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("timer", timer);
+        pCompound.putInt("Timer", timer);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        timer = pCompound.getInt("timer");
+        timer = pCompound.getInt("Timer");
     }
 
     @Override

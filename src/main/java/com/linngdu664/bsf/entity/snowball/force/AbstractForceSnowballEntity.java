@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.entity.snowball.force;
 
-import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractFixableSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import net.minecraft.core.particles.ParticleTypes;
@@ -29,19 +28,21 @@ public abstract class AbstractForceSnowballEntity extends AbstractFixableSnowbal
     public AbstractForceSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
         super(pEntityType, pShooter, pLevel, launchAdjustment);
     }
+
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("timer", timer);
-        pCompound.putBoolean("isStart", isStart);
+        pCompound.putInt("Timer", timer);
+        pCompound.putBoolean("IsStart", isStart);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        timer = pCompound.getInt("timer");
-        isStart = pCompound.getBoolean("isStart");
+        timer = pCompound.getInt("Timer");
+        isStart = pCompound.getBoolean("IsStart");
     }
+
     @Override
     public void tick() {
         Level level = level();
@@ -64,7 +65,7 @@ public abstract class AbstractForceSnowballEntity extends AbstractFixableSnowbal
     protected void onHitBlock(@NotNull BlockHitResult p_37258_) {
         super.onHitBlock(p_37258_);
         isStart = true;
-        this.fixLocation=new Vec3(this.getX(),this.getY(),this.getZ());
+        this.fixLocation = new Vec3(this.getX(), this.getY(), this.getZ());
         stopTheSnowball();
         this.setNoGravity(true);
     }
