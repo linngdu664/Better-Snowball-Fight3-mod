@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "bsf:item/snow_golem_container"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "has_golem": 1
+      },
+      "model": "bsf:item/snow_golem_container_1"
+    }
+  ]
+}
