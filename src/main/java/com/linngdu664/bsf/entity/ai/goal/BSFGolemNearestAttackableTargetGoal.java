@@ -27,6 +27,6 @@ public class BSFGolemNearestAttackableTargetGoal extends NearestAttackableTarget
 
     @Override
     protected @NotNull AABB getTargetSearchArea(double pTargetDistance) {
-        return mob.getBoundingBox().inflate(pTargetDistance, pTargetDistance / 2.0, pTargetDistance);
+        return mob.getBoundingBox().inflate(pTargetDistance, pTargetDistance, pTargetDistance);
     }
 }
