@@ -26,7 +26,7 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     private static final int POS_NUM = 10 + GENERATING_DISTANCE;
     private static final int GROWTH_CONSTRAINT = 3;
     private final BlockPos[] passingPosArr = new BlockPos[POS_NUM];
-    private int counter = 0;
+    private int timer = 0;
 
     public ReconstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -40,23 +40,23 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("counter", counter);
+        pCompound.putInt("Timer", timer);
         List<Integer> tmpList = new ArrayList<>();
         for (int i = 0; i < POS_NUM && passingPosArr[i] != null; i++) {
             tmpList.add(passingPosArr[i].getX());
             tmpList.add(passingPosArr[i].getY());
             tmpList.add(passingPosArr[i].getZ());
         }
-        pCompound.putIntArray("passingPosArr", tmpList);
+        pCompound.putIntArray("PassingPosArr", tmpList);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        counter = pCompound.getInt("counter");
-        int[] tmpArr = pCompound.getIntArray("passingPosArr");
+        timer = pCompound.getInt("Timer");
+        int[] tmpArr = pCompound.getIntArray("PassingPosArr");
         if (tmpArr.length % 3 == 0) {
             for (int i = 0; i < tmpArr.length; i += 3) {
                 allBlock.push(new BlockPos(tmpArr[i], tmpArr[i + 1], tmpArr[i + 2]));
@@ -83,13 +83,13 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
                 startTimingOfDiscard(new Vec3(this.getX(), this.getY(), this.getZ()));
             }
         }
-        if (counter % GROWTH_CONSTRAINT == 0) {
+        if (timer % GROWTH_CONSTRAINT == 0) {
             handleSetBlock(level);
         }
         if (!level.isClientSide) {
             posArrMove(new BlockPos(Mth.floor(this.getX()), Mth.floor(this.getY()), Mth.floor(this.getZ())));
         }
-        counter++;
+        timer++;
 
         super.tick();
     }

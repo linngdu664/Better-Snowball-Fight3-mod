@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
-import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractFixableSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
@@ -37,17 +36,17 @@ public class PowderSnowballEntity extends AbstractFixableSnowballEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("timer", timer);
-        pCompound.putBoolean("isStart", isStart);
+        pCompound.putInt("Timer", timer);
+        pCompound.putBoolean("IsStart", isStart);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        timer = pCompound.getInt("timer");
-        isStart = pCompound.getBoolean("isStart");
+        timer = pCompound.getInt("Timer");
+        isStart = pCompound.getBoolean("IsStart");
     }
 
     @Override
@@ -56,7 +55,7 @@ public class PowderSnowballEntity extends AbstractFixableSnowballEntity {
         Level level = level();
         isStart = true;
         if (!level.isClientSide) {
-            this.fixLocation=new Vec3(this.getX(),this.getY(),this.getZ());
+            this.fixLocation = new Vec3(this.getX(), this.getY(), this.getZ());
             stopTheSnowball();
             this.setNoGravity(true);
             ((ServerLevel) level).sendParticles(ParticleRegister.BIG_LONG_TIME_SNOWFLAKE.get(), this.getX(), this.getY(), this.getZ(), 25, 0, 0, 0, 0.4);

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractSnowStorageSnowballEntity extends AbstractConstructSnowballEntity {
     protected int snowStock = 0;
@@ -23,16 +24,17 @@ public abstract class AbstractSnowStorageSnowballEntity extends AbstractConstruc
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("snowStock", snowStock);
+        pCompound.putInt("SnowStock", snowStock);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        snowStock = pCompound.getInt("snowStock");
+        snowStock = pCompound.getInt("SnowStock");
     }
+
     @Override
     protected void placeAndRecordBlock(Level level, BlockPos blockPos) {
 

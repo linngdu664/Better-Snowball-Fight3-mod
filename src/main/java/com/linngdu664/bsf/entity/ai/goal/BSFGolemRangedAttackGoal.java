@@ -6,12 +6,15 @@ import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -34,7 +37,6 @@ public class BSFGolemRangedAttackGoal extends Goal {
         this.attackInterval = pAttackInterval;
         this.attackRadius = pAttackRadius;
         this.attackRadiusSqr = pAttackRadius * pAttackRadius;
-        golem.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
@@ -135,6 +137,13 @@ public class BSFGolemRangedAttackGoal extends Goal {
             attackRadiusSqr *= 0.04;
         }
         if (target != null) {
+            if (golem.getCore().getItem().equals(ItemRegister.ACTIVE_TELEPORTATION_GOLEM_CORE.get()) && golem.getCoreCoolDown() == 0 && (golem.getStatus() == 2 || golem.getStatus() == 3)) {
+                Vec3 vec3 = getTargetBackTeleportPos();
+                if (vec3 != null) {
+                    golem.teleportTo(vec3.x, vec3.y, vec3.z);
+                    golem.resetCoreCoolDown();
+                }
+            }
             double d0 = golem.distanceToSqr(target.getX(), target.getY(), target.getZ());
             boolean flag = golem.getSensing().hasLineOfSight(target);
             boolean flag1 = seeTime > 0;
@@ -185,5 +194,46 @@ public class BSFGolemRangedAttackGoal extends Goal {
                 attackTime = attackInterval;
             }
         }
+    }
+
+    private Vec3 getTargetBackTeleportPos() {
+        Level level = golem.level();
+        LivingEntity target = golem.getTarget();
+        double targetX = target.getX();
+        double targetY = target.getY();
+        double targetZ = target.getZ();
+        float initTheta = (float) Mth.atan2(targetZ - golem.getZ(), targetX - golem.getX());
+        Vec3 targetPos = target.getEyePosition();
+        BlockPos targetBlockPos = new BlockPos(BSFMthUtil.vec3ToI(targetPos));
+        for (int r = 4; r <= 10; r++) {
+            float step = 1.0F / r;
+            for (float theta = 0; theta < Mth.PI * 0.25; theta += step) {
+                for (float phi = 0; phi < Mth.PI * 0.5; phi += step) {
+                    int x = Mth.floor(targetX + r * Mth.cos(initTheta + theta) * Mth.cos(phi));
+                    int y = Mth.floor(targetY + r * Mth.sin(phi));
+                    int z = Mth.floor(targetZ + r * Mth.sin(initTheta + theta) * Mth.cos(phi));
+                    int x1 = Mth.floor(targetX + r * Mth.cos(initTheta - theta) * Mth.cos(phi));
+                    int y1 = Mth.floor(targetY + r * Mth.sin(-phi));
+                    int z1 = Mth.floor(targetZ + r * Mth.sin(initTheta - theta) * Mth.cos(phi));
+                    BlockPos blockPos = new BlockPos(x, y, z);
+                    if (golem.canStandOn(blockPos, level) && level.clip(new ClipContext(blockPos.above().getCenter(), targetPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.ANY, golem)).getBlockPos().equals(targetBlockPos)) {
+                        return new Vec3(x, y, z);
+                    }
+                    blockPos = new BlockPos(x1, y, z1);
+                    if (golem.canStandOn(blockPos, level) && level.clip(new ClipContext(blockPos.above().getCenter(), targetPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.ANY, golem)).getBlockPos().equals(targetBlockPos)) {
+                        return new Vec3(x1, y, z1);
+                    }
+                    blockPos = new BlockPos(x1, y1, z1);
+                    if (golem.canStandOn(blockPos, level) && level.clip(new ClipContext(blockPos.above().getCenter(), targetPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.ANY, golem)).getBlockPos().equals(targetBlockPos)) {
+                        return new Vec3(x1, y1, z1);
+                    }
+                    blockPos = new BlockPos(x, y1, z);
+                    if (golem.canStandOn(blockPos, level) && level.clip(new ClipContext(blockPos.above().getCenter(), targetPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.ANY, golem)).getBlockPos().equals(targetBlockPos)) {
+                        return new Vec3(x, y1, z);
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

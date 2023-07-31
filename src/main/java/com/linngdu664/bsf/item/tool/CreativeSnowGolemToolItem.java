@@ -8,9 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -33,23 +31,11 @@ public class CreativeSnowGolemToolItem extends Item {
         if (!level.isClientSide) {
             ItemStack itemStack = pContext.getItemInHand();
             CompoundTag tag = itemStack.getOrCreateTag();
-            byte status = tag.getByte("Status");
             BSFSnowGolemEntity snowGolem = EntityRegister.BSF_SNOW_GOLEM.get().create(level);
-            snowGolem.setTame(true);
-            snowGolem.setOwnerUUID(pContext.getPlayer().getUUID());
-            snowGolem.setOrderedToSit(status == 0);
-            snowGolem.setStatus(status);
-            snowGolem.setUseLocator(tag.getBoolean("UseLocator"));
-            snowGolem.setAmmo(ItemStack.of(tag.getCompound("Ammo")));
-            snowGolem.setWeapon(ItemStack.of(tag.getCompound("Weapon")));
-            snowGolem.setEnhance(tag.getBoolean("Enhance"));
-            snowGolem.setStyle(tag.getByte("Style"));
+            snowGolem.readAdditionalSaveData(tag);
             BlockPos blockPos = pContext.getClickedPos();
             snowGolem.moveTo(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5, 0.0F, 0.0F);
             level.addFreshEntity(snowGolem);
-            if (tag.contains("UUID") && ((ServerLevel) level).getEntity(tag.getUUID("UUID")) instanceof LivingEntity livingEntity) {
-                snowGolem.setTarget(livingEntity);
-            }
         }
         return InteractionResult.SUCCESS;
     }

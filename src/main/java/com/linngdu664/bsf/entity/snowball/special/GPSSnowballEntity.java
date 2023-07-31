@@ -3,7 +3,6 @@ package com.linngdu664.bsf.entity.snowball.special;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.sounds.SoundEvents;
@@ -31,20 +30,6 @@ public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
         super(EntityRegister.GPS_SNOWBALL.get(), pShooter, pLevel);
         this.targetLocator = targetLocator;
         this.setItem(new ItemStack(ItemRegister.GPS_SNOWBALL.get()));
-    }
-
-    @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
-        super.addAdditionalSaveData(pCompound);
-        CompoundTag compoundTag = new CompoundTag();
-        targetLocator.save(compoundTag);
-        pCompound.put("targetLocator", compoundTag);
-    }
-
-    @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
-        super.readAdditionalSaveData(pCompound);
-        targetLocator=ItemStack.of(pCompound.getCompound("targetLocator"));
     }
 
     @Override

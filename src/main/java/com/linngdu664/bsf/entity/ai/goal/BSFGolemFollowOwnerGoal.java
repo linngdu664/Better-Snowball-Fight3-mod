@@ -30,7 +30,6 @@ public class BSFGolemFollowOwnerGoal extends Goal {
         this.navigation = golem.getNavigation();
         this.startDistance = pStartDistance;
         this.stopDistance = pStopDistance;
-        golem.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 

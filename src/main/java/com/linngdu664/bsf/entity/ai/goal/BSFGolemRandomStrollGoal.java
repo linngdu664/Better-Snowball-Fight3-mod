@@ -23,6 +23,7 @@ public class BSFGolemRandomStrollGoal extends RandomStrollGoal {
         return false;
     }
 
+    @Override
     protected Vec3 getPosition() {
         if (mob.isInWaterOrBubble()) {
             Vec3 vec3 = LandRandomPos.getPos(mob, 15, 7);

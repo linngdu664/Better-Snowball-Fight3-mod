@@ -44,21 +44,21 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("timer", timer);
-        pCompound.putFloat("damage", damage);
-        pCompound.putFloat("blazeDamage", blazeDamage);
-        pCompound.putBoolean("release", release);
+        pCompound.putInt("Timer", timer);
+        pCompound.putFloat("Damage", damage);
+        pCompound.putFloat("BlazeDamage", blazeDamage);
+        pCompound.putBoolean("Release", release);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        timer = pCompound.getInt("timer");
-        damage = pCompound.getFloat("damage");
-        blazeDamage = pCompound.getFloat("blazeDamage");
-        release = pCompound.getBoolean("release");
+        timer = pCompound.getInt("Timer");
+        damage = pCompound.getFloat("Damage");
+        blazeDamage = pCompound.getFloat("BlazeDamage");
+        release = pCompound.getBoolean("Release");
     }
 
     @Override

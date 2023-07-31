@@ -35,19 +35,19 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("startTime", startTime);
-        pCompound.putInt("endTime", endTime);
-        pCompound.putInt("timer", timer);
+        pCompound.putInt("StartTime", startTime);
+        pCompound.putInt("EndTime", endTime);
+        pCompound.putInt("Timer", timer);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        startTime = pCompound.getInt("startTime");
-        endTime = pCompound.getInt("endTime");
-        timer = pCompound.getInt("timer");
+        startTime = pCompound.getInt("StartTime");
+        endTime = pCompound.getInt("EndTime");
+        timer = pCompound.getInt("Timer");
     }
 
     @Override
