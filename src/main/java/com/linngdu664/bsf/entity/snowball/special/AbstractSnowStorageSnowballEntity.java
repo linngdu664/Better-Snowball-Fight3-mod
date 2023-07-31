@@ -1,7 +1,10 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
+import com.linngdu664.bsf.registry.BlockRegister;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -29,5 +32,23 @@ public abstract class AbstractSnowStorageSnowballEntity extends AbstractConstruc
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         snowStock = pCompound.getInt("snowStock");
+    }
+    @Override
+    protected void placeAndRecordBlock(Level level, BlockPos blockPos) {
+
+
+        if (level instanceof ServerLevel) {
+            if (level.getBlockState(blockPos).canBeReplaced()) {
+                level.setBlock(blockPos, BlockRegister.LOOSE_SNOW_BLOCK.get().defaultBlockState(), 3);
+                snowStock--;
+                allBlock.push(blockPos);
+            }
+//            if (map == null) {
+//                data = serverLevel.getDataStorage().computeIfAbsent(SnowDataStorage::new, SnowDataStorage::new, "bsf_snow_data");
+//                map = data.getMap();
+//            }
+//            map.put(SnowDataStorage.posToString(blockPos), this.getUUID());
+//            data.setDirty();
+        }
     }
 }

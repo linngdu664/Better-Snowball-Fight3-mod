@@ -6,6 +6,7 @@ import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
@@ -31,6 +32,22 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
     public BlackHoleSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
         super(EntityRegister.BLACK_HOLE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
         this.setNoGravity(true);
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        pCompound.putInt("startTime", startTime);
+        pCompound.putInt("endTime", endTime);
+        pCompound.putInt("timer", timer);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+        startTime = pCompound.getInt("startTime");
+        endTime = pCompound.getInt("endTime");
+        timer = pCompound.getInt("timer");
     }
 
     @Override

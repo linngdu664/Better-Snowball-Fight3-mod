@@ -6,6 +6,7 @@ import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
@@ -40,6 +41,24 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         super(EntityRegister.SUBSPACE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
         this.release = release;
         this.setNoGravity(true);
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        pCompound.putInt("timer", timer);
+        pCompound.putFloat("damage", damage);
+        pCompound.putFloat("blazeDamage", blazeDamage);
+        pCompound.putBoolean("release", release);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+        timer = pCompound.getInt("timer");
+        damage = pCompound.getFloat("damage");
+        blazeDamage = pCompound.getFloat("blazeDamage");
+        release = pCompound.getBoolean("release");
     }
 
     @Override

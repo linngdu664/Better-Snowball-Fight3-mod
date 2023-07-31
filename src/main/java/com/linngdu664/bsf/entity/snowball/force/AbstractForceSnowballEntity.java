@@ -1,8 +1,10 @@
 package com.linngdu664.bsf.entity.snowball.force;
 
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractFixableSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -16,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEntity {
+public abstract class AbstractForceSnowballEntity extends AbstractFixableSnowballEntity {
     public boolean isStart = false;
     private int timer = 0;
 
@@ -27,15 +29,26 @@ public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEnt
     public AbstractForceSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
         super(pEntityType, pShooter, pLevel, launchAdjustment);
     }
+    @Override
+    public void addAdditionalSaveData(CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        pCompound.putInt("timer", timer);
+        pCompound.putBoolean("isStart", isStart);
+    }
 
+    @Override
+    public void readAdditionalSaveData(CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+        timer = pCompound.getInt("timer");
+        isStart = pCompound.getBoolean("isStart");
+    }
     @Override
     public void tick() {
         Level level = level();
-        super.tick();
+
         if (!level.isClientSide) {
             if (isStart) {
-                Vec3 vec3 = this.getDeltaMovement();
-                this.push(-vec3.x, -vec3.y, -vec3.z);
+                stopTheSnowball();
                 ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0.06);
                 if (timer > 200) {
                     this.discard();
@@ -44,14 +57,15 @@ public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEnt
             forceEffect(getTargetList(), getBoundaryR2(), getGM());
         }
         timer++;
+        super.tick();
     }
 
     @Override
     protected void onHitBlock(@NotNull BlockHitResult p_37258_) {
         super.onHitBlock(p_37258_);
         isStart = true;
-        Vec3 vec3 = this.getDeltaMovement();
-        this.push(-vec3.x, -vec3.y, -vec3.z);
+        this.fixLocation=new Vec3(this.getX(),this.getY(),this.getZ());
+        stopTheSnowball();
         this.setNoGravity(true);
     }
 
