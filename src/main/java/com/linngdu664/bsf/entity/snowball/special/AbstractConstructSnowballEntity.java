@@ -33,7 +33,7 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
 
     protected float destroyStepSize = 5;
     protected boolean inBlockDuration = false;
-    protected Stack<BlockPos> allBlock = new Stack<>();
+    protected final Stack<BlockPos> allBlock = new Stack<>();
     private boolean inDestroying = false;
 
 
