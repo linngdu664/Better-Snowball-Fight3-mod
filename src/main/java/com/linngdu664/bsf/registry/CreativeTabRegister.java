@@ -297,5 +297,15 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.REPULSION_CORE.get());
                 output.accept(ItemRegister.GRAVITY_CORE.get());
                 output.accept(ItemRegister.SNOWBALL_CANNON_UPGRADE_SMITHING_TEMPLATE.get());
+
+                output.accept(ItemRegister.THRUST_GOLEM_CORE.get());
+                output.accept(ItemRegister.SWIFTNESS_GOLEM_CORE.get());
+                output.accept(ItemRegister.REGENERATION_GOLEM_CORE.get());
+                output.accept(ItemRegister.CRITICAL_SNOW_GOLEM_CORE.get());
+                output.accept(ItemRegister.REPULSIVE_FIELD_GOLEM_CORE.get());
+                output.accept(ItemRegister.NEAR_TELEPORTATION_GOLEM_CORE.get());
+                output.accept(ItemRegister.ENDER_TELEPORTATION_GOLEM_CORE.get());
+                output.accept(ItemRegister.ACTIVE_TELEPORTATION_GOLEM_CORE.get());
+                output.accept(ItemRegister.SNOW_GOLEM_CORE_REMOVER.get());
             }).build());
 }
