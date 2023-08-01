@@ -29,7 +29,7 @@ import java.util.Stack;
 
 public abstract class AbstractConstructSnowballEntity extends AbstractFixableSnowballEntity {
     private static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(AbstractConstructSnowballEntity.class, EntityDataSerializers.BOOLEAN);
-    protected int blockDurationTick = 20 * 4;
+    protected int blockDurationTick;    // default: 20 * 4
 
     protected float destroyStepSize = 5;
     protected boolean inBlockDuration = false;
@@ -37,12 +37,14 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
     private boolean inDestroying = false;
 
 
-    public AbstractConstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
+    public AbstractConstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel, int duration) {
         super(pEntityType, pLevel);
+        this.blockDurationTick = duration;
     }
 
-    public AbstractConstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
+    public AbstractConstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int duration) {
         super(pEntityType, pShooter, pLevel, launchAdjustment);
+        this.blockDurationTick = duration;
     }
 
     @Override

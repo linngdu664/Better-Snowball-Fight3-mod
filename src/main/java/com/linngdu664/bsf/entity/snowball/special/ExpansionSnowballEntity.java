@@ -3,6 +3,7 @@ package com.linngdu664.bsf.entity.snowball.special;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
+import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -20,11 +21,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class ExpansionSnowballEntity extends AbstractConstructSnowballEntity {
     public ExpansionSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, BSFConfig.expansionSnowballDuration);
     }
 
     public ExpansionSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.EXPANSION_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.EXPANSION_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, BSFConfig.expansionSnowballDuration);
     }
 
     @Override
