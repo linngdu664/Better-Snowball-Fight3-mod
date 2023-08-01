@@ -5,6 +5,9 @@ import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
+import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
+import com.linngdu664.bsf.network.ForwardRaysParticlesToClient;
+import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -25,6 +28,7 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.List;
 
@@ -70,8 +74,10 @@ public abstract class AbstractFrozenSnowballEntity extends AbstractBSFSnowballEn
                                 } else if (level.getBlockEntity(blockPos1) instanceof CriticalSnowEntity blockEntity) {
                                     blockEntity.setAge(0);
                                     blockEntity.setChanged();
+                                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new ForwardRaysParticlesToClient(blockPos1.getCenter().add(-0.5,-0.4,-0.5),blockPos1.getCenter().add(0.5,-0.4,0.5),new Vec3(0,1,0),0.2,0.6,launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON?10:5));
                                 } else if (blockState.canBeReplaced() && newBlock.canSurvive(level, blockPos1)) {
                                     level.setBlockAndUpdate(blockPos1, newBlock);
+                                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new ForwardRaysParticlesToClient(blockPos1.getCenter().add(-0.5,-0.4,-0.5),blockPos1.getCenter().add(0.5,-0.4,0.5),new Vec3(0,1,0),0.2,0.6,launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON?10:5));
                                 }
                             }
                         }
@@ -92,9 +98,9 @@ public abstract class AbstractFrozenSnowballEntity extends AbstractBSFSnowballEn
                     }
                 }
                 if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
-                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 400, 0, 0, 0, 0.32);
+                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 40, 0, 0, 0, 0.12);
                 } else {
-                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 200, 0, 0, 0, 0.32);
+                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 20, 0, 0, 0, 0.12);
                 }
                 level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_HURT_FREEZE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
