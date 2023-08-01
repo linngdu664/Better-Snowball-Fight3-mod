@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -39,7 +40,7 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
         Level level = level();
         if (!level.isClientSide) {
             if (!isCaught) {
-                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4), p -> !(p instanceof Player player && player.isSpectator()));
+                List<Entity> list = level.getEntitiesOfClass(Entity.class, getBoundingBox().inflate(4), EntitySelector.NO_SPECTATORS);
                 impulseForceEffect(list);
                 ((ServerLevel) level).sendParticles(ParticleRegister.IMPULSE.get(), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
                 level.playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[0].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
@@ -55,7 +56,7 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
         if (!level.isClientSide) {
             List<Projectile> list = level.getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(2), p -> !this.equals(p));
             if (!list.isEmpty()) {
-                List<Projectile> list1 = level.getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(4), p -> !this.equals(p));
+                List<Entity> list1 = level.getEntitiesOfClass(Entity.class, getBoundingBox().inflate(4), EntitySelector.NO_SPECTATORS);
                 impulseForceEffect(list1);
                 discard();
                 ((ServerLevel) level).sendParticles(ParticleRegister.IMPULSE.get(), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
@@ -65,7 +66,7 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
     }
 
     private void impulseForceEffect(List<? extends Entity> list) {
-        Vec3 pos = new Vec3(getX(), getY(), getZ());
+        Vec3 pos = getPosition(0);
         for (Entity entity : list) {
             Vec3 rVec = new Vec3(entity.getX(), (entity.getY() + entity.getEyeY()) * 0.5, entity.getZ()).add(pos.reverse());
             if (rVec.length() < 4) {
