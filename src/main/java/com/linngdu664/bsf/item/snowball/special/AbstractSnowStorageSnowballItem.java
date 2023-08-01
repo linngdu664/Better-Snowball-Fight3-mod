@@ -6,8 +6,12 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.util.BSFMthUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,6 +22,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.List;
 
 public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowballItem {
     protected static final float SUCK_RANGE = 7f;
@@ -85,4 +91,9 @@ public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowbal
     }
 
     public abstract int getMaxCapacity();
+
+    @Override
+    public void addLastTips(List<Component> pTooltipComponents) {
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_storage_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+    }
 }

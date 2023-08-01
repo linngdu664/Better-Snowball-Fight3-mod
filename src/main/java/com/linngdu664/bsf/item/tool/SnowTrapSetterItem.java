@@ -1,7 +1,11 @@
 package com.linngdu664.bsf.item.tool;
 
 import com.linngdu664.bsf.registry.BlockRegister;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -9,15 +13,15 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class SnowTrapSetterItem extends AbstractBSFEnhanceableToolItem {
     public SnowTrapSetterItem() {
@@ -64,5 +68,9 @@ public class SnowTrapSetterItem extends AbstractBSFEnhanceableToolItem {
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack pStack, ItemStack pRepairCandidate) {
         return pRepairCandidate.is(Items.IRON_INGOT);
+    }
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_trap_setter.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 }

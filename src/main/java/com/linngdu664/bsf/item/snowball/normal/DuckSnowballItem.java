@@ -4,9 +4,13 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.nomal.DuckSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
+import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.Position;
 import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -20,6 +24,8 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class DuckSnowballItem extends AbstractBSFSnowballItem {
     public DuckSnowballItem() {
@@ -56,5 +62,10 @@ public class DuckSnowballItem extends AbstractBSFSnowballItem {
     @Override
     public int getTypeFlag() {
         return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
+    }
+
+    @Override
+    public void addLastTips(List<Component> pTooltipComponents) {
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("duck_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 }

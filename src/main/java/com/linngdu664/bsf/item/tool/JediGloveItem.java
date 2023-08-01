@@ -1,14 +1,20 @@
 package com.linngdu664.bsf.item.tool;
 
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -36,5 +42,9 @@ public class JediGloveItem extends GloveItem {
             }
             pStack.hurtAndBreak(list.size() + list1.size(), player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
         }
+    }
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("jedi_glove.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
     }
 }
