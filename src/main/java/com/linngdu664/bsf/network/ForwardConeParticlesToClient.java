@@ -16,6 +16,17 @@ public class ForwardConeParticlesToClient {
     private final double eX, eY, eZ, loweredVision, sX, sY, sZ;
     private final float aStep, rStep, r;
 
+    /**
+     * Constructor of the ForwardConeParticlesToClient packet.<p>
+     * The client will use the parametric equation of circles, in which the distance from plane to origin is 8m and the
+     * normal vector is sightVec, to spray cone-shaped particles forward, and the maximum radius needs to be specified.
+     * @param eyePos The eye position of the entity.
+     * @param sightVec The sight vector of the entity.
+     * @param r The max radius.
+     * @param aStep The angle step.
+     * @param rStep The radius step.
+     * @param loweredVision The offset of eyePos in the negative direction of the y-axis.
+     */
     public ForwardConeParticlesToClient(Vec3 eyePos, Vec3 sightVec, float r, float aStep, float rStep, double loweredVision) {
         this.eX = eyePos.x;
         this.eY = eyePos.y;
