@@ -14,12 +14,12 @@ import org.jetbrains.annotations.NotNull;
 public abstract class AbstractSnowStorageSnowballEntity extends AbstractConstructSnowballEntity {
     protected int snowStock = 0;
 
-    public AbstractSnowStorageSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public AbstractSnowStorageSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel, int duration) {
+        super(pEntityType, pLevel, duration);
     }
 
-    public AbstractSnowStorageSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
-        super(pEntityType, pShooter, pLevel, launchAdjustment);
+    public AbstractSnowStorageSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock, int duration) {
+        super(pEntityType, pShooter, pLevel, launchAdjustment, duration);
         this.snowStock = snowStock;
     }
 

@@ -20,15 +20,18 @@ public class BSFConfig {
     public static final ForgeConfigSpec.IntValue ICICLE_SNOWBALL_CAPACITY = BUILDER
             .comment("The capacity of icicle snowball. Default value: 2147483647.")
             .defineInRange("icicle_snowball_capacity", 2147483647, 0, Integer.MAX_VALUE);
+    public static final ForgeConfigSpec.IntValue EXPANSION_SNOWBALL_DURATION = BUILDER
+            .comment("The life span of expansion snowball in tick. Default value: 80.")
+            .defineInRange("expansion_snowball_duration", 80, 0, Integer.MAX_VALUE);
+    public static final ForgeConfigSpec.IntValue RECONSTRUCT_SNOWBALL_DURATION = BUILDER
+            .comment("The life span of reconstruct snowball in tick. Default value: 80.")
+            .defineInRange("reconstruct_snowball_duration", 80, 0, Integer.MAX_VALUE);
+    public static final ForgeConfigSpec.IntValue ICICLE_SNOWBALL_DURATION = BUILDER
+            .comment("The life span of icicle snowball in tick. Default value: 80.")
+            .defineInRange("icicle_snowball_duration", 80, 0, Integer.MAX_VALUE);
     //    public static final ForgeConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
 //            .comment("What you want the introduction message to be for the magic number")
 //            .define("magicNumberIntroduction", "The magic number is... ");
-//    private static final ForgeConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
-//            .comment("Whether to log the dirt block on common setup")
-//            .define("logDirtBlock", true);
-//    private static final ForgeConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-//            .comment("A magic number")
-//            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
     // a list of strings that are treated as resource locations for items
 //    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
 //            .comment("A list of items to log on common setup.")
@@ -37,8 +40,9 @@ public class BSFConfig {
     public static boolean destroyMode;
     public static int reconstructSnowballCapacity;
     public static int icicleSnowballCapacity;
-//    public static boolean logDirtBlock;
-//    public static int magicNumber;
+    public static int expansionSnowballDuration;
+    public static int reconstructSnowballDuration;
+    public static int icicleSnowballDuration;
 //    public static String magicNumberIntroduction;
 //    public static Set<Item> items;
 
@@ -47,8 +51,9 @@ public class BSFConfig {
         destroyMode = DESTROY_MODE.get();
         reconstructSnowballCapacity = RECONSTRUCT_SNOWBALL_CAPACITY.get();
         icicleSnowballCapacity = ICICLE_SNOWBALL_CAPACITY.get();
-//        logDirtBlock = LOG_DIRT_BLOCK.get();
-//        magicNumber = MAGIC_NUMBER.get();
+        expansionSnowballDuration = EXPANSION_SNOWBALL_DURATION.get();
+        reconstructSnowballDuration = RECONSTRUCT_SNOWBALL_DURATION.get();
+        icicleSnowballDuration = ICICLE_SNOWBALL_DURATION.get();
 //        magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
 //
 //         convert the list of strings into a set of items

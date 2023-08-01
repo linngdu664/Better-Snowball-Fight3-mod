@@ -6,6 +6,7 @@ import com.linngdu664.bsf.registry.BlockRegister;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
+import com.linngdu664.bsf.util.BSFConfig;
 import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -44,11 +45,11 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     private BlockPos impactPoint;
 
     public IcicleSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, BSFConfig.icicleSnowballDuration);
     }
 
     public IcicleSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
-        super(EntityRegister.ICICLE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock);
+        super(EntityRegister.ICICLE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock, BSFConfig.icicleSnowballDuration);
         this.initSnowStock = snowStock;
         this.destroyStepSize = Math.max(snowStock / 60, 1);
     }
