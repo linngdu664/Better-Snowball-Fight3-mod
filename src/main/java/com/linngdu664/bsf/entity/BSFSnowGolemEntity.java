@@ -390,6 +390,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     public void tick() {
         Level level = level();
         if (!level.isClientSide) {
+            setTicksFrozen(0);
             if (enhance) {
                 heal(1);
             }
