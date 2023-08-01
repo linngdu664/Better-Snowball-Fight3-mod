@@ -276,9 +276,13 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.ICE_SKATES_ITEM.get());
                 output.accept(ItemRegister.SNOW_FALL_BOOTS.get());
                 output.accept(ItemRegister.SNOW_BLOCK_BLENDER.get());
-                output.accept(ItemRegister.EMPTY_BASIN.get());
-                output.accept(ItemRegister.BASIN_OF_SNOW.get());
-                output.accept(ItemRegister.BASIN_OF_POWDER_SNOW.get());
+                output.accept(ItemRegister.BASIN.get());
+                itemStack = ItemRegister.BASIN.get().getDefaultInstance();
+                itemStack.getOrCreateTag().putByte("SnowType", (byte) 1);
+                output.accept(itemStack);
+                itemStack = ItemRegister.BASIN.get().getDefaultInstance();
+                itemStack.getOrCreateTag().putByte("SnowType", (byte) 2);
+                output.accept(itemStack);
                 output.accept(ItemRegister.SNOW_GOLEM_MODE_TWEAKER.get());
                 output.accept(ItemRegister.CREATIVE_SNOW_GOLEM_TOOL.get());
                 output.accept(ItemRegister.TARGET_LOCATOR.get());

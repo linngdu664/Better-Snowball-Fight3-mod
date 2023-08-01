@@ -64,6 +64,7 @@ public class ClientModEvents {
             ItemProperties.register(ItemRegister.LARGE_SNOWBALL_TANK.get(), new ResourceLocation("snowball"), (itemStack, world, livingEntity, num) -> getSnowballId(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, itemStack.getTag().getString("Snowball")))));
             ItemProperties.register(ItemRegister.SNOWBALL_TANK.get(), new ResourceLocation("snowball"), (itemStack, world, livingEntity, num) -> getSnowballId(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, itemStack.getTag().getString("Snowball")))));
             ItemProperties.register(ItemRegister.SNOW_GOLEM_CONTAINER.get(), new ResourceLocation("has_golem"), (itemStack, world, livingEntity, num) -> itemStack.getOrCreateTag().getBoolean("HasGolem") ? 1.0F : 0.0F);
+            ItemProperties.register(ItemRegister.BASIN.get(), new ResourceLocation("snow_type"), (itemStack, world, livingEntity, num) -> (itemStack.getOrCreateTag().getByte("SnowType")));
         });
     }
 

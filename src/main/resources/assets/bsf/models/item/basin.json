@@ -40,5 +40,19 @@
       "translation": [ 0.5, 0.5, -11],
       "scale":[ 1.5, 1.5, 1.5]
     }
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "snow_type": 1
+      },
+      "model": "bsf:item/basin_of_snow"
+    },
+    {
+      "predicate": {
+        "snow_type": 2
+      },
+      "model": "bsf:item/basin_of_powder_snow"
+    }
+  ]
 }
