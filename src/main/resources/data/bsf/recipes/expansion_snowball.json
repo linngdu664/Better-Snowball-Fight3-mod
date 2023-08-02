@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    "WRW",
+    " W "
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:snow_block"
+    },
+    "R": {
+      "item": "minecraft:pufferfish"
+    }
+  },
+  "result": {
+    "item": "bsf:expansion_snowball",
+    "count": 12
+  }
+}

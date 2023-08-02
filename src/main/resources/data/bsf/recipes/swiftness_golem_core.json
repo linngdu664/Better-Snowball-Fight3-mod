@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "SAS",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:sugar"
+    },
+    "A": {
+      "item": "bsf:blank_golem_core"
+    }
+  },
+  "result": {
+    "item": "bsf:swiftness_golem_core",
+    "count": 1
+  }
+}

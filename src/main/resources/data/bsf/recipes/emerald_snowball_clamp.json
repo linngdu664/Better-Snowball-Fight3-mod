@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "WWD",
+    " W "
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:stick"
+    },
+    "D": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "result": {
+    "item": "bsf:emerald_snowball_clamp",
+    "count": 1
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "WWR",
+    " VN"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:snow_block"
+    },
+    "R": {
+      "item": "bsf:smart_snow_block"
+    },
+    "V": {
+      "item": "minecraft:lever"
+    },
+    "N": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "bsf:snowman_in_hand",
+    "count": 1
+  }
+}
