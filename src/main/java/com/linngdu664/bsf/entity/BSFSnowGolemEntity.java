@@ -446,7 +446,9 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                             double v = vec3.length();
                             Vec3 vec31 = new Vec3(v * cosTheta * cosPhi, -vec3.y, v * sinTheta * cosPhi);
                             projectile.push(vec31.x - vec3.x, vec31.y - vec3.y, vec31.z - vec3.z);
+                            ((ServerLevel) level).sendParticles(ParticleRegister.GENERATOR_PUSH.get(), projectile.getX(), projectile.getY(), projectile.getZ(), 1, 0, 0, 0, 0);
                         }
+                        playSound(SoundRegister.FIELD_PUSH.get(), 0.5F, 1.0F / (getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                         resetCoreCoolDown();
                     }
                 }
