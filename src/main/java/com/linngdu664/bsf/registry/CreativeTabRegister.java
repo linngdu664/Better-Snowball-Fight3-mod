@@ -31,29 +31,35 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.GOLD_SNOWBALL.get());
                 output.accept(ItemRegister.OBSIDIAN_SNOWBALL.get());
                 output.accept(ItemRegister.EXPLOSIVE_SNOWBALL.get());
-                output.accept(ItemRegister.SPECTRAL_SNOWBALL.get());
-                output.accept(ItemRegister.FROZEN_SNOWBALL.get());
-                output.accept(ItemRegister.CRITICAL_FROZEN_SNOWBALL.get());
-                output.accept(ItemRegister.POWDER_SNOWBALL.get());
+                output.accept(ItemRegister.THRUST_SNOWBALL.get());
+
                 output.accept(ItemRegister.LIGHT_MONSTER_TRACKING_SNOWBALL.get());
                 output.accept(ItemRegister.HEAVY_MONSTER_TRACKING_SNOWBALL.get());
                 output.accept(ItemRegister.EXPLOSIVE_MONSTER_TRACKING_SNOWBALL.get());
                 output.accept(ItemRegister.LIGHT_PLAYER_TRACKING_SNOWBALL.get());
                 output.accept(ItemRegister.HEAVY_PLAYER_TRACKING_SNOWBALL.get());
                 output.accept(ItemRegister.EXPLOSIVE_PLAYER_TRACKING_SNOWBALL.get());
+
                 output.accept(ItemRegister.MONSTER_GRAVITY_SNOWBALL.get());
                 output.accept(ItemRegister.PROJECTILE_GRAVITY_SNOWBALL.get());
                 output.accept(ItemRegister.MONSTER_REPULSION_SNOWBALL.get());
                 output.accept(ItemRegister.PROJECTILE_REPULSION_SNOWBALL.get());
+                output.accept(ItemRegister.IMPULSE_SNOWBALL.get());
                 output.accept(ItemRegister.BLACK_HOLE_SNOWBALL.get());
                 output.accept(ItemRegister.SUBSPACE_SNOWBALL.get());
-                output.accept(ItemRegister.THRUST_SNOWBALL.get());
+
+                output.accept(ItemRegister.POWDER_SNOWBALL.get());
+                output.accept(ItemRegister.SPECTRAL_SNOWBALL.get());
+                output.accept(ItemRegister.FROZEN_SNOWBALL.get());
+                output.accept(ItemRegister.CRITICAL_FROZEN_SNOWBALL.get());
                 output.accept(ItemRegister.ENDER_SNOWBALL.get());
+                output.accept(ItemRegister.GHOST_SNOWBALL.get());
+
                 output.accept(ItemRegister.EXPANSION_SNOWBALL.get());
                 output.accept(ItemRegister.RECONSTRUCT_SNOWBALL.get());
                 output.accept(ItemRegister.ICICLE_SNOWBALL.get());
-                output.accept(ItemRegister.IMPULSE_SNOWBALL.get());
-                output.accept(ItemRegister.GHOST_SNOWBALL.get());
+
+
 
                 Item tank = ItemRegister.SNOWBALL_TANK.get();
                 ItemStack itemStack = tank.getDefaultInstance();
@@ -87,6 +93,10 @@ public class CreativeTabRegister {
                 itemStack.getOrCreateTag().putString("Snowball", "explosive_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
+                itemStack.getOrCreateTag().putString("Snowball", "thrust_snowball");
+                output.accept(itemStack);
+
+                itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "light_monster_tracking_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
@@ -104,6 +114,7 @@ public class CreativeTabRegister {
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "explosive_player_tracking_snowball");
                 output.accept(itemStack);
+
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "monster_gravity_snowball");
                 output.accept(itemStack);
@@ -117,13 +128,20 @@ public class CreativeTabRegister {
                 itemStack.getOrCreateTag().putString("Snowball", "projectile_repulsion_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
-                itemStack.getOrCreateTag().putString("Snowball", "thrust_snowball");
+                itemStack.getOrCreateTag().putString("Snowball", "impulse_snowball");
+                output.accept(itemStack);
+                itemStack = tank.getDefaultInstance();
+                itemStack.getOrCreateTag().putString("Snowball", "black_hole_snowball");
+                output.accept(itemStack);
+                itemStack = tank.getDefaultInstance();
+                itemStack.getOrCreateTag().putString("Snowball", "subspace_snowball");
+                output.accept(itemStack);
+
+                itemStack = tank.getDefaultInstance();
+                itemStack.getOrCreateTag().putString("Snowball", "powder_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "spectral_snowball");
-                output.accept(itemStack);
-                itemStack = tank.getDefaultInstance();
-                itemStack.getOrCreateTag().putString("Snowball", "powder_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "frozen_snowball");
@@ -132,17 +150,12 @@ public class CreativeTabRegister {
                 itemStack.getOrCreateTag().putString("Snowball", "critical_frozen_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
-                itemStack.getOrCreateTag().putString("Snowball", "impulse_snowball");
-                output.accept(itemStack);
-                itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "ender_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "ghost_snowball");
                 output.accept(itemStack);
-                itemStack = tank.getDefaultInstance();
-                itemStack.getOrCreateTag().putString("Snowball", "subspace_snowball");
-                output.accept(itemStack);
+
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "expansion_snowball");
                 output.accept(itemStack);
@@ -152,9 +165,7 @@ public class CreativeTabRegister {
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "icicle_snowball");
                 output.accept(itemStack);
-                itemStack = tank.getDefaultInstance();
-                itemStack.getOrCreateTag().putString("Snowball", "black_hole_snowball");
-                output.accept(itemStack);
+
 
                 tank = ItemRegister.LARGE_SNOWBALL_TANK.get();
                 itemStack = tank.getDefaultInstance();
@@ -188,6 +199,10 @@ public class CreativeTabRegister {
                 itemStack.getOrCreateTag().putString("Snowball", "explosive_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
+                itemStack.getOrCreateTag().putString("Snowball", "thrust_snowball");
+                output.accept(itemStack);
+
+                itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "light_monster_tracking_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
@@ -205,6 +220,7 @@ public class CreativeTabRegister {
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "explosive_player_tracking_snowball");
                 output.accept(itemStack);
+
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "monster_gravity_snowball");
                 output.accept(itemStack);
@@ -218,13 +234,20 @@ public class CreativeTabRegister {
                 itemStack.getOrCreateTag().putString("Snowball", "projectile_repulsion_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
-                itemStack.getOrCreateTag().putString("Snowball", "thrust_snowball");
+                itemStack.getOrCreateTag().putString("Snowball", "impulse_snowball");
+                output.accept(itemStack);
+                itemStack = tank.getDefaultInstance();
+                itemStack.getOrCreateTag().putString("Snowball", "black_hole_snowball");
+                output.accept(itemStack);
+                itemStack = tank.getDefaultInstance();
+                itemStack.getOrCreateTag().putString("Snowball", "subspace_snowball");
+                output.accept(itemStack);
+
+                itemStack = tank.getDefaultInstance();
+                itemStack.getOrCreateTag().putString("Snowball", "powder_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "spectral_snowball");
-                output.accept(itemStack);
-                itemStack = tank.getDefaultInstance();
-                itemStack.getOrCreateTag().putString("Snowball", "powder_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "frozen_snowball");
@@ -233,17 +256,12 @@ public class CreativeTabRegister {
                 itemStack.getOrCreateTag().putString("Snowball", "critical_frozen_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
-                itemStack.getOrCreateTag().putString("Snowball", "impulse_snowball");
-                output.accept(itemStack);
-                itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "ender_snowball");
                 output.accept(itemStack);
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "ghost_snowball");
                 output.accept(itemStack);
-                itemStack = tank.getDefaultInstance();
-                itemStack.getOrCreateTag().putString("Snowball", "subspace_snowball");
-                output.accept(itemStack);
+
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "expansion_snowball");
                 output.accept(itemStack);
@@ -253,9 +271,6 @@ public class CreativeTabRegister {
                 itemStack = tank.getDefaultInstance();
                 itemStack.getOrCreateTag().putString("Snowball", "icicle_snowball");
                 output.accept(itemStack);
-                itemStack = tank.getDefaultInstance();
-                itemStack.getOrCreateTag().putString("Snowball", "black_hole_snowball");
-                output.accept(itemStack);
 
                 output.accept(ItemRegister.WOOD_SNOWBALL_CLAMP.get());
                 output.accept(ItemRegister.STONE_SNOWBALL_CLAMP.get());
@@ -264,18 +279,6 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.DIAMOND_SNOWBALL_CLAMP.get());
                 output.accept(ItemRegister.NETHERITE_SNOWBALL_CLAMP.get());
                 output.accept(ItemRegister.EMERALD_SNOWBALL_CLAMP.get());
-                output.accept(ItemRegister.SNOWBALL_CANNON.get());
-                output.accept(ItemRegister.POWERFUL_SNOWBALL_CANNON.get());
-                output.accept(ItemRegister.FREEZING_SNOWBALL_CANNON.get());
-                output.accept(ItemRegister.SNOWBALL_MACHINE_GUN.get());
-                output.accept(ItemRegister.SNOWBALL_SHOTGUN.get());
-                output.accept(ItemRegister.SNOWMAN_IN_HAND.get());
-                output.accept(ItemRegister.GLOVE.get());
-                output.accept(ItemRegister.JEDI_GLOVE.get());
-                output.accept(ItemRegister.REPULSIVE_FIELD_GENERATOR.get());
-                output.accept(ItemRegister.ICE_SKATES_ITEM.get());
-                output.accept(ItemRegister.SNOW_FALL_BOOTS.get());
-                output.accept(ItemRegister.SNOW_BLOCK_BLENDER.get());
                 output.accept(ItemRegister.BASIN.get());
                 itemStack = ItemRegister.BASIN.get().getDefaultInstance();
                 itemStack.getOrCreateTag().putByte("SnowType", (byte) 1);
@@ -283,25 +286,33 @@ public class CreativeTabRegister {
                 itemStack = ItemRegister.BASIN.get().getDefaultInstance();
                 itemStack.getOrCreateTag().putByte("SnowType", (byte) 2);
                 output.accept(itemStack);
-                output.accept(ItemRegister.SNOW_GOLEM_MODE_TWEAKER.get());
-                output.accept(ItemRegister.CREATIVE_SNOW_GOLEM_TOOL.get());
+                output.accept(ItemRegister.SNOWBALL_CANNON.get());
+                output.accept(ItemRegister.POWERFUL_SNOWBALL_CANNON.get());
+                output.accept(ItemRegister.FREEZING_SNOWBALL_CANNON.get());
+                output.accept(ItemRegister.SNOWBALL_MACHINE_GUN.get());
+                output.accept(ItemRegister.SNOWBALL_SHOTGUN.get());
+                output.accept(ItemRegister.SNOWMAN_IN_HAND.get());
                 output.accept(ItemRegister.TARGET_LOCATOR.get());
-                output.accept(ItemRegister.SNOW_TRAP_SETTER.get());
                 output.accept(ItemRegister.SCULK_SNOWBALL_LAUNCHER.get());
-                output.accept(ItemRegister.SNOW_GOLEM_CONTAINER.get());
+
+                output.accept(ItemRegister.SNOW_BLOCK_BLENDER.get());
+                output.accept(ItemRegister.SNOW_TRAP_SETTER.get());
+                output.accept(ItemRegister.REPULSIVE_FIELD_GENERATOR.get());
+                output.accept(ItemRegister.GLOVE.get());
+                output.accept(ItemRegister.JEDI_GLOVE.get());
+
+                output.accept(ItemRegister.ICE_SKATES_ITEM.get());
+                output.accept(ItemRegister.SNOW_FALL_BOOTS.get());
 
                 output.accept(ItemRegister.POPSICLE.get());
                 output.accept(ItemRegister.MILK_POPSICLE.get());
                 output.accept(ItemRegister.VODKA.get());
-                output.accept(ItemRegister.SMART_SNOW_BLOCK.get());
-                output.accept(ItemRegister.SUPER_POWER_CORE.get());
-                output.accept(ItemRegister.SUPER_FROZEN_CORE.get());
-                output.accept(ItemRegister.TRACKING_CORE.get());
-                output.accept(ItemRegister.UNSTABLE_CORE.get());
-                output.accept(ItemRegister.REPULSION_CORE.get());
-                output.accept(ItemRegister.GRAVITY_CORE.get());
-                output.accept(ItemRegister.SNOWBALL_CANNON_UPGRADE_SMITHING_TEMPLATE.get());
 
+                output.accept(ItemRegister.SMART_SNOW_BLOCK.get());
+                output.accept(ItemRegister.SNOW_GOLEM_CONTAINER.get());
+                output.accept(ItemRegister.SNOW_GOLEM_MODE_TWEAKER.get());
+                output.accept(ItemRegister.CREATIVE_SNOW_GOLEM_TOOL.get());
+                output.accept(ItemRegister.SNOW_GOLEM_CORE_REMOVER.get());
                 output.accept(ItemRegister.BLANK_GOLEM_CORE.get());
                 output.accept(ItemRegister.THRUST_GOLEM_CORE.get());
                 output.accept(ItemRegister.SWIFTNESS_GOLEM_CORE.get());
@@ -311,6 +322,14 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.NEAR_TELEPORTATION_GOLEM_CORE.get());
                 output.accept(ItemRegister.ENDER_TELEPORTATION_GOLEM_CORE.get());
                 output.accept(ItemRegister.ACTIVE_TELEPORTATION_GOLEM_CORE.get());
-                output.accept(ItemRegister.SNOW_GOLEM_CORE_REMOVER.get());
+
+                output.accept(ItemRegister.SNOWBALL_CANNON_UPGRADE_SMITHING_TEMPLATE.get());
+                output.accept(ItemRegister.SUPER_POWER_CORE.get());
+                output.accept(ItemRegister.SUPER_FROZEN_CORE.get());
+
+                output.accept(ItemRegister.TRACKING_CORE.get());
+                output.accept(ItemRegister.REPULSION_CORE.get());
+                output.accept(ItemRegister.GRAVITY_CORE.get());
+                output.accept(ItemRegister.UNSTABLE_CORE.get());
             }).build());
 }
