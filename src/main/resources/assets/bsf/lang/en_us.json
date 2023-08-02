@@ -152,7 +152,25 @@
   "item.bsf.active_teleportation_golem_core": "Active Teleportation Golem Core",
   "item.bsf.snow_golem_core_remover": "Snow Golem Core Remover",
 
+
+
   "stone_snowball.tooltip": "This is outrageous!",
+  "duck_snowball.tooltip": "Quack！",
+  "cherry_blossom_snowball.tooltip": "5cm/s",
+  "critical_frozen_snowball.tooltip": "Snow magic.",
+  "expansion_snowball.tooltip": "Cheese Snow Castle.",
+  "reconstruct_snowball.tooltip": "The builder.",
+  "icicle_snowball.tooltip": "The cold winter is approaching.",
+  "snow_storage_snowball.tooltip": "Throwing it instantly absorbs the surrounding snow and stores it inside.",
+  "impulse_snowball.tooltip": "Strong and powerful",
+  "ghost_snowball.tooltip": "Damned Devil.",
+  "snowman_in_hand.tooltip": "Launch to reduce scattering when shift is pressed.",
+  "snowman_in_hand1.tooltip": "Right click can absorb snow to charge.",
+  "snowman_in_hand2.tooltip": "The Correct Usage of a Snow Golem.",
+  "jedi_glove.tooltip": "The Force is with me.",
+  "snow_trap_setter.tooltip": "I have a plan.",
+  "sculk_snowball_launcher.tooltip": "Who asked?",
+  "snow_golem_container.tooltip": "Portable Snow Golem",
   "snowball_clamp.tooltip": "Highly efficient snowballing tool",
   "snowball_cannon.tooltip": "Immoral weapon for snowball fight",
   "snowball_cannon1.tooltip": "Launching high speed snowballs with power.",
@@ -244,6 +262,22 @@
   "snowball_cannon_upgrade_smithing_template4.tooltip": " Snowball Cannon",
   "snowball_cannon_upgrade_smithing_template5.tooltip": "Ingredients:",
   "snowball_cannon_upgrade_smithing_template6.tooltip": " Snowball Cannon Upgrade Core",
+  "thrust_golem_core.tooltip": "When approached by the target, propel oneself.",
+  "thrust_golem_core_cd.tooltip": "Cooling Time:6s",
+  "swiftness_golem_core.tooltip": "Accelerate Snow Golem",
+  "swiftness_golem_core_cd.tooltip": "Cooling Time:0s",
+  "regeneration_golem_core.tooltip": "Will regain health if not attacked for a period of time.",
+  "regeneration_golem_core_cd.tooltip": "Cooling Time:5s",
+  "critical_snow_golem_core.tooltip": "Would generate critical snow along its movement path",
+  "critical_snow_golem_core_cd.tooltip": "Cooling Time:0s",
+  "repulsive_field_golem_core.tooltip": "Controls the flying projectiles to rush towards the target.",
+  "repulsive_field_golem_core_cd.tooltip": "Cooling Time:5s",
+  "near_teleportation_golem_core.tooltip": "Teleports to escape when approached by the target",
+  "near_teleportation_golem_core_cd.tooltip": "Cooling Time:8s",
+  "ender_teleportation_golem_core.tooltip": "Teleported before being hit by a projectile",
+  "ender_teleportation_golem_core_cd.tooltip": "Cooling Time:10s",
+  "active_teleportation_golem_core.tooltip": "Actively teleports behind the target",
+  "active_teleportation_golem_core_cd.tooltip": "Cooling Time:12s",
 
   "void.tooltip": "",
 
@@ -294,6 +328,7 @@
   "advancements.bsf.vodka.description": "Drink Vodka",
 
   "effect.bsf.cold_resistance": "Cold Resistance",
+  "effect.bsf.weapon_jam": "Weapon Jam",
 
   "entity.bsf.bsf_snowball": "snowball",
 
