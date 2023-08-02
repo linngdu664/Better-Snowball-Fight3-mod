@@ -351,6 +351,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 if (!tag.getBoolean("HasGolem")) {
                     addAdditionalSaveData(tag);
                     tag.putBoolean("HasGolem", true);
+                    playSound(SoundEvents.SNOW_BREAK);
                     discard();
                 }
             } else if (item instanceof SnowGolemCoreItem && getCore().isEmpty()) {
