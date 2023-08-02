@@ -40,12 +40,10 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
         Level level = level();
-        if (!isCaught && level instanceof ServerLevel serverLevel) {
+        if (!isCaught && !level.isClientSide) {
             Entity entity = pResult.getEntity();
             if (getOwner() != null && (entity instanceof Player || entity instanceof Mob)) {
                 Entity owner = getOwner();
-//                serverLevel.sendParticles(ParticleTypes.PORTAL, entity.getX(), entity.getEyeY(), entity.getZ(), 32, 1, 1, 1, 0.1);
-//                serverLevel.sendParticles(ParticleTypes.PORTAL, owner.getX(), owner.getEyeY(), owner.getZ(), 32, 1, 1, 1, 0.1);
                 generateTpParticles(entity, level);
                 generateTpParticles(owner, level);
                 Vec3 ownerPos = owner.position();
