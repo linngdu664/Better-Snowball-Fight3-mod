@@ -47,6 +47,7 @@ public class CriticalFrozenSnowballEntity extends AbstractFrozenSnowballEntity {
     public CriticalFrozenSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
         super(EntityRegister.CRITICAL_FROZEN_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
     }
+
     public void setEffects(Level level, HitResult hitResult, BlockState newBlock) {
         if (!level.isClientSide) {
             if (!isCaught) {
