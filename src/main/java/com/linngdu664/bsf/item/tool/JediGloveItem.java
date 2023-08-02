@@ -50,6 +50,7 @@ public class JediGloveItem extends GloveItem {
             pStack.hurtAndBreak(list.size() + list1.size(), player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
         }
     }
+
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("jedi_glove.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));

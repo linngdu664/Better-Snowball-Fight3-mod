@@ -31,15 +31,17 @@ public class BSFMthUtil {
     public static double randDouble(double a, double b) {
         return random.nextDouble() * (b - a) + a;
     }
+
     public static double randDoubleWithInfer(double a, double b) {
-        return a>b?random.nextDouble() * (a - b) + b:random.nextDouble() * (b - a) + a;
+        return a > b ? random.nextDouble() * (a - b) + b : random.nextDouble() * (b - a) + a;
     }
 
     public static int randInt(int a, int b) {
         return random.nextInt(b - a) + a;
     }
+
     public static int randIntWithInfer(int a, int b) {
-        return a>b?random.nextInt() * (a - b) + b:random.nextInt() * (b - a) + a;
+        return a > b ? random.nextInt() * (a - b) + b : random.nextInt() * (b - a) + a;
     }
 
     public static double randNormalDouble(double mu, double sigma) {

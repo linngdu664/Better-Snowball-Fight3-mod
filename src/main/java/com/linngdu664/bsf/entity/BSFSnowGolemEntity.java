@@ -228,6 +228,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     public int getCoreCoolDown() {
         return coreCoolDown;
     }
+
     public void setDropEquipment(boolean b) {
         this.dropEquipment = b;
     }

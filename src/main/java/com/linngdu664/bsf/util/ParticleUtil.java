@@ -50,23 +50,23 @@ public class ParticleUtil {
      * This method can randomly generate particles with different speeds in the same direction in the cuboid area.
      * It can only work in the client side. Please use "ForwardRaysParticlesToClient" to send particles in the server side.
      *
-     * @param pLevel            Entity's Level.
-     * @param particleOptions   The type of the particle.
-     * @param pos1              Cuboid vertex 1
-     * @param pos2              Cuboid vertex 2
-     * @param vec               Velocity vector
-     * @param vMin              Speed minimum
-     * @param vMax              Speed maximum
-     * @param num               Number of particles
+     * @param pLevel          Entity's Level.
+     * @param particleOptions The type of the particle.
+     * @param pos1            Cuboid vertex 1
+     * @param pos2            Cuboid vertex 2
+     * @param vec             Velocity vector
+     * @param vMin            Speed minimum
+     * @param vMax            Speed maximum
+     * @param num             Number of particles
      */
-    public static void spawnForwardRaysParticles(Level pLevel,ParticleOptions particleOptions,Vec3 pos1,Vec3 pos2,Vec3 vec,double vMin, double vMax, int num){
-        double dx,dy,dz;
+    public static void spawnForwardRaysParticles(Level pLevel, ParticleOptions particleOptions, Vec3 pos1, Vec3 pos2, Vec3 vec, double vMin, double vMax, int num) {
+        double dx, dy, dz;
         for (int i = 0; i < num; i++) {
-            dx=BSFMthUtil.randDoubleWithInfer(pos1.x,pos2.x);
-            dy=BSFMthUtil.randDoubleWithInfer(pos1.y,pos2.y);
-            dz=BSFMthUtil.randDoubleWithInfer(pos1.z,pos2.z);
+            dx = BSFMthUtil.randDoubleWithInfer(pos1.x, pos2.x);
+            dy = BSFMthUtil.randDoubleWithInfer(pos1.y, pos2.y);
+            dz = BSFMthUtil.randDoubleWithInfer(pos1.z, pos2.z);
             Vec3 v = vec.normalize().scale(BSFMthUtil.randDouble(vMin, vMax));
-            pLevel.addParticle(particleOptions,dx,dy,dz,v.x,v.y,v.z);
+            pLevel.addParticle(particleOptions, dx, dy, dz, v.x, v.y, v.z);
         }
     }
 }

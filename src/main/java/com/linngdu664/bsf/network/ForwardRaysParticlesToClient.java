@@ -13,7 +13,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class ForwardRaysParticlesToClient {
-    private final double p1x,p1y,p1z,p2x,p2y,p2z,vx,vy,vz, vMin, vMax;
+    private final double p1x, p1y, p1z, p2x, p2y, p2z, vx, vy, vz, vMin, vMax;
     private final int num;
 
     public ForwardRaysParticlesToClient(Vec3 pos1, Vec3 pos2, Vec3 vec, double vMin, double vMax, int num) {
@@ -45,6 +45,7 @@ public class ForwardRaysParticlesToClient {
         buffer.writeDouble(message.vMax);
         buffer.writeInt(message.num);
     }
+
     public static ForwardRaysParticlesToClient decoder(FriendlyByteBuf buffer) {
         double p1x = buffer.readDouble();
         double p1y = buffer.readDouble();
@@ -58,16 +59,18 @@ public class ForwardRaysParticlesToClient {
         double vMin = buffer.readDouble();
         double vMax = buffer.readDouble();
         int num = buffer.readInt();
-        return new ForwardRaysParticlesToClient(new Vec3(p1x,p1y,p1z),new Vec3(p2x,p2y,p2z),new Vec3(vx,vy,vz),vMin,vMax,num);
+        return new ForwardRaysParticlesToClient(new Vec3(p1x, p1y, p1z), new Vec3(p2x, p2y, p2z), new Vec3(vx, vy, vz), vMin, vMax, num);
     }
+
     public static void messageConsumer(ForwardRaysParticlesToClient message, Supplier<NetworkEvent.Context> ctxSupplier) {
         NetworkEvent.Context context = ctxSupplier.get();
-        context.enqueueWork(() -> DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> handlePacket(message.p1x,message.p1y,message.p1z,message.p2x,message.p2y,message.p2z,message.vx,message.vy,message.vz,message.vMin,message.vMax,message.num)));
+        context.enqueueWork(() -> DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> handlePacket(message.p1x, message.p1y, message.p1z, message.p2x, message.p2y, message.p2z, message.vx, message.vy, message.vz, message.vMin, message.vMax, message.num)));
         context.setPacketHandled(true);
     }
+
     @OnlyIn(Dist.CLIENT)
     public static boolean handlePacket(double p1x, double p1y, double p1z, double p2x, double p2y, double p2z, double vx, double vy, double vz, double vMin, double vMax, int num) {
-        ParticleUtil.spawnForwardRaysParticles(Minecraft.getInstance().player.level(), ParticleTypes.SNOWFLAKE,new Vec3(p1x,p1y,p1z),new Vec3(p2x,p2y,p2z),new Vec3(vx,vy,vz),vMin,vMax,num);
+        ParticleUtil.spawnForwardRaysParticles(Minecraft.getInstance().player.level(), ParticleTypes.SNOWFLAKE, new Vec3(p1x, p1y, p1z), new Vec3(p2x, p2y, p2z), new Vec3(vx, vy, vz), vMin, vMax, num);
         return true;
     }
 }

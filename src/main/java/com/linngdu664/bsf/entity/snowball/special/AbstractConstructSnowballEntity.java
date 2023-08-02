@@ -29,11 +29,10 @@ import java.util.Stack;
 
 public abstract class AbstractConstructSnowballEntity extends AbstractFixableSnowballEntity {
     private static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(AbstractConstructSnowballEntity.class, EntityDataSerializers.BOOLEAN);
+    protected final Stack<BlockPos> allBlock = new Stack<>();
     protected int blockDurationTick;    // default: 20 * 4
-
     protected float destroyStepSize = 5;
     protected boolean inBlockDuration = false;
-    protected final Stack<BlockPos> allBlock = new Stack<>();
     private boolean inDestroying = false;
 
 
@@ -148,7 +147,7 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
     /**
      * All subclasses of Snowball must use this method to generate blocks
      *
-     * @param level level
+     * @param level    level
      * @param blockPos blockPos
      */
     protected void placeAndRecordBlock(Level level, BlockPos blockPos) {

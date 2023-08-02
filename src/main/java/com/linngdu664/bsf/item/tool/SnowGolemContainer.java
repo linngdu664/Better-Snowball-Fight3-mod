@@ -47,6 +47,7 @@ public class SnowGolemContainer extends Item {
         }
         return InteractionResult.PASS;
     }
+
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_golem_container.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));

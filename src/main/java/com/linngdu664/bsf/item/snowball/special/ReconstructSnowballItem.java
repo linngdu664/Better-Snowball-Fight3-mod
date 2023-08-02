@@ -38,6 +38,7 @@ public class ReconstructSnowballItem extends AbstractSnowStorageSnowballItem {
     public int getMaxCapacity() {
         return BSFConfig.reconstructSnowballCapacity;
     }
+
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {
         super.addLastTips(pTooltipComponents);

@@ -130,6 +130,7 @@ public class SnowmanInHandItem extends Item {
     public int getEnchantmentValue(ItemStack stack) {
         return 0;
     }
+
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowman_in_hand.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));

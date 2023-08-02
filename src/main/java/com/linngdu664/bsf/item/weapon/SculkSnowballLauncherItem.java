@@ -63,6 +63,7 @@ public class SculkSnowballLauncherItem extends AbstractBSFWeaponItem {
         }
         return InteractionResultHolder.pass(itemStack);
     }
+
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("sculk_snowball_launcher.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));

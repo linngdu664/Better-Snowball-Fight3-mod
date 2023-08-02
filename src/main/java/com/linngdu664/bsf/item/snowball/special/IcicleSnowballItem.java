@@ -38,6 +38,7 @@ public class IcicleSnowballItem extends AbstractSnowStorageSnowballItem {
     public int getMaxCapacity() {
         return BSFConfig.icicleSnowballCapacity;
     }
+
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {
         super.addLastTips(pTooltipComponents);
