@@ -104,7 +104,6 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
                 // add push
                 player.push(-cameraVec.x * recoil * 0.25, -cameraVec.y * recoil * 0.25, -cameraVec.z * recoil * 0.25);
             } else {
-                System.out.println(ammo);
                 AbstractBSFSnowballEntity snowballEntity = ItemToEntity(ammo, player, pLevel, getLaunchAdjustment(1, ammo.getItem()));
                 BSFShootFromRotation(snowballEntity, pitch, yaw, 2.6F, 1.0F);
                 pLevel.addFreshEntity(snowballEntity);
