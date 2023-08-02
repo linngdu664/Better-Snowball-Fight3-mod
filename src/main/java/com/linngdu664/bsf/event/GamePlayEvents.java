@@ -66,7 +66,7 @@ public class GamePlayEvents {
                     target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 2));
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 150, 1));
                 }
-                target.addEffect(new MobEffectInstance(EffectRegister.WEAPON_JAM.get(), 80, 1));
+                target.addEffect(new MobEffectInstance(EffectRegister.WEAPON_JAM.get(), 80, 0));
                 if (level instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(ParticleTypes.ITEM_SNOWBALL, target.getX(), target.getEyeY(), target.getZ(), 16, 0, 0, 0, 0);
                     serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, target.getX(), target.getEyeY(), target.getZ(), 16, 0, 0, 0, 0.04);
@@ -86,7 +86,7 @@ public class GamePlayEvents {
                     target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 1));
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 30, 1));
                 }
-                target.addEffect(new MobEffectInstance(EffectRegister.WEAPON_JAM.get(), 40, 1));
+                target.addEffect(new MobEffectInstance(EffectRegister.WEAPON_JAM.get(), 40, 0));
                 if (!player.getAbilities().instabuild) {
                     player.getItemInHand(InteractionHand.MAIN_HAND).shrink(1);
                 }
