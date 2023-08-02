@@ -632,7 +632,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         Vec3 center = aabb.getCenter();
         double x = 0.5 * (aabb.maxX - aabb.minX);
         double y = 0.5 * (aabb.maxY - aabb.minY);
-        ((ServerLevel) level()).sendParticles(ParticleTypes.PORTAL, center.x, center.y, center.z, 100, x, y, x, 0);
+        ((ServerLevel) level()).sendParticles(ParticleTypes.PORTAL, center.x, center.y, center.z, 81, x, y, x, 0);
         teleportTo(vec3.x, vec3.y, vec3.z);
         playSound(SoundEvents.ENDERMAN_TELEPORT);
         resetCoreCoolDown();
