@@ -93,7 +93,7 @@ public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowbal
     public abstract int getMaxCapacity();
 
     @Override
-    public void addLastTips(List<Component> pTooltipComponents) {
+    public void addUsageTips(List<Component> pTooltipComponents) {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_storage_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
     }
 }
