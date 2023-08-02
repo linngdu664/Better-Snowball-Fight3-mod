@@ -73,10 +73,10 @@ public abstract class AbstractFrozenSnowballEntity extends AbstractBSFSnowballEn
                                 } else if (level.getBlockEntity(blockPos1) instanceof CriticalSnowEntity blockEntity) {
                                     blockEntity.setAge(0);
                                     blockEntity.setChanged();
-                                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new ForwardRaysParticlesToClient(blockPos1.getCenter().add(-0.5, -0.4, -0.5), blockPos1.getCenter().add(0.5, -0.4, 0.5), new Vec3(0, 1, 0), 0.2, 0.6, launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON ? 10 : 5));
+//                                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new ForwardRaysParticlesToClient(blockPos1.getCenter().add(-0.5, -0.4, -0.5), blockPos1.getCenter().add(0.5, -0.4, 0.5), new Vec3(0, 1, 0), 0.2, 0.6, launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON ? 10 : 5));
                                 } else if (blockState.canBeReplaced() && newBlock.canSurvive(level, blockPos1)) {
                                     level.setBlockAndUpdate(blockPos1, newBlock);
-                                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new ForwardRaysParticlesToClient(blockPos1.getCenter().add(-0.5, -0.4, -0.5), blockPos1.getCenter().add(0.5, -0.4, 0.5), new Vec3(0, 1, 0), 0.2, 0.6, launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON ? 10 : 5));
+//                                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new ForwardRaysParticlesToClient(blockPos1.getCenter().add(-0.5, -0.4, -0.5), blockPos1.getCenter().add(0.5, -0.4, 0.5), new Vec3(0, 1, 0), 0.2, 0.6, launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON ? 10 : 5));
                                 }
                             }
                         }
@@ -97,9 +97,9 @@ public abstract class AbstractFrozenSnowballEntity extends AbstractBSFSnowballEn
                     }
                 }
                 if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
-                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 40, 0, 0, 0, 0.12);
+                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 400, 0, 0, 0, 0.32);
                 } else {
-                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 20, 0, 0, 0, 0.12);
+                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 200, 0, 0, 0, 0.32);
                 }
                 level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_HURT_FREEZE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
