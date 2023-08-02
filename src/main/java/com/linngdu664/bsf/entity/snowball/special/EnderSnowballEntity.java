@@ -9,6 +9,8 @@ import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -37,14 +40,14 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
         Level level = level();
-        if (!isCaught) {
+        if (!isCaught && level instanceof ServerLevel serverLevel) {
             Entity entity = pResult.getEntity();
             if (getOwner() != null && (entity instanceof Player || entity instanceof Mob)) {
                 Entity owner = getOwner();
-                if (level instanceof ServerLevel serverLevel) {
-                    serverLevel.sendParticles(ParticleTypes.PORTAL, entity.getX(), entity.getEyeY(), entity.getZ(), 32, 1, 1, 1, 0.1);
-                    serverLevel.sendParticles(ParticleTypes.PORTAL, owner.getX(), owner.getEyeY(), owner.getZ(), 32, 1, 1, 1, 0.1);
-                }
+//                serverLevel.sendParticles(ParticleTypes.PORTAL, entity.getX(), entity.getEyeY(), entity.getZ(), 32, 1, 1, 1, 0.1);
+//                serverLevel.sendParticles(ParticleTypes.PORTAL, owner.getX(), owner.getEyeY(), owner.getZ(), 32, 1, 1, 1, 0.1);
+                generateTpParticles(entity, level);
+                generateTpParticles(owner, level);
                 Vec3 ownerPos = owner.position();
                 Vec3 v1 = owner.getDeltaMovement();
                 Vec3 v2 = entity.getDeltaMovement();
@@ -64,6 +67,8 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
                     serverPlayer.connection.send(new ClientboundPlayerPositionPacket(ownerPos.x, ownerPos.y, ownerPos.z, yRot1, xRot1, new HashSet<>(), entity.getId()));
                     serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(entity));
                 }
+                level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                level.playSound(null, owner.getX(), owner.getY(), owner.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.NEUTRAL, 1.0F, 1.0F);
             }
         }
         this.discard();
@@ -92,5 +97,13 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
     @Override
     protected @NotNull Item getDefaultItem() {
         return ItemRegister.ENDER_SNOWBALL.get();
+    }
+
+    private void generateTpParticles(Entity entity, Level level) {
+        AABB aabb = entity.getBoundingBox();
+        Vec3 center = aabb.getCenter();
+        double x = 0.5 * (aabb.maxX - aabb.minX);
+        double y = 0.5 * (aabb.maxY - aabb.minY);
+        ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL, center.x, center.y, center.z, (int) (1000 * x * x * y), x, y, x, 0);
     }
 }
