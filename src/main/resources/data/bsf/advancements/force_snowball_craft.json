@@ -2,7 +2,7 @@
   "parent": "bsf:unstable_core_craft",
   "display": {
     "icon": {
-      "item": "bsf:gravity_snowball_to_monster"
+      "item": "bsf:monster_gravity_snowball"
     },
     "title": {
       "translate": "advancements.bsf.gravity_snowball_to_monster.title"
