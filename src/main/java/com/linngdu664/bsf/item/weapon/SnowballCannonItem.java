@@ -32,7 +32,11 @@ public class SnowballCannonItem extends AbstractBSFWeaponItem {
     public static final int TYPE_FLAG = 2;
 
     public SnowballCannonItem() {
-        super(514, Rarity.RARE, TYPE_FLAG);
+        super(514, Rarity.UNCOMMON, TYPE_FLAG);
+    }
+
+    public SnowballCannonItem(Rarity rarity) {
+        super(514, rarity, TYPE_FLAG);
     }
 
     public float getPowerForTime(int pCharge) {

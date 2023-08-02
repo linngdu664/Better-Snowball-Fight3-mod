@@ -10,6 +10,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +19,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class FreezingSnowballCannonItem extends SnowballCannonItem {
+    public FreezingSnowballCannonItem() {
+        super(Rarity.RARE);
+    }
+
     @Override
     public ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball) {
         return new ILaunchAdjustment() {
