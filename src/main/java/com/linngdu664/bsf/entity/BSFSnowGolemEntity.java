@@ -255,6 +255,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 if (!pPlayer.getAbilities().instabuild) {
                     itemStack.shrink(1);
                 }
+                playSound(SoundEvents.ARMOR_EQUIP_IRON, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             } else if ((item instanceof SnowballCannonItem || item instanceof SnowballShotgunItem) && getWeapon().isEmpty()) {
                 setWeapon(itemStack.copy());
                 if (!pPlayer.getAbilities().instabuild) {
@@ -264,13 +265,20 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                         itemStack.shrink(1);
                     }
                 }
+                playSound(SoundEvents.ARMOR_EQUIP_IRON, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             } else if (itemStack.isEmpty()) {
                 if (pPlayer.isShiftKeyDown()) {
+                    if (!getWeapon().isEmpty()) {
+                        playSound(SoundEvents.DISPENSER_DISPENSE, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                    }
                     if (EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.SNOW_GOLEM_EXCLUSIVE.get(), getWeapon()) <= 0) {
                         pPlayer.getInventory().placeItemBackInInventory(getWeapon(), true);
                     }
                     setWeapon(ItemStack.EMPTY);
                 } else {
+                    if (!getAmmo().isEmpty()) {
+                        playSound(SoundEvents.DISPENSER_DISPENSE, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                    }
                     pPlayer.getInventory().placeItemBackInInventory(getAmmo(), true);
                     setAmmo(ItemStack.EMPTY);
                 }
@@ -352,7 +360,11 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 if (!pPlayer.getAbilities().instabuild) {
                     itemStack.shrink(1);
                 }
+                playSound(SoundEvents.ARMOR_EQUIP_IRON, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             } else if (item.equals(ItemRegister.SNOW_GOLEM_CORE_REMOVER.get())) {
+                if (!getCore().isEmpty()) {
+                    playSound(SoundEvents.DISPENSER_DISPENSE, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                }
                 pPlayer.getInventory().placeItemBackInInventory(getCore(), true);
                 setCore(ItemStack.EMPTY);
             }
