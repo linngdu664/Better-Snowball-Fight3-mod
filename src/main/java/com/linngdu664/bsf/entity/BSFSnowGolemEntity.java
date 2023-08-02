@@ -51,6 +51,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -89,6 +90,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     private boolean enhance;
     private int potionSickness;
     private int coreCoolDown;
+    private boolean dropEquipment;
 
     public BSFSnowGolemEntity(EntityType<? extends TamableAnimal> p_21803_, Level p_21804_) {
         super(p_21803_, p_21804_);
@@ -127,6 +129,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         pCompound.putBoolean("Enhance", enhance);
         pCompound.putInt("PotionSickness", potionSickness);
         pCompound.putInt("CoreCoolDown", coreCoolDown);
+        pCompound.putBoolean("DropEquipment", dropEquipment);
         if (getTarget() != null) {
             pCompound.putUUID("TargetUUID", getTarget().getUUID());
         } else {
@@ -147,6 +150,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         enhance = pCompound.getBoolean("Enhance");
         potionSickness = pCompound.getInt("PotionSickness");
         coreCoolDown = pCompound.getInt("CoreCoolDown");
+        dropEquipment = pCompound.getBoolean("DropEquipment");
         if (pCompound.contains("TargetUUID")) {
             setTarget((LivingEntity) ((ServerLevel) level()).getEntity(pCompound.getUUID("TargetUUID")));
         }
@@ -222,6 +226,9 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
 
     public int getCoreCoolDown() {
         return coreCoolDown;
+    }
+    public void setDropEquipment(boolean b) {
+        this.dropEquipment = b;
     }
 
     @Override
@@ -511,14 +518,18 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     @Override
     public void die(@NotNull DamageSource pCause) {
         super.die(pCause);
-        if (!getWeapon().isEmpty() && !EnchantmentHelper.hasVanishingCurse(getWeapon()) && EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.SNOW_GOLEM_EXCLUSIVE.get(), getWeapon()) <= 0) {
-            spawnAtLocation(getWeapon());
+        if (level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+            if (dropEquipment) {
+                if (!EnchantmentHelper.hasVanishingCurse(getWeapon()) && EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.SNOW_GOLEM_EXCLUSIVE.get(), getWeapon()) <= 0) {
+                    spawnAtLocation(getWeapon());
+                }
+                if (!EnchantmentHelper.hasVanishingCurse(getAmmo())) {
+                    spawnAtLocation(getAmmo());
+                }
+                spawnAtLocation(getCore());
+            }
+            spawnAtLocation(new ItemStack(Items.SNOWBALL, BSFMthUtil.randInt(0, 16)));
         }
-        if (!getAmmo().isEmpty() && !EnchantmentHelper.hasVanishingCurse(getAmmo())) {
-            spawnAtLocation(getAmmo());
-        }
-        spawnAtLocation(getCore());
-        spawnAtLocation(new ItemStack(Items.SNOWBALL, BSFMthUtil.randInt(0, 16)));
     }
 
     @Override
