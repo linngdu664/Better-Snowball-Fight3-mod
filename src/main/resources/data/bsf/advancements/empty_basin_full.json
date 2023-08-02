@@ -2,7 +2,8 @@
   "parent": "bsf:root",
   "display": {
     "icon": {
-      "item": "bsf:basin_of_snow"
+      "item": "bsf:basin",
+      "nbt": "{SnowType:1b}"
     },
     "title": {
       "translate": "advancements.bsf.empty_basin.title"
@@ -16,19 +17,32 @@
     "hidden": false
   },
   "criteria": {
-    "empty_basin_full": {
+    "basin_of_snow": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "bsf:basin_of_snow",
-              "bsf:basin_of_powder_snow"
-            ]
+              "bsf:basin"
+            ],
+            "nbt": "{SnowType:1b}"
+          }
+        ]
+      }
+    },
+    "basin_of_powder_snow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bsf:basin"
+            ],
+            "nbt": "{SnowType:2b}"
           }
         ]
       }
     }
   },
-  "requirements": [["empty_basin_full"]]
+  "requirements": [["basin_of_snow", "basin_of_powder_snow"]]
 }

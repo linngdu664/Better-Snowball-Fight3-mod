@@ -46,7 +46,6 @@ public class BasinItem extends Item {
 
     @Override
     public @NotNull InteractionResult useOn(UseOnContext pContext) {
-        System.out.println("dsfdsf");
         ItemStack itemStack = pContext.getItemInHand();
         if (!itemStack.getOrCreateTag().contains("SnowType")) {
             Player player = pContext.getPlayer();
