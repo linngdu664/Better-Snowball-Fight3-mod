@@ -19,8 +19,8 @@ public class SnowGolemCoreItem extends Item {
     private final String[] hoverText;
     private final ChatFormatting[] chatFormats;
 
-    public SnowGolemCoreItem(Rarity rarity, int coolDown, String[] hoverText, ChatFormatting[] chatFormats) {
-        super(new Properties().rarity(rarity));
+    public SnowGolemCoreItem(int coolDown, String[] hoverText, ChatFormatting[] chatFormats) {
+        super(new Properties().rarity(Rarity.UNCOMMON));
         this.coolDown = coolDown;
         this.hoverText = hoverText;
         this.chatFormats = chatFormats;

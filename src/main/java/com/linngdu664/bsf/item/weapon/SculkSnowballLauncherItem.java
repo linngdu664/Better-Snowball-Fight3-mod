@@ -27,7 +27,7 @@ public class SculkSnowballLauncherItem extends AbstractBSFWeaponItem {
     public static final int TYPE_FLAG = 16;
 
     public SculkSnowballLauncherItem() {
-        super(8192, Rarity.RARE, TYPE_FLAG);
+        super(8192, Rarity.UNCOMMON, TYPE_FLAG);
     }
 
     @Override

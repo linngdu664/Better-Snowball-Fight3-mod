@@ -24,7 +24,7 @@ import java.util.List;
 
 public class JediGloveItem extends GloveItem {
     public JediGloveItem() {
-        super(Rarity.RARE, 514, 12);
+        super(Rarity.EPIC, 514, 12);
     }
 
     @Override

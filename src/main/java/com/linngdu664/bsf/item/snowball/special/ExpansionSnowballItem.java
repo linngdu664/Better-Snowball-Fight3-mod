@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ExpansionSnowballItem extends AbstractBSFSnowballItem {
     public ExpansionSnowballItem() {
-        super(Rarity.RARE);
+        super(Rarity.UNCOMMON);
     }
 
     @Override

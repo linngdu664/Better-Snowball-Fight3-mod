@@ -302,6 +302,7 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.GRAVITY_CORE.get());
                 output.accept(ItemRegister.SNOWBALL_CANNON_UPGRADE_SMITHING_TEMPLATE.get());
 
+                output.accept(ItemRegister.BLANK_GOLEM_CORE.get());
                 output.accept(ItemRegister.THRUST_GOLEM_CORE.get());
                 output.accept(ItemRegister.SWIFTNESS_GOLEM_CORE.get());
                 output.accept(ItemRegister.REGENERATION_GOLEM_CORE.get());

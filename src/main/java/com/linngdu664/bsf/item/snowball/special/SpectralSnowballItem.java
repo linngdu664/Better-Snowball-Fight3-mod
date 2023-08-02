@@ -29,7 +29,7 @@ import java.util.List;
 
 public class SpectralSnowballItem extends AbstractBSFSnowballItem {
     public SpectralSnowballItem() {
-        super(Rarity.COMMON);
+        super(Rarity.UNCOMMON);
         DispenserBlock.registerBehavior(this, new AbstractProjectileDispenseBehavior() {
             protected @NotNull Projectile getProjectile(@NotNull Level p_123476_, @NotNull Position p_123477_, @NotNull ItemStack p_123478_) {
                 return Util.make(new SpectralSnowballEntity(p_123476_, p_123477_.x(), p_123477_.y(), p_123477_.z()), (p_123474_) -> {

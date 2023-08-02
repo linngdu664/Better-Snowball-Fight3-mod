@@ -29,7 +29,7 @@ import java.util.List;
 
 public class SnowTrapSetterItem extends AbstractBSFEnhanceableToolItem {
     public SnowTrapSetterItem() {
-        super(Rarity.RARE, 1000);
+        super(Rarity.UNCOMMON, 1000);
     }
 
     @Override

@@ -21,7 +21,7 @@ import java.util.List;
 
 public class IcicleSnowballItem extends AbstractSnowStorageSnowballItem {
     public IcicleSnowballItem() {
-        super(Rarity.RARE);
+        super(Rarity.EPIC);
     }
 
     @Override
