@@ -57,6 +57,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -430,15 +431,9 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                     addEffect(new MobEffectInstance(MobEffects.REGENERATION, 2, 2));
                 } else if (item.equals(ItemRegister.REPULSIVE_FIELD_GOLEM_CORE.get()) && getTarget() != null) {
                     LivingEntity target = getTarget();
+                    List<Projectile> list1 = level.getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(3), p -> !this.equals(p.getOwner()) && BSFMthUtil.vec3AngleCos(getTarget().getPosition(0).subtract(getPosition(0)), p.getPosition(0).subtract(getPosition(0))) > 0);
                     List<Projectile> list = level.getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(5), p -> !this.equals(p.getOwner()) && BSFMthUtil.vec3AngleCos(getTarget().getPosition(0).subtract(getPosition(0)), p.getPosition(0).subtract(getPosition(0))) > 0);
-                    boolean flag = false;
-                    for (Projectile projectile : list) {
-                        if (distanceToSqr(projectile) < 9) {
-                            flag = true;
-                            break;
-                        }
-                    }
-                    if (flag) {
+                    if (!list1.isEmpty()) {
                         for (Projectile projectile : list) {
                             Vec3 vec3 = projectile.getDeltaMovement();
                             double v2 = vec3.lengthSqr();
@@ -461,15 +456,17 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
 
     @Override
     public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
-        if (!level().isClientSide) {
+        Level level = level();
+        if (!level.isClientSide) {
             Item item = getCore().getItem();
             if (item.equals(ItemRegister.REGENERATION_GOLEM_CORE.get())) {
                 resetCoreCoolDown();
             } else if (pSource.getDirectEntity() instanceof Projectile && item.equals(ItemRegister.ENDER_TELEPORTATION_GOLEM_CORE.get()) && coreCoolDown == 0 && (statusFlag == 2 || statusFlag == 3)) {
                 Vec3 vec3 = getRandomTeleportPos();
-                teleportTo(vec3.x, vec3.y, vec3.z);
-                resetCoreCoolDown();
-                return false;
+                if (vec3 != null) {
+                    tpWithParticlesAndResetCD(vec3);
+                    return false;
+                }
             }
         }
         return super.hurt(pSource, pAmount);
@@ -628,5 +625,16 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         return level.getBlockState(blockPos).getCollisionShape(level, blockPos).isEmpty() &&
                 level.getBlockState(blockPos.above()).getCollisionShape(level, blockPos.above()).isEmpty() &&
                 level.getBlockState(blockPos.below()).blocksMotion();
+    }
+
+    public void tpWithParticlesAndResetCD(Vec3 vec3) {
+        AABB aabb = getBoundingBox();
+        Vec3 center = aabb.getCenter();
+        double x = 0.5 * (aabb.maxX - aabb.minX);
+        double y = 0.5 * (aabb.maxY - aabb.minY);
+        ((ServerLevel) level()).sendParticles(ParticleTypes.PORTAL, center.x, center.y, center.z, 100, x, y, x, 0);
+        teleportTo(vec3.x, vec3.y, vec3.z);
+        playSound(SoundEvents.ENDERMAN_TELEPORT);
+        resetCoreCoolDown();
     }
 }

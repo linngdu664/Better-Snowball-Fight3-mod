@@ -140,8 +140,7 @@ public class BSFGolemRangedAttackGoal extends Goal {
             if (golem.getCore().getItem().equals(ItemRegister.ACTIVE_TELEPORTATION_GOLEM_CORE.get()) && golem.getCoreCoolDown() == 0 && (golem.getStatus() == 2 || golem.getStatus() == 3)) {
                 Vec3 vec3 = getTargetBackTeleportPos();
                 if (vec3 != null) {
-                    golem.teleportTo(vec3.x, vec3.y, vec3.z);
-                    golem.resetCoreCoolDown();
+                    golem.tpWithParticlesAndResetCD(vec3);
                 }
             }
             double d0 = golem.distanceToSqr(target.getX(), target.getY(), target.getZ());

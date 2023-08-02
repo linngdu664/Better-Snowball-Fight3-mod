@@ -63,10 +63,10 @@ public class BSFGolemTargetNearGoal extends Goal {
     public void start() {
         if (core.equals(ItemRegister.THRUST_GOLEM_CORE.get())) {
             golem.setDeltaMovement(vec3);
+            golem.resetCoreCoolDown();
         } else if (core.equals(ItemRegister.NEAR_TELEPORTATION_GOLEM_CORE.get())) {
-            golem.teleportTo(vec3.x, vec3.y, vec3.z);
+            golem.tpWithParticlesAndResetCD(vec3);
         }
-        golem.resetCoreCoolDown();
     }
 
     private boolean isNotBlocked(float theta, float phi) {
