@@ -98,7 +98,7 @@ public class BasinItem extends Item {
             }
             return MutableComponent.create(new TranslatableContents("item.bsf.basin_of_powder_snow", null, new Object[0]));
         }
-        return MutableComponent.create(new TranslatableContents("item.bsf.empty_basin", null, new Object[0]));
+        return super.getName(pStack);
     }
 
     @Override
