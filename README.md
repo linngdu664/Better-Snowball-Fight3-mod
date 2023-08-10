@@ -1,10 +1,26 @@
-上一个版本的仓库在：
+![head](README/b.png)
 
-https://github.com/linngdu664/Better-Snowball-Fight-2
+简介 Summary
+==
+---
+Better Snowball Fight Ⅲ
+更好的打雪仗3
 
-和
-https://gitee.com/Linngdu664/better-snowball-fight-mod-forge
+~~打雪仗×~~ 黑帮火拼√
 
-mcmod链接：https://www.mcmod.cn/class/8093.html
+这是一个非常适合多人游戏的mod，添加了各种各样的雪球，工具，装备和武器。既可以互相无伤害拿雪球互喷，也可以互相竞技pvp，还可以造雪人跟雪人干仗或者让雪人去攻击其他生物
 
-这个仓库移植之后的内容都是新加的
+
+作者：Linngdu664，zx1316
+
+![](README/a.png)
+
+目前版本 Version
+==
+---
+* mod version: 3.0.0
+* minecraft version: 1.20.1
+* forge version: ≥47
+* compatibility level: JAVA_17
+
+未来(3.1)会更新组队相关内容，敬请期待
