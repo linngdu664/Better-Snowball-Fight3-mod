@@ -352,6 +352,9 @@
   "copy.tip": "Copied",
 
   "block.bsf.smart_snow_block": "Smart Snow Block",
+  "block.bsf.loose_snow_block": "Loose Snow Block",
+  "block.bsf.critical_snow": "Critical Snow",
+  "block.bsf.snow_trap": "Snow",
 
   "key.bsf.ammo_switch_prev": "Switch to Previous Ammo",
   "key.bsf.ammo_switch_next": "Switch to Next Ammo",

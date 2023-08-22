@@ -352,6 +352,9 @@
   "copy.tip": "已复制",
 
   "block.bsf.smart_snow_block": "智慧雪块",
+  "block.bsf.loose_snow_block": "松散雪块",
+  "block.bsf.critical_snow": "临界雪",
+  "block.bsf.snow_trap": "雪",
 
   "key.bsf.ammo_switch_prev": "向前循环切换弹药",
   "key.bsf.ammo_switch_next": "向后循环切换弹药",
