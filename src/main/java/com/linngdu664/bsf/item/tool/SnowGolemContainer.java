@@ -39,6 +39,7 @@ public class SnowGolemContainer extends Item {
                 snowGolem.readAdditionalSaveData(tag);
                 BlockPos blockPos = pContext.getClickedPos();
                 snowGolem.moveTo(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5, 0.0F, 0.0F);
+                snowGolem.setOwnerUUID(player.getUUID());
                 level.addFreshEntity(snowGolem);
                 tag.putBoolean("HasGolem", false);
                 level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_PLACE, SoundSource.NEUTRAL, 1.0F, 1.0F);
