@@ -42,6 +42,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.SitWhenOrderedToGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
@@ -242,8 +244,10 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         goalSelector.addGoal(5, new BSFGolemRandomStrollGoal(this, 0.8, 1E-5F));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 5.0F));
-        targetSelector.addGoal(1, new BSFGolemHurtByTargetGoal(this));
-        targetSelector.addGoal(2, new BSFGolemNearestAttackableTargetGoal(this, LivingEntity.class, 1, true, false, (p) -> getOwner() == null ? p instanceof Player player && !player.isCreative() && !player.isSpectator() : p instanceof Enemy));
+        targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
+        targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
+        targetSelector.addGoal(3, new BSFGolemHurtByTargetGoal(this));
+        targetSelector.addGoal(4, new BSFGolemNearestAttackableTargetGoal(this, LivingEntity.class, 1, true, false, (p) -> getOwner() == null ? p instanceof Player player && !player.isCreative() && !player.isSpectator() : p instanceof Enemy));
     }
 
     @Override

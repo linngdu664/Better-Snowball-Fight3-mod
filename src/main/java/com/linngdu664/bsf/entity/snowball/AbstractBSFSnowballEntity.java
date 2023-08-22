@@ -123,6 +123,9 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
             // Push entity
             Vec3 vec3d = this.getDeltaMovement().multiply(0.1 * punch, 0.0, 0.1 * punch);
             entity.push(vec3d.x, 0.0, vec3d.z);
+            if (getOwner() instanceof LivingEntity owner) {
+                owner.setLastHurtMob(entity);
+            }
         }
         spawnBasicParticles(level);
     }

@@ -11,6 +11,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -86,10 +87,16 @@ public abstract class SnowballMixin extends ThrowableItemProjectile {
                 }
             } else {
                 player.hurt(this.damageSources().thrown(this, this.getOwner()), Float.MIN_NORMAL);
+                if (getOwner() instanceof LivingEntity owner) {
+                    owner.setLastHurtMob(player);
+                }
                 bsf$spawnBasicParticles(level());
             }
             ci.cancel();
         } else {
+            if (getOwner() instanceof LivingEntity owner) {
+                owner.setLastHurtMob(entity);
+            }
             bsf$spawnBasicParticles(level());
         }
     }
