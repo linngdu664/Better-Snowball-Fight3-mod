@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +39,7 @@ public class SmartSnowBlock extends HorizontalDirectionalBlock {
     private BlockPattern snowGolemFull;
 
     public SmartSnowBlock() {
-        super(Properties.copy(Blocks.SNOW_BLOCK).strength(0.5F).sound(SoundType.SNOW));
+        super(Properties.of().mapColor(MapColor.SNOW).strength(0.5F).sound(SoundType.SNOW));
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 

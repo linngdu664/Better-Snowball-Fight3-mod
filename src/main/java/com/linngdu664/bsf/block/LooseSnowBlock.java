@@ -20,7 +20,7 @@ public class LooseSnowBlock extends Block {
         super(Properties.copy(Blocks.SNOW_BLOCK)
                 .noLootTable()
                 .noOcclusion()
-                .strength(0.05f)
+                .strength(0.1f)
                 .pushReaction(PushReaction.DESTROY)
                 .isSuffocating((BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) -> false)
                 .isRedstoneConductor((BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) -> false)
