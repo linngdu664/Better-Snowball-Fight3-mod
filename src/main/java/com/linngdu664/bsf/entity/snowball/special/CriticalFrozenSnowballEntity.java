@@ -2,6 +2,7 @@ package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.block.entity.CriticalSnowEntity;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.network.ForwardRaysParticlesToClient;
@@ -35,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class CriticalFrozenSnowballEntity extends AbstractFrozenSnowballEntity {
+public class CriticalFrozenSnowballEntity extends AbstractBSFSnowballEntity {
     public CriticalFrozenSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -48,7 +49,10 @@ public class CriticalFrozenSnowballEntity extends AbstractFrozenSnowballEntity {
         super(EntityRegister.CRITICAL_FROZEN_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
     }
 
-    public void setEffects(Level level, HitResult hitResult, BlockState newBlock) {
+    @Override
+    protected void onHit(@NotNull HitResult pResult) {
+        super.onHit(pResult);
+        Level level = level();
         if (!level.isClientSide) {
             if (!isCaught) {
                 float frozenRange;
@@ -57,11 +61,12 @@ public class CriticalFrozenSnowballEntity extends AbstractFrozenSnowballEntity {
                 } else {
                     frozenRange = 2.5F;
                 }
-                Vec3 location = hitResult.getLocation();
+                Vec3 location = pResult.getLocation();
                 BlockPos blockPos = new BlockPos(Mth.floor(location.x), Mth.floor(location.y), Mth.floor(location.z));
                 BlockState ice = Blocks.ICE.defaultBlockState();
                 BlockState basalt = Blocks.BASALT.defaultBlockState();
                 BlockState air = Blocks.AIR.defaultBlockState();
+                BlockState newBlock = BlockRegister.CRITICAL_SNOW.get().defaultBlockState();
                 for (int i = (int) (blockPos.getX() - frozenRange); i <= (int) (blockPos.getX() + frozenRange); i++) {
                     for (int j = (int) (blockPos.getY() - frozenRange); j <= (int) (blockPos.getY() + frozenRange); j++) {
                         for (int k = (int) (blockPos.getZ() - frozenRange); k <= (int) (blockPos.getZ() + frozenRange); k++) {
@@ -111,15 +116,28 @@ public class CriticalFrozenSnowballEntity extends AbstractFrozenSnowballEntity {
         }
     }
 
-
-    @Override
-    protected void onHit(@NotNull HitResult pResult) {
-        super.onHit(pResult);
-        setEffects(level(), pResult, BlockRegister.CRITICAL_SNOW.get().defaultBlockState());
-    }
-
     @Override
     protected @NotNull Item getDefaultItem() {
         return ItemRegister.CRITICAL_FROZEN_SNOWBALL.get();
+    }
+
+    @Override
+    public float getBasicDamage() {
+        return 3;
+    }
+
+    @Override
+    public float getBasicBlazeDamage() {
+        return 8;
+    }
+
+    @Override
+    public int getBasicFrozenTicks() {
+        return 60;
+    }
+
+    @Override
+    public float getSubspacePower() {
+        return 1.6f;
     }
 }
