@@ -3,6 +3,7 @@ package com.linngdu664.bsf.registry;
 import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.client.renderer.entity.BSFSnowGolemRenderer;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
+import com.linngdu664.bsf.entity.executor.*;
 import com.linngdu664.bsf.entity.snowball.force.MonsterGravitySnowballEntity;
 import com.linngdu664.bsf.entity.snowball.force.MonsterRepulsionSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.force.ProjectileGravitySnowballEntity;
@@ -10,6 +11,7 @@ import com.linngdu664.bsf.entity.snowball.force.ProjectileRepulsionSnowballEntit
 import com.linngdu664.bsf.entity.snowball.nomal.*;
 import com.linngdu664.bsf.entity.snowball.special.*;
 import com.linngdu664.bsf.entity.snowball.tracking.*;
+import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -34,6 +36,11 @@ public class EntityRegister {
             ENTITY_TYPES.register("bsf_snow_golem", () -> EntityType.Builder.of(BSFSnowGolemEntity::new, MobCategory.MISC)
                     .sized(0.7F, 1.9F).clientTrackingRange(8).immuneTo(Blocks.POWDER_SNOW)
                     .build(new ResourceLocation(Main.MODID, "bsf_snow_golem").toString()));
+    public static final RegistryObject<EntityType<Entity>> MONSTER_GRAVITY_EXECUTOR = snowballRegister(MonsterGravityExecutor::new, "monster_gravity_executor");
+    public static final RegistryObject<EntityType<Entity>> MONSTER_REPULSION_EXECUTOR = snowballRegister(MonsterRepulsionExecutor::new, "monster_repulsion_executor");
+    public static final RegistryObject<EntityType<Entity>> PROJECTILE_GRAVITY_EXECUTOR = snowballRegister(ProjectileGravityExecutor::new, "projectile_gravity_executor");
+    public static final RegistryObject<EntityType<Entity>> PROJECTILE_REPULSION_EXECUTOR = snowballRegister(ProjectileRepulsionExecutor::new, "projectile_repulsion_executor");
+    public static final RegistryObject<EntityType<Entity>> POWDER_EXECUTOR = snowballRegister(PowderExecutor::new, "powder_executor");
     public static final RegistryObject<EntityType<SmoothSnowballEntity>> SMOOTH_SNOWBALL = snowballRegister(SmoothSnowballEntity::new, "smooth_snowball");
     public static final RegistryObject<EntityType<CompactedSnowballEntity>> COMPACTED_SNOWBALL = snowballRegister(CompactedSnowballEntity::new, "compacted_snowball");
     public static final RegistryObject<EntityType<GlassSnowballEntity>> GLASS_SNOWBALL = snowballRegister(GlassSnowballEntity::new, "glass_snowball");
@@ -83,6 +90,11 @@ public class EntityRegister {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(BSF_SNOW_GOLEM.get(), BSFSnowGolemRenderer::new);
+        event.registerEntityRenderer(MONSTER_GRAVITY_EXECUTOR.get(), NoopRenderer::new);
+        event.registerEntityRenderer(MONSTER_REPULSION_EXECUTOR.get(), NoopRenderer::new);
+        event.registerEntityRenderer(PROJECTILE_GRAVITY_EXECUTOR.get(), NoopRenderer::new);
+        event.registerEntityRenderer(PROJECTILE_REPULSION_EXECUTOR.get(), NoopRenderer::new);
+        event.registerEntityRenderer(POWDER_EXECUTOR.get(), NoopRenderer::new);
         event.registerEntityRenderer(BLACK_HOLE_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(COMPACTED_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ENDER_SNOWBALL.get(), ThrownItemRenderer::new);

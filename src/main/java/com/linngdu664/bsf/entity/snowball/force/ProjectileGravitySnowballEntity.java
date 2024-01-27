@@ -1,5 +1,7 @@
 package com.linngdu664.bsf.entity.snowball.force;
 
+import com.linngdu664.bsf.entity.executor.MonsterRepulsionExecutor;
+import com.linngdu664.bsf.entity.executor.ProjectileGravityExecutor;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
@@ -23,28 +25,33 @@ public class ProjectileGravitySnowballEntity extends AbstractForceSnowballEntity
         super(EntityRegister.PROJECTILE_GRAVITY_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
     }
 
-    @Override
-    double getRange() {
-        return 15;
-    }
-
-    @Override
-    double getGM() {
-        return 2;
-    }
-
-    @Override
-    double getBoundaryR2() {
-        return 2;
-    }
-
-    @Override
-    List<? extends Entity> getTargetList() {
-        return level().getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(getRange()), (p) -> true);
-    }
+//    @Override
+//    double getRange() {
+//        return 15;
+//    }
+//
+//    @Override
+//    double getGM() {
+//        return 2;
+//    }
+//
+//    @Override
+//    double getBoundaryR2() {
+//        return 2;
+//    }
+//
+//    @Override
+//    List<? extends Entity> getTargetList() {
+//        return level().getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(getRange()), (p) -> true);
+//    }
 
     @Override
     protected @NotNull Item getDefaultItem() {
         return ItemRegister.PROJECTILE_GRAVITY_SNOWBALL.get();
+    }
+
+    @Override
+    public Entity getExecutor() {
+        return new ProjectileGravityExecutor(EntityRegister.PROJECTILE_GRAVITY_EXECUTOR.get(), getX(), getY(), getZ(), level());
     }
 }

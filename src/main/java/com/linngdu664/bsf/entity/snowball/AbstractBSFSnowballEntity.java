@@ -1,22 +1,19 @@
 package com.linngdu664.bsf.entity.snowball;
 
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
+import com.linngdu664.bsf.entity.IAbsorbable;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.tool.GloveItem;
 import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,9 +29,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile {
+public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile implements IAbsorbable {
     protected boolean isCaught = false;
     protected ILaunchAdjustment launchAdjustment = new ILaunchAdjustment() {
         @Override
@@ -207,27 +202,6 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
 
     }
 
-    public void forceEffect(List<? extends Entity> list, double constForceRangeSqr, double GM) {
-        for (Entity entity : list) {
-            Vec3 rVec = new Vec3(getX() - entity.getX(), getY() - (entity.getEyeY() + entity.getY()) * 0.5, getZ() - entity.getZ());
-            double r2 = rVec.lengthSqr();
-            double ir2 = Mth.invSqrt(r2);
-            double a;
-            if (r2 > constForceRangeSqr) {
-                a = GM / r2;
-            } else if (r2 > 0.25) {         // default 0.25
-                a = GM / constForceRangeSqr;
-            } else {
-                a = 0;
-            }
-            entity.push(a * rVec.x * ir2, a * rVec.y * ir2, a * rVec.z * ir2);
-            //Tell client that player should move because client handles player's movement.
-            if (entity instanceof ServerPlayer player) {
-                player.connection.send(new ClientboundSetEntityMotionPacket(entity));
-            }
-        }
-    }
-
     protected void spawnBasicParticles(Level level) {
         if (!level.isClientSide) {
             ((ServerLevel) level).sendParticles(ParticleTypes.ITEM_SNOWBALL, this.getX(), this.getY(), this.getZ(), 8, 0, 0, 0, 0);
@@ -259,7 +233,13 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
         return 0;
     }
 
+    @Override
     public float getSubspacePower() {
         return 1;
+    }
+
+    @Override
+    public ItemStack getSnowballItem() {
+        return getItem();
     }
 }

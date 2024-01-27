@@ -7,7 +7,10 @@ import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
@@ -18,6 +21,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
     public int startTime = 20;
@@ -56,6 +61,27 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
         handleExplosion(6.0F);
         if (!level().isClientSide) {
             this.discard();
+        }
+    }
+
+    public void forceEffect(List<? extends Entity> list, double constForceRangeSqr, double GM) {
+        for (Entity entity : list) {
+            Vec3 rVec = new Vec3(getX() - entity.getX(), getY() - (entity.getEyeY() + entity.getY()) * 0.5, getZ() - entity.getZ());
+            double r2 = rVec.lengthSqr();
+            double ir2 = Mth.invSqrt(r2);
+            double a;
+            if (r2 > constForceRangeSqr) {
+                a = GM / r2;
+            } else if (r2 > 0.25) {         // default 0.25
+                a = GM / constForceRangeSqr;
+            } else {
+                a = 0;
+            }
+            entity.push(a * rVec.x * ir2, a * rVec.y * ir2, a * rVec.z * ir2);
+            //Tell client that player should move because client handles player's movement.
+            if (entity instanceof ServerPlayer player) {
+                player.connection.send(new ClientboundSetEntityMotionPacket(entity));
+            }
         }
     }
 

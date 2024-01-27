@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
+import com.linngdu664.bsf.entity.IAbsorbable;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
@@ -23,7 +24,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     private final ArrayList<ItemStack> itemStackArrayList = new ArrayList<>();
@@ -67,7 +67,25 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         Level level = level();
         if (!level.isClientSide) {
             AABB aabb = getBoundingBox().inflate(2.5);
-            List<AbstractBSFSnowballEntity> list = level.getEntitiesOfClass(AbstractBSFSnowballEntity.class, aabb, p -> !this.equals(p));
+            level.getEntities(this, aabb, p -> p instanceof IAbsorbable).forEach(p -> {
+                IAbsorbable absorbable = (IAbsorbable) p;
+                if (release) {
+                    itemStackArrayList.add(absorbable.getSnowballItem());
+                }
+                ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, p.getX(), p.getY(), p.getZ(), 8, 0, 0, 0, 0.05);
+                p.discard();
+                if (p instanceof SubspaceSnowballEntity) {
+                    ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 16, 0, 0, 0, 0.05);
+                    this.discard();
+                }
+                if (!release && damage < 15.0F) {
+                    damage += absorbable.getSubspacePower();
+                    blazeDamage += absorbable.getSubspacePower();
+                }
+                level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegister.SUBSPACE_SNOWBALL_CUT.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+            });
+//            List<AbstractBSFSnowballEntity> list = level.getEntitiesOfClass(AbstractBSFSnowballEntity.class, aabb, p -> !this.equals(p));
+            /*
             for (AbstractBSFSnowballEntity snowball : list) {
                 if (release && !(snowball instanceof GPSSnowballEntity)) {
                     itemStackArrayList.add(snowball.getItem());
@@ -83,19 +101,30 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                     blazeDamage += snowball.getSubspacePower();
                 }
                 level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegister.SUBSPACE_SNOWBALL_CUT.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-            }
-            List<Snowball> list2 = level.getEntitiesOfClass(Snowball.class, aabb, p -> true);
-            for (Snowball snowball : list2) {
+            }*/
+            level.getEntitiesOfClass(Snowball.class, aabb, p -> true).forEach(p -> {
                 if (release) {
-                    itemStackArrayList.add(snowball.getItem());
+                    itemStackArrayList.add(p.getItem());
                 }
-                ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, snowball.getX(), snowball.getY(), snowball.getZ(), 8, 0, 0, 0, 0.05);
-                snowball.discard();
+                ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, p.getX(), p.getY(), p.getZ(), 8, 0, 0, 0, 0.05);
+                p.discard();
                 if (!release && damage < 15.0F) {
                     damage += 1;
                     blazeDamage += 1;
                 }
-            }
+            });
+//            List<Snowball> list2 = level.getEntitiesOfClass(Snowball.class, aabb, p -> true);
+//            for (Snowball snowball : list2) {
+//                if (release) {
+//                    itemStackArrayList.add(snowball.getItem());
+//                }
+//                ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, snowball.getX(), snowball.getY(), snowball.getZ(), 8, 0, 0, 0, 0.05);
+//                snowball.discard();
+//                if (!release && damage < 15.0F) {
+//                    damage += 1;
+//                    blazeDamage += 1;
+//                }
+//            }
             if (timer == 150) {
                 for (ItemStack itemStack : itemStackArrayList) {
                     ItemEntity itemEntity = new ItemEntity(level, getX(), getY(), getZ(), itemStack);
