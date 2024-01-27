@@ -26,7 +26,7 @@ public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowball
     public void tick() {
         super.tick();
         if (!level().isClientSide) {
-            missilesTracking(isLockFeet(), getTarget());
+            missilesTracking();
         }
     }
 
@@ -51,14 +51,15 @@ public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowball
      * the snowball will ignore gravity and changing the velocity vector to aim the target. If the
      * target disappears or the snowball is too slow, the snowball will restore gravity and stop tracking.
      */
-    protected void missilesTracking(boolean lockFeet, Entity target) {
+    protected void missilesTracking() {
         Vec3 velocity = getDeltaMovement();
+        Entity target = getTarget();
         if (target == null || !target.isAlive() || velocity.lengthSqr() < 0.25) {
             setNoGravity(false);
         } else {
             setNoGravity(true);
             Vec3 delta;
-            if (lockFeet) {
+            if (isLockFeet()) {
                 delta = new Vec3(target.getX() - getX(), target.getY() - getY(), target.getZ() - getZ());
             } else {
                 delta = new Vec3(target.getX() - getX(), target.getEyeY() - getY(), target.getZ() - getZ());
