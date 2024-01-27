@@ -119,8 +119,8 @@ public class GamePlayEvents {
                 int j = Mth.floor(player.getY());
                 int k = Mth.floor(player.getZ());
                 Block block1 = level.getBlockState(new BlockPos(i, j, k)).getBlock();
-                Block block2 = level.getBlockState(new BlockPos(i, j - 1, k)).getBlock();
-                if (block1.equals(Blocks.SNOW) || block2.equals(Blocks.SNOW_BLOCK) || snowAroundPlayer(level, player, block1)) {
+                //Block block2 = level.getBlockState(new BlockPos(i, j - 1, k)).getBlock();
+                if (level.getBlockState(new BlockPos(i, j, k)).is(BlockTags.SNOW) || level.getBlockState(new BlockPos(i, j - 1, k)).is(BlockTags.SNOW) || snowAroundPlayer(level, player, block1)) {
                     event.setDamageMultiplier(0);
                     float h = event.getDistance();
                     ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, player.getX(), player.getY(), player.getZ(), (int) h * 8, 0, 0, 0, h * 0.01);
@@ -184,7 +184,9 @@ public class GamePlayEvents {
         if (block1.equals(Blocks.AIR)) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
-                    if (level.getBlockState(new BlockPos(x + i, y, z + j)).getBlock().equals(Blocks.SNOW) || level.getBlockState(new BlockPos(x + i, y - 1, z + j)).getBlock().equals(Blocks.SNOW_BLOCK)) {
+                    BlockPos pos1 = new BlockPos(x + i, y, z + j);
+                    BlockPos pos2 = new BlockPos(x + i, y - 1, z + j);
+                    if (level.getBlockState(pos1).is(BlockTags.SNOW) || level.getBlockState(pos2).is(BlockTags.SNOW)) {
                         return true;
                     }
                 }
