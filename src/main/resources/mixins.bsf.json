@@ -6,8 +6,6 @@
   "mixins": [
     "SnowballMixin"
   ],
-  "client": [
-    "AbstractClientPlayerMixin"
-  ],
+  "client": [],
   "server": []
 }
