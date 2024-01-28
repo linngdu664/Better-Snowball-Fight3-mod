@@ -6,13 +6,16 @@ import com.linngdu664.bsf.item.misc.IceSkatesItem;
 import com.linngdu664.bsf.item.misc.SnowFallBootsItem;
 import com.linngdu664.bsf.item.snowball.normal.SmoothSnowballItem;
 import com.linngdu664.bsf.item.tank.SnowballTankItem;
+import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.EnchantmentRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -38,8 +41,12 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.providers.number.BinomialDistributionGenerator;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -51,7 +58,46 @@ public class GamePlayEvents {
     public static final UUID SKATES_SPEED_ID = UUID.fromString("00a3641b-33e0-4022-8d92-1c7b74c380b0");
 
     @SubscribeEvent
-    public static void onAttackEntity(net.minecraftforge.event.entity.player.AttackEntityEvent event) {
+    public static void onComputeFovModifier(ComputeFovModifierEvent event) {
+        Player player = event.getPlayer();
+        ItemStack itemStack = player.getUseItem();
+        if (player.isUsingItem() && itemStack.getItem() instanceof SnowballCannonItem) {
+            int i = player.getTicksUsingItem();
+            float f = event.getFovModifier();
+            float f1 = (float) i / 20.0F;
+            if (f1 > 1.0F) {
+                f1 = 1.0F;
+            } else {
+                f1 *= f1;
+            }
+            if (itemStack.is(ItemRegister.POWERFUL_SNOWBALL_CANNON.get())) {
+                f *= 1.0F - f1 * 0.5F;
+            } else {
+                f *= 1.0F - f1 * 0.3F;
+            }
+            event.setNewFovModifier(f);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingUseItemTick(LivingEntityUseItemEvent.Tick event) {
+        LivingEntity livingEntity = event.getEntity();
+        Level level = livingEntity.level();
+        if (!level.isClientSide) {
+            ItemStack itemStack = event.getItem();
+            if (EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.FLOATING_SHOOTING.get(), itemStack) > 0) {
+                livingEntity.resetFallDistance();
+                double vy = livingEntity.getDeltaMovement().y;
+                livingEntity.push(0, -0.25 * vy, 0);
+                if (livingEntity instanceof ServerPlayer player) {
+                    player.connection.send(new ClientboundSetEntityMotionPacket(livingEntity));
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onAttackEntity(AttackEntityEvent event) {
         Player player = event.getEntity();
         Entity entity = event.getTarget();
         Level level = player.level();
@@ -110,7 +156,7 @@ public class GamePlayEvents {
     }
 
     @SubscribeEvent
-    public static void onLivingFall(net.minecraftforge.event.entity.living.LivingFallEvent event) {
+    public static void onLivingFall(LivingFallEvent event) {
         if (event.getEntity() instanceof Player player) {
             Level level = player.level();
             ItemStack shoes = player.getItemBySlot(EquipmentSlot.FEET);
