@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.entity.snowball;
 
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
-import com.linngdu664.bsf.entity.IAbsorbable;
+import com.linngdu664.bsf.entity.Absorbable;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.tool.GloveItem;
@@ -29,7 +29,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile implements IAbsorbable {
+public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile implements Absorbable {
     protected boolean isCaught = false;
     protected ILaunchAdjustment launchAdjustment = new ILaunchAdjustment() {
         @Override

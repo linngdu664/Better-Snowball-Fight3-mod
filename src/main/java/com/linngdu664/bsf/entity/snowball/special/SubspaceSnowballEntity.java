@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
-import com.linngdu664.bsf.entity.IAbsorbable;
+import com.linngdu664.bsf.entity.Absorbable;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
@@ -67,8 +67,8 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         Level level = level();
         if (!level.isClientSide) {
             AABB aabb = getBoundingBox().inflate(2.5);
-            level.getEntities(this, aabb, p -> p instanceof IAbsorbable).forEach(p -> {
-                IAbsorbable absorbable = (IAbsorbable) p;
+            level.getEntities(this, aabb, p -> p instanceof Absorbable).forEach(p -> {
+                Absorbable absorbable = (Absorbable) p;
                 if (release) {
                     itemStackArrayList.add(absorbable.getSnowballItem());
                 }

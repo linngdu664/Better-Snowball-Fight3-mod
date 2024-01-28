@@ -1,12 +1,12 @@
 package com.linngdu664.bsf.entity.executor;
 
-import com.linngdu664.bsf.entity.IAbsorbable;
+import com.linngdu664.bsf.entity.Absorbable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
-public abstract class FixExecutor extends Entity implements IAbsorbable {
+public abstract class FixExecutor extends Entity implements Absorbable {
     protected int timer;
 
     public FixExecutor(EntityType<?> pEntityType, Level pLevel) {

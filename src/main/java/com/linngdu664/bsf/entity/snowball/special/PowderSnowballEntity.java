@@ -2,7 +2,7 @@ package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.entity.executor.PowderExecutor;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
-import com.linngdu664.bsf.entity.snowball.IFixable;
+import com.linngdu664.bsf.entity.snowball.Fixable;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
@@ -20,7 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
 
-public class PowderSnowballEntity extends AbstractBSFSnowballEntity implements IFixable {
+public class PowderSnowballEntity extends AbstractBSFSnowballEntity implements Fixable {
 //    private boolean isStart = false;
 //    private int timer = 0;
 
