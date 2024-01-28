@@ -49,7 +49,7 @@ public class ExpansionSnowballEntity extends AbstractConstructSnowballEntity {
                 }
                 ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 200, 0, 0, 0, 0.32);
                 startTimingOfDiscard(pResult.getLocation());
-                stopTheSnowball();
+//                stopTheSnowball();
             }
 
         }

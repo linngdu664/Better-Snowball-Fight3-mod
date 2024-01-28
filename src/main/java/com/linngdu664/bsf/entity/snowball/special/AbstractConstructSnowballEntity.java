@@ -1,6 +1,7 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.block.LooseSnowBlock;
+import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractFixableSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.BlockRegister;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public abstract class AbstractConstructSnowballEntity extends AbstractFixableSnowballEntity {
+public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowballEntity {
     private static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(AbstractConstructSnowballEntity.class, EntityDataSerializers.BOOLEAN);
     protected final Stack<BlockPos> allBlock = new Stack<>();
     protected int blockDurationTick;    // default: 20 * 4
@@ -104,7 +105,8 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
             if (--blockDurationTick < 1) {
                 startDestroyBlock();
             }
-            stopTheSnowball();
+            this.setDeltaMovement(0, 0, 0);
+            //stopTheSnowball();
         } else if (inDestroying) {
             Level level = level();
             if (!level.isClientSide) {
@@ -116,7 +118,8 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
 
                 }
             }
-            stopTheSnowball();
+            this.setDeltaMovement(0, 0, 0);
+            //stopTheSnowball();
         }
         super.tick();
     }
@@ -141,7 +144,7 @@ public abstract class AbstractConstructSnowballEntity extends AbstractFixableSno
             inBlockDuration = true;
             this.setNoGravity(true);
         }
-        this.fixLocation = fixLocation;
+//        this.fixLocation = fixLocation;
     }
 
     /**

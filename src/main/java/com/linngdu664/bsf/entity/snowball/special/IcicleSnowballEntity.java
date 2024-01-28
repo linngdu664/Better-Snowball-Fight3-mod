@@ -94,7 +94,8 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
 
         Level level = level();
         if (isBuildingIcicle) {
-            stopTheSnowball(impactPoint.getCenter());
+            this.setDeltaMovement(0, 0, 0);
+//            stopTheSnowball(impactPoint.getCenter());
             if (isFreezing) {
                 hendleFrozenSpread(level);
             } else {
@@ -142,7 +143,8 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     }
 
     private void icicleInit(Level level) {
-        stopTheSnowball(impactPoint.getCenter());
+//        stopTheSnowball(impactPoint.getCenter());
+        this.setDeltaMovement(0, 0, 0);
         this.setNoGravity(true);
         //Determine the direction of the icicle
         //init icicle
