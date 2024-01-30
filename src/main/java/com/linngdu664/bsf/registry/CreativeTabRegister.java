@@ -300,6 +300,7 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.REPULSIVE_FIELD_GENERATOR.get());
                 output.accept(ItemRegister.GLOVE.get());
                 output.accept(ItemRegister.JEDI_GLOVE.get());
+                output.accept(ItemRegister.VECTOR_INVERSION_ANCHOR.get());
 
                 output.accept(ItemRegister.ICE_SKATES_ITEM.get());
                 output.accept(ItemRegister.SNOW_FALL_BOOTS.get());
