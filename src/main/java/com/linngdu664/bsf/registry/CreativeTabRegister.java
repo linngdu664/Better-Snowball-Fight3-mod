@@ -331,5 +331,22 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.REPULSION_CORE.get());
                 output.accept(ItemRegister.GRAVITY_CORE.get());
                 output.accept(ItemRegister.UNSTABLE_CORE.get());
+
+                output.accept(ItemRegister.WHITE_TEAM_LINKER.get());
+                output.accept(ItemRegister.ORANGE_TEAM_LINKER.get());
+                output.accept(ItemRegister.MAGENTA_TEAM_LINKER.get());
+                output.accept(ItemRegister.LIGHT_BLUE_TEAM_LINKER.get());
+                output.accept(ItemRegister.YELLOW_TEAM_LINKER.get());
+                output.accept(ItemRegister.LIME_TEAM_LINKER.get());
+                output.accept(ItemRegister.PINK_TEAM_LINKER.get());
+                output.accept(ItemRegister.GRAY_TEAM_LINKER.get());
+                output.accept(ItemRegister.LIGHT_GRAY_TEAM_LINKER.get());
+                output.accept(ItemRegister.CYAN_TEAM_LINKER.get());
+                output.accept(ItemRegister.PURPLE_TEAM_LINKER.get());
+                output.accept(ItemRegister.BLUE_TEAM_LINKER.get());
+                output.accept(ItemRegister.BROWN_TEAM_LINKER.get());
+                output.accept(ItemRegister.GREEN_TEAM_LINKER.get());
+                output.accept(ItemRegister.RED_TEAM_LINKER.get());
+                output.accept(ItemRegister.BLACK_TEAM_LINKER.get());
             }).build());
 }

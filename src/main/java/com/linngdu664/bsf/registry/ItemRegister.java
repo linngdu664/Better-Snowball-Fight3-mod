@@ -17,7 +17,9 @@ import com.linngdu664.bsf.item.tool.*;
 import com.linngdu664.bsf.item.weapon.*;
 import com.linngdu664.bsf.util.BSFTiers;
 import net.minecraft.ChatFormatting;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.Tiers;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -125,4 +127,22 @@ public class ItemRegister {
 
     public static final RegistryObject<Item> GPS_SNOWBALL = ITEMS.register("gps_snowball", () -> new Item(new Item.Properties()));    //This item does not need to be added to the group
     public static final RegistryObject<Item> SCULK_SNOWBALL = ITEMS.register("sculk_snowball", () -> new Item(new Item.Properties()));
+
+
+    public static final RegistryObject<Item> WHITE_TEAM_LINKER = ITEMS.register("white_team_linker", () -> new TeamLinkerItem(0));
+    public static final RegistryObject<Item> ORANGE_TEAM_LINKER = ITEMS.register("orange_team_linker", () -> new TeamLinkerItem(1));
+    public static final RegistryObject<Item> MAGENTA_TEAM_LINKER = ITEMS.register("magenta_team_linker", () -> new TeamLinkerItem(2));
+    public static final RegistryObject<Item> LIGHT_BLUE_TEAM_LINKER = ITEMS.register("light_blue_team_linker", () -> new TeamLinkerItem(3));
+    public static final RegistryObject<Item> YELLOW_TEAM_LINKER = ITEMS.register("yellow_team_linker", () -> new TeamLinkerItem(4));
+    public static final RegistryObject<Item> LIME_TEAM_LINKER = ITEMS.register("lime_team_linker", () -> new TeamLinkerItem(5));
+    public static final RegistryObject<Item> PINK_TEAM_LINKER = ITEMS.register("pink_team_linker", () -> new TeamLinkerItem(6));
+    public static final RegistryObject<Item> GRAY_TEAM_LINKER = ITEMS.register("gray_team_linker", () -> new TeamLinkerItem(7));
+    public static final RegistryObject<Item> LIGHT_GRAY_TEAM_LINKER = ITEMS.register("light_gray_team_linker", () -> new TeamLinkerItem(8));
+    public static final RegistryObject<Item> CYAN_TEAM_LINKER = ITEMS.register("cyan_team_linker", () -> new TeamLinkerItem(9));
+    public static final RegistryObject<Item> PURPLE_TEAM_LINKER = ITEMS.register("purple_team_linker", () -> new TeamLinkerItem(10));
+    public static final RegistryObject<Item> BLUE_TEAM_LINKER = ITEMS.register("blue_team_linker", () -> new TeamLinkerItem(11));
+    public static final RegistryObject<Item> BROWN_TEAM_LINKER = ITEMS.register("brown_team_linker", () -> new TeamLinkerItem(12));
+    public static final RegistryObject<Item> GREEN_TEAM_LINKER = ITEMS.register("green_team_linker", () -> new TeamLinkerItem(13));
+    public static final RegistryObject<Item> RED_TEAM_LINKER = ITEMS.register("red_team_linker", () -> new TeamLinkerItem(14));
+    public static final RegistryObject<Item> BLACK_TEAM_LINKER = ITEMS.register("black_team_linker", () -> new TeamLinkerItem(15));
 }
