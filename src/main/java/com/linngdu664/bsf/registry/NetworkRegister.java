@@ -4,6 +4,7 @@ import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.network.AmmoTypeToServer;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import com.linngdu664.bsf.network.ForwardRaysParticlesToClient;
+import com.linngdu664.bsf.network.TeamMembersToClient;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -32,5 +33,6 @@ public class NetworkRegister {
         NetworkRegister.addNetworkMessage(ForwardConeParticlesToClient.class, ForwardConeParticlesToClient::encoder, ForwardConeParticlesToClient::decoder, ForwardConeParticlesToClient::messageConsumer);
         NetworkRegister.addNetworkMessage(ForwardRaysParticlesToClient.class, ForwardRaysParticlesToClient::encoder, ForwardRaysParticlesToClient::decoder, ForwardRaysParticlesToClient::messageConsumer);
         NetworkRegister.addNetworkMessage(AmmoTypeToServer.class, AmmoTypeToServer::encoder, AmmoTypeToServer::decoder, AmmoTypeToServer::messageConsumer);
+        NetworkRegister.addNetworkMessage(TeamMembersToClient.class, TeamMembersToClient::encoder, TeamMembersToClient::decoder, TeamMembersToClient::messageConsumer);
     }
 }
