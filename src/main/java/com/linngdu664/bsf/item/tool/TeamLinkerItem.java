@@ -6,6 +6,7 @@ import com.linngdu664.bsf.registry.NetworkRegister;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -66,6 +67,7 @@ public class TeamLinkerItem extends Item {
             }
             savedData.setDirty();
         }
+        pPlayer.awardStat(Stats.ITEM_USED.get(this));
         return InteractionResultHolder.success(itemstack);
     }
 }
