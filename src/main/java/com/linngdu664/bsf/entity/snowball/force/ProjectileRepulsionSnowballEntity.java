@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.entity.snowball.force;
 
-import com.linngdu664.bsf.entity.executor.MonsterRepulsionExecutor;
 import com.linngdu664.bsf.entity.executor.ProjectileRepulsionExecutor;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
@@ -8,13 +7,10 @@ import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class ProjectileRepulsionSnowballEntity extends AbstractForceSnowballEntity {
     public ProjectileRepulsionSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
