@@ -1,15 +1,17 @@
 package com.linngdu664.bsf.event;
 
+import com.linngdu664.bsf.BSFTeamSavedData;
 import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.item.misc.IceSkatesItem;
 import com.linngdu664.bsf.item.misc.SnowFallBootsItem;
 import com.linngdu664.bsf.item.snowball.normal.SmoothSnowballItem;
 import com.linngdu664.bsf.item.tank.SnowballTankItem;
-import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
+import com.linngdu664.bsf.network.TeamMembersToClient;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.EnchantmentRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
+import com.linngdu664.bsf.registry.NetworkRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -41,7 +43,6 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.providers.number.BinomialDistributionGenerator;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -50,6 +51,7 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.UUID;
 
@@ -58,25 +60,10 @@ public class GamePlayEvents {
     public static final UUID SKATES_SPEED_ID = UUID.fromString("00a3641b-33e0-4022-8d92-1c7b74c380b0");
 
     @SubscribeEvent
-    public static void onComputeFovModifier(ComputeFovModifierEvent event) {
-        Player player = event.getPlayer();
-        ItemStack itemStack = player.getUseItem();
-        if (player.isUsingItem() && itemStack.getItem() instanceof SnowballCannonItem) {
-            int i = player.getTicksUsingItem();
-            float f = event.getFovModifier();
-            float f1 = (float) i / 20.0F;
-            if (f1 > 1.0F) {
-                f1 = 1.0F;
-            } else {
-                f1 *= f1;
-            }
-            if (itemStack.is(ItemRegister.POWERFUL_SNOWBALL_CANNON.get())) {
-                f *= 1.0F - f1 * 0.5F;
-            } else {
-                f *= 1.0F - f1 * 0.3F;
-            }
-            event.setNewFovModifier(f);
-        }
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        ServerPlayer player = (ServerPlayer) event.getEntity();
+        BSFTeamSavedData savedData = player.getServer().overworld().getDataStorage().computeIfAbsent(BSFTeamSavedData::new, BSFTeamSavedData::new, "bsf_team");
+        NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> player), new TeamMembersToClient(savedData.getMembers(savedData.getGroup(player.getUUID()))));
     }
 
     @SubscribeEvent
