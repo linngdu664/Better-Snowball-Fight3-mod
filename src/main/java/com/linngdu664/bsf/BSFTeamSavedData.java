@@ -22,12 +22,12 @@ public class BSFTeamSavedData extends SavedData {
 
     public BSFTeamSavedData(CompoundTag root) {
         this();
-        if (root.contains("BSFGroup")) {
-            ListTag listTag = (ListTag) root.get("BSFGroup");
+        if (root.contains("BSFTeam")) {
+            ListTag listTag = (ListTag) root.get("BSFTeam");
             for (Tag tag : listTag) {
                 CompoundTag current = (CompoundTag) tag;
                 UUID uuid = current.getUUID("UUID");
-                int groupId = current.getInt("GroupId");
+                int groupId = current.getInt("TeamId");
                 groupMembers[groupId].add(uuid);
                 groupIdMap.put(uuid, groupId);
             }
@@ -40,10 +40,10 @@ public class BSFTeamSavedData extends SavedData {
         for (var e : groupIdMap.entrySet()) {
             CompoundTag compoundTag = new CompoundTag();
             compoundTag.putUUID("UUID", e.getKey());
-            compoundTag.putInt("GroupId", e.getValue());
+            compoundTag.putInt("TeamId", e.getValue());
             listTag.add(compoundTag);
         }
-        pCompoundTag.put("BSFGroup", listTag);
+        pCompoundTag.put("BSFTeam", listTag);
         return pCompoundTag;
     }
 
