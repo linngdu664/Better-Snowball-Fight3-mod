@@ -350,6 +350,8 @@
   "current_ammunition.tip": "Ammo in use:",
   "potionSickness.tip": "Potion Sickness Ticks: ",
   "copy.tip": "Copied",
+  "leave_bsf_team.tip": "%1$s has left team %2$s",
+  "join_bsf_team.tip": "%1$s has joined team %2$s",
 
   "block.bsf.smart_snow_block": "Smart Snow Block",
   "block.bsf.loose_snow_block": "Loose Snow Block",

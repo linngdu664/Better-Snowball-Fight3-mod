@@ -350,6 +350,8 @@
   "current_ammunition.tip": "當前彈藥:",
   "potionSickness.tip": "藥水疾病時間：",
   "copy.tip": "已復製",
+  "leave_bsf_team.tip": "%1$s退出了%2$s隊",
+  "join_bsf_team.tip": "%1$s加入了%2$s隊",
 
   "block.bsf.smart_snow_block": "智慧雪塊",
   "block.bsf.loose_snow_block": "鬆散雪塊",
