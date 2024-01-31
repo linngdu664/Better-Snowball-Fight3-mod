@@ -18,6 +18,7 @@ import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.UUID;
 
 public class TeamLinkerItem extends Item {
@@ -30,7 +31,7 @@ public class TeamLinkerItem extends Item {
     }
 
     private String getColorNameKeyById(int id) {
-        return DyeColor.byId(id).getName() + ".tip";
+        return "color.minecraft." + DyeColor.byId(id).getName();
     }
 
     @Override
@@ -42,28 +43,39 @@ public class TeamLinkerItem extends Item {
             }
         } else if (!pLevel.isClientSide) {
             BSFTeamSavedData savedData = pPlayer.getServer().overworld().getDataStorage().computeIfAbsent(BSFTeamSavedData::new, BSFTeamSavedData::new, "bsf_team");
-            UUID uuid = pPlayer.getUUID();
             String playerName = pPlayer.getName().getString();
+            UUID uuid = pPlayer.getUUID();
             int oldId = savedData.getGroup(uuid);
-            String[] newNameParam = new String[]{playerName, MutableComponent.create(new TranslatableContents(getColorNameKeyById(teamId), null, new Object[]{})).getString()};
             String[] oldNameParam = new String[]{playerName, MutableComponent.create(new TranslatableContents(getColorNameKeyById(oldId), null, new Object[]{})).getString()};
+            String[] newNameParam = new String[]{playerName, MutableComponent.create(new TranslatableContents(getColorNameKeyById(teamId), null, new Object[]{})).getString()};
             HashSet<UUID> oldMembers = savedData.getMembers(oldId);
-            oldMembers.forEach(p -> pLevel.getPlayerByUUID(p).displayClientMessage(MutableComponent.create(new TranslatableContents("leave_team.tip", null, oldNameParam)), false));
+            oldMembers.stream()
+                    .map(p -> (ServerPlayer) pLevel.getPlayerByUUID(p))
+                    .filter(Objects::nonNull)
+                    .forEach(p -> p.displayClientMessage(MutableComponent.create(new TranslatableContents("leave_bsf_team.tip", null, oldNameParam)), false));
             if (oldId == teamId) {
                 // 退队
                 savedData.exitGroup(uuid);
-                oldMembers.forEach(p -> NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) pLevel.getPlayerByUUID(p)), new TeamMembersToClient(oldMembers)));
+                oldMembers.stream()
+                        .map(p -> (ServerPlayer) pLevel.getPlayerByUUID(p))
+                        .filter(Objects::nonNull)
+                        .forEach(p -> NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> p), new TeamMembersToClient(oldMembers)));
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) pPlayer), new TeamMembersToClient(new HashSet<>()));
             } else {
-                // 进队
+                // 退队后进队
                 savedData.joinGroup(uuid, teamId);
-                oldMembers.forEach(p -> NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) pLevel.getPlayerByUUID(p)), new TeamMembersToClient(oldMembers)));
+                oldMembers.stream()
+                        .map(p -> (ServerPlayer) pLevel.getPlayerByUUID(p))
+                        .filter(Objects::nonNull)
+                        .forEach(p -> NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> p), new TeamMembersToClient(oldMembers)));
                 HashSet<UUID> newMembers = savedData.getMembers(teamId);
-                newMembers.forEach(p -> {
-                    ServerPlayer serverPlayer = (ServerPlayer) pLevel.getPlayerByUUID(p);
-                    serverPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("join_team.tip", null, newNameParam)), false);
-                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new TeamMembersToClient(newMembers));
-                });
+                newMembers.stream()
+                        .map(p -> (ServerPlayer) pLevel.getPlayerByUUID(p))
+                        .filter(Objects::nonNull)
+                        .forEach(p -> {
+                            p.displayClientMessage(MutableComponent.create(new TranslatableContents("join_bsf_team.tip", null, newNameParam)), false);
+                            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> p), new TeamMembersToClient(newMembers));
+                        });
             }
             savedData.setDirty();
         }
