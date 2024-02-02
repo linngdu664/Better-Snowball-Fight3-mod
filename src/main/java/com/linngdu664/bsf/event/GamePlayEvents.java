@@ -12,9 +12,9 @@ import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.EnchantmentRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
+import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -47,6 +47,7 @@ import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -60,26 +61,32 @@ public class GamePlayEvents {
     public static final UUID SKATES_SPEED_ID = UUID.fromString("00a3641b-33e0-4022-8d92-1c7b74c380b0");
 
     @SubscribeEvent
+    public static void onLivingHurt(LivingHurtEvent event) {
+        if (event.getEntity() instanceof Player player1 && event.getSource().getEntity() instanceof Player player2) {
+            BSFTeamSavedData savedData = player1.getServer().overworld().getDataStorage().computeIfAbsent(BSFTeamSavedData::new, BSFTeamSavedData::new, "bsf_team");
+            int id = savedData.getTeam(player1.getUUID());
+            String msgId = event.getSource().getMsgId();
+            if (id >= 0 && id == savedData.getTeam(player2.getUUID()) && msgId.equals("thrown") && !BSFConfig.enableFriendlyFire) {
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         ServerPlayer player = (ServerPlayer) event.getEntity();
         BSFTeamSavedData savedData = player.getServer().overworld().getDataStorage().computeIfAbsent(BSFTeamSavedData::new, BSFTeamSavedData::new, "bsf_team");
-        NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> player), new TeamMembersToClient(savedData.getMembers(savedData.getGroup(player.getUUID()))));
+        NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> player), new TeamMembersToClient(savedData.getMembers(savedData.getTeam(player.getUUID()))));
     }
 
     @SubscribeEvent
     public static void onLivingUseItemTick(LivingEntityUseItemEvent.Tick event) {
         LivingEntity livingEntity = event.getEntity();
-        Level level = livingEntity.level();
-        if (!level.isClientSide) {
-            ItemStack itemStack = event.getItem();
-            if (EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.FLOATING_SHOOTING.get(), itemStack) > 0) {
-                livingEntity.resetFallDistance();
-                double vy = livingEntity.getDeltaMovement().y;
-                livingEntity.push(0, -0.25 * vy, 0);
-                if (livingEntity instanceof ServerPlayer player) {
-                    player.connection.send(new ClientboundSetEntityMotionPacket(livingEntity));
-                }
-            }
+        ItemStack itemStack = event.getItem();
+        if (EnchantmentHelper.getTagEnchantmentLevel(EnchantmentRegister.FLOATING_SHOOTING.get(), itemStack) > 0) {
+            livingEntity.resetFallDistance();
+            double vy = livingEntity.getDeltaMovement().y;
+            livingEntity.push(0, -0.25 * vy, 0);
         }
     }
 
