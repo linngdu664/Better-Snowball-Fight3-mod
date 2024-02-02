@@ -147,4 +147,5 @@ public class ItemRegister {
     public static final RegistryObject<Item> BLACK_TEAM_LINKER = ITEMS.register("black_team_linker", () -> new TeamLinkerItem(15));
 
     public static final RegistryObject<Item> VECTOR_INVERSION_ANCHOR = ITEMS.register("vector_inversion_anchor", VectorInversionAnchorItem::new);
+    public static final RegistryObject<Item> SNOWFLAKE_ROCKET = ITEMS.register("snowflake_rocket", SnowflakeRocketItem::new);
 }
