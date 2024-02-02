@@ -6,6 +6,7 @@ import com.mojang.blaze3d.platform.WindowEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.thread.ReentrantBlockableEventLoop;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.OwnableEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,7 +20,7 @@ public abstract class MinecraftMixin extends ReentrantBlockableEventLoop<Runnabl
 
     @Inject(method = "shouldEntityAppearGlowing", at = @At(value = "HEAD"), cancellable = true)
     private void shouldEntityAppearGlowing(Entity pEntity, CallbackInfoReturnable<Boolean> cir) {
-        if (TeamLinkerItem.shouldShowHighlight && TeamMembersToClient.staticMembers.contains(pEntity.getUUID())) {
+        if (TeamLinkerItem.shouldShowHighlight && (TeamMembersToClient.staticMembers.contains(pEntity.getUUID()) || pEntity instanceof OwnableEntity ownable && TeamMembersToClient.staticMembers.contains(ownable.getOwnerUUID()))) {
             cir.setReturnValue(true);
         }
     }
