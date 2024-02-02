@@ -45,7 +45,7 @@ public class TeamLinkerItem extends Item {
             BSFTeamSavedData savedData = pPlayer.getServer().overworld().getDataStorage().computeIfAbsent(BSFTeamSavedData::new, BSFTeamSavedData::new, "bsf_team");
             String playerName = pPlayer.getName().getString();
             UUID uuid = pPlayer.getUUID();
-            int oldId = savedData.getGroup(uuid);
+            int oldId = savedData.getTeam(uuid);
             String[] oldNameParam = new String[]{playerName, MutableComponent.create(new TranslatableContents(getColorNameKeyById(oldId), null, new Object[]{})).getString()};
             String[] newNameParam = new String[]{playerName, MutableComponent.create(new TranslatableContents(getColorNameKeyById(teamId), null, new Object[]{})).getString()};
             HashSet<UUID> oldMembers = savedData.getMembers(oldId);
@@ -55,7 +55,7 @@ public class TeamLinkerItem extends Item {
                     .forEach(p -> p.displayClientMessage(MutableComponent.create(new TranslatableContents("leave_bsf_team.tip", null, oldNameParam)), false));
             if (oldId == teamId) {
                 // 退队
-                savedData.exitGroup(uuid);
+                savedData.exitTeam(uuid);
                 oldMembers.stream()
                         .map(p -> (ServerPlayer) pLevel.getPlayerByUUID(p))
                         .filter(Objects::nonNull)
@@ -63,7 +63,7 @@ public class TeamLinkerItem extends Item {
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) pPlayer), new TeamMembersToClient(new HashSet<>()));
             } else {
                 // 退队后进队
-                savedData.joinGroup(uuid, teamId);
+                savedData.joinTeam(uuid, teamId);
                 oldMembers.stream()
                         .map(p -> (ServerPlayer) pLevel.getPlayerByUUID(p))
                         .filter(Objects::nonNull)
