@@ -29,6 +29,9 @@ public class BSFConfig {
     public static final ForgeConfigSpec.IntValue ICICLE_SNOWBALL_DURATION = BUILDER
             .comment("The life span of icicle snowball in tick. Default value: 80.")
             .defineInRange("icicle_snowball_duration", 80, 0, Integer.MAX_VALUE);
+    public static final ForgeConfigSpec.BooleanValue ENABLE_FRIENDLY_FIRE = BUILDER
+            .comment("Default value: false.")
+            .define("enable_friendly_fire", false);
     //    public static final ForgeConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
 //            .comment("What you want the introduction message to be for the magic number")
 //            .define("magicNumberIntroduction", "The magic number is... ");
@@ -43,6 +46,7 @@ public class BSFConfig {
     public static int expansionSnowballDuration;
     public static int reconstructSnowballDuration;
     public static int icicleSnowballDuration;
+    public static boolean enableFriendlyFire;
 //    public static String magicNumberIntroduction;
 //    public static Set<Item> items;
 
@@ -54,6 +58,7 @@ public class BSFConfig {
         expansionSnowballDuration = EXPANSION_SNOWBALL_DURATION.get();
         reconstructSnowballDuration = RECONSTRUCT_SNOWBALL_DURATION.get();
         icicleSnowballDuration = ICICLE_SNOWBALL_DURATION.get();
+        enableFriendlyFire = ENABLE_FRIENDLY_FIRE.get();
 //        magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
 //
 //         convert the list of strings into a set of items
