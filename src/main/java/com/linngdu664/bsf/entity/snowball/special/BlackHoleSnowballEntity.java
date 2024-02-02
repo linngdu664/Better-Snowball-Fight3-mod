@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
+import com.linngdu664.bsf.entity.Forceable;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
@@ -7,10 +8,7 @@ import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
@@ -22,9 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
+public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity implements Forceable {
     public int startTime = 20;
     public int endTime = 150;
     private int timer = 0;
@@ -64,27 +60,6 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
         }
     }
 
-    public void forceEffect(List<? extends Entity> list, double constForceRangeSqr, double GM) {
-        for (Entity entity : list) {
-            Vec3 rVec = new Vec3(getX() - entity.getX(), getY() - (entity.getEyeY() + entity.getY()) * 0.5, getZ() - entity.getZ());
-            double r2 = rVec.lengthSqr();
-            double ir2 = Mth.invSqrt(r2);
-            double a;
-            if (r2 > constForceRangeSqr) {
-                a = GM / r2;
-            } else if (r2 > 0.25) {         // default 0.25
-                a = GM / constForceRangeSqr;
-            } else {
-                a = 0;
-            }
-            entity.push(a * rVec.x * ir2, a * rVec.y * ir2, a * rVec.z * ir2);
-            //Tell client that player should move because client handles player's movement.
-            if (entity instanceof ServerPlayer player) {
-                player.connection.send(new ClientboundSetEntityMotionPacket(entity));
-            }
-        }
-    }
-
     @Override
     public void tick() {
         super.tick();
@@ -97,7 +72,7 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
                 this.playSound(SoundRegister.BLACK_HOLE_START.get(), 3.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
             if (timer > startTime) {
-                forceEffect(level.getEntitiesOfClass(Entity.class, getBoundingBox().inflate(30), EntitySelector.NO_CREATIVE_OR_SPECTATOR), 8, 8);
+                forceEffect(this, level.getEntitiesOfClass(Entity.class, getBoundingBox().inflate(30), EntitySelector.NO_CREATIVE_OR_SPECTATOR), 8, 8);
                 ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 8, 0, 0, 0, 0.12);
             }
             if (timer == endTime) {

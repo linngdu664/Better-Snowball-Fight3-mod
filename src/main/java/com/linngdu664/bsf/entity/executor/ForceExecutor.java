@@ -1,19 +1,16 @@
 package com.linngdu664.bsf.entity.executor;
 
+import com.linngdu664.bsf.entity.Forceable;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public abstract class ForceExecutor extends FixExecutor {
+public abstract class ForceExecutor extends FixExecutor implements Forceable {
     private int GM;
     private int boundaryR2;
     protected int range;
@@ -52,7 +49,7 @@ public abstract class ForceExecutor extends FixExecutor {
     public void tick() {
         super.tick();
         Level level = level();
-        forceEffect(getTargetList(), boundaryR2, GM);
+        forceEffect(this, getTargetList(), boundaryR2, GM);
         if (!level.isClientSide) {
             ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0.06);
             if (timer > 200) {
@@ -63,27 +60,6 @@ public abstract class ForceExecutor extends FixExecutor {
     }
 
     public abstract List<? extends Entity> getTargetList();
-
-    public void forceEffect(List<? extends Entity> list, double constForceRangeSqr, double GM) {
-        for (Entity entity : list) {
-            Vec3 rVec = new Vec3(getX() - entity.getX(), getY() - (entity.getEyeY() + entity.getY()) * 0.5, getZ() - entity.getZ());
-            double r2 = rVec.lengthSqr();
-            double ir2 = Mth.invSqrt(r2);
-            double a;
-            if (r2 > constForceRangeSqr) {
-                a = GM / r2;
-            } else if (r2 > 0.25) {         // default 0.25
-                a = GM / constForceRangeSqr;
-            } else {
-                a = 0;
-            }
-            entity.push(a * rVec.x * ir2, a * rVec.y * ir2, a * rVec.z * ir2);
-            //Tell client that player should move because client handles player's movement.
-            if (entity instanceof ServerPlayer player) {
-                player.connection.send(new ClientboundSetEntityMotionPacket(entity));
-            }
-        }
-    }
 
     @Override
     public float getSubspacePower() {
