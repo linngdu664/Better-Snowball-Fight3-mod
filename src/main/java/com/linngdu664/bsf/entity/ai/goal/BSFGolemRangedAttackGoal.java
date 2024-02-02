@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.entity.ai.goal;
 
+import com.linngdu664.bsf.BSFTeamSavedData;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
@@ -43,7 +44,8 @@ public class BSFGolemRangedAttackGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity livingEntity = golem.getTarget();
-        return livingEntity != null && livingEntity.isAlive() && golem.getStatus() != 1;
+        BSFTeamSavedData savedData = golem.getServer().overworld().getDataStorage().computeIfAbsent(BSFTeamSavedData::new, BSFTeamSavedData::new, "bsf_team");
+        return livingEntity != null && !savedData.isSameTeam(golem.getOwner(), livingEntity) && livingEntity.isAlive() && golem.getStatus() != 1;
     }
 
     @Override
