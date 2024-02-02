@@ -3,8 +3,10 @@ package com.linngdu664.bsf;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.saveddata.SavedData;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,23 +49,23 @@ public class BSFTeamSavedData extends SavedData {
         return pCompoundTag;
     }
 
-    public int getGroup(UUID uuid) {
+    public int getTeam(UUID uuid) {
         if (groupIdMap.containsKey(uuid)) {
             return groupIdMap.get(uuid);
         }
         return -1;
     }
 
-    public void exitGroup(UUID uuid) {
-        int groupId = getGroup(uuid);
+    public void exitTeam(UUID uuid) {
+        int groupId = getTeam(uuid);
         if (groupId != -1) {
             groupIdMap.remove(uuid);
             groupMembers[groupId].remove(uuid);
         }
     }
 
-    public void joinGroup(UUID uuid, int groupId) {
-        int oldGroupId = getGroup(uuid);
+    public void joinTeam(@NotNull UUID uuid, int groupId) {
+        int oldGroupId = getTeam(uuid);
         if (oldGroupId != -1) {
             groupMembers[oldGroupId].remove(uuid);
         }
@@ -76,5 +78,13 @@ public class BSFTeamSavedData extends SavedData {
             return new HashSet<>();
         }
         return groupMembers[groupId];
+    }
+
+    public boolean isSameTeam(@Nullable Entity entity1, @Nullable Entity entity2) {
+        if (entity1 == null || entity2 == null) {
+            return false;
+        }
+        int id = getTeam(entity1.getUUID());
+        return id >= 0 && id == getTeam(entity2.getUUID());
     }
 }
