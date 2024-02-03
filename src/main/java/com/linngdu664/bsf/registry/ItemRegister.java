@@ -77,6 +77,7 @@ public class ItemRegister {
     public static final RegistryObject<Item> SNOWBALL_CANNON = ITEMS.register("snowball_cannon", SnowballCannonItem::new);
     public static final RegistryObject<Item> POWERFUL_SNOWBALL_CANNON = ITEMS.register("powerful_snowball_cannon", PowerfulSnowballCannonItem::new);
     public static final RegistryObject<Item> FREEZING_SNOWBALL_CANNON = ITEMS.register("freezing_snowball_cannon", FreezingSnowballCannonItem::new);
+    public static final RegistryObject<Item> IMPLOSION_SNOWBALL_CANNON = ITEMS.register("implosion_snowball_cannon", ImplosionSnowballCannonItem::new);
     public static final RegistryObject<Item> SNOWBALL_MACHINE_GUN = ITEMS.register("snowball_machine_gun", SnowballMachineGunItem::new);
     public static final RegistryObject<Item> SNOWBALL_SHOTGUN = ITEMS.register("snowball_shotgun", SnowballShotgunItem::new);
     public static final RegistryObject<Item> GLOVE = ITEMS.register("glove", GloveItem::new);
@@ -94,6 +95,9 @@ public class ItemRegister {
     public static final RegistryObject<Item> SNOW_TRAP_SETTER = ITEMS.register("snow_trap_setter", SnowTrapSetterItem::new);
     public static final RegistryObject<Item> SCULK_SNOWBALL_LAUNCHER = ITEMS.register("sculk_snowball_launcher", SculkSnowballLauncherItem::new);
     public static final RegistryObject<Item> SNOW_GOLEM_CONTAINER = ITEMS.register("snow_golem_container", SnowGolemContainer::new);
+    public static final RegistryObject<Item> VECTOR_INVERSION_ANCHOR = ITEMS.register("vector_inversion_anchor", VectorInversionAnchorItem::new);
+    public static final RegistryObject<Item> SNOWFLAKE_ROCKET = ITEMS.register("snowflake_rocket", SnowflakeRocketItem::new);
+
 
     public static final RegistryObject<Item> POPSICLE = ITEMS.register("popsicle", PopsicleItem::new);
     public static final RegistryObject<Item> MILK_POPSICLE = ITEMS.register("milk_popsicle", MilkPopsicleItem::new);
@@ -145,7 +149,4 @@ public class ItemRegister {
     public static final RegistryObject<Item> GREEN_TEAM_LINKER = ITEMS.register("green_team_linker", () -> new TeamLinkerItem(13));
     public static final RegistryObject<Item> RED_TEAM_LINKER = ITEMS.register("red_team_linker", () -> new TeamLinkerItem(14));
     public static final RegistryObject<Item> BLACK_TEAM_LINKER = ITEMS.register("black_team_linker", () -> new TeamLinkerItem(15));
-
-    public static final RegistryObject<Item> VECTOR_INVERSION_ANCHOR = ITEMS.register("vector_inversion_anchor", VectorInversionAnchorItem::new);
-    public static final RegistryObject<Item> SNOWFLAKE_ROCKET = ITEMS.register("snowflake_rocket", SnowflakeRocketItem::new);
 }

@@ -289,6 +289,7 @@ public class CreativeTabRegister {
                 output.accept(ItemRegister.SNOWBALL_CANNON.get());
                 output.accept(ItemRegister.POWERFUL_SNOWBALL_CANNON.get());
                 output.accept(ItemRegister.FREEZING_SNOWBALL_CANNON.get());
+                output.accept(ItemRegister.IMPLOSION_SNOWBALL_CANNON.get());
                 output.accept(ItemRegister.SNOWBALL_MACHINE_GUN.get());
                 output.accept(ItemRegister.SNOWBALL_SHOTGUN.get());
                 output.accept(ItemRegister.SNOWMAN_IN_HAND.get());
