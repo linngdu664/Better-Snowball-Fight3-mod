@@ -46,17 +46,17 @@ public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
             ItemStack stack = getAmmo(pPlayer, itemStack);
             if (stack != null || pPlayer.isCreative()) {
                 ServerLevel serverLevel = (ServerLevel) pLevel;
-                serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 0.5F, 0.4F / (serverLevel.getRandom().nextFloat() * 0.4F + 0.8F));
+                serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 0.8F));
                 AABB aabb = pPlayer.getBoundingBox().inflate(8);
                 Vec3 cameraVec = Vec3.directionFromRotation(pPlayer.getXRot(), pPlayer.getYRot());
                 Vec3 eyePos = pPlayer.getEyePosition();
                 serverLevel.getEntities(pPlayer, aabb, p -> !p.isSpectator() && p.distanceToSqr(pPlayer) < 64 && BSFMthUtil.vec3AngleCos(p.getEyePosition().subtract(eyePos), cameraVec) > 0.9363291776)
                         .forEach(p -> {
-                            double r = p.distanceTo(pPlayer);
-                            double d1 = r < 4 ? 0.2 : -3.3333333e-3 * r * r * r + 4.0833333e-2 * r * r - 0.16666666 * r + 0.42666667;
-                            Vec3 vec3 = p.getEyePosition().subtract(eyePos).scale(d1);
+                            float r = p.distanceTo(pPlayer);
+                            float f1 = r < 4 ? 1f : -0.016666667f * r * r * r + 0.20416667f * r * r - 0.83333333f * r + 2.1333333f;
+                            Vec3 vec3 = p.getEyePosition().subtract(eyePos).scale(f1 * 0.5);
                             p.push(vec3.x, vec3.y, vec3.z);
-                            p.hurt(serverLevel.damageSources().playerAttack(pPlayer), 1);
+                            p.hurt(serverLevel.damageSources().playerAttack(pPlayer), f1);
                             if (p instanceof ServerPlayer serverPlayer) {
                                 serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(p));
                             }
