@@ -70,7 +70,7 @@ public class ForwardRaysParticlesToClient {
 
     @OnlyIn(Dist.CLIENT)
     public static boolean handlePacket(double p1x, double p1y, double p1z, double p2x, double p2y, double p2z, double vx, double vy, double vz, double vMin, double vMax, int num) {
-        ParticleUtil.spawnForwardRaysParticles(Minecraft.getInstance().player.level(), ParticleTypes.SNOWFLAKE, new Vec3(p1x, p1y, p1z), new Vec3(p2x, p2y, p2z), new Vec3(vx, vy, vz), vMin, vMax, num);
+        ParticleUtil.spawnForwardRaysParticles(Minecraft.getInstance().level, ParticleTypes.SNOWFLAKE, new Vec3(p1x, p1y, p1z), new Vec3(p2x, p2y, p2z), new Vec3(vx, vy, vz), vMin, vMax, num);
         return true;
     }
 }

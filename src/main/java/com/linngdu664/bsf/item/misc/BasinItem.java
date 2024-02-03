@@ -71,15 +71,19 @@ public class BasinItem extends Item {
         }
         Vec3 cameraVec = Vec3.directionFromRotation(pPlayer.getXRot(), pPlayer.getYRot());
         if (!pLevel.isClientSide) {
-            List<LivingEntity> list = pLevel.getEntitiesOfClass(LivingEntity.class, pPlayer.getBoundingBox().inflate(8),
-                    p -> !(p instanceof ArmorStand) && !p.isSpectator() && p.distanceToSqr(pPlayer) < 64
-                            && BSFMthUtil.vec3AngleCos(new Vec3(p.getX() - pPlayer.getX(), p.getEyeY() - pPlayer.getEyeY() + 0.2, p.getZ() - pPlayer.getZ()), Vec3.directionFromRotation(pPlayer.getXRot(), pPlayer.getYRot())) > 0.9363291776
-                            && isNotBlocked(new Vec3(p.getX() - pPlayer.getX(), p.getEyeY() - pPlayer.getEyeY() + 0.2, p.getZ() - pPlayer.getZ()), new Vec3(p.getX() - pPlayer.getX(), p.getY() - pPlayer.getEyeY(), p.getZ() - pPlayer.getZ()), pPlayer, pLevel));
+            List<LivingEntity> list = pLevel.getEntitiesOfClass(LivingEntity.class, pPlayer.getBoundingBox().inflate(8), p -> {
+                if (p instanceof ArmorStand || p.isSpectator() || p.distanceToSqr(pPlayer) >= 64) {
+                    return false;
+                }
+                Vec3 vec31 = new Vec3(p.getX() - pPlayer.getX(), p.getEyeY() - pPlayer.getEyeY() + 0.2, p.getZ() - pPlayer.getZ());
+                Vec3 vec32 = new Vec3(p.getX() - pPlayer.getX(), p.getY() - pPlayer.getEyeY(), p.getZ() - pPlayer.getZ());
+                return BSFMthUtil.vec3AngleCos(vec31, cameraVec) > 0.9363291776 && isNotBlocked(vec31, vec32, pPlayer, pLevel);
+            });
             NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesToClient(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2));
             if (itemStack.getOrCreateTag().getByte("SnowType") == 1) {
-                addEffectsToLivingEntities(list, pPlayer, pLevel, p -> p < 5.0F ? 180 : (int) (180.0F - 6.6666667F * (p - 5.0F) * (p - 5.0F) * (p - 5.0F)), p -> p < 5.0F ? 2 : 1, 20);
+                addEffectsToLivingEntities(list, pPlayer, pLevel, p -> p < 5F ? 180 : (int) (180F - 6.6666667F * (p - 5F) * (p - 5F) * (p - 5F)), p -> p < 5F ? 2 : 1, 20);
             } else {
-                addEffectsToLivingEntities(list, pPlayer, pLevel, p -> p < 3.0F ? 240 : (p < 6.0F ? (int) (240.0F - (p - 3.0F) * (p - 3.0F) * (p - 3.0F)) : (int) (-15.375F * (p - 8.0F) * (p * (p - 9.4146341F) + 27.414634F))), p -> p < 3.0F ? 3 : (p < 6.0F ? 2 : 1), 30);
+                addEffectsToLivingEntities(list, pPlayer, pLevel, p -> p < 4F ? 240 : (int) (-4F * p * p * p + 49F * p * p - 200F * p + 512F), p -> p < 3.0F ? 3 : (p < 6.0F ? 2 : 1), 30);
             }
             if (!pPlayer.getAbilities().instabuild) {
                 itemStack.getOrCreateTag().remove("SnowType");

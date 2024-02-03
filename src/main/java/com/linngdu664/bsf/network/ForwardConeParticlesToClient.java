@@ -24,7 +24,7 @@ public class ForwardConeParticlesToClient {
      * @param eyePos        The eye position of the entity.
      * @param sightVec      The sight vector of the entity.
      * @param r             The max radius.
-     * @param aStep         The angle step.
+     * @param aStep         The angle step in degree.
      * @param rStep         The radius step.
      * @param loweredVision The offset of eyePos in the negative direction of the y-axis.
      */
@@ -76,7 +76,7 @@ public class ForwardConeParticlesToClient {
 
     @OnlyIn(Dist.CLIENT)
     public static boolean handlePacket(double x, double y, double z, double vecX, double vecY, double vecZ, float r, float aStep, float rStep, double loweredVision) {
-        ParticleUtil.spawnForwardConeParticles(Minecraft.getInstance().player.level(), x, y, z, new Vec3(vecX, vecY, vecZ), ParticleTypes.SNOWFLAKE, r, aStep, rStep, loweredVision);
+        ParticleUtil.spawnForwardConeParticles(Minecraft.getInstance().level, x, y, z, new Vec3(vecX, vecY, vecZ), ParticleTypes.SNOWFLAKE, r, aStep, rStep, loweredVision);
         return true;
     }
 }
