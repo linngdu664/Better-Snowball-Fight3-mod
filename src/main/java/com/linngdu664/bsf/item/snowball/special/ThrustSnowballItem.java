@@ -3,6 +3,7 @@ package com.linngdu664.bsf.item.snowball.special;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
+import com.linngdu664.bsf.item.weapon.ImplosionSnowballCannonItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -38,7 +39,7 @@ public class ThrustSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public int getTypeFlag() {
-        return SnowballShotgunItem.TYPE_FLAG;
+        return SnowballShotgunItem.TYPE_FLAG | ImplosionSnowballCannonItem.TYPE_FLAG;
     }
 
     @Override
