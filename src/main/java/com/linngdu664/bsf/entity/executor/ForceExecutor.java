@@ -55,8 +55,8 @@ public abstract class ForceExecutor extends FixExecutor implements Forceable {
             if (timer > 200) {
                 this.discard();
             }
-            timer++;
         }
+        timer++;
     }
 
     public abstract List<? extends Entity> getTargetList();

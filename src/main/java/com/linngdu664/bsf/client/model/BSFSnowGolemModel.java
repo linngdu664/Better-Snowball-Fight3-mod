@@ -16,7 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class BSFSnowGolemModel<T extends BSFSnowGolemEntity> extends EntityModel<T> {
+public class BSFSnowGolemModel<T extends BSFSnowGolemEntity> extends EntityModel<T>  {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Main.MODID, "bsf_snow_golem"), "main");
     private final ModelPart middle;

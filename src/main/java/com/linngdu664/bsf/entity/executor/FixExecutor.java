@@ -38,4 +38,8 @@ public abstract class FixExecutor extends Entity implements Absorbable {
         setDeltaMovement(0, 0, 0);
         super.tick();
     }
+
+    public int getTimer() {
+        return timer;
+    }
 }
