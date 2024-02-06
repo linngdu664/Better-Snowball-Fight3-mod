@@ -14,6 +14,8 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowballEntity {
+    private Entity target;
+
     public AbstractTrackingSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -53,16 +55,18 @@ public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowball
      */
     protected void missilesTracking() {
         Vec3 velocity = getDeltaMovement();
-        Entity target = getTarget();
-        if (target == null || !target.isAlive() || velocity.lengthSqr() < 0.25) {
+        if (velocity.lengthSqr() < 0.25) {
+            setNoGravity(false);
+        } else if (target == null || !target.isAlive()) {
+            target = getTarget();
             setNoGravity(false);
         } else {
             setNoGravity(true);
             Vec3 delta;
             if (isLockFeet()) {
-                delta = new Vec3(target.getX() - getX(), target.getY() - getY(), target.getZ() - getZ());
+                delta = target.getPosition(0).subtract(getPosition(0));
             } else {
-                delta = new Vec3(target.getX() - getX(), target.getEyeY() - getY(), target.getZ() - getZ());
+                delta = target.getEyePosition().subtract(getPosition(0));
             }
             double cosTheta = BSFMthUtil.vec2AngleCos(delta.x, delta.z, velocity.x, velocity.z);
             if (cosTheta > 1) {

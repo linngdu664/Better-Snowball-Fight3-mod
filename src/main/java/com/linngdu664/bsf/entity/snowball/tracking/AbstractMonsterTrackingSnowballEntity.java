@@ -27,7 +27,7 @@ public abstract class AbstractMonsterTrackingSnowballEntity extends AbstractTrac
     public Entity getTarget() {
         Level level = level();
         Vec3 velocity = getDeltaMovement();
-        List<Mob> list = level.getEntitiesOfClass(Mob.class, getBoundingBox().inflate(getRange()), (p) -> p instanceof Enemy && BSFMthUtil.vec3AngleCos(velocity, new Vec3(p.getX() - getX(), p.getY() - getY(), p.getZ() - getZ())) > 0.5);
+        List<Mob> list = level.getEntitiesOfClass(Mob.class, getBoundingBox().inflate(getRange()), (p) -> p instanceof Enemy && BSFMthUtil.vec3AngleCos(velocity, p.getPosition(0).subtract(getPosition(0))) > 0.5);
         return level.getNearestEntity(list, TargetingConditions.DEFAULT, null, getX(), getY(), getZ());
     }
 }
