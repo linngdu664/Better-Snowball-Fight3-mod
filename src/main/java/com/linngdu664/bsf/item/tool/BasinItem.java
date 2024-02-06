@@ -1,4 +1,4 @@
-package com.linngdu664.bsf.item.misc;
+package com.linngdu664.bsf.item.tool;
 
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
