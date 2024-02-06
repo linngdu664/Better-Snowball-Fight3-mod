@@ -12,16 +12,16 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public abstract class AbstractForceExecutor extends AbstractExecutor {
-    private int GM;
-    private int boundaryR2;
-    protected int range;
+    private double GM;
+    private double boundaryR2;
+    protected double range;
     protected List<? extends Entity> targetList;
 
     public AbstractForceExecutor(EntityType<?> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
-    public AbstractForceExecutor(EntityType<?> pEntityType, double pX, double pY, double pZ, Level pLevel, int GM, int boundaryR2, int range, int maxTime) {
+    public AbstractForceExecutor(EntityType<?> pEntityType, double pX, double pY, double pZ, Level pLevel, double GM, double boundaryR2, double range, int maxTime) {
         super(pEntityType, pLevel, maxTime);
         setPos(pX, pY, pZ);
         this.range = range;
@@ -32,17 +32,17 @@ public abstract class AbstractForceExecutor extends AbstractExecutor {
     @Override
     protected void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        GM = pCompound.getInt("GM");
-        boundaryR2 = pCompound.getInt("BoundaryR2");
-        range = pCompound.getInt("Range");
+        GM = pCompound.getDouble("GM");
+        boundaryR2 = pCompound.getDouble("BoundaryR2");
+        range = pCompound.getDouble("Range");
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("GM", GM);
-        pCompound.putInt("BoundaryR2", boundaryR2);
-        pCompound.putInt("Range", range);
+        pCompound.putDouble("GM", GM);
+        pCompound.putDouble("BoundaryR2", boundaryR2);
+        pCompound.putDouble("Range", range);
     }
 
     @Override
