@@ -2,7 +2,7 @@ package com.linngdu664.bsf.client.model;// Made with Blockbench 4.9.3
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-import com.linngdu664.bsf.entity.executor.ForceExecutor;
+import com.linngdu664.bsf.entity.executor.AbstractFixedForceExecutor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
@@ -11,9 +11,10 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 
-public class ForceExecutorModel<T extends ForceExecutor> extends EntityModel<T> {
+public class FixedForceExecutorModel<T extends AbstractFixedForceExecutor> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION1 = new ModelLayerLocation(new ResourceLocation("bsf", "textures/models/monster_gravity_executor.png"), "main");
 	public static final ModelLayerLocation LAYER_LOCATION2 = new ModelLayerLocation(new ResourceLocation("bsf", "textures/models/monster_repulsion_executor.png"), "main");
@@ -23,12 +24,13 @@ public class ForceExecutorModel<T extends ForceExecutor> extends EntityModel<T> 
 	private final ModelPart circle2;
 	private final ModelPart bb_main;
 
-	public ForceExecutorModel(ModelPart root) {
+	public FixedForceExecutorModel(ModelPart root) {
 		this.circle1 = root.getChild("circle1");
 		this.circle2 = root.getChild("circle2");
 		this.bb_main = root.getChild("bb_main");
 	}
 
+	@SuppressWarnings("unused")
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
@@ -107,12 +109,12 @@ public class ForceExecutorModel<T extends ForceExecutor> extends EntityModel<T> 
 	}
 
 	@Override
-	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		circle1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		circle2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		bb_main.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
