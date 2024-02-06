@@ -9,7 +9,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.UseAnim;
@@ -18,9 +17,9 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
-public class SnowflakeRocketItem extends Item {
+public class SnowflakeRocketItem extends AbstractBSFEnhanceableToolItem {
     public SnowflakeRocketItem() {
-        super(new Properties().stacksTo(1).rarity(Rarity.RARE).durability(500));
+        super(Rarity.RARE, 400);
     }
 
     @Override
