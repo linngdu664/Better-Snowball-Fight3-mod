@@ -1,4 +1,4 @@
-package com.linngdu664.bsf;
+package com.linngdu664.bsf.util;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

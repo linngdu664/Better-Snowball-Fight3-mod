@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.entity.ai.goal;
 
-import com.linngdu664.bsf.BSFTeamSavedData;
+import com.linngdu664.bsf.util.BSFTeamSavedData;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
