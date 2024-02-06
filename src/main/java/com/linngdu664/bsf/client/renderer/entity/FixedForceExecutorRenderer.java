@@ -3,7 +3,6 @@ package com.linngdu664.bsf.client.renderer.entity;
 
 import com.linngdu664.bsf.client.model.FixedForceExecutorModel;
 import com.linngdu664.bsf.entity.executor.AbstractFixedForceExecutor;
-import com.linngdu664.bsf.entity.executor.AbstractForceExecutor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelLayerLocation;
