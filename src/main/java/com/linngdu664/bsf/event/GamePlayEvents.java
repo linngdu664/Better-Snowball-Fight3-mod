@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.event;
 
-import com.linngdu664.bsf.BSFTeamSavedData;
+import com.linngdu664.bsf.util.BSFTeamSavedData;
 import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.item.misc.IceSkatesItem;
