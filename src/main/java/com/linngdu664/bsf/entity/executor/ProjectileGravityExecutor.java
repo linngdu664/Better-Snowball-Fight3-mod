@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public class ProjectileGravityExecutor extends ForceExecutor {
+public class ProjectileGravityExecutor extends AbstractFixedForceExecutor {
     public ProjectileGravityExecutor(EntityType<?> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }

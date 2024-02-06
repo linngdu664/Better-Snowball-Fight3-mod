@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public class MonsterRepulsionExecutor extends ForceExecutor {
+public class MonsterRepulsionExecutor extends AbstractFixedForceExecutor {
     public MonsterRepulsionExecutor(EntityType<?> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }

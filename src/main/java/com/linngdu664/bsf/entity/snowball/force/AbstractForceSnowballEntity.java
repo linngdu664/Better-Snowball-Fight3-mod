@@ -1,8 +1,8 @@
 package com.linngdu664.bsf.entity.snowball.force;
 
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
-import com.linngdu664.bsf.entity.snowball.Fixable;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -11,7 +11,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEntity implements Fixable {
+public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEntity {
 //    public boolean isStart = false;
 //    private int timer = 0;
 
@@ -79,6 +79,8 @@ public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEnt
     public float getSubspacePower() {
         return 3;
     }
+
+    public abstract Entity getExecutor();
 
 //    abstract double getRange();
 //

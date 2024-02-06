@@ -7,13 +7,14 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class PowderExecutor extends FixExecutor {
+public class PowderExecutor extends AbstractExecutor {
     public PowderExecutor(EntityType<?> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
     public PowderExecutor(EntityType<?> pEntityType, double pX, double pY, double pZ, Level pLevel) {
-        super(pEntityType, pX, pY, pZ, pLevel);
+        super(pEntityType, pLevel, 200);
+        setPos(pX, pY, pZ);
     }
 
     @Override
@@ -22,10 +23,6 @@ public class PowderExecutor extends FixExecutor {
         Level level = level();
         if (!level.isClientSide) {
             ((ServerLevel) level).sendParticles(ParticleRegister.BIG_LONG_TIME_SNOWFLAKE.get(), this.getX(), this.getY(), this.getZ(), 8, 0, 0, 0, 0.2);
-            if (timer > 200) {
-                this.discard();
-            }
-            timer++;
         }
     }
 
