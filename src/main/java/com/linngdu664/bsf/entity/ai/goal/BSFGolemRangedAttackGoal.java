@@ -1,12 +1,12 @@
 package com.linngdu664.bsf.entity.ai.goal;
 
-import com.linngdu664.bsf.util.BSFTeamSavedData;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFTeamSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;

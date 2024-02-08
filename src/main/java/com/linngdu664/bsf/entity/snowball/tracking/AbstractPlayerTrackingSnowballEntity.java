@@ -1,9 +1,9 @@
 package com.linngdu664.bsf.entity.snowball.tracking;
 
-import com.linngdu664.bsf.util.BSFTeamSavedData;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFTeamSavedData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

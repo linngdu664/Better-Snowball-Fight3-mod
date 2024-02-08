@@ -56,13 +56,6 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         double d2 = this.getX() + vec3.x;
         double d0 = this.getY() + vec3.y;
         double d1 = this.getZ() + vec3.z;
-        float f;
-        if (this.isInWater()) {
-            f = 0.8F;
-        } else {
-            f = 0.99F;
-        }
-        this.setDeltaMovement(vec3.scale(f));
         this.setPos(d2, d0, d1);
     }
 

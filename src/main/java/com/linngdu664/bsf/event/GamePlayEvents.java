@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.event;
 
-import com.linngdu664.bsf.util.BSFTeamSavedData;
 import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.item.misc.IceSkatesItem;
@@ -13,6 +12,7 @@ import com.linngdu664.bsf.registry.EnchantmentRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.util.BSFConfig;
+import com.linngdu664.bsf.util.BSFTeamSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;

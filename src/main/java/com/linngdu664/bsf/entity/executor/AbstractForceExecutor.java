@@ -48,8 +48,10 @@ public abstract class AbstractForceExecutor extends AbstractExecutor {
     @Override
     public void tick() {
         super.tick();
-        targetList = getTargetList();
-        forceEffect();
+        if (!level().isClientSide) {
+            targetList = getTargetList();
+            forceEffect();
+        }
     }
 
     protected void forceEffect() {

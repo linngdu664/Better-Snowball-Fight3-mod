@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.entity.ai.goal;
 
-import com.linngdu664.bsf.util.BSFTeamSavedData;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
+import com.linngdu664.bsf.util.BSFTeamSavedData;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;

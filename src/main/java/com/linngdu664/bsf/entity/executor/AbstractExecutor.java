@@ -12,7 +12,6 @@ public abstract class AbstractExecutor extends Entity implements Absorbable {
 
     public AbstractExecutor(EntityType<?> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        setNoGravity(true);
     }
 
     public AbstractExecutor(EntityType<?> pEntityType, Level pLevel, int maxTime) {
@@ -40,7 +39,7 @@ public abstract class AbstractExecutor extends Entity implements Absorbable {
     @Override
     public void tick() {
         super.tick();
-        if (timer == maxTime) {
+        if (!level().isClientSide && timer == maxTime) {
             discard();
         } else {
             timer++;

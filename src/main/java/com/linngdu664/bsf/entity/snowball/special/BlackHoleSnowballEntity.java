@@ -95,7 +95,7 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
         push(vec3.x * -0.75, vec3.y * -0.75, vec3.z * -0.75);
         ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 200, 0, 0, 0, 0.32);
         playSound(SoundRegister.BLACK_HOLE_START.get(), 3.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-        level.addFreshEntity(new BlackHoleExecutor(EntityRegister.POWDER_EXECUTOR.get(), getX(), getY(), getZ(), level(), getDeltaMovement(), endTime - startTime));
+        level.addFreshEntity(new BlackHoleExecutor(EntityRegister.BLACK_HOLE_EXECUTOR.get(), getX(), getY(), getZ(), level(), getDeltaMovement(), endTime - startTime));
     }
 
     @Override

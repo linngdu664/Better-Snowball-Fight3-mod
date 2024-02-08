@@ -16,7 +16,6 @@ public abstract class AbstractFixedForceExecutor extends AbstractForceExecutor {
 
     @Override
     public void tick() {
-        setDeltaMovement(0, 0, 0);
         super.tick();
         Level level = level();
         if (!level.isClientSide) {
