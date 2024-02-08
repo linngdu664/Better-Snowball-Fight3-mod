@@ -1,7 +1,9 @@
 package com.linngdu664.bsf.entity.executor;
 
 import com.linngdu664.bsf.registry.ItemRegister;
+import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.util.BSFConfig;
+import com.linngdu664.bsf.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -33,7 +35,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         super.tick();
         Level level = level();
         if (!level.isClientSide) {
-            ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 8, 0, 0, 0, 0.12);
+//            ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 8, 0, 0, 0, 0.12);
             if (level.getGameRules().getBoolean((GameRules.RULE_MOBGRIEFING)) && BSFConfig.destroyMode) {
                 BlockPos.betweenClosedStream(getBoundingBox().inflate(5))
                         .filter(p -> {
@@ -52,6 +54,12 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
                             p.hurt(level.damageSources().fellOutOfWorld(), 2);
                         }
                     });
+        }else{
+            Vec3 splashVec3 = new Vec3(-3,6,Math.sqrt(3));
+            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(),this.getPosition(0).add(0.1,0.1,0.1),this.getPosition(0).add(-0.1,-0.1,-0.1),splashVec3,this.getDeltaMovement(),2,5,10);
+            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(),this.getPosition(0).add(0.1,0.1,0.1),this.getPosition(0).add(-0.1,-0.1,-0.1),splashVec3.scale(-1),this.getDeltaMovement(),2,5,10);
+//            ParticleUtil.spawnForwardConeParticles(level,this,splashVec3,ParticleTypes.END_ROD,2,90,0.5f,0);
+//            ParticleUtil.spawnForwardConeParticles(level,this,splashVec3.scale(-1),ParticleTypes.END_ROD,2,90,0.5f,0);
         }
         Vec3 vec3 = this.getDeltaMovement();
         double d2 = this.getX() + vec3.x;
