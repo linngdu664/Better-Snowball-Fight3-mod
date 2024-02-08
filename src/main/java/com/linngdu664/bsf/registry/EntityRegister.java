@@ -2,6 +2,7 @@ package com.linngdu664.bsf.registry;
 
 import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.client.renderer.entity.BSFSnowGolemRenderer;
+import com.linngdu664.bsf.client.renderer.entity.BlackHoleExecutorRenderer;
 import com.linngdu664.bsf.client.renderer.entity.FixedForceExecutorLayerType;
 import com.linngdu664.bsf.client.renderer.entity.FixedForceExecutorRenderer;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
@@ -19,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -98,7 +100,7 @@ public class EntityRegister {
         event.registerEntityRenderer(PROJECTILE_GRAVITY_EXECUTOR.get(), pContext -> new FixedForceExecutorRenderer(pContext, FixedForceExecutorLayerType.PROJECTILE_GRAVITY));
         event.registerEntityRenderer(PROJECTILE_REPULSION_EXECUTOR.get(), pContext -> new FixedForceExecutorRenderer(pContext, FixedForceExecutorLayerType.PROJECTILE_REPULSION));
         event.registerEntityRenderer(POWDER_EXECUTOR.get(), NoopRenderer::new);
-        event.registerEntityRenderer(BLACK_HOLE_EXECUTOR.get(), NoopRenderer::new);
+        event.registerEntityRenderer(BLACK_HOLE_EXECUTOR.get(), BlackHoleExecutorRenderer::new);
         event.registerEntityRenderer(BLACK_HOLE_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(COMPACTED_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ENDER_SNOWBALL.get(), ThrownItemRenderer::new);

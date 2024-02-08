@@ -25,6 +25,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
     public BlackHoleExecutor(EntityType<?> pEntityType, double pX, double pY, double pZ, Level pLevel, Vec3 vel, int maxTime) {
         super(pEntityType, pX, pY, pZ, pLevel, 8, 8, 30, maxTime);
         setDeltaMovement(vel);
+        this.setSharedFlag(6,true);
     }
 
     @Override

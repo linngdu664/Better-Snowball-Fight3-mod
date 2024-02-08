@@ -1,10 +1,7 @@
 package com.linngdu664.bsf.event;
 
 import com.linngdu664.bsf.Main;
-import com.linngdu664.bsf.client.model.BSFSnowGolemModel;
-import com.linngdu664.bsf.client.model.FixedForceExecutorModel;
-import com.linngdu664.bsf.client.model.IceSkatesModel;
-import com.linngdu664.bsf.client.model.SnowFallBootsModel;
+import com.linngdu664.bsf.client.model.*;
 import com.linngdu664.bsf.item.snowball.force.MonsterGravitySnowballItem;
 import com.linngdu664.bsf.item.snowball.force.MonsterRepulsionSnowballItem;
 import com.linngdu664.bsf.item.snowball.force.ProjectileGravitySnowballItem;
@@ -114,5 +111,6 @@ public class ClientModEvents {
         event.registerLayerDefinition(FixedForceExecutorModel.LAYER_LOCATION2, FixedForceExecutorModel::createBodyLayer);
         event.registerLayerDefinition(FixedForceExecutorModel.LAYER_LOCATION3, FixedForceExecutorModel::createBodyLayer);
         event.registerLayerDefinition(FixedForceExecutorModel.LAYER_LOCATION4, FixedForceExecutorModel::createBodyLayer);
+        event.registerLayerDefinition(BlackHoleExecutorModel.LAYER_LOCATION, BlackHoleExecutorModel::createBodyLayer);
     }
 }
