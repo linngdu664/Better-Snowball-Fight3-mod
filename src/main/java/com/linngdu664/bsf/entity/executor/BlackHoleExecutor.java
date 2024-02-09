@@ -91,9 +91,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
                 BlockPos.betweenClosedStream(getBoundingBox().inflate(destroyR))
                         .filter(p -> p.getCenter().distanceToSqr(pos) < destroyR2 && level.getBlockState(p).getBlock().getExplosionResistance() < 1200)
                         .forEach(p -> {
-                            BlockState blockState = level.getBlockState(p);
-                            BlockEntity blockentity = blockState.hasBlockEntity() ? level.getBlockEntity(p) : null;
-                            Block.dropResources(blockState, level, p, blockentity, null, ItemStack.EMPTY);
+                            level.destroyBlock(p, true);
                             level.setBlockAndUpdate(p, Blocks.AIR.defaultBlockState());
                         });
             }
