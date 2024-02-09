@@ -15,6 +15,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
@@ -85,11 +89,13 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         if (!level.isClientSide) {
             if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && BSFConfig.destroyMode) {
                 BlockPos.betweenClosedStream(getBoundingBox().inflate(destroyR))
-                        .filter(p -> {
-                            float destroyTime = level.getBlockState(p).getBlock().defaultDestroyTime();
-                            return p.getCenter().distanceToSqr(pos) < destroyR2 && destroyTime >= 0 && destroyTime < 50;
-                        })
-                        .forEach(p -> level.destroyBlock(p, true));
+                        .filter(p -> p.getCenter().distanceToSqr(pos) < destroyR2 && level.getBlockState(p).getBlock().getExplosionResistance() < 1200)
+                        .forEach(p -> {
+                            BlockState blockState = level.getBlockState(p);
+                            BlockEntity blockentity = blockState.hasBlockEntity() ? level.getBlockEntity(p) : null;
+                            Block.dropResources(blockState, level, p, blockentity, null, ItemStack.EMPTY);
+                            level.setBlockAndUpdate(p, Blocks.AIR.defaultBlockState());
+                        });
             }
             targetList.stream()
                     .filter(p -> p.distanceToSqr(pos) < damageR2)
@@ -102,13 +108,13 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
                     });
         } else {
             int rank = getRank();
-            double splashSize = (double) rank/400;
-            int splashNum = 9+rank/40;
-            int splashMaxV = 4+rank/40;
+            double splashSize = (double) rank / 400;
+            int splashNum = 9 + rank / 40;
+            int splashMaxV = 4 + rank / 40;
             Vec3 pos1 = pos.add(splashSize, splashSize, splashSize);
             Vec3 pos2 = pos.subtract(splashSize, splashSize, splashSize);
-            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, SPLASH_VEC3_1, vec3, Math.min(2,splashMaxV-1), splashMaxV, splashNum);
-            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, SPLASH_VEC3_2, vec3, Math.min(2,splashMaxV-1), splashMaxV, splashNum);
+            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, SPLASH_VEC3_1, vec3, Math.min(2, splashMaxV - 1), splashMaxV, splashNum);
+            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, SPLASH_VEC3_2, vec3, Math.min(2, splashMaxV - 1), splashMaxV, splashNum);
         }
         setPos(getX() + vec3.x, getY() + vec3.y, getZ() + vec3.z);
     }
@@ -119,9 +125,9 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         Level level = level();
         if (pReason.equals(Entity.RemovalReason.DISCARDED) && !level.isClientSide) {
             if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && BSFConfig.destroyMode) {
-                level.explode(null, getX(), getY(), getZ(), 6, Level.ExplosionInteraction.TNT);
+                level.explode(null, getX(), getY(), getZ(), Math.min(0.56F * (float) Math.sqrt(range) + 2.4F, 12F), Level.ExplosionInteraction.TNT);
             } else {
-                level.explode(null, getX(), getY(), getZ(), 6, Level.ExplosionInteraction.NONE);
+                level.explode(null, getX(), getY(), getZ(), Math.min(0.56F * (float) Math.sqrt(range) + 2.4F, 12F), Level.ExplosionInteraction.NONE);
             }
         }
     }
