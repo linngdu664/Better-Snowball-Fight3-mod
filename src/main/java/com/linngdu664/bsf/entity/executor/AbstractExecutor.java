@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 
 public abstract class AbstractExecutor extends Entity implements Absorbable {
     protected int timer;    // both client and server
-    protected int maxTime;
+    protected int maxTime;  // server only
 
     public AbstractExecutor(EntityType<?> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);

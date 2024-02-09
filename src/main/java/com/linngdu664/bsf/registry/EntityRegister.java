@@ -20,7 +20,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -40,12 +39,12 @@ public class EntityRegister {
             ENTITY_TYPES.register("bsf_snow_golem", () -> EntityType.Builder.of(BSFSnowGolemEntity::new, MobCategory.MISC)
                     .sized(0.7F, 1.9F).clientTrackingRange(8).immuneTo(Blocks.POWDER_SNOW)
                     .build(new ResourceLocation(Main.MODID, "bsf_snow_golem").toString()));
-    public static final RegistryObject<EntityType<AbstractFixedForceExecutor>> MONSTER_GRAVITY_EXECUTOR = snowballRegister(MonsterGravityExecutor::new, "monster_gravity_executor");
-    public static final RegistryObject<EntityType<AbstractFixedForceExecutor>> MONSTER_REPULSION_EXECUTOR = snowballRegister(MonsterRepulsionExecutor::new, "monster_repulsion_executor");
-    public static final RegistryObject<EntityType<AbstractFixedForceExecutor>> PROJECTILE_GRAVITY_EXECUTOR = snowballRegister(ProjectileGravityExecutor::new, "projectile_gravity_executor");
-    public static final RegistryObject<EntityType<AbstractFixedForceExecutor>> PROJECTILE_REPULSION_EXECUTOR = snowballRegister(ProjectileRepulsionExecutor::new, "projectile_repulsion_executor");
-    public static final RegistryObject<EntityType<BlackHoleExecutor>> BLACK_HOLE_EXECUTOR = snowballRegister(BlackHoleExecutor::new, "black_hole_executor");
-    public static final RegistryObject<EntityType<PowderExecutor>> POWDER_EXECUTOR = snowballRegister(PowderExecutor::new, "powder_executor");
+    public static final RegistryObject<EntityType<AbstractFixedForceExecutor>> MONSTER_GRAVITY_EXECUTOR = executorRegister(MonsterGravityExecutor::new, "monster_gravity_executor", 0.5F);
+    public static final RegistryObject<EntityType<AbstractFixedForceExecutor>> MONSTER_REPULSION_EXECUTOR = executorRegister(MonsterRepulsionExecutor::new, "monster_repulsion_executor", 0.5F);
+    public static final RegistryObject<EntityType<AbstractFixedForceExecutor>> PROJECTILE_GRAVITY_EXECUTOR = executorRegister(ProjectileGravityExecutor::new, "projectile_gravity_executor", 0.5F);
+    public static final RegistryObject<EntityType<AbstractFixedForceExecutor>> PROJECTILE_REPULSION_EXECUTOR = executorRegister(ProjectileRepulsionExecutor::new, "projectile_repulsion_executor", 0.5F);
+    public static final RegistryObject<EntityType<BlackHoleExecutor>> BLACK_HOLE_EXECUTOR = executorRegister(BlackHoleExecutor::new, "black_hole_executor", 1.0F);
+    public static final RegistryObject<EntityType<PowderExecutor>> POWDER_EXECUTOR = executorRegister(PowderExecutor::new, "powder_executor", 0.5F);
     public static final RegistryObject<EntityType<SmoothSnowballEntity>> SMOOTH_SNOWBALL = snowballRegister(SmoothSnowballEntity::new, "smooth_snowball");
     public static final RegistryObject<EntityType<CompactedSnowballEntity>> COMPACTED_SNOWBALL = snowballRegister(CompactedSnowballEntity::new, "compacted_snowball");
     public static final RegistryObject<EntityType<GlassSnowballEntity>> GLASS_SNOWBALL = snowballRegister(GlassSnowballEntity::new, "glass_snowball");
@@ -89,6 +88,11 @@ public class EntityRegister {
         return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(pFactory, MobCategory.MISC)
                 .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10)
                 .build(new ResourceLocation(Main.MODID, name).toString()));
+    }
+
+    public static <T extends Entity> RegistryObject<EntityType<T>> executorRegister(EntityType.EntityFactory<T> pFactory, String name, float size) {
+        return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(pFactory, MobCategory.MISC)
+                .sized(size, size).updateInterval(10).build(new ResourceLocation(Main.MODID, name).toString()));
     }
 
     @OnlyIn(Dist.CLIENT)

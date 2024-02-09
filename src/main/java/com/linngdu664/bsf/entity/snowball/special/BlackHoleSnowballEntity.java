@@ -61,7 +61,7 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
     @Override
     protected void onHit(@NotNull HitResult pResult) {
         super.onHit(pResult);
-        if (!level().isClientSide){
+        if (!level().isClientSide) {
             startBlackHole();
         }
     }
