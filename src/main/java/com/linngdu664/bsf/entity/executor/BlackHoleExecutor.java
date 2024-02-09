@@ -5,10 +5,13 @@ import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.util.BSFConfig;
 import com.linngdu664.bsf.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -20,15 +23,54 @@ import java.util.List;
 public class BlackHoleExecutor extends AbstractForceExecutor {
     private static final Vec3 SPLASH_VEC3_1 = new Vec3(-3, 6, 1.732050807568877);
     private static final Vec3 SPLASH_VEC3_2 = new Vec3(3, -6, -1.732050807568877);
+    private static final EntityDataAccessor<Integer> RANK = SynchedEntityData.defineId(BlackHoleExecutor.class, EntityDataSerializers.INT);
 
     public BlackHoleExecutor(EntityType<?> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
     public BlackHoleExecutor(EntityType<?> pEntityType, double pX, double pY, double pZ, Level pLevel, Vec3 vel, int maxTime) {
-        super(pEntityType, pX, pY, pZ, pLevel, 8, 8, 30, maxTime);
+        super(pEntityType, pX, pY, pZ, pLevel, maxTime);
+        setRank(pLevel.random.nextInt(30, 50));
         setDeltaMovement(vel);
         setGlowingTag(true);
+    }
+
+    public int getRank() {
+        return entityData.get(RANK);
+    }
+
+    public void setRank(int rank) {
+        entityData.set(RANK, rank);
+        range = 6 * Math.sqrt(rank);
+        GM = range * range * 0.01;
+        boundaryR2 = GM;
+    }
+
+    public void merge(BlackHoleExecutor another) {
+        maxTime += another.maxTime - another.timer;
+        setRank((int) ((getRank() + another.getRank()) * 0.95));
+        Vec3 vec3 = getDeltaMovement();
+        push(-0.5 * vec3.x, -0.5 * vec3.y, -0.5 * vec3.z);
+        another.discard();
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        entityData.define(RANK, 30);
+    }
+
+    @Override
+    protected void readAdditionalSaveData(CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+        entityData.set(RANK, pCompound.getInt("Rank"));
+    }
+
+    @Override
+    protected void addAdditionalSaveData(CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        pCompound.putInt("Rank", getRank());
     }
 
     @Override
@@ -37,22 +79,24 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         Level level = level();
         Vec3 vec3 = getDeltaMovement();
         Vec3 pos = getPosition(0);
+        double destroyR = range / 6;
+        double destroyR2 = destroyR * destroyR;
+        double damageR2 = range * range * 0.01;
         if (!level.isClientSide) {
             if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && BSFConfig.destroyMode) {
-                BlockPos.betweenClosedStream(getBoundingBox().inflate(5))
+                BlockPos.betweenClosedStream(getBoundingBox().inflate(destroyR))
                         .filter(p -> {
                             float destroyTime = level.getBlockState(p).getBlock().defaultDestroyTime();
-                            return p.getCenter().distanceToSqr(pos) < 25 && destroyTime >= 0 && destroyTime < 50;
+                            return p.getCenter().distanceToSqr(pos) < destroyR2 && destroyTime >= 0 && destroyTime < 50;
                         })
                         .forEach(p -> level.destroyBlock(p, true));
             }
             targetList.stream()
-                    .filter(p -> p.distanceToSqr(pos) < 9)
+                    .filter(p -> p.distanceToSqr(pos) < damageR2)
                     .forEach(p -> {
-                        if (p instanceof BlackHoleExecutor) {
-                            p.discard();
-                            discard();
-                        } else if (!(p instanceof ItemEntity)) {
+                        if (p instanceof BlackHoleExecutor blackHoleExecutor) {
+                            merge(blackHoleExecutor);
+                        } else {
                             p.hurt(level.damageSources().fellOutOfWorld(), 2);
                         }
                     });

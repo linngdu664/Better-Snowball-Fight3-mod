@@ -12,8 +12,8 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public abstract class AbstractForceExecutor extends AbstractExecutor {
-    private double GM;
-    private double boundaryR2;
+    protected double GM;
+    protected double boundaryR2;
     protected double range;
     protected List<? extends Entity> targetList;
 
@@ -21,9 +21,13 @@ public abstract class AbstractForceExecutor extends AbstractExecutor {
         super(pEntityType, pLevel);
     }
 
-    public AbstractForceExecutor(EntityType<?> pEntityType, double pX, double pY, double pZ, Level pLevel, double GM, double boundaryR2, double range, int maxTime) {
+    public AbstractForceExecutor(EntityType<?> pEntityType, double pX, double pY, double pZ, Level pLevel, int maxTime) {
         super(pEntityType, pLevel, maxTime);
         setPos(pX, pY, pZ);
+    }
+
+    public AbstractForceExecutor(EntityType<?> pEntityType, double pX, double pY, double pZ, Level pLevel, double GM, double boundaryR2, double range, int maxTime) {
+        this(pEntityType, pX, pY, pZ, pLevel, maxTime);
         this.range = range;
         this.boundaryR2 = boundaryR2;
         this.GM = GM;
