@@ -1,12 +1,10 @@
 package com.linngdu664.bsf.client.renderer.entity;
 
+import com.linngdu664.bsf.client.model.BlackHoleExecutorCModel;
 import com.linngdu664.bsf.client.model.BlackHoleExecutorModel;
-import com.linngdu664.bsf.client.model.FixedForceExecutorModel;
-import com.linngdu664.bsf.entity.executor.AbstractFixedForceExecutor;
 import com.linngdu664.bsf.entity.executor.BlackHoleExecutor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -18,19 +16,19 @@ import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
-@Deprecated
-public class BlackHoleExecutorRenderer extends EntityRenderer<BlackHoleExecutor> {
+
+public class BlackHoleExecutorCRenderer extends EntityRenderer<BlackHoleExecutor> {
     private static final float SIN_30 = (float) Math.sin(Math.PI / 6D);
     private static final float SIN_45 = (float) Math.sin(Math.PI / 4D);
     private static final float SIN_60 = (float) Math.sin(Math.PI / 3D);
-    private final BlackHoleExecutorModel model;
-    private final RenderType renderType=RenderType.entityCutoutNoCull(BlackHoleExecutorModel.LAYER_LOCATION.getModel());
+    private final BlackHoleExecutorCModel model;
+    private final RenderType renderType=RenderType.entityCutoutNoCull(BlackHoleExecutorCModel.LAYER_LOCATION.getModel());
 
-    public BlackHoleExecutorRenderer(EntityRendererProvider.Context pContext) {
+    public BlackHoleExecutorCRenderer(EntityRendererProvider.Context pContext) {
         super(pContext);
         this.shadowRadius = 0.1F;
-        ModelPart modelpart = pContext.bakeLayer(BlackHoleExecutorModel.LAYER_LOCATION);
-        model = new BlackHoleExecutorModel<>(modelpart);
+        ModelPart modelpart = pContext.bakeLayer(BlackHoleExecutorCModel.LAYER_LOCATION);
+        model = new BlackHoleExecutorCModel<>(modelpart);
     }
 
     @Override
@@ -38,14 +36,14 @@ public class BlackHoleExecutorRenderer extends EntityRenderer<BlackHoleExecutor>
         VertexConsumer vertexconsumer = pBuffer.getBuffer(renderType);
         int i = OverlayTexture.NO_OVERLAY;
         pPoseStack.pushPose();
-        float growingSize = Math.min(pEntity.getTimer() + pPartialTick,10F);
+        float growingSize = Math.min(pEntity.getTimer() + pPartialTick, (float) Math.sqrt(pEntity.getRank())*1.58f);
         pPoseStack.scale(growingSize, growingSize, growingSize);
         pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(30 * Mth.DEG_TO_RAD, SIN_30, 0F, SIN_60)));
         pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getTimer() + pPartialTick) * 30) % 360 * Mth.DEG_TO_RAD, 0, 1, 0)));
 
-        model.getCircle().render(pPoseStack, vertexconsumer, pPackedLight, i);
+        model.getPlate().render(pPoseStack, vertexconsumer, pPackedLight, i);
+        pPoseStack.scale(0.8f, 0.8f, 0.8f);
         pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getTimer() + pPartialTick) * 10) % 360 * Mth.DEG_TO_RAD, SIN_30, 0F, SIN_60)));
-//        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getTimer() + pPartialTick) * 10) % 360 * Mth.DEG_TO_RAD, -SIN_45, 0F, SIN_45)));
         model.getBody().render(pPoseStack, vertexconsumer, pPackedLight, i);
 
 
@@ -57,7 +55,7 @@ public class BlackHoleExecutorRenderer extends EntityRenderer<BlackHoleExecutor>
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull BlackHoleExecutor pEntity) {
-        return BlackHoleExecutorModel.LAYER_LOCATION.getModel();
+        return BlackHoleExecutorCModel.LAYER_LOCATION.getModel();
     }
 
 }

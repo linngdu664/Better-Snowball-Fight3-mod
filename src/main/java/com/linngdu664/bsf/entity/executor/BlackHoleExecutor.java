@@ -101,10 +101,14 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
                         }
                     });
         } else {
-            Vec3 pos1 = pos.add(0.1, 0.1, 0.1);
-            Vec3 pos2 = pos.subtract(0.1, 0.1, 0.1);
-            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, SPLASH_VEC3_1, vec3, 2, 5, 10);
-            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, SPLASH_VEC3_2, vec3, 2, 5, 10);
+            int rank = getRank();
+            double splashSize = (double) rank/400;
+            int splashNum = 9+rank/40;
+            int splashMaxV = 4+rank/40;
+            Vec3 pos1 = pos.add(splashSize, splashSize, splashSize);
+            Vec3 pos2 = pos.subtract(splashSize, splashSize, splashSize);
+            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, SPLASH_VEC3_1, vec3, Math.min(2,splashMaxV-1), splashMaxV, splashNum);
+            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, SPLASH_VEC3_2, vec3, Math.min(2,splashMaxV-1), splashMaxV, splashNum);
         }
         setPos(getX() + vec3.x, getY() + vec3.y, getZ() + vec3.z);
     }

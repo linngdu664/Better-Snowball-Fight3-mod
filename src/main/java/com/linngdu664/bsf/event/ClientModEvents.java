@@ -111,6 +111,6 @@ public class ClientModEvents {
         event.registerLayerDefinition(FixedForceExecutorModel.LAYER_LOCATION2, FixedForceExecutorModel::createBodyLayer);
         event.registerLayerDefinition(FixedForceExecutorModel.LAYER_LOCATION3, FixedForceExecutorModel::createBodyLayer);
         event.registerLayerDefinition(FixedForceExecutorModel.LAYER_LOCATION4, FixedForceExecutorModel::createBodyLayer);
-        event.registerLayerDefinition(BlackHoleExecutorModel.LAYER_LOCATION, BlackHoleExecutorModel::createBodyLayer);
+        event.registerLayerDefinition(BlackHoleExecutorCModel.LAYER_LOCATION, BlackHoleExecutorCModel::createBodyLayer);
     }
 }

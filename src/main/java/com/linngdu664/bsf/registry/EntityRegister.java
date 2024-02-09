@@ -1,10 +1,7 @@
 package com.linngdu664.bsf.registry;
 
 import com.linngdu664.bsf.Main;
-import com.linngdu664.bsf.client.renderer.entity.BSFSnowGolemRenderer;
-import com.linngdu664.bsf.client.renderer.entity.BlackHoleExecutorRenderer;
-import com.linngdu664.bsf.client.renderer.entity.FixedForceExecutorLayerType;
-import com.linngdu664.bsf.client.renderer.entity.FixedForceExecutorRenderer;
+import com.linngdu664.bsf.client.renderer.entity.*;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.entity.executor.*;
 import com.linngdu664.bsf.entity.snowball.force.MonsterGravitySnowballEntity;
@@ -104,7 +101,7 @@ public class EntityRegister {
         event.registerEntityRenderer(PROJECTILE_GRAVITY_EXECUTOR.get(), pContext -> new FixedForceExecutorRenderer(pContext, FixedForceExecutorLayerType.PROJECTILE_GRAVITY));
         event.registerEntityRenderer(PROJECTILE_REPULSION_EXECUTOR.get(), pContext -> new FixedForceExecutorRenderer(pContext, FixedForceExecutorLayerType.PROJECTILE_REPULSION));
         event.registerEntityRenderer(POWDER_EXECUTOR.get(), NoopRenderer::new);
-        event.registerEntityRenderer(BLACK_HOLE_EXECUTOR.get(), BlackHoleExecutorRenderer::new);
+        event.registerEntityRenderer(BLACK_HOLE_EXECUTOR.get(), BlackHoleExecutorCRenderer::new);
         event.registerEntityRenderer(BLACK_HOLE_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(COMPACTED_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ENDER_SNOWBALL.get(), ThrownItemRenderer::new);
