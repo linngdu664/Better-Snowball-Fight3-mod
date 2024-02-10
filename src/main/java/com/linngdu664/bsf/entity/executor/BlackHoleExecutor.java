@@ -100,7 +100,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
                         if (p instanceof BlackHoleExecutor blackHoleExecutor) {
                             merge(blackHoleExecutor);
                         } else {
-                            p.hurt(level.damageSources().fellOutOfWorld(), 2);
+                            p.hurt(level.damageSources().fellOutOfWorld(), (int)range*0.0528f);
                         }
                     });
         } else {
