@@ -35,14 +35,15 @@ public class BlackHoleExecutorCRenderer extends EntityRenderer<BlackHoleExecutor
         VertexConsumer vertexconsumer = pBuffer.getBuffer(renderType);
         int i = OverlayTexture.NO_OVERLAY;
         pPoseStack.pushPose();
-        float growingSize = Math.min(pEntity.getTimer() + pPartialTick, (float) Math.sqrt(pEntity.getRank())*1.58f);
+        float growingSize = Math.min(pEntity.getModelTicker() + pPartialTick, (float) Math.sqrt(pEntity.getRank())*1.58f);
+
         pPoseStack.scale(growingSize, growingSize, growingSize);
         pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(30 * Mth.DEG_TO_RAD, SIN_30, 0F, SIN_60)));
         pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getTimer() + pPartialTick) * 30) % 360 * Mth.DEG_TO_RAD, 0, 1, 0)));
 
         model.getPlate().render(pPoseStack, vertexconsumer, pPackedLight, i);
         pPoseStack.scale(0.8f, 0.8f, 0.8f);
-        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getTimer() + pPartialTick) * 10) % 360 * Mth.DEG_TO_RAD, SIN_30, 0F, SIN_60)));
+//        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getTimer() + pPartialTick) * 10) % 360 * Mth.DEG_TO_RAD, SIN_30, 0F, SIN_60)));
         model.getBody().render(pPoseStack, vertexconsumer, pPackedLight, i);
 
 

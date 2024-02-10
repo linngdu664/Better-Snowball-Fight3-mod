@@ -22,6 +22,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class BlackHoleExecutor extends AbstractForceExecutor {
+    private int modelTicker;    //client only
+    private int tmpRank;        //client only
     private static final Vec3 SPLASH_VEC3_1 = new Vec3(-3, 6, 1.732050807568877);
     private static final Vec3 SPLASH_VEC3_2 = new Vec3(3, -6, -1.732050807568877);
     private static final EntityDataAccessor<Integer> RANK = SynchedEntityData.defineId(BlackHoleExecutor.class, EntityDataSerializers.INT);
@@ -102,10 +104,20 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
                         }
                     });
         } else {
-            int rank = getRank();
-            double splashSize = (double) rank / 400;
-            int splashNum = 9 + rank / 40;
-            int splashMaxV = 4 + rank / 40;
+
+            double modelMaxT = Math.sqrt(tmpRank) * 1.58f;
+
+            if (modelMaxT > Math.sqrt(51) * 1.58f && modelTicker < 2) {
+                modelTicker = (int) modelMaxT;
+            }
+            if (modelTicker < modelMaxT) {
+                modelTicker++;
+            }
+
+            tmpRank = getRank();
+            double splashSize = (double) tmpRank / 400;
+            int splashNum = 9 + tmpRank / 40;
+            int splashMaxV = 4 + tmpRank / 40;
             Vec3 pos1 = pos.add(splashSize, splashSize, splashSize);
             Vec3 pos2 = pos.subtract(splashSize, splashSize, splashSize);
             ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, SPLASH_VEC3_1, vec3, Math.min(2, splashMaxV - 1), splashMaxV, splashNum);
@@ -140,5 +152,9 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
     @Override
     public List<? extends Entity> getTargetList() {
         return level().getEntities(this, getBoundingBox().inflate(range), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+    }
+
+    public int getModelTicker() {
+        return modelTicker;
     }
 }
