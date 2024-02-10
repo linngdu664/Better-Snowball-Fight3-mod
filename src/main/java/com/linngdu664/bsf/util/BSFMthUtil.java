@@ -1,6 +1,7 @@
 package com.linngdu664.bsf.util;
 
 import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
@@ -60,5 +61,18 @@ public class BSFMthUtil {
 
     public static Vec3i vec3ToI(Vec3 vec3) {
         return new Vec3i(Mth.floor(vec3.x), Mth.floor(vec3.y), Mth.floor(vec3.z));
+    }
+
+    public static void putVec3(CompoundTag compoundTag, String key, Vec3 vec3) {
+        compoundTag.putDouble(key + "X", vec3.x);
+        compoundTag.putDouble(key + "Y", vec3.y);
+        compoundTag.putDouble(key + "Z", vec3.z);
+    }
+
+    public static Vec3 getVec3(CompoundTag compoundTag, String name) {
+        double x = compoundTag.getDouble(name + "X");
+        double y = compoundTag.getDouble(name + "Y");
+        double z = compoundTag.getDouble(name + "Z");
+        return new Vec3(x, y, z);
     }
 }
