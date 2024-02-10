@@ -2,6 +2,7 @@ package com.linngdu664.bsf.util;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -61,11 +62,12 @@ public class ParticleUtil {
      */
     public static void spawnForwardRaysParticles(Level pLevel, ParticleOptions particleOptions, Vec3 pos1, Vec3 pos2, Vec3 vec, double vMin, double vMax, int num) {
         double dx, dy, dz;
+        RandomSource randomSource = pLevel.getRandom();
         for (int i = 0; i < num; i++) {
-            dx = BSFMthUtil.randDoubleWithInfer(pos1.x, pos2.x);
-            dy = BSFMthUtil.randDoubleWithInfer(pos1.y, pos2.y);
-            dz = BSFMthUtil.randDoubleWithInfer(pos1.z, pos2.z);
-            Vec3 v = vec.normalize().scale(BSFMthUtil.randDouble(vMin, vMax));
+            dx = BSFMthUtil.randDoubleWithInfer(randomSource, pos1.x, pos2.x);
+            dy = BSFMthUtil.randDoubleWithInfer(randomSource, pos1.y, pos2.y);
+            dz = BSFMthUtil.randDoubleWithInfer(randomSource, pos1.z, pos2.z);
+            Vec3 v = vec.normalize().scale(BSFMthUtil.randDouble(randomSource, vMin, vMax));
             pLevel.addParticle(particleOptions, dx, dy, dz, v.x, v.y, v.z);
         }
     }
@@ -84,11 +86,12 @@ public class ParticleUtil {
      */
     public static void spawnForwardRaysParticles(Level pLevel, ParticleOptions particleOptions, Vec3 pos1, Vec3 pos2, Vec3 vec, Vec3 inertia, double vMin, double vMax, int num) {
         double dx, dy, dz;
+        RandomSource randomSource = pLevel.getRandom();
         for (int i = 0; i < num; i++) {
-            dx = BSFMthUtil.randDoubleWithInfer(pos1.x, pos2.x);
-            dy = BSFMthUtil.randDoubleWithInfer(pos1.y, pos2.y);
-            dz = BSFMthUtil.randDoubleWithInfer(pos1.z, pos2.z);
-            Vec3 v = vec.normalize().scale(BSFMthUtil.randDouble(vMin, vMax)).add(inertia);
+            dx = BSFMthUtil.randDoubleWithInfer(randomSource, pos1.x, pos2.x);
+            dy = BSFMthUtil.randDoubleWithInfer(randomSource, pos1.y, pos2.y);
+            dz = BSFMthUtil.randDoubleWithInfer(randomSource, pos1.z, pos2.z);
+            Vec3 v = vec.normalize().scale(BSFMthUtil.randDouble(randomSource, vMin, vMax)).add(inertia);
             pLevel.addParticle(particleOptions, dx, dy, dz, v.x, v.y, v.z);
         }
     }

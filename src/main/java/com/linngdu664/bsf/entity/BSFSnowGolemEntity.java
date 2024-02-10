@@ -31,6 +31,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -111,7 +112,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         entityData.define(AMMO, ItemStack.EMPTY);
         entityData.define(CORE, ItemStack.EMPTY);
         entityData.define(WEAPON_ANG, 0);
-        entityData.define(STYLE, (byte) (BSFMthUtil.randInt(0, STYLE_NUM)));
+        entityData.define(STYLE, (byte) (getRandom().nextInt(0, STYLE_NUM)));
     }
 
     @Override
@@ -545,7 +546,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 }
                 spawnAtLocation(getCore());
             }
-            spawnAtLocation(new ItemStack(Items.SNOWBALL, BSFMthUtil.randInt(0, 16)));
+            spawnAtLocation(new ItemStack(Items.SNOWBALL, getRandom().nextInt(0, 16)));
         }
     }
 
@@ -606,11 +607,12 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
 
     public Vec3 getRandomTeleportPos() {
         Level level = level();
-        float initTheta = (float) BSFMthUtil.randDouble(0, 2 * Mth.PI);
+        RandomSource randomSource = getRandom();
+        float initTheta = (float) BSFMthUtil.randDouble(randomSource, 0, 2 * Mth.PI);
         double golemX = getX();
         double golemY = getY();
         double golemZ = getZ();
-        boolean clockwise = BSFMthUtil.randInt(0, 2) == 0;
+        boolean clockwise = randomSource.nextInt(0, 2) == 0;
         for (int r = 20; r >= 4; r--) {
             float step = 1.0F / r;
             for (float theta = 0; theta < 2 * Mth.PI; theta += step) {

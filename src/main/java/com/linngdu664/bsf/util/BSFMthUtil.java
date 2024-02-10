@@ -2,6 +2,7 @@ package com.linngdu664.bsf.util;
 
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Random;
@@ -28,28 +29,33 @@ public class BSFMthUtil {
     }
 
     // These are random number helpers
-    public static double randDouble(double a, double b) {
-        return random.nextDouble() * (b - a) + a;
+    // Please use Mojang's RandomSource for better performance.
+    public static double randDouble(RandomSource randomSource, double a, double b) {
+        return randomSource.nextDouble() * (b - a) + a;
     }
 
-    public static double randDoubleWithInfer(double a, double b) {
-        return a > b ? random.nextDouble() * (a - b) + b : random.nextDouble() * (b - a) + a;
+    public static double staticRandDouble(double a, double b) {
+        return random.nextDouble(a, b);
     }
 
-    public static int randInt(int a, int b) {
-        return random.nextInt(b - a) + a;
+    public static double randDoubleWithInfer(RandomSource randomSource, double a, double b) {
+        return a > b ? randomSource.nextDouble() * (a - b) + b : randomSource.nextDouble() * (b - a) + a;
     }
 
-    public static int randIntWithInfer(int a, int b) {
-        return a > b ? random.nextInt() * (a - b) + b : random.nextInt() * (b - a) + a;
+    public static int staticRandInt(int a, int b) {
+        return random.nextInt(a, b);
     }
 
-    public static double randNormalDouble(double mu, double sigma) {
-        return random.nextGaussian(mu, sigma);
+    public static int randIntWithInfer(RandomSource randomSource, int a, int b) {
+        return a > b ? randomSource.nextInt() * (a - b) + b : randomSource.nextInt() * (b - a) + a;
+    }
+
+    public static double randNormalDouble(RandomSource randomSource, double mu, double sigma) {
+        return mu + sigma * randomSource.nextGaussian();
     }
 
     public static Vec3 rotationToVector(double r, double theta, double phi) {
-        return new Vec3(r * Math.sin(phi) * Math.cos(theta), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(theta));
+        return new Vec3(r * Mth.sin((float) phi) * Mth.cos((float) theta), r * Mth.cos((float) phi), r * Mth.sin((float) phi) * Mth.sin((float) theta));
     }
 
     public static Vec3i vec3ToI(Vec3 vec3) {

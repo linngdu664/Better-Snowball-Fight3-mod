@@ -36,7 +36,7 @@ public class BSFGolemTargetNearGoal extends Goal {
                 double dx = -target.getX() + golem.getX();
                 double dz = -target.getZ() + golem.getZ();
                 float initTheta = (float) Mth.atan2(dz, dx);
-                float bias = (float) BSFMthUtil.randNormalDouble(0, 0.52);
+                float bias = (float) BSFMthUtil.randNormalDouble(golem.getRandom(), 0, 0.52);
                 int maxJ = 12;
                 int maxI = 0;
                 for (int i = 0; i < 6; i++) {

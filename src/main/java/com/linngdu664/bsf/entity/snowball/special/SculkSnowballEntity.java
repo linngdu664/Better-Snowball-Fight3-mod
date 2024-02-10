@@ -4,7 +4,6 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
-import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.particles.ShriekParticleOption;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -37,7 +36,7 @@ public class SculkSnowballEntity extends AbstractBSFSnowballEntity {
             ((ServerLevel) level).sendParticles(new ShriekParticleOption(0), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
             ((ServerLevel) level).sendParticles(new ShriekParticleOption(5), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
             ((ServerLevel) level).sendParticles(new ShriekParticleOption(10), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
-            level.playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[BSFMthUtil.randInt(0, 25)].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+            level.playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[level.random.nextInt(0, 25)].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
         }
     }
 

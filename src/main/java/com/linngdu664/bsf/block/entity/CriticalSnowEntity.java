@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 public class CriticalSnowEntity extends BlockEntity {
-    private int targetAge = BSFMthUtil.randInt(100, 140);
+    private int targetAge = BSFMthUtil.staticRandInt(100, 140);
     private int age;
 
     public CriticalSnowEntity(BlockPos pPos, BlockState pBlockState) {

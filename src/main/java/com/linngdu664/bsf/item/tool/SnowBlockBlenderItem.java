@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.item.tool;
 
-import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -52,15 +51,16 @@ public class SnowBlockBlenderItem extends AbstractBSFEnhanceableToolItem {
             player.stopUsingItem();
         } else if (!pLevel.isClientSide) {
             ServerLevel serverLevel = (ServerLevel) pLevel;
+            RandomSource random = serverLevel.random;
             if (pRemainingUseDuration == 1) {
                 pLevel.setBlockAndUpdate(blockPos, Blocks.POWDER_SNOW.defaultBlockState());
                 for (int i = 0; i < 5; i++) {
-                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX(), blockPos.getY() + BSFMthUtil.randDouble(0, 1), blockPos.getZ() + BSFMthUtil.randDouble(0, 1), 5, 0, 0, 0, 0.1);
-                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + 1, blockPos.getY() + BSFMthUtil.randDouble(0, 1), blockPos.getZ() + BSFMthUtil.randDouble(0, 1), 5, 0, 0, 0, 0.1);
-                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + BSFMthUtil.randDouble(0, 1), blockPos.getY(), blockPos.getZ() + BSFMthUtil.randDouble(0, 1), 5, 0, 0, 0, 0.1);
-                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + BSFMthUtil.randDouble(0, 1), blockPos.getY() + 1, blockPos.getZ() + BSFMthUtil.randDouble(0, 1), 5, 0, 0, 0, 0.1);
-                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + BSFMthUtil.randDouble(0, 1), blockPos.getY() + BSFMthUtil.randDouble(0, 1), blockPos.getZ(), 5, 0, 0, 0, 0.1);
-                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + BSFMthUtil.randDouble(0, 1), blockPos.getY() + BSFMthUtil.randDouble(0, 1), blockPos.getZ() + 1, 5, 0, 0, 0, 0.1);
+                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX(), blockPos.getY() + random.nextDouble(), blockPos.getZ() + random.nextDouble(), 5, 0, 0, 0, 0.1);
+                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + 1, blockPos.getY() + random.nextDouble(), blockPos.getZ() + random.nextDouble(), 5, 0, 0, 0, 0.1);
+                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY(), blockPos.getZ() + random.nextDouble(), 5, 0, 0, 0, 0.1);
+                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + 1, blockPos.getZ() + random.nextDouble(), 5, 0, 0, 0, 0.1);
+                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + random.nextDouble(), blockPos.getZ(), 5, 0, 0, 0, 0.1);
+                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + random.nextDouble(), blockPos.getZ() + 1, 5, 0, 0, 0, 0.1);
                 }
                 pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
 
@@ -69,20 +69,19 @@ public class SnowBlockBlenderItem extends AbstractBSFEnhanceableToolItem {
                 }
                 player.awardStat(Stats.ITEM_USED.get(this));
             } else {
-                RandomSource random = serverLevel.random;
                 for (int i = 0; i < 5; i++) {
-                    switch (BSFMthUtil.randInt(1, 6)) {
-                        case 1 ->
+                    switch (random.nextInt(0, 6)) {
+                        case 0 ->
                                 serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX(), blockPos.getY() + random.nextDouble(), blockPos.getZ() + random.nextDouble(), 3, 0, 0, 0, 0.04);
-                        case 2 ->
+                        case 1 ->
                                 serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + 1, blockPos.getY() + random.nextDouble(), blockPos.getZ() + random.nextDouble(), 3, 0, 0, 0, 0.04);
-                        case 3 ->
+                        case 2 ->
                                 serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY(), blockPos.getZ() + random.nextDouble(), 3, 0, 0, 0, 0.04);
-                        case 4 ->
+                        case 3 ->
                                 serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + 1, blockPos.getZ() + random.nextDouble(), 3, 0, 0, 0, 0.04);
-                        case 5 ->
+                        case 4 ->
                                 serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + random.nextDouble(), blockPos.getZ(), 3, 0, 0, 0, 0.04);
-                        case 6 ->
+                        case 5 ->
                                 serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + random.nextDouble(), blockPos.getZ() + 1, 3, 0, 0, 0, 0.04);
                     }
                 }

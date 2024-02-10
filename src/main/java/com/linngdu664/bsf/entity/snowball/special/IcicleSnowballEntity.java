@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -32,8 +33,8 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     private static final int TRY_SUMMON_ICICLE_MAX_TIMES = 20;
     private static final int ICICLE_MAX_NUM = 15;
     private static final int TRY_SUMMON_ICICLE_DETECTION_RADIUS = 3;
-    private static final double FREEZE_PERCENTAGE = BSFMthUtil.randDouble(0.6, 0.9);
-    private static final int FREEZE_TIME = BSFMthUtil.randInt(40, 50);
+    private static final double FREEZE_PERCENTAGE = BSFMthUtil.staticRandDouble(0.6, 0.9);
+    private static final int FREEZE_TIME = BSFMthUtil.staticRandInt(40, 50);
     private static final float FREEZE_PROPAGATION_RATE = 0.1f;
     private final Icicle[] icicles = new Icicle[ICICLE_MAX_NUM];
     private final Queue<BlockPos> tmpFreezingBlocks = new LinkedList<>();
@@ -134,7 +135,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
 
         BlockPos blockPos = new BlockPos(x, y, z);
         BlockState blockState = level.getBlockState(blockPos);
-        if (posIsLooseSnow(level, blockPos) && blockState.getValue(LooseSnowBlock.FROZEN) == 0 && BSFMthUtil.randDouble(0, 1) < FREEZE_PROPAGATION_RATE && freezingCount < initSnowStock * FREEZE_PERCENTAGE) {
+        if (posIsLooseSnow(level, blockPos) && blockState.getValue(LooseSnowBlock.FROZEN) == 0 && level.random.nextDouble() < FREEZE_PROPAGATION_RATE && freezingCount < initSnowStock * FREEZE_PERCENTAGE) {
             tmpFreezingBlocks.offer(blockPos);
             level.setBlockAndUpdate(blockPos, blockState.setValue(LooseSnowBlock.FROZEN, 1));
             level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundRegister.FREEZING.get(), SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
@@ -146,15 +147,16 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
 //        stopTheSnowball(impactPoint.getCenter());
         this.setDeltaMovement(0, 0, 0);
         this.setNoGravity(true);
+        RandomSource randomSource = level.random;
         //Determine the direction of the icicle
         //init icicle
         for (int i = 0; i < TRY_SUMMON_ICICLE_MAX_TIMES; i++) {
-            double theta = BSFMthUtil.randDouble(0, 2 * Mth.PI);
-            double phi = Math.acos(BSFMthUtil.randDouble(-1, 1));
+            double theta = BSFMthUtil.randDouble(randomSource, 0, 2 * Mth.PI);
+            double phi = Math.acos(BSFMthUtil.randDouble(randomSource, -1, 1));
             Vec3 direction = BSFMthUtil.rotationToVector(TRY_SUMMON_ICICLE_DETECTION_RADIUS, theta, phi);
             BlockPos blockPos1 = impactPoint.offset(Mth.floor(direction.x), Mth.floor(direction.y), Mth.floor(direction.z));
             if ((level.getBlockState(blockPos1).canBeReplaced() || posIsLooseSnow(level, blockPos1)) && iciclesNum < ICICLE_MAX_NUM) {
-                icicles[iciclesNum++] = new Icicle(direction.normalize(), BSFMthUtil.randDouble(0.3, 1), BSFMthUtil.randDouble(0.1, 0.2));
+                icicles[iciclesNum++] = new Icicle(direction.normalize(), BSFMthUtil.randDouble(randomSource, 0.3, 1), BSFMthUtil.randDouble(randomSource, 0.1, 0.2));
             }
         }
         if (iciclesNum == 0 || snowStock <= 0) {
@@ -240,7 +242,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
                         a = icicleVec.cross(new Vec3(1, 0, 0)).normalize();
                     }
                     Vec3 b = a.cross(icicleVec).normalize();
-                    float x = (float) BSFMthUtil.randDouble(0, 2 * Mth.PI);
+                    float x = (float) BSFMthUtil.randDouble(level.random, 0, 2 * Mth.PI);
                     Vec3 c = a.scale(Mth.cos(x)).add(b.scale(Mth.sin(x))).scale(radius);
                     tryPlaceLooseSnowBlock(level, new BlockPos(BSFMthUtil.vec3ToI(point.add(c))));
                 }

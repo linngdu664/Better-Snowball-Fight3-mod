@@ -1,12 +1,9 @@
 package com.linngdu664.bsf.client.renderer.entity;
 
 import com.linngdu664.bsf.client.model.BlackHoleExecutorModel;
-import com.linngdu664.bsf.client.model.FixedForceExecutorModel;
-import com.linngdu664.bsf.entity.executor.AbstractFixedForceExecutor;
 import com.linngdu664.bsf.entity.executor.BlackHoleExecutor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

@@ -1,7 +1,6 @@
 package com.linngdu664.bsf.client.renderer.entity;
 
 import com.linngdu664.bsf.client.model.BlackHoleExecutorCModel;
-import com.linngdu664.bsf.client.model.BlackHoleExecutorModel;
 import com.linngdu664.bsf.entity.executor.BlackHoleExecutor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
