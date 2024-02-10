@@ -105,9 +105,9 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
                     });
         } else {
 
-            double modelMaxT = Math.sqrt(tmpRank) * 1.58f;
+            double modelMaxT = Math.sqrt(tmpRank) * 1.7f;
 
-            if (modelMaxT > Math.sqrt(51) * 1.58f && modelTicker < 2) {
+            if (tmpRank > 51 && modelTicker < 2) {
                 modelTicker = (int) modelMaxT;
             }
             if (modelTicker < modelMaxT) {
