@@ -85,12 +85,13 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         double destroyR = range / 6;
         double destroyR2 = destroyR * destroyR;
         double damageR2 = range * range * 0.01;
+        float damage = (float) (range * 0.0528);
         if (!level.isClientSide) {
-            if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && BSFConfig.destroyMode) {
+            if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && BSFConfig.blackHoleDestroy) {
                 BlockPos.betweenClosedStream(getBoundingBox().inflate(destroyR))
                         .filter(p -> p.getCenter().distanceToSqr(pos) < destroyR2 && level.getBlockState(p).getBlock().getExplosionResistance() < 1200)
                         .forEach(p -> {
-                            level.destroyBlock(p, true);
+                            level.destroyBlock(p, BSFConfig.blackHoleDrop);
                             level.setBlockAndUpdate(p, Blocks.AIR.defaultBlockState());
                         });
             }
@@ -100,7 +101,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
                         if (p instanceof BlackHoleExecutor blackHoleExecutor) {
                             merge(blackHoleExecutor);
                         } else {
-                            p.hurt(level.damageSources().fellOutOfWorld(), (int)range*0.0528f);
+                            p.hurt(level.damageSources().fellOutOfWorld(), damage);
                         }
                     });
         } else {
@@ -131,7 +132,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         super.remove(pReason);
         Level level = level();
         if (pReason.equals(Entity.RemovalReason.DISCARDED) && !level.isClientSide) {
-            if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && BSFConfig.destroyMode) {
+            if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && BSFConfig.blackHoleDestroy) {
                 level.explode(null, getX(), getY(), getZ(), Math.min(0.56F * (float) Math.sqrt(range) + 2.4F, 12F), Level.ExplosionInteraction.TNT);
             } else {
                 level.explode(null, getX(), getY(), getZ(), Math.min(0.56F * (float) Math.sqrt(range) + 2.4F, 12F), Level.ExplosionInteraction.NONE);

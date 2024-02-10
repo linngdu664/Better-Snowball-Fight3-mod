@@ -11,9 +11,15 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BSFConfig {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-    public static final ForgeConfigSpec.BooleanValue DESTROY_MODE = BUILDER
-            .comment("Whether the explosion of explosive snowball (including black hole snowball) can destroy blocks. Default value: true")
-            .define("destroyMode", true);
+    public static final ForgeConfigSpec.BooleanValue EXPLOSIVE_DESTROY = BUILDER
+            .comment("Whether explosive snowballs can destroy blocks. Default value: true")
+            .define("explosiveDestroy", true);
+    public static final ForgeConfigSpec.BooleanValue BLACK_HOLE_DESTROY = BUILDER
+            .comment("Whether black hole snowballs can destroy blocks. Default value: true")
+            .define("blackHoleDestroy", true);
+    public static final ForgeConfigSpec.BooleanValue BLACK_HOLE_DROP = BUILDER
+            .comment("Whether to drop when black hole snowballs destroy blocks. Set to false to improve performance. Default value: true")
+            .define("blackHoleDrop", true);
     public static final ForgeConfigSpec.IntValue RECONSTRUCT_SNOWBALL_CAPACITY = BUILDER
             .comment("The capacity of reconstruct snowball. Default value: 500.")
             .defineInRange("reconstruct_snowball_capacity", 500, 0, 1100);
@@ -40,7 +46,9 @@ public class BSFConfig {
 //            .comment("A list of items to log on common setup.")
 //            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), BSFConfig::validateItemName);
     public static final ForgeConfigSpec SPEC = BUILDER.build();
-    public static boolean destroyMode;
+    public static boolean explosiveDestroy;
+    public static boolean blackHoleDestroy;
+    public static boolean blackHoleDrop;
     public static int reconstructSnowballCapacity;
     public static int icicleSnowballCapacity;
     public static int expansionSnowballDuration;
@@ -52,7 +60,9 @@ public class BSFConfig {
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
-        destroyMode = DESTROY_MODE.get();
+        explosiveDestroy = EXPLOSIVE_DESTROY.get();
+        blackHoleDestroy = BLACK_HOLE_DESTROY.get();
+        blackHoleDrop = BLACK_HOLE_DROP.get();
         reconstructSnowballCapacity = RECONSTRUCT_SNOWBALL_CAPACITY.get();
         icicleSnowballCapacity = ICICLE_SNOWBALL_CAPACITY.get();
         expansionSnowballDuration = EXPANSION_SNOWBALL_DURATION.get();
