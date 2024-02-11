@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 import java.util.Random;
 
@@ -63,16 +64,24 @@ public class BSFMthUtil {
         return new Vec3i(Mth.floor(vec3.x), Mth.floor(vec3.y), Mth.floor(vec3.z));
     }
 
-    public static void putVec3(CompoundTag compoundTag, String key, Vec3 vec3) {
-        compoundTag.putDouble(key + "X", vec3.x);
-        compoundTag.putDouble(key + "Y", vec3.y);
-        compoundTag.putDouble(key + "Z", vec3.z);
+    public static boolean eq(double a, double b) {
+        return Math.abs(a - b) < 1e-9;
     }
 
-    public static Vec3 getVec3(CompoundTag compoundTag, String name) {
-        double x = compoundTag.getDouble(name + "X");
-        double y = compoundTag.getDouble(name + "Y");
-        double z = compoundTag.getDouble(name + "Z");
-        return new Vec3(x, y, z);
+    public static boolean eq(float a, float b) {
+        return Math.abs(a - b) < 1e-9;
+    }
+
+    public static void putVec3(CompoundTag compoundTag, String key, Vector3f vec3) {
+        compoundTag.putFloat(key + "X", vec3.x);
+        compoundTag.putFloat(key + "Y", vec3.y);
+        compoundTag.putFloat(key + "Z", vec3.z);
+    }
+
+    public static Vector3f getVec3(CompoundTag compoundTag, String name) {
+        float x = compoundTag.getFloat(name + "X");
+        float y = compoundTag.getFloat(name + "Y");
+        float z = compoundTag.getFloat(name + "Z");
+        return new Vector3f(x, y, z);
     }
 }
