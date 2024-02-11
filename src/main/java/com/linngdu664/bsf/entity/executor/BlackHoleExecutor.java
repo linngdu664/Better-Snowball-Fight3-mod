@@ -43,13 +43,14 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         super(pEntityType, pLevel);
     }
 
-    public BlackHoleExecutor(EntityType<?> pEntityType, double pX, double pY, double pZ, Level pLevel, Vec3 vel, int maxTime, Vector3f forward) {
+    public BlackHoleExecutor(EntityType<?> pEntityType, double pX, double pY, double pZ, Level pLevel, Vec3 vel, int maxTime) {
         super(pEntityType, pX, pY, pZ, pLevel, maxTime);
         setRank(pLevel.random.nextInt(30, 50));
         setDeltaMovement(vel);
         setGlowingTag(true);
 
         //initialized shaft for client
+        Vector3f forward = vel.toVector3f();
         Vector3f projection = new Vector3f(forward.x, 0, forward.z).normalize();
         entityData.set(PROJECTION, projection);
         entityData.set(ANGLE1, forward.y > 0 ? forward.angle(projection) : -forward.angle(projection));
