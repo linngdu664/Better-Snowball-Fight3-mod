@@ -3,7 +3,7 @@ package com.linngdu664.bsf.item.tool;
 import com.linngdu664.bsf.entity.snowball.special.BlackHoleSnowballEntity;
 import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
-import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -37,7 +37,7 @@ public class RepulsiveFieldGeneratorItem extends AbstractBSFEnhanceableToolItem 
         if (pLivingEntity instanceof Player player) {
             if (!pLevel.isClientSide) {
                 projectileVector.clear();
-                List<Projectile> list = pLevel.getEntitiesOfClass(Projectile.class, player.getBoundingBox().inflate(3.5), p -> BSFMthUtil.vec3AngleCos(new Vec3(p.getX() - player.getX(), p.getY() - player.getEyeY(), p.getZ() - player.getZ()), Vec3.directionFromRotation(player.getXRot(), player.getYRot())) > 0.70710678F && !(p instanceof BlackHoleSnowballEntity));
+                List<Projectile> list = pLevel.getEntitiesOfClass(Projectile.class, player.getBoundingBox().inflate(3.5), p -> BSFCommonUtil.vec3AngleCos(new Vec3(p.getX() - player.getX(), p.getY() - player.getEyeY(), p.getZ() - player.getZ()), Vec3.directionFromRotation(player.getXRot(), player.getYRot())) > 0.70710678F && !(p instanceof BlackHoleSnowballEntity));
                 for (Projectile projectile : list) {
                     Vec3 dvVec = Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(2);
                     projectile.push(dvVec.x, dvVec.y, dvVec.z);
@@ -69,7 +69,7 @@ public class RepulsiveFieldGeneratorItem extends AbstractBSFEnhanceableToolItem 
             if (pRemainingUseDuration == 60) {
                 pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.FIELD_START.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
-            List<Projectile> list = pLevel.getEntitiesOfClass(Projectile.class, player.getBoundingBox().inflate(3), p -> BSFMthUtil.vec3AngleCos(new Vec3(p.getX() - player.getX(), p.getY() - player.getEyeY(), p.getZ() - player.getZ()), Vec3.directionFromRotation(player.getXRot(), player.getYRot())) > 0.86602540F && !(p instanceof BlackHoleSnowballEntity));
+            List<Projectile> list = pLevel.getEntitiesOfClass(Projectile.class, player.getBoundingBox().inflate(3), p -> BSFCommonUtil.vec3AngleCos(new Vec3(p.getX() - player.getX(), p.getY() - player.getEyeY(), p.getZ() - player.getZ()), Vec3.directionFromRotation(player.getXRot(), player.getYRot())) > 0.86602540F && !(p instanceof BlackHoleSnowballEntity));
             for (Projectile projectile : list) {
                 if (!projectileVector.contains(projectile)) {
                     pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.FIELD_SNOWBALL_STOP.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);

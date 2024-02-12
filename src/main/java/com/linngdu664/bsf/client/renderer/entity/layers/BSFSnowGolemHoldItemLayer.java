@@ -1,5 +1,6 @@
-package com.linngdu664.bsf.client.model;
+package com.linngdu664.bsf.client.renderer.entity.layers;
 
+import com.linngdu664.bsf.client.model.BSFSnowGolemModel;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -26,7 +27,7 @@ public class BSFSnowGolemHoldItemLayer extends RenderLayer<BSFSnowGolemEntity, B
     public void render(@NotNull PoseStack pMatrixStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, BSFSnowGolemEntity pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         ItemStack itemstack = pLivingEntity.getWeapon();
         ItemInHandRenderer itemInHandRenderer = Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer();
-        if (itemstack != ItemStack.EMPTY) {
+        if (!itemstack.isEmpty()) {
             pMatrixStack.pushPose();
             pMatrixStack.translate(-0.05, 0.2, -0.8);
             pMatrixStack.mulPose(new Quaternionf(new AxisAngle4f(Math.max(pLivingEntity.getWeaponAng() - 60 * pPartialTicks, 0) * Mth.DEG_TO_RAD, 1F, 0F, 0F)));
@@ -34,13 +35,13 @@ public class BSFSnowGolemHoldItemLayer extends RenderLayer<BSFSnowGolemEntity, B
             pMatrixStack.popPose();
         }
         itemstack = pLivingEntity.getAmmo();
-        if (itemstack != ItemStack.EMPTY) {
+        if (!itemstack.isEmpty()) {
             pMatrixStack.pushPose();
             itemInHandRenderer.renderItem(pLivingEntity, itemstack, ItemDisplayContext.HEAD, false, pMatrixStack, pBuffer, pPackedLight);
             pMatrixStack.popPose();
         }
         itemstack = pLivingEntity.getCore();
-        if (itemstack != ItemStack.EMPTY) {
+        if (!itemstack.isEmpty()) {
             pMatrixStack.pushPose();
             pMatrixStack.translate(0, 0.15, -0.48);
             pMatrixStack.scale(0.35F, 0.35F, 0.35F);

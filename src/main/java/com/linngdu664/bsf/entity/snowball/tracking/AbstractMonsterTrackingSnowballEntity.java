@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.entity.snowball.tracking;
 
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,7 +27,7 @@ public abstract class AbstractMonsterTrackingSnowballEntity extends AbstractTrac
     public Entity getTarget() {
         Level level = level();
         Vec3 velocity = getDeltaMovement();
-        List<Mob> list = level.getEntitiesOfClass(Mob.class, getBoundingBox().inflate(getRange()), (p) -> p instanceof Enemy && BSFMthUtil.vec3AngleCos(velocity, p.getPosition(0).subtract(getPosition(0))) > 0.5);
+        List<Mob> list = level.getEntitiesOfClass(Mob.class, getBoundingBox().inflate(getRange()), (p) -> p instanceof Enemy && BSFCommonUtil.vec3AngleCos(velocity, p.getPosition(0).subtract(getPosition(0))) > 0.5);
         return level.getNearestEntity(list, TargetingConditions.DEFAULT, null, getX(), getY(), getZ());
     }
 }

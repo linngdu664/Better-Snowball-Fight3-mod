@@ -40,7 +40,7 @@ public class ParticleUtil {
                 double x = 8.0F * sightVec.x + ri * (Mth.cos(theta) * vecA.x + Mth.sin(theta) * vecB.x);
                 double y = 8.0F * sightVec.y + ri * (Mth.cos(theta) * vecA.y + Mth.sin(theta) * vecB.y);
                 double z = 8.0F * sightVec.z + ri * (Mth.cos(theta) * vecA.z + Mth.sin(theta) * vecB.z);
-                double inverseL = Mth.invSqrt(BSFMthUtil.modSqr(x, y, z));
+                double inverseL = Mth.invSqrt(BSFCommonUtil.lengthSqr(x, y, z));
                 double rand1 = Math.sqrt(pLevel.getRandom().nextDouble() * 0.9 + 0.1);
                 pLevel.addParticle(particleOptions, eX, eY - loweredVision, eZ, x * inverseL * rand1, y * inverseL * rand1, z * inverseL * rand1);
             }
@@ -64,10 +64,10 @@ public class ParticleUtil {
         double dx, dy, dz;
         RandomSource randomSource = pLevel.getRandom();
         for (int i = 0; i < num; i++) {
-            dx = BSFMthUtil.randDoubleWithInfer(randomSource, pos1.x, pos2.x);
-            dy = BSFMthUtil.randDoubleWithInfer(randomSource, pos1.y, pos2.y);
-            dz = BSFMthUtil.randDoubleWithInfer(randomSource, pos1.z, pos2.z);
-            Vec3 v = vec.normalize().scale(BSFMthUtil.randDouble(randomSource, vMin, vMax));
+            dx = BSFCommonUtil.randDoubleWithInfer(randomSource, pos1.x, pos2.x);
+            dy = BSFCommonUtil.randDoubleWithInfer(randomSource, pos1.y, pos2.y);
+            dz = BSFCommonUtil.randDoubleWithInfer(randomSource, pos1.z, pos2.z);
+            Vec3 v = vec.normalize().scale(BSFCommonUtil.randDouble(randomSource, vMin, vMax));
             pLevel.addParticle(particleOptions, dx, dy, dz, v.x, v.y, v.z);
         }
     }
@@ -88,10 +88,10 @@ public class ParticleUtil {
         double dx, dy, dz;
         RandomSource randomSource = pLevel.getRandom();
         for (int i = 0; i < num; i++) {
-            dx = BSFMthUtil.randDoubleWithInfer(randomSource, pos1.x, pos2.x);
-            dy = BSFMthUtil.randDoubleWithInfer(randomSource, pos1.y, pos2.y);
-            dz = BSFMthUtil.randDoubleWithInfer(randomSource, pos1.z, pos2.z);
-            Vec3 v = vec.normalize().scale(BSFMthUtil.randDouble(randomSource, vMin, vMax)).add(inertia);
+            dx = BSFCommonUtil.randDoubleWithInfer(randomSource, pos1.x, pos2.x);
+            dy = BSFCommonUtil.randDoubleWithInfer(randomSource, pos1.y, pos2.y);
+            dz = BSFCommonUtil.randDoubleWithInfer(randomSource, pos1.z, pos2.z);
+            Vec3 v = vec.normalize().scale(BSFCommonUtil.randDouble(randomSource, vMin, vMax)).add(inertia);
             pLevel.addParticle(particleOptions, dx, dy, dz, v.x, v.y, v.z);
         }
     }

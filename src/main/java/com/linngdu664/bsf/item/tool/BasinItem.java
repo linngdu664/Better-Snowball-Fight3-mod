@@ -4,7 +4,7 @@ import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
-import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -77,7 +77,7 @@ public class BasinItem extends Item {
                 }
                 Vec3 vec31 = new Vec3(p.getX() - pPlayer.getX(), p.getEyeY() - pPlayer.getEyeY() + 0.2, p.getZ() - pPlayer.getZ());
                 Vec3 vec32 = new Vec3(p.getX() - pPlayer.getX(), p.getY() - pPlayer.getEyeY(), p.getZ() - pPlayer.getZ());
-                return BSFMthUtil.vec3AngleCos(vec31, cameraVec) > 0.9363291776 && isNotBlocked(vec31, vec32, pPlayer, pLevel);
+                return BSFCommonUtil.vec3AngleCos(vec31, cameraVec) > 0.9363291776 && isNotBlocked(vec31, vec32, pPlayer, pLevel);
             });
             NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesToClient(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2));
             if (itemStack.getOrCreateTag().getByte("SnowType") == 1) {
@@ -132,8 +132,8 @@ public class BasinItem extends Item {
      * @return Both rVec and rVec1 are blocked by solid block: false. Otherwise: true.
      */
     public boolean isNotBlocked(Vec3 rVec, Vec3 rVec1, Player player, Level level) {
-        double offsetX = 0.25 * rVec.z * Mth.invSqrt(BSFMthUtil.modSqr(rVec.x, rVec.z));
-        double offsetZ = 0.25 * rVec.x * Mth.invSqrt(BSFMthUtil.modSqr(rVec.x, rVec.z));
+        double offsetX = 0.25 * rVec.z * Mth.invSqrt(BSFCommonUtil.lengthSqr(rVec.x, rVec.z));
+        double offsetZ = 0.25 * rVec.x * Mth.invSqrt(BSFCommonUtil.lengthSqr(rVec.x, rVec.z));
         double x = player.getX();
         double y = player.getEyeY();
         double z = player.getZ();

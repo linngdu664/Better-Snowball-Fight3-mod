@@ -3,7 +3,7 @@ package com.linngdu664.bsf.entity.executor;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.util.BSFConfig;
-import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import com.linngdu664.bsf.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -49,14 +49,14 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         setDeltaMovement(vel);
         setGlowingTag(true);
 
-        //initialized shaft for client
+        // initialized shaft for client
         Vector3f forward = vel.toVector3f();
         Vector3f projection = new Vector3f(forward.x, 0, forward.z).normalize();
         entityData.set(PROJECTION, projection);
         entityData.set(ANGLE1, forward.y > 0 ? forward.angle(projection) : -forward.angle(projection));
         Vector3f crossV = forward.lengthSquared() == 0 ? new Vector3f(forward).cross(1, 0, 0).normalize() : new Vector3f(forward).cross(0, 1, 0).normalize();
         entityData.set(AXIS, crossV);
-        float obliquity = (float) BSFMthUtil.randDouble(pLevel.random, -OBLIQUITY_RANGE, OBLIQUITY_RANGE) * Mth.DEG_TO_RAD;
+        float obliquity = (float) BSFCommonUtil.randDouble(pLevel.random, -OBLIQUITY_RANGE, OBLIQUITY_RANGE) * Mth.DEG_TO_RAD;
         entityData.set(SHAFT, new Vector3f(crossV).cross(forward).rotateAxis(obliquity, forward.x, forward.y, forward.z));
         entityData.set(OBLIQUITY, obliquity);
 
@@ -117,9 +117,9 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         super.readAdditionalSaveData(pCompound);
         entityData.set(RANK, pCompound.getInt("Rank"));
         entityData.set(ANGLE1, pCompound.getFloat("Angle1"));
-        entityData.set(AXIS, BSFMthUtil.getVec3(pCompound, "Axis"));
-        entityData.set(AXIS, BSFMthUtil.getVec3(pCompound, "Projection"));
-        entityData.set(SHAFT, BSFMthUtil.getVec3(pCompound, "Shaft"));
+        entityData.set(AXIS, BSFCommonUtil.getVec3(pCompound, "Axis"));
+        entityData.set(AXIS, BSFCommonUtil.getVec3(pCompound, "Projection"));
+        entityData.set(SHAFT, BSFCommonUtil.getVec3(pCompound, "Shaft"));
         entityData.set(OBLIQUITY, pCompound.getFloat("Obliquity"));
     }
 
@@ -128,9 +128,9 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("Rank", getRank());
         pCompound.putFloat("Angle1", getAngle1());
-        BSFMthUtil.putVec3(pCompound, "Axis", getAxis());
-        BSFMthUtil.putVec3(pCompound, "Projection", getProjection());
-        BSFMthUtil.putVec3(pCompound, "Shaft", getShaft());
+        BSFCommonUtil.putVec3(pCompound, "Axis", getAxis());
+        BSFCommonUtil.putVec3(pCompound, "Projection", getProjection());
+        BSFCommonUtil.putVec3(pCompound, "Shaft", getShaft());
         pCompound.putFloat("Obliquity", getObliquity());
     }
 
@@ -198,6 +198,12 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
                 level.explode(null, getX(), getY(), getZ(), Math.min(0.56F * (float) Math.sqrt(range) + 2.4F, 12F), Level.ExplosionInteraction.NONE);
             }
         }
+    }
+
+    @Override
+    public boolean shouldRenderAtSqrDistance(double pDistance) {
+        double d0 = 96 * getViewScale();
+        return pDistance < d0 * d0;
     }
 
     @Override

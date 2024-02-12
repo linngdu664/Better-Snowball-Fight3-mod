@@ -2,7 +2,7 @@ package com.linngdu664.bsf.entity.snowball.tracking;
 
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -68,7 +68,7 @@ public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowball
             } else {
                 delta = target.getEyePosition().subtract(getPosition(0));
             }
-            double cosTheta = BSFMthUtil.vec2AngleCos(delta.x, delta.z, velocity.x, velocity.z);
+            double cosTheta = BSFCommonUtil.vec2AngleCos(delta.x, delta.z, velocity.x, velocity.z);
             if (cosTheta > 1) {
                 cosTheta = 1;
             }
@@ -93,9 +93,9 @@ public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowball
                 vx = d2;
                 vz = d3;
             }
-            double vNewX = Math.sqrt(BSFMthUtil.modSqr(vx, vz));
-            double deltaNewX = Math.sqrt(BSFMthUtil.modSqr(delta.x, delta.z));
-            cosTheta = BSFMthUtil.vec2AngleCos(vNewX, velocity.y, deltaNewX, delta.y);
+            double vNewX = Math.sqrt(BSFCommonUtil.lengthSqr(vx, vz));
+            double deltaNewX = Math.sqrt(BSFCommonUtil.lengthSqr(delta.x, delta.z));
+            cosTheta = BSFCommonUtil.vec2AngleCos(vNewX, velocity.y, deltaNewX, delta.y);
             if (cosTheta > 1) {
                 cosTheta = 1;
             }

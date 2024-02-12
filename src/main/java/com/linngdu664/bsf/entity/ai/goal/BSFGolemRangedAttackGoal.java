@@ -5,7 +5,7 @@ import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
-import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import com.linngdu664.bsf.util.BSFTeamSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
@@ -80,7 +80,7 @@ public class BSFGolemRangedAttackGoal extends Goal {
             double h = pTarget.getEyeY() - golem.getEyeY();
             double dx = pTarget.getX() - golem.getX();
             double dz = pTarget.getZ() - golem.getZ();
-            double x2 = BSFMthUtil.modSqr(dx, dz);
+            double x2 = BSFCommonUtil.lengthSqr(dx, dz);
             double d = Math.sqrt(x2 + h * h);
             double x = Math.sqrt(x2);
             double k = 0.015 * x2 / (v * v);    // 0.5 * g / 400.0, g = 12
@@ -102,12 +102,12 @@ public class BSFGolemRangedAttackGoal extends Goal {
             for (LivingEntity entity : list) {
                 double dx1 = entity.getX() - golem.getX();
                 double dz1 = entity.getZ() - golem.getZ();
-                double cosAlpha = BSFMthUtil.vec2AngleCos(dx, dz, dx1, dz1);
+                double cosAlpha = BSFCommonUtil.vec2AngleCos(dx, dz, dx1, dz1);
                 if (cosAlpha > 0.17) {
                     AABB aabb = entity.getBoundingBox();
                     double sinAlpha = Math.sqrt(1 - cosAlpha * cosAlpha);
-                    double r = Math.sqrt(BSFMthUtil.modSqr(dx1, dz1));
-                    if (r < x && r * sinAlpha < Math.sqrt(BSFMthUtil.modSqr(aabb.maxX - aabb.minX, aabb.maxZ - aabb.minZ)) * 0.5 + 0.8) {
+                    double r = Math.sqrt(BSFCommonUtil.lengthSqr(dx1, dz1));
+                    if (r < x && r * sinAlpha < Math.sqrt(BSFCommonUtil.lengthSqr(aabb.maxX - aabb.minX, aabb.maxZ - aabb.minZ)) * 0.5 + 0.8) {
                         double t = r * cosAlpha / (v * cosTheta);
                         double y = v * sinTheta * t - 0.015 * t * t + golem.getEyeY();
                         if (y >= aabb.minY - 0.8 && y <= aabb.maxY + 0.8) {
@@ -205,7 +205,7 @@ public class BSFGolemRangedAttackGoal extends Goal {
         double targetZ = target.getZ();
         float initTheta = (float) Mth.atan2(targetZ - golem.getZ(), targetX - golem.getX());
         Vec3 targetPos = target.getEyePosition();
-        BlockPos targetBlockPos = new BlockPos(BSFMthUtil.vec3ToI(targetPos));
+        BlockPos targetBlockPos = new BlockPos(BSFCommonUtil.vec3ToI(targetPos));
         for (int r = 4; r <= 10; r++) {
             float step = 1.0F / r;
             for (float theta = 0; theta < Mth.PI * 0.25; theta += step) {

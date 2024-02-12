@@ -14,7 +14,7 @@ import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import com.linngdu664.bsf.registry.*;
-import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import com.linngdu664.bsf.util.BSFTiers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -438,8 +438,8 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                     addEffect(new MobEffectInstance(MobEffects.REGENERATION, 2, 2));
                 } else if (item.equals(ItemRegister.REPULSIVE_FIELD_GOLEM_CORE.get()) && getTarget() != null) {
                     LivingEntity target = getTarget();
-                    List<Projectile> list1 = level.getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(3), p -> !this.equals(p.getOwner()) && BSFMthUtil.vec3AngleCos(getTarget().getPosition(0).subtract(getPosition(0)), p.getPosition(0).subtract(getPosition(0))) > 0);
-                    List<Projectile> list = level.getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(5), p -> !this.equals(p.getOwner()) && BSFMthUtil.vec3AngleCos(getTarget().getPosition(0).subtract(getPosition(0)), p.getPosition(0).subtract(getPosition(0))) > 0);
+                    List<Projectile> list1 = level.getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(3), p -> !this.equals(p.getOwner()) && BSFCommonUtil.vec3AngleCos(getTarget().getPosition(0).subtract(getPosition(0)), p.getPosition(0).subtract(getPosition(0))) > 0);
+                    List<Projectile> list = level.getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(5), p -> !this.equals(p.getOwner()) && BSFCommonUtil.vec3AngleCos(getTarget().getPosition(0).subtract(getPosition(0)), p.getPosition(0).subtract(getPosition(0))) > 0);
                     if (!list1.isEmpty()) {
                         for (Projectile projectile : list) {
                             Vec3 vec3 = projectile.getDeltaMovement();
@@ -582,7 +582,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
 
     @Override
     protected float getBlockSpeedFactor() {
-        if (level().getBlockState(new BlockPos(BSFMthUtil.vec3ToI(getPosition(0)))).getBlock().equals(BlockRegister.CRITICAL_SNOW.get())) {
+        if (level().getBlockState(new BlockPos(BSFCommonUtil.vec3ToI(getPosition(0)))).getBlock().equals(BlockRegister.CRITICAL_SNOW.get())) {
             return 1.0F;
         }
         return super.getBlockSpeedFactor();
@@ -590,7 +590,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
 
     @Override
     protected float getBlockJumpFactor() {
-        if (level().getBlockState(new BlockPos(BSFMthUtil.vec3ToI(getPosition(0)))).getBlock().equals(BlockRegister.CRITICAL_SNOW.get())) {
+        if (level().getBlockState(new BlockPos(BSFCommonUtil.vec3ToI(getPosition(0)))).getBlock().equals(BlockRegister.CRITICAL_SNOW.get())) {
             return 1.0F;
         }
         return super.getBlockJumpFactor();
@@ -608,7 +608,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     public Vec3 getRandomTeleportPos() {
         Level level = level();
         RandomSource randomSource = getRandom();
-        float initTheta = (float) BSFMthUtil.randDouble(randomSource, 0, 2 * Mth.PI);
+        float initTheta = (float) BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
         double golemX = getX();
         double golemY = getY();
         double golemZ = getZ();

@@ -5,7 +5,7 @@ import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
-import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -36,7 +36,7 @@ public class BSFGolemTargetNearGoal extends Goal {
                 double dx = -target.getX() + golem.getX();
                 double dz = -target.getZ() + golem.getZ();
                 float initTheta = (float) Mth.atan2(dz, dx);
-                float bias = (float) BSFMthUtil.randNormalDouble(golem.getRandom(), 0, 0.52);
+                float bias = (float) BSFCommonUtil.randNormalDouble(golem.getRandom(), 0, 0.52);
                 int maxJ = 12;
                 int maxI = 0;
                 for (int i = 0; i < 6; i++) {
@@ -83,7 +83,7 @@ public class BSFGolemTargetNearGoal extends Goal {
         Level level = golem.level();
         for (int i = 0; i < 32; i++) {
             for (int j = 0; j < 3; j++) {
-                BlockPos blockPos1 = new BlockPos(BSFMthUtil.vec3ToI(golemPos1)).above(j);
+                BlockPos blockPos1 = new BlockPos(BSFCommonUtil.vec3ToI(golemPos1)).above(j);
                 if (!level.getBlockState(blockPos1).getCollisionShape(level, blockPos1).isEmpty()) {
                     return false;
                 }

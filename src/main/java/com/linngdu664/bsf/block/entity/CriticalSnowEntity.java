@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.block.entity;
 
 import com.linngdu664.bsf.registry.BlockRegister;
-import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 public class CriticalSnowEntity extends BlockEntity {
-    private int targetAge = BSFMthUtil.staticRandInt(100, 140);
+    private int targetAge = BSFCommonUtil.staticRandInt(100, 140);
     private int age;
 
     public CriticalSnowEntity(BlockPos pPos, BlockState pBlockState) {

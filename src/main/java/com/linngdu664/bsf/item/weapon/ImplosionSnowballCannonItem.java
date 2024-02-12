@@ -8,7 +8,7 @@ import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
-import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -50,7 +50,7 @@ public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
                 AABB aabb = pPlayer.getBoundingBox().inflate(8);
                 Vec3 cameraVec = Vec3.directionFromRotation(pPlayer.getXRot(), pPlayer.getYRot());
                 Vec3 eyePos = pPlayer.getEyePosition();
-                serverLevel.getEntities(pPlayer, aabb, p -> !p.isSpectator() && p.distanceToSqr(pPlayer) < 64 && BSFMthUtil.vec3AngleCos(p.getEyePosition().subtract(eyePos), cameraVec) > 0.9363291776)
+                serverLevel.getEntities(pPlayer, aabb, p -> !p.isSpectator() && p.distanceToSqr(pPlayer) < 64 && BSFCommonUtil.vec3AngleCos(p.getEyePosition().subtract(eyePos), cameraVec) > 0.9363291776)
                         .forEach(p -> {
                             float r = p.distanceTo(pPlayer);
                             float f1 = r < 4 ? 1f : -0.016666667f * r * r * r + 0.20416667f * r * r - 0.83333333f * r + 2.1333333f;
@@ -62,7 +62,7 @@ public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
                             }
                         });
                 BlockPos.betweenClosedStream(aabb)
-                        .filter(p -> serverLevel.getBlockState(p).getBlock() instanceof LooseSnowBlock && BSFMthUtil.vec3AngleCos(p.getCenter().subtract(eyePos), cameraVec) > 0.9363291776)
+                        .filter(p -> serverLevel.getBlockState(p).getBlock() instanceof LooseSnowBlock && BSFCommonUtil.vec3AngleCos(p.getCenter().subtract(eyePos), cameraVec) > 0.9363291776)
                         .forEach(p -> {
                             serverLevel.setBlockAndUpdate(p, Blocks.AIR.defaultBlockState());
                             serverLevel.playSound(null, p.getX(), p.getY(), p.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);

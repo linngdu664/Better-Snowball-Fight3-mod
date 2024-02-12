@@ -5,7 +5,7 @@ import com.linngdu664.bsf.block.entity.CriticalSnowEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
-import com.linngdu664.bsf.util.BSFMthUtil;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -43,7 +43,7 @@ public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowbal
         for (int i = (int) (blockPos.getX() - SUCK_RANGE); i <= (int) (blockPos.getX() + SUCK_RANGE); i++) {
             for (int j = (int) (blockPos.getY() - SUCK_RANGE); j <= (int) (blockPos.getY() + SUCK_RANGE); j++) {
                 for (int k = (int) (blockPos.getZ() - SUCK_RANGE); k <= (int) (blockPos.getZ() + SUCK_RANGE); k++) {
-                    if (BSFMthUtil.modSqr(i - blockPos.getX(), j - blockPos.getY(), k - blockPos.getZ()) <= SUCK_RANGE * SUCK_RANGE) {
+                    if (BSFCommonUtil.lengthSqr(i - blockPos.getX(), j - blockPos.getY(), k - blockPos.getZ()) <= SUCK_RANGE * SUCK_RANGE) {
                         BlockPos blockPos1 = new BlockPos(i, j, k);
                         BlockState blockState = level.getBlockState(blockPos1);
                         if (blockState.getBlock() == Blocks.SNOW) {

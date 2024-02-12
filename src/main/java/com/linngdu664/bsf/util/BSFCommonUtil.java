@@ -9,12 +9,12 @@ import org.joml.Vector3f;
 
 import java.util.Random;
 
-public class BSFMthUtil {
+public class BSFCommonUtil {
     private static final Random random = new Random();
 
     // Calculate the cosine of the angle between 2 vectors.
     public static double vec2AngleCos(double x1, double y1, double x2, double y2) {
-        return Mth.invSqrt(modSqr(x1, y1)) * Mth.invSqrt(modSqr(x2, y2)) * (x1 * x2 + y1 * y2);
+        return Mth.invSqrt(lengthSqr(x1, y1)) * Mth.invSqrt(lengthSqr(x2, y2)) * (x1 * x2 + y1 * y2);
     }
 
     public static double vec3AngleCos(Vec3 a, Vec3 b) {
@@ -22,11 +22,11 @@ public class BSFMthUtil {
     }
 
     // Calculate the square of the modulus(length) of a vector.
-    public static double modSqr(double x, double y) {
+    public static double lengthSqr(double x, double y) {
         return x * x + y * y;
     }
 
-    public static double modSqr(double x, double y, double z) {
+    public static double lengthSqr(double x, double y, double z) {
         return x * x + y * y + z * z;
     }
 
