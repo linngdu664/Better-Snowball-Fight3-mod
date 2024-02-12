@@ -6,6 +6,7 @@ import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
+import com.linngdu664.bsf.util.BSFMthUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3f;
 
 public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
     public int startTime = 20;
@@ -97,6 +99,7 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
         push(vec3.x * -0.75, vec3.y * -0.75, vec3.z * -0.75);
         ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 200, 0, 0, 0, 0.32);
         playSound(SoundRegister.BLACK_HOLE_START.get(), 3.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+//        Vector3f shaft = vec3.cross(new Vec3(0, 1, 0)).normalize().add(0,BSFMthUtil.SQRT_3,0).normalize().toVector3f();
         level.addFreshEntity(new BlackHoleExecutor(EntityRegister.BLACK_HOLE_EXECUTOR.get(), getX(), getY(), getZ(), level(), getDeltaMovement(), endTime - startTime));
     }
 

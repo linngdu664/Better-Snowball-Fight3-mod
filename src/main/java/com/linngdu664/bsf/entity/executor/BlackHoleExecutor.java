@@ -3,12 +3,14 @@ package com.linngdu664.bsf.entity.executor;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.util.BSFConfig;
+import com.linngdu664.bsf.util.BSFMthUtil;
 import com.linngdu664.bsf.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
@@ -18,15 +20,24 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3f;
 
 import java.util.List;
 
 public class BlackHoleExecutor extends AbstractForceExecutor {
     private int modelTicker;    //client only
     private int tmpRank;        //client only
-    private static final Vec3 SPLASH_VEC3_1 = new Vec3(-3, 6, 1.732050807568877);
-    private static final Vec3 SPLASH_VEC3_2 = new Vec3(3, -6, -1.732050807568877);
+    public static final int SPINNING_SPEED = 30;
+    public static final int OBLIQUITY_RANGE = 30;
     private static final EntityDataAccessor<Integer> RANK = SynchedEntityData.defineId(BlackHoleExecutor.class, EntityDataSerializers.INT);
+
+    //The following EntityDataAccessor they are all for client rendering, only needs to be initialized.
+    private static final EntityDataAccessor<Float> ANGLE1 = SynchedEntityData.defineId(BlackHoleExecutor.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Vector3f> AXIS = SynchedEntityData.defineId(BlackHoleExecutor.class, EntityDataSerializers.VECTOR3);
+    private static final EntityDataAccessor<Vector3f> PROJECTION = SynchedEntityData.defineId(BlackHoleExecutor.class, EntityDataSerializers.VECTOR3);
+    private static final EntityDataAccessor<Vector3f> SHAFT = SynchedEntityData.defineId(BlackHoleExecutor.class, EntityDataSerializers.VECTOR3);
+    private static final EntityDataAccessor<Float> OBLIQUITY = SynchedEntityData.defineId(BlackHoleExecutor.class, EntityDataSerializers.FLOAT);
+
 
     public BlackHoleExecutor(EntityType<?> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -37,6 +48,18 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         setRank(pLevel.random.nextInt(30, 50));
         setDeltaMovement(vel);
         setGlowingTag(true);
+
+        //initialized shaft for client
+        Vector3f forward = vel.toVector3f();
+        Vector3f projection = new Vector3f(forward.x, 0, forward.z).normalize();
+        entityData.set(PROJECTION, projection);
+        entityData.set(ANGLE1, forward.y > 0 ? forward.angle(projection) : -forward.angle(projection));
+        Vector3f crossV = forward.lengthSquared() == 0 ? new Vector3f(forward).cross(1, 0, 0).normalize() : new Vector3f(forward).cross(0, 1, 0).normalize();
+        entityData.set(AXIS, crossV);
+        float obliquity = (float) BSFMthUtil.randDouble(pLevel.random, -OBLIQUITY_RANGE, OBLIQUITY_RANGE) * Mth.DEG_TO_RAD;
+        entityData.set(SHAFT, new Vector3f(crossV).cross(forward).rotateAxis(obliquity, forward.x, forward.y, forward.z));
+        entityData.set(OBLIQUITY, obliquity);
+
     }
 
     public int getRank() {
@@ -48,6 +71,26 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         range = 6 * Math.sqrt(rank);
         GM = range * range * 0.01;
         boundaryR2 = GM;
+    }
+
+    public float getAngle1() {
+        return entityData.get(ANGLE1);
+    }
+
+    public Vector3f getAxis() {
+        return entityData.get(AXIS);
+    }
+
+    public Vector3f getProjection() {
+        return entityData.get(PROJECTION);
+    }
+
+    public Vector3f getShaft() {
+        return entityData.get(SHAFT);
+    }
+
+    public float getObliquity() {
+        return entityData.get(OBLIQUITY);
     }
 
     public void merge(BlackHoleExecutor another) {
@@ -62,18 +105,33 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
     protected void defineSynchedData() {
         super.defineSynchedData();
         entityData.define(RANK, 30);
+        entityData.define(ANGLE1, 0f);
+        entityData.define(AXIS, new Vector3f(1, 0, 0));
+        entityData.define(PROJECTION, new Vector3f(1, 0, 0));
+        entityData.define(SHAFT, new Vector3f(0, 1, 0));
+        entityData.define(OBLIQUITY, 0f);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         entityData.set(RANK, pCompound.getInt("Rank"));
+        entityData.set(ANGLE1, pCompound.getFloat("Angle1"));
+        entityData.set(AXIS, BSFMthUtil.getVec3(pCompound, "Axis"));
+        entityData.set(AXIS, BSFMthUtil.getVec3(pCompound, "Projection"));
+        entityData.set(SHAFT, BSFMthUtil.getVec3(pCompound, "Shaft"));
+        entityData.set(OBLIQUITY, pCompound.getFloat("Obliquity"));
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("Rank", getRank());
+        pCompound.putFloat("Angle1", getAngle1());
+        BSFMthUtil.putVec3(pCompound, "Axis", getAxis());
+        BSFMthUtil.putVec3(pCompound, "Projection", getProjection());
+        BSFMthUtil.putVec3(pCompound, "Shaft", getShaft());
+        pCompound.putFloat("Obliquity", getObliquity());
     }
 
     @Override
@@ -105,9 +163,8 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
                         }
                     });
         } else {
-
+            //for modify model size
             double modelMaxT = Math.sqrt(tmpRank) * 1.7f;
-
             if (tmpRank > 51 && modelTicker < 2) {
                 modelTicker = (int) modelMaxT;
             }
@@ -116,13 +173,16 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
             }
 
             tmpRank = getRank();
+
+            //for spawn particles
             double splashSize = (double) tmpRank / 400;
             int splashNum = 9 + tmpRank / 40;
             int splashMaxV = 4 + tmpRank / 40;
             Vec3 pos1 = pos.add(splashSize, splashSize, splashSize);
             Vec3 pos2 = pos.subtract(splashSize, splashSize, splashSize);
-            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, SPLASH_VEC3_1, vec3, Math.min(2, splashMaxV - 1), splashMaxV, splashNum);
-            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, SPLASH_VEC3_2, vec3, Math.min(2, splashMaxV - 1), splashMaxV, splashNum);
+            Vector3f shaft = getShaft();
+            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, new Vec3(shaft), vec3, Math.min(2, splashMaxV - 1), splashMaxV, splashNum);
+            ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, new Vec3(shaft).scale(-1), vec3, Math.min(2, splashMaxV - 1), splashMaxV, splashNum);
         }
         setPos(getX() + vec3.x, getY() + vec3.y, getZ() + vec3.z);
     }
