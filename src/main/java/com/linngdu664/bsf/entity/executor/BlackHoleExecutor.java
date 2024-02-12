@@ -147,7 +147,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         if (!level.isClientSide) {
             if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && BSFConfig.blackHoleDestroy) {
                 BlockPos.betweenClosedStream(getBoundingBox().inflate(destroyR))
-                        .filter(p -> p.getCenter().distanceToSqr(pos) < destroyR2 && level.getBlockState(p).getBlock().getExplosionResistance() < 1200)
+                        .filter(p -> p.getCenter().distanceToSqr(pos) < destroyR2 && level.getBlockState(p).getBlock().getExplosionResistance() <= 2400)
                         .forEach(p -> {
                             level.destroyBlock(p, BSFConfig.blackHoleDrop);
                             level.setBlockAndUpdate(p, Blocks.AIR.defaultBlockState());
