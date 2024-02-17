@@ -40,7 +40,7 @@ public abstract class AbstractSnowStorageSnowballEntity extends AbstractConstruc
 
 
         if (level instanceof ServerLevel) {
-            if (level.getBlockState(blockPos).canBeReplaced()) {
+            if (level.getBlockState(blockPos).getMaterial().isReplaceable()) {
                 level.setBlock(blockPos, BlockRegister.LOOSE_SNOW_BLOCK.get().defaultBlockState(), 3);
                 snowStock--;
                 allBlock.push(blockPos);

@@ -14,8 +14,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
-import org.joml.AxisAngle4f;
-import org.joml.Quaternionf;
 
 public class BlackHoleExecutorCRenderer extends EntityRenderer<BlackHoleExecutor> {
     private final BlackHoleExecutorCModel model;

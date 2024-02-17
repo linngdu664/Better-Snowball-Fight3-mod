@@ -6,8 +6,8 @@ import com.linngdu664.bsf.registry.BlockRegister;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
-import com.linngdu664.bsf.util.BSFConfig;
 import com.linngdu664.bsf.util.BSFCommonUtil;
+import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
@@ -151,7 +151,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
             double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1));
             Vec3 direction = BSFCommonUtil.rotationToVector(TRY_SUMMON_ICICLE_DETECTION_RADIUS, theta, phi);
             BlockPos blockPos1 = impactPoint.offset(Mth.floor(direction.x), Mth.floor(direction.y), Mth.floor(direction.z));
-            if ((level.getBlockState(blockPos1).canBeReplaced() || posIsLooseSnow(level, blockPos1)) && iciclesNum < ICICLE_MAX_NUM) {
+            if ((level.getBlockState(blockPos1).getMaterial().isReplaceable() || posIsLooseSnow(level, blockPos1)) && iciclesNum < ICICLE_MAX_NUM) {
                 icicles[iciclesNum++] = new Icicle(direction.normalize(), BSFCommonUtil.randDouble(randomSource, 0.3, 1), BSFCommonUtil.randDouble(randomSource, 0.1, 0.2));
             }
         }

@@ -80,7 +80,7 @@ public class BSFGolemTargetNearGoal extends Goal {
         float z = Mth.sin(theta);
         Vec3 vec3 = new Vec3(x * Mth.cos(phi), Mth.sin(phi), z * Mth.cos(phi)).scale(0.25);
         Vec3 golemPos1 = golem.getPosition(0);
-        Level level = golem.level();
+        Level level = golem.level;
         for (int i = 0; i < 32; i++) {
             for (int j = 0; j < 3; j++) {
                 BlockPos blockPos1 = new BlockPos(BSFCommonUtil.vec3ToI(golemPos1)).above(j);

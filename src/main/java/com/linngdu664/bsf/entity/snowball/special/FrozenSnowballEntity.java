@@ -78,7 +78,7 @@ public class FrozenSnowballEntity extends AbstractBSFSnowballEntity {
                                 } else if (level.getBlockEntity(blockPos1) instanceof CriticalSnowEntity blockEntity) {
                                     blockEntity.setAge(0);
                                     blockEntity.setChanged();
-                                } else if (blockState.canBeReplaced() && newBlock.canSurvive(level, blockPos1)) {
+                                } else if (blockState.getMaterial().isReplaceable() && newBlock.canSurvive(level, blockPos1)) {
                                     level.setBlockAndUpdate(blockPos1, newBlock);
                                 }
                             }

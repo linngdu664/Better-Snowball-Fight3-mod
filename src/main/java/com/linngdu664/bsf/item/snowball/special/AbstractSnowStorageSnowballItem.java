@@ -18,7 +18,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SnowLayerBlock;
@@ -74,7 +73,7 @@ public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowbal
         if (posIsLooseSnow(level, pos)) {
             level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             BlockState snow = Blocks.SNOW.defaultBlockState();
-            if (level.getBlockState(pos).canBeReplaced() && snow.canSurvive(level, pos) && !posIsLooseSnow(level, pos.below())) {
+            if (level.getBlockState(pos).getMaterial().isReplaceable() && snow.canSurvive(level, pos) && !posIsLooseSnow(level, pos.below())) {
                 level.setBlockAndUpdate(pos, snow);
             }
             level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.SNOW_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);

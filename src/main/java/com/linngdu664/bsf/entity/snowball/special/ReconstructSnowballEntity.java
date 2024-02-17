@@ -179,7 +179,7 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     protected void tryPlaceLooseSnowBlock(Level level, BlockPos blockPos) {
         if (snowStock > 0) {
             if (!level.isClientSide) {
-                if (posIsLooseSnow(level, blockPos) || level.getBlockState(blockPos).canBeReplaced()) {
+                if (posIsLooseSnow(level, blockPos) || level.getBlockState(blockPos).getMaterial().isReplaceable()) {
                     placeAndRecordBlock(level, blockPos);
                     level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.SNOW_PLACE, SoundSource.NEUTRAL, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
 

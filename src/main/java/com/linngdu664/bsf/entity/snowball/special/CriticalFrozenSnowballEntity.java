@@ -84,7 +84,7 @@ public class CriticalFrozenSnowballEntity extends AbstractBSFSnowballEntity {
                                     blockEntity.setAge(0);
                                     blockEntity.setChanged();
                                     NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new ForwardRaysParticlesToClient(centerPos.add(-0.5, -0.4, -0.5), centerPos.add(0.5, -0.4, 0.5), new Vec3(0, 1, 0), 0.2, 0.6, launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON ? 10 : 5));
-                                } else if (blockState.canBeReplaced() && newBlock.canSurvive(level, blockPos1)) {
+                                } else if (blockState.getMaterial().isReplaceable() && newBlock.canSurvive(level, blockPos1)) {
                                     level.setBlockAndUpdate(blockPos1, newBlock);
                                     NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new ForwardRaysParticlesToClient(centerPos.add(-0.5, -0.4, -0.5), centerPos.add(0.5, -0.4, 0.5), new Vec3(0, 1, 0), 0.2, 0.6, launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON ? 10 : 5));
                                 }

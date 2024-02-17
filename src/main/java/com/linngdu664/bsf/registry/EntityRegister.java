@@ -76,7 +76,6 @@ public class EntityRegister {
     public static final RegistryObject<EntityType<IcicleSnowballEntity>> ICICLE_SNOWBALL = snowballRegister(IcicleSnowballEntity::new, "icicle_snowball");
     public static final RegistryObject<EntityType<CriticalFrozenSnowballEntity>> CRITICAL_FROZEN_SNOWBALL = snowballRegister(CriticalFrozenSnowballEntity::new, "critical_frozen_snowball");
     public static final RegistryObject<EntityType<ImpulseSnowballEntity>> IMPULSE_SNOWBALL = snowballRegister(ImpulseSnowballEntity::new, "impulse_snowball");
-    public static final RegistryObject<EntityType<CherryBlossomSnowballEntity>> CHERRY_BLOSSOM_SNOWBALL = snowballRegister(CherryBlossomSnowballEntity::new, "cherry_blossom_snowball");
     public static final RegistryObject<EntityType<GhostSnowballEntity>> GHOST_SNOWBALL = snowballRegister(GhostSnowballEntity::new, "ghost_snowball");
     public static final RegistryObject<EntityType<SculkSnowballEntity>> SCULK_SNOWBALL = snowballRegister(SculkSnowballEntity::new, "sculk_snowball");
     public static final RegistryObject<EntityType<DuckSnowballEntity>> DUCK_SNOWBALL = snowballRegister(DuckSnowballEntity::new, "duck_snowball");
@@ -136,7 +135,6 @@ public class EntityRegister {
         event.registerEntityRenderer(ICICLE_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(CRITICAL_FROZEN_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(IMPULSE_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(CHERRY_BLOSSOM_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(GHOST_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(SCULK_SNOWBALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(DUCK_SNOWBALL.get(), ThrownItemRenderer::new);

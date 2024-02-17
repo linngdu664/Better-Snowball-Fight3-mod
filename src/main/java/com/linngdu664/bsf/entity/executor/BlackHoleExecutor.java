@@ -2,8 +2,8 @@ package com.linngdu664.bsf.entity.executor;
 
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
-import com.linngdu664.bsf.util.BSFConfig;
 import com.linngdu664.bsf.util.BSFCommonUtil;
+import com.linngdu664.bsf.util.BSFConfig;
 import com.linngdu664.bsf.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

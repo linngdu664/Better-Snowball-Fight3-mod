@@ -153,7 +153,7 @@ public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowbal
      */
     protected void placeAndRecordBlock(Level level, BlockPos blockPos) {
         if (level instanceof ServerLevel) {
-            if (level.getBlockState(blockPos).canBeReplaced()) {
+            if (level.getBlockState(blockPos).getMaterial().isReplaceable()) {
                 level.setBlock(blockPos, BlockRegister.LOOSE_SNOW_BLOCK.get().defaultBlockState(), 3);
                 allBlock.push(blockPos);
             }
