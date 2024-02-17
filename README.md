@@ -18,9 +18,9 @@ Better Snowball Fight Ⅲ
 目前版本 Version
 ==
 ---
-* mod version: 3.0.0
+* mod version: 3.1.0
 * minecraft version: 1.20.1
-* forge version: ≥47
+* forge version: ≥47.1.0
 * compatibility level: JAVA_17
 
 未来(3.1)会更新组队相关内容，敬请期待
