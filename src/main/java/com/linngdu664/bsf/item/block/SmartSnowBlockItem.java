@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.item.block;
 
+import com.linngdu664.bsf.item.BSFCreativeModeTab;
 import com.linngdu664.bsf.registry.BlockRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -17,7 +18,8 @@ import java.util.List;
 
 public class SmartSnowBlockItem extends BlockItem {
     public SmartSnowBlockItem() {
-        super(BlockRegister.SMART_SNOW_BLOCK.get(), new Properties().rarity(Rarity.UNCOMMON));
+        // to fking "register" our creative tab
+        super(BlockRegister.SMART_SNOW_BLOCK.get(), new Properties().rarity(Rarity.UNCOMMON).tab(BSFCreativeModeTab.BSF_GROUP));
     }
 
     @Override
