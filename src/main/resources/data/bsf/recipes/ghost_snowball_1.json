@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WAW",
+    "WRW",
+    "WBW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:snowball"
+    },
+    "R": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "A": {
+      "item": "minecraft:sculk"
+    },
+    "B": {
+      "item": "minecraft:soul_sand"
+    }
+  },
+  "result": {
+    "item": "bsf:ghost_snowball",
+    "count": 6
+  }
+}

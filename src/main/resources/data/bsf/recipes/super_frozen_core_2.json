@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IPI",
+    "CBC",
+    "IPI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "minecraft:blue_ice"
+    },
+    "B": {
+      "item": "minecraft:snow_block"
+    },
+    "P": {
+      "item": "minecraft:packed_ice"
+    }
+  },
+  "result": {
+    "item": "bsf:super_frozen_core",
+    "count": 1
+  }
+}

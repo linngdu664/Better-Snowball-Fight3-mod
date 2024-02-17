@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "bsf:item/snow_golem_core_remover"
+  }
+}

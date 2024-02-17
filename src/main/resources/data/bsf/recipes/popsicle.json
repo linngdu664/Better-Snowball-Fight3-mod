@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    " O ",
+    " I "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:sugar"
+    },
+    "O": {
+      "item": "minecraft:ice"
+    },
+    "I": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "bsf:popsicle",
+    "count": 4
+  }
+}

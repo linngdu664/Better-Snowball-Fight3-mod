@@ -1,0 +1,40 @@
+{
+  "parent": "bsf:root",
+  "display": {
+    "icon": {
+      "item": "minecraft:powder_snow_bucket"
+    },
+    "title": {
+      "translate": "advancements.bsf.powder_snow_bucket_combat.title"
+    },
+    "description": {
+      "translate": "advancements.bsf.powder_snow_bucket_combat.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "annouce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "powder_snow_bucket_combat": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "damage": {
+          "type": {
+            "source_entity": {
+              "equipment": {
+                "mainhand": {
+                  "items": ["minecraft:powder_snow_bucket"]
+                }
+              }
+            }
+          }
+        },
+        "entity": {
+          "type": "minecraft:blaze"
+        }
+      }
+    }
+  },
+  "requirements": [["powder_snow_bucket_combat"]]
+}

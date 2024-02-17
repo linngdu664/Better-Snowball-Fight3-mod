@@ -1,0 +1,29 @@
+{
+  "parent": "bsf:root",
+  "display": {
+    "icon": {
+      "item": "bsf:glove"
+    },
+    "title": {
+      "translate": "advancements.bsf.glove_use.title"
+    },
+    "description": {
+      "translate": "advancements.bsf.glove_use.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "annouce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "use_glove": {
+      "trigger": "minecraft:item_durability_changed",
+      "conditions": {
+        "item": {
+          "items": ["bsf:glove"]
+        }
+      }
+    }
+  },
+  "requirements": [["use_glove"]]
+}

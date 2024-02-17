@@ -1,0 +1,35 @@
+{
+  "parent": "bsf:popsicle_consume",
+  "display": {
+    "icon": {
+      "item": "bsf:vodka"
+    },
+    "title": {
+      "translate": "advancements.bsf.vodka.title"
+    },
+    "description": {
+      "translate": "advancements.bsf.vodka.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "annouce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "vodka_drink": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "bsf:vodka"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "vodka_drink"
+    ]
+  ]
+}

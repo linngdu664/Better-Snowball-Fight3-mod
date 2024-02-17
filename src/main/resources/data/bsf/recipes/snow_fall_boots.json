@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    " E "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:cyan_dye"
+    },
+    "B": {
+      "item": "minecraft:copper_ingot"
+    },
+    "C": {
+      "item": "minecraft:powder_snow_bucket"
+    },
+    "D": {
+      "item": "minecraft:leather_boots"
+    },
+    "E": {
+      "item": "bsf:gravity_core"
+    }
+  },
+  "result": {
+    "item": "bsf:snow_fall_boots"
+  }
+}
