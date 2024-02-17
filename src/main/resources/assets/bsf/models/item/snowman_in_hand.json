@@ -1,7 +1,0 @@
-{
-  "parent": "bsf:custom/snowman_in_hand_model",
-  "textures": {
-    "0": "bsf:item/snowman_in_hand",
-    "particle": "bsf:item/snowman_in_hand"
-  }
-}

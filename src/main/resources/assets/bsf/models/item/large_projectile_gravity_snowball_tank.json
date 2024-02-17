@@ -1,6 +1,0 @@
-{
-  "parent": "bsf:item/snowball_tank",
-  "textures": {
-    "layer0": "bsf:item/large_projectile_gravity_snowball_tank"
-  }
-}

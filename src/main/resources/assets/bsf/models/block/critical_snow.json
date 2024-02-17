@@ -1,8 +1,0 @@
-{
-  "parent": "bsf:custom/critical_snow_model",
-  "textures": {
-    "all": "bsf:block/critical_snow",
-    "0": "bsf:block/critical_snow",
-    "particle": "bsf:block/critical_snow"
-  }
-}

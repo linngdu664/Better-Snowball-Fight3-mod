@@ -1,6 +1,0 @@
-{
-  "parent": "bsf:item/wood_snowball_clamp",
-  "textures": {
-    "layer0": "bsf:item/emerald_snowball_clamp"
-  }
-}
