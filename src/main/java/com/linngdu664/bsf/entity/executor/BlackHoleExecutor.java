@@ -50,7 +50,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         setGlowingTag(true);
 
         // initialized shaft for client
-        Vector3f forward = vel.toVector3f();
+        Vector3f forward = vel.toVector3f().normalize();
         Vector3f projection = new Vector3f(forward.x, 0, forward.z).normalize();
         entityData.set(PROJECTION, projection);
         entityData.set(ANGLE1, forward.y > 0 ? forward.angle(projection) : -forward.angle(projection));
