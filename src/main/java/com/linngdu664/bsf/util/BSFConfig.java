@@ -38,6 +38,13 @@ public class BSFConfig {
     public static final ForgeConfigSpec.BooleanValue ENABLE_FRIENDLY_FIRE = BUILDER
             .comment("Default value: false.")
             .define("enable_friendly_fire", false);
+    //    public static final ForgeConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
+//            .comment("What you want the introduction message to be for the magic number")
+//            .define("magicNumberIntroduction", "The magic number is... ");
+    // a list of strings that are treated as resource locations for items
+//    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
+//            .comment("A list of items to log on common setup.")
+//            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), BSFConfig::validateItemName);
     public static final ForgeConfigSpec SPEC = BUILDER.build();
     public static boolean explosiveDestroy;
     public static boolean blackHoleDestroy;
@@ -48,6 +55,8 @@ public class BSFConfig {
     public static int reconstructSnowballDuration;
     public static int icicleSnowballDuration;
     public static boolean enableFriendlyFire;
+//    public static String magicNumberIntroduction;
+//    public static Set<Item> items;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
@@ -60,5 +69,11 @@ public class BSFConfig {
         reconstructSnowballDuration = RECONSTRUCT_SNOWBALL_DURATION.get();
         icicleSnowballDuration = ICICLE_SNOWBALL_DURATION.get();
         enableFriendlyFire = ENABLE_FRIENDLY_FIRE.get();
+//        magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
+//
+//         convert the list of strings into a set of items
+//        items = ITEM_STRINGS.get().stream()
+//                .map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName)))
+//                .collect(Collectors.toSet());
     }
 }

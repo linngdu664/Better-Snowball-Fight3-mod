@@ -1,6 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "bsf:item/snowball_cannon_upgrade_smithing_template"
-  }
-}

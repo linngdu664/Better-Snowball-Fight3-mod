@@ -1,5 +1,7 @@
 package com.linngdu664.bsf;
 
+import com.linngdu664.bsf.block.entity.BlockEntityRegister;
+import com.linngdu664.bsf.registry.*;
 import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -11,17 +13,17 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class Main {
     public static final String MODID = "bsf";
 
+    // todo: creative tabs
     public Main() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BSFConfig.SPEC);
-//        BlockRegister.BLOCKS.register(bus);
-//        BlockEntityRegister.BLOCK_ENTITIES.register(bus);
-//        ItemRegister.ITEMS.register(bus);
-//        SoundRegister.SOUNDS.register(bus);
-//        ParticleRegister.PARTICLES.register(bus);
-//        EffectRegister.EFFECTS.register(bus);
-//        EnchantmentRegister.ENCHANTMENTS.register(bus);
-//        EntityRegister.ENTITY_TYPES.register(bus);
-//        CreativeTabRegister.CREATIVE_TABS.register(bus);
+        BlockRegister.BLOCKS.register(bus);
+        BlockEntityRegister.BLOCK_ENTITIES.register(bus);
+        ItemRegister.ITEMS.register(bus);
+        SoundRegister.SOUNDS.register(bus);
+        ParticleRegister.PARTICLES.register(bus);
+        EffectRegister.EFFECTS.register(bus);
+        EnchantmentRegister.ENCHANTMENTS.register(bus);
+        EntityRegister.ENTITY_TYPES.register(bus);
     }
 }
