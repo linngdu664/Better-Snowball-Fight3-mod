@@ -118,7 +118,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         entityData.set(RANK, pCompound.getInt("Rank"));
         entityData.set(ANGLE1, pCompound.getFloat("Angle1"));
         entityData.set(AXIS, BSFCommonUtil.getVec3(pCompound, "Axis"));
-        entityData.set(AXIS, BSFCommonUtil.getVec3(pCompound, "Projection"));
+        entityData.set(PROJECTION, BSFCommonUtil.getVec3(pCompound, "Projection"));
         entityData.set(SHAFT, BSFCommonUtil.getVec3(pCompound, "Shaft"));
         entityData.set(OBLIQUITY, pCompound.getFloat("Obliquity"));
     }
