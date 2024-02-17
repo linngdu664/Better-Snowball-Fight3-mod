@@ -5,6 +5,8 @@ import com.linngdu664.bsf.client.model.FixedForceExecutorModel;
 import com.linngdu664.bsf.entity.executor.AbstractFixedForceExecutor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,14 +15,14 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
-import org.joml.AxisAngle4f;
-import org.joml.Quaternionf;
 
 public class FixedForceExecutorRenderer extends EntityRenderer<AbstractFixedForceExecutor> {
     private final FixedForceExecutorLayerType layerType;
     private static final float SIN_45 = (float) Math.sin(Math.PI / 4D);
+    private static final Vector3f VEC1 = new Vector3f(SIN_45, 0, SIN_45);
+    private static final Vector3f VEC2 = new Vector3f(-SIN_45, 0, SIN_45);
+    private static final Vector3f VEC3 = new Vector3f(SIN_45, 0, -SIN_45);
     private final FixedForceExecutorModel model;
     private final RenderType renderType;
 
@@ -40,14 +42,13 @@ public class FixedForceExecutorRenderer extends EntityRenderer<AbstractFixedForc
         pPoseStack.scale(0.5F, 0.5F, 0.5F);
         pPoseStack.pushPose();
 
-
-        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getTimer() + pPartialTick) * 10) % 360 * Mth.DEG_TO_RAD, SIN_45, 0F, SIN_45)));
+        pPoseStack.mulPose(new Quaternion(VEC1, ((pEntity.getTimer() + pPartialTick) * 10) % 360, true));
         model.getCircle1().render(pPoseStack, vertexconsumer, pPackedLight, i);
 
-        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getTimer() + pPartialTick) * 20) % 360 * Mth.DEG_TO_RAD, -SIN_45, 0F, SIN_45)));
+        pPoseStack.mulPose(new Quaternion(VEC2, ((pEntity.getTimer() + pPartialTick) * 20) % 360, true));
         model.getCircle2().render(pPoseStack, vertexconsumer, pPackedLight, i);
 
-        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getTimer() + pPartialTick) * 30) % 360 * Mth.DEG_TO_RAD, SIN_45, 0F, -SIN_45)));
+        pPoseStack.mulPose(new Quaternion(VEC3, ((pEntity.getTimer() + pPartialTick) * 30) % 360, true));
         model.getBb_main().render(pPoseStack, vertexconsumer, pPackedLight, i);
 
         pPoseStack.popPose();

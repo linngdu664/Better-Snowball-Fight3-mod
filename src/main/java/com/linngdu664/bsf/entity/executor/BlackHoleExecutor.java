@@ -5,6 +5,7 @@ import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.util.BSFCommonUtil;
 import com.linngdu664.bsf.util.BSFConfig;
 import com.linngdu664.bsf.util.ParticleUtil;
+import com.mojang.math.Vector3f;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -67,7 +68,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         entityData.set(AXIS_Y, (float) crossV.y);
         entityData.set(AXIS_Z, (float) crossV.z);
         float obliquity = (float) BSFCommonUtil.randDouble(pLevel.random, -OBLIQUITY_RANGE, OBLIQUITY_RANGE) * Mth.DEG_TO_RAD;
-        Vec3 shaftV = crossV.cross(forward).rotateAxis(obliquity, forward.x, forward.y, forward.z);   // todo
+        Vec3 shaftV = rotateAxis(crossV.cross(forward), obliquity, (float) forward.x, (float) forward.y, (float) forward.z);
         entityData.set(SHAFT_X, (float) shaftV.x);
         entityData.set(SHAFT_Y, (float) shaftV.y);
         entityData.set(SHAFT_Z, (float) shaftV.z);
@@ -89,16 +90,16 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         return entityData.get(ANGLE1);
     }
 
-    public Vec3 getAxis() {
-        return new Vec3(entityData.get(AXIS_X), entityData.get(AXIS_Y), entityData.get(AXIS_Z));
+    public Vector3f getAxis() {
+        return new Vector3f(entityData.get(AXIS_X), entityData.get(AXIS_Y), entityData.get(AXIS_Z));
     }
 
-    public Vec3 getProjection() {
-        return new Vec3(entityData.get(PROJECTION_X), entityData.get(PROJECTION_Y), entityData.get(PROJECTION_Z));
+    public Vector3f getProjection() {
+        return new Vector3f(entityData.get(PROJECTION_X), entityData.get(PROJECTION_Y), entityData.get(PROJECTION_Z));
     }
 
-    public Vec3 getShaft() {
-        return new Vec3(entityData.get(SHAFT_X), entityData.get(SHAFT_Y), entityData.get(SHAFT_Z));
+    public Vector3f getShaft() {
+        return new Vector3f(entityData.get(SHAFT_X), entityData.get(SHAFT_Y), entityData.get(SHAFT_Z));
     }
 
     public float getObliquity() {
@@ -135,18 +136,18 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         super.readAdditionalSaveData(pCompound);
         entityData.set(RANK, pCompound.getInt("Rank"));
         entityData.set(ANGLE1, pCompound.getFloat("Angle1"));
-        Vec3 axis = BSFCommonUtil.getVec3(pCompound, "Axis");
-        entityData.set(AXIS_X, (float) axis.x);
-        entityData.set(AXIS_Y, (float) axis.y);
-        entityData.set(AXIS_Z, (float) axis.z);
-        Vec3 projection = BSFCommonUtil.getVec3(pCompound, "Projection");
-        entityData.set(PROJECTION_X, (float) projection.x);
-        entityData.set(PROJECTION_Y, (float) projection.y);
-        entityData.set(PROJECTION_Z, (float) projection.z);
-        Vec3 shaft = BSFCommonUtil.getVec3(pCompound, "Shaft");
-        entityData.set(SHAFT_X, (float) shaft.x);
-        entityData.set(SHAFT_Y, (float) shaft.y);
-        entityData.set(SHAFT_Z, (float) shaft.z);
+        Vector3f axis = BSFCommonUtil.getVector3f(pCompound, "Axis");
+        entityData.set(AXIS_X, axis.x());
+        entityData.set(AXIS_Y, axis.y());
+        entityData.set(AXIS_Z, axis.z());
+        Vector3f projection = BSFCommonUtil.getVector3f(pCompound, "Projection");
+        entityData.set(PROJECTION_X, projection.x());
+        entityData.set(PROJECTION_Y, projection.y());
+        entityData.set(PROJECTION_Z, projection.z());
+        Vector3f shaft = BSFCommonUtil.getVector3f(pCompound, "Shaft");
+        entityData.set(SHAFT_X, shaft.x());
+        entityData.set(SHAFT_Y, shaft.y());
+        entityData.set(SHAFT_Z, shaft.z());
         entityData.set(OBLIQUITY, pCompound.getFloat("Obliquity"));
     }
 
@@ -155,9 +156,9 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("Rank", getRank());
         pCompound.putFloat("Angle1", getAngle1());
-        BSFCommonUtil.putVec3(pCompound, "Axis", getAxis());
-        BSFCommonUtil.putVec3(pCompound, "Projection", getProjection());
-        BSFCommonUtil.putVec3(pCompound, "Shaft", getShaft());
+        BSFCommonUtil.putVector3f(pCompound, "Axis", getAxis());
+        BSFCommonUtil.putVector3f(pCompound, "Projection", getProjection());
+        BSFCommonUtil.putVector3f(pCompound, "Shaft", getShaft());
         pCompound.putFloat("Obliquity", getObliquity());
     }
 
@@ -206,7 +207,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
             int splashMaxV = 4 + tmpRank / 40;
             Vec3 pos1 = pos.add(splashSize, splashSize, splashSize);
             Vec3 pos2 = pos.subtract(splashSize, splashSize, splashSize);
-            Vec3 shaft = getShaft();
+            Vec3 shaft = new Vec3(getShaft());
             ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, shaft, vec3, Math.min(2, splashMaxV - 1), splashMaxV, splashNum);
             ParticleUtil.spawnForwardRaysParticles(level, ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), pos1, pos2, shaft.scale(-1), vec3, Math.min(2, splashMaxV - 1), splashMaxV, splashNum);
         }
@@ -248,5 +249,19 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
 
     public int getModelTicker() {
         return modelTicker;
+    }
+
+    private static Vec3 rotateAxis(Vec3 vec3, float angle, float aX, float aY, float aZ) {
+        float hangle = angle * 0.5f;
+        float sinAngle = Mth.sin(hangle);
+        float qx = aX * sinAngle, qy = aY * sinAngle, qz = aZ * sinAngle;
+        float qw = Mth.sin(hangle + Mth.HALF_PI);
+        float w2 = qw * qw, x2 = qx * qx, y2 = qy * qy, z2 = qz * qz, zw = qz * qw;
+        float xy = qx * qy, xz = qx * qz, yw = qy * qw, yz = qy * qz, xw = qx * qw;
+        float x = (float) vec3.x, y = (float) vec3.y, z = (float) vec3.z;
+        float x11 = (w2 + x2 - z2 - y2) * x + (-zw + xy - zw + xy) * y + (yw + xz + xz + yw) * z;
+        float y11 = (xy + zw + zw + xy) * x + ( y2 - z2 + w2 - x2) * y + (yz + yz - xw - xw) * z;
+        float z11 = (xz - yw + xz - yw) * x + ( yz + yz + xw + xw) * y + (z2 - y2 - x2 + w2) * z;
+        return new Vec3(x11, y11, z11);
     }
 }

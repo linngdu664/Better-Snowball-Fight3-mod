@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.util;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
@@ -81,16 +82,16 @@ public class BSFCommonUtil {
         return Math.abs(a - b) < 1e-9;
     }
 
-    public static void putVec3(CompoundTag compoundTag, String key, Vec3 vec3) {
-        compoundTag.putFloat(key + "X", (float) vec3.x);
-        compoundTag.putFloat(key + "Y", (float) vec3.y);
-        compoundTag.putFloat(key + "Z", (float) vec3.z);
+    public static void putVector3f(CompoundTag compoundTag, String key, Vector3f vec3) {
+        compoundTag.putFloat(key + "X", vec3.x());
+        compoundTag.putFloat(key + "Y", vec3.y());
+        compoundTag.putFloat(key + "Z", vec3.z());
     }
 
-    public static Vec3 getVec3(CompoundTag compoundTag, String name) {
+    public static Vector3f getVector3f(CompoundTag compoundTag, String name) {
         float x = compoundTag.getFloat(name + "X");
         float y = compoundTag.getFloat(name + "Y");
         float z = compoundTag.getFloat(name + "Z");
-        return new Vec3(x, y, z);
+        return new Vector3f(x, y, z);
     }
 }
