@@ -1,6 +1,0 @@
-{
-  "parent": "bsf:item/glove_using",
-  "textures": {
-    "layer0": "bsf:item/jedi_glove"
-  }
-}

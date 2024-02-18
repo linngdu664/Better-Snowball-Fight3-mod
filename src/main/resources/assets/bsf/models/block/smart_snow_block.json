@@ -1,8 +1,0 @@
-{
-  "parent": "bsf:custom/smart_snow_block",
-  "textures": {
-    "all": "bsf:block/smart_snow_block",
-    "particle": "bsf:block/smart_snow_block",
-    "0": "bsf:block/smart_snow_block"
-  }
-}
