@@ -1,4 +1,4 @@
-package com.linngdu664.bsf.item;
+package com.linngdu664.bsf.util;
 
 import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.core.NonNullList;

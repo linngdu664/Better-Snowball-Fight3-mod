@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.item.block;
 
-import com.linngdu664.bsf.item.BSFCreativeModeTab;
+import com.linngdu664.bsf.util.BSFCreativeModeTab;
 import com.linngdu664.bsf.registry.BlockRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

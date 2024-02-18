@@ -13,7 +13,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class Main {
     public static final String MODID = "bsf";
 
-    // todo: creative tabs and weapon gui
     public Main() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BSFConfig.SPEC);

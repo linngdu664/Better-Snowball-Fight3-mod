@@ -2,16 +2,25 @@ package com.linngdu664.bsf.event;
 
 import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.item.tool.TeamLinkerItem;
+import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
 import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
 import com.linngdu664.bsf.registry.ItemRegister;
+import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraft.client.gui.GuiComponent;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeEvents {
@@ -44,7 +53,6 @@ public class ClientForgeEvents {
 
     @SubscribeEvent
     public static void onRenderOverlay(RenderGuiOverlayEvent.Pre event) {
-        /*
         if (event.getOverlay() == VanillaGuiOverlay.HOTBAR.type()) {
             Minecraft instance = Minecraft.getInstance();
             Player player = instance.player;
@@ -58,17 +66,19 @@ public class ClientForgeEvents {
                 ItemStack current = weaponItem.getCurrentAmmoItemStack();
                 ItemStack prev = weaponItem.getPrevAmmoItemStack();
                 ItemStack next = weaponItem.getNextAmmoItemStack();
-                GuiGraphics guiGraphics = event.getGuiGraphics();
+                PoseStack poseStack = event.getPoseStack();
+                ItemRenderer itemRenderer = instance.getItemRenderer();
                 Window window = event.getWindow();
                 int startPos = window.getHeight() * 3 / 8 / (int) window.getGuiScale();
-                guiGraphics.blit(new ResourceLocation("bsf", "textures/gui/snowball_frame.png"), 0, startPos, 0, 0, 23, 62, 23, 62);
-                guiGraphics.renderItem(prev, 3, startPos + 3);
-                guiGraphics.renderItem(current, 3, startPos + 23);
-                guiGraphics.renderItem(next, 3, startPos + 43);
-                guiGraphics.drawString(instance.font, String.valueOf(prev.getCount()), 24, startPos + 7, 0xffffffff);
-                guiGraphics.drawString(instance.font, String.valueOf(current.getCount()), 24, startPos + 27, 0xffffffff);
-                guiGraphics.drawString(instance.font, String.valueOf(next.getCount()), 24, startPos + 47, 0xffffffff);
+                RenderSystem.setShaderTexture(0, new ResourceLocation("bsf", "textures/gui/snowball_frame.png"));
+                GuiComponent.blit(poseStack, 0, startPos, 0, 0, 23, 62, 23, 62);
+                itemRenderer.renderGuiItem(prev, 3, startPos + 3);
+                itemRenderer.renderGuiItem(current, 3, startPos + 23);
+                itemRenderer.renderGuiItem(next, 3, startPos + 43);
+                GuiComponent.drawString(poseStack, instance.font, String.valueOf(prev.getCount()), 24, startPos + 7, 0xffffffff);
+                GuiComponent.drawString(poseStack, instance.font, String.valueOf(current.getCount()), 24, startPos + 27, 0xffffffff);
+                GuiComponent.drawString(poseStack, instance.font, String.valueOf(next.getCount()), 24, startPos + 47, 0xffffffff);
             }
-        }*/
+        }
     }
 }

@@ -1,15 +1,12 @@
 {
-  "type": "minecraft:smithing_transform",
-  "addition": {
-    "item": "minecraft:netherite_ingot"
-  },
+  "type": "minecraft:smithing",
   "base": {
     "item": "bsf:diamond_snowball_clamp"
   },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
   "result": {
     "item": "bsf:netherite_snowball_clamp"
-  },
-  "template": {
-    "item": "minecraft:netherite_upgrade_smithing_template"
   }
 }
