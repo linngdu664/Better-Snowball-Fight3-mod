@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "WRW",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "bsf:smooth_snowball"
+    },
+    "R": {
+      "item": "bsf:repulsion_core"
+    }
+  },
+  "result": {
+    "item": "bsf:monster_repulsion_snowball",
+    "count": 8
+  }
+}

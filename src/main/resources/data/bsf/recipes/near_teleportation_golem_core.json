@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "SAS",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:chorus_fruit"
+    },
+    "A": {
+      "item": "bsf:blank_golem_core"
+    }
+  },
+  "result": {
+    "item": "bsf:near_teleportation_golem_core",
+    "count": 1
+  }
+}

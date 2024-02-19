@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "tracking_core",
+  "pattern": [
+    " W ",
+    " D ",
+    " W "
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:shulker_shell"
+    },
+    "D": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "result": {
+    "item": "bsf:tracking_core",
+    "count": 16
+  }
+}

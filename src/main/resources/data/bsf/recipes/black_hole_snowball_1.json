@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "ABC",
+    "   "
+  ],
+  "key": {
+    "A": {
+      "item": "bsf:repulsion_core"
+    },
+    "B": {
+      "item": "bsf:explosive_snowball"
+    },
+    "C": {
+      "item": "bsf:gravity_core"
+    }
+  },
+  "result": {
+    "item": "bsf:black_hole_snowball",
+    "count": 1
+  }
+}

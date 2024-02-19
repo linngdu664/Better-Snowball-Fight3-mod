@@ -1,0 +1,6 @@
+{
+  "parent": "bsf:item/snowball_tank",
+  "textures": {
+    "layer0": "bsf:item/large_explosive_monster_tracking_snowball_tank"
+  }
+}

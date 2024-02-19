@@ -1,0 +1,119 @@
+package com.linngdu664.bsf.event;
+
+import com.linngdu664.bsf.Main;
+import com.linngdu664.bsf.item.tool.TeamLinkerItem;
+import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
+import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
+import com.linngdu664.bsf.registry.ItemRegister;
+import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.FOVModifierEvent;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraft.client.gui.GuiComponent;
+import org.lwjgl.glfw.GLFW;
+
+import java.util.LinkedList;
+
+@Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+public class ClientForgeEvents {
+    @SubscribeEvent
+    public static void onClientLoggingIn(ClientPlayerNetworkEvent.LoggedInEvent event) {
+        TeamLinkerItem.shouldShowHighlight = false;
+    }
+
+    @SubscribeEvent
+    public static void onComputeFovModifier(FOVModifierEvent event) {
+        Player player = event.getEntity();
+        ItemStack itemStack = player.getUseItem();
+        if (player.isUsingItem() && itemStack.getItem() instanceof SnowballCannonItem) {
+            int i = player.getTicksUsingItem();
+            float f = event.getFov();
+            float f1 = (float) i / 20.0F;
+            if (f1 > 1.0F) {
+                f1 = 1.0F;
+            } else {
+                f1 *= f1;
+            }
+            if (itemStack.is(ItemRegister.POWERFUL_SNOWBALL_CANNON.get())) {
+                f *= 1.0F - f1 * 0.5F;
+            } else {
+                f *= 1.0F - f1 * 0.3F;
+            }
+            event.setNewfov(f);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRenderOverlay(RenderGameOverlayEvent.Pre event) {
+        if (event.getType().equals(RenderGameOverlayEvent.ElementType.TEXT)) {
+            Minecraft instance = Minecraft.getInstance();
+            Player player = instance.player;
+            AbstractBSFWeaponItem weaponItem = null;
+            if (player.getMainHandItem().getItem() instanceof AbstractBSFWeaponItem item) {
+                weaponItem = item;
+            } else if (player.getOffhandItem().getItem() instanceof AbstractBSFWeaponItem item) {
+                weaponItem = item;
+            }
+            if (weaponItem != null) {
+                ItemStack current = weaponItem.getCurrentAmmoItemStack();
+                ItemStack prev = weaponItem.getPrevAmmoItemStack();
+                ItemStack next = weaponItem.getNextAmmoItemStack();
+                PoseStack poseStack = event.getMatrixStack();
+                ItemRenderer itemRenderer = instance.getItemRenderer();
+                Window window = event.getWindow();
+                int startPos = window.getHeight() * 3 / 8 / (int) window.getGuiScale();
+                RenderSystem.setShaderTexture(0, new ResourceLocation("bsf", "textures/gui/snowball_frame.png"));
+                GuiComponent.blit(poseStack, 0, startPos, 0, 0, 23, 62, 23, 62);
+                itemRenderer.renderGuiItem(prev, 3, startPos + 3);
+                itemRenderer.renderGuiItem(current, 3, startPos + 23);
+                itemRenderer.renderGuiItem(next, 3, startPos + 43);
+                GuiComponent.drawString(poseStack, instance.font, String.valueOf(prev.getCount()), 24, startPos + 7, 0xffffffff);
+                GuiComponent.drawString(poseStack, instance.font, String.valueOf(current.getCount()), 24, startPos + 27, 0xffffffff);
+                GuiComponent.drawString(poseStack, instance.font, String.valueOf(next.getCount()), 24, startPos + 47, 0xffffffff);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onKeyInput(InputEvent.KeyInputEvent event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        int key = event.getKey();
+        if (minecraft.screen == null && (key == ClientModEvents.CYCLE_MOVE_AMMO_NEXT.getKey().getValue() || key == ClientModEvents.CYCLE_MOVE_AMMO_PREV.getKey().getValue()) && event.getAction() == GLFW.GLFW_PRESS) {
+            Player player = minecraft.player;
+            AbstractBSFWeaponItem weaponItem = null;
+            if (player.getMainHandItem().getItem() instanceof AbstractBSFWeaponItem item) {
+                weaponItem = item;
+            } else if (player.getOffhandItem().getItem() instanceof AbstractBSFWeaponItem item) {
+                weaponItem = item;
+            }
+            if (weaponItem != null) {
+                LinkedList<Item> launchOrder = weaponItem.getLaunchOrder();
+                if (!launchOrder.isEmpty()) {
+                    if (key == ClientModEvents.CYCLE_MOVE_AMMO_NEXT.getKey().getValue()) {
+                        Item item = launchOrder.getFirst();
+                        launchOrder.removeFirst();
+                        launchOrder.addLast(item);
+                    } else {
+                        Item item = launchOrder.getLast();
+                        launchOrder.removeLast();
+                        launchOrder.addFirst(item);
+                    }
+                    player.playSound(SoundEvents.DISPENSER_DISPENSE, 1.0F, 1.0F / (player.level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                }
+            }
+        }
+    }
+}

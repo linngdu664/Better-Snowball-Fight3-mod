@@ -1,0 +1,33 @@
+{
+  "parent": "bsf:force_snowball_craft",
+  "display": {
+    "icon": {
+      "item": "bsf:black_hole_snowball"
+    },
+    "title": {
+      "translate": "advancements.bsf.black_hole_snowball.title"
+    },
+    "description": {
+      "translate": "advancements.bsf.black_hole_snowball.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "annouce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "obtain_black_hole_snowball": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bsf:black_hole_snowball"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [["obtain_black_hole_snowball"]]
+}

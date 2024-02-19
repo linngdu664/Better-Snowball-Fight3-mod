@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "bsf:heavy_player_tracking_snowball"
+    }
+  ],
+  "result": {
+    "item": "bsf:heavy_monster_tracking_snowball"
+  }
+}

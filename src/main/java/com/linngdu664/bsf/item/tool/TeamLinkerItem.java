@@ -1,0 +1,84 @@
+package com.linngdu664.bsf.item.tool;
+
+import com.linngdu664.bsf.network.TeamMembersToClient;
+import com.linngdu664.bsf.registry.NetworkRegister;
+import com.linngdu664.bsf.util.BSFTeamSavedData;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PacketDistributor;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.UUID;
+
+public class TeamLinkerItem extends Item {
+    public static boolean shouldShowHighlight = false;  // client only
+    private final int teamId;
+
+    public TeamLinkerItem(int teamId) {
+        super(new Properties());
+        this.teamId = teamId;
+    }
+
+    private String getColorNameKeyById(int id) {
+        return "color.minecraft." + DyeColor.byId(id).getName();
+    }
+
+    @Override
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
+        ItemStack itemstack = pPlayer.getItemInHand(pUsedHand);
+        if (pPlayer.isShiftKeyDown()) {
+            if (pLevel.isClientSide) {
+                shouldShowHighlight = !shouldShowHighlight;
+            }
+        } else if (!pLevel.isClientSide) {
+            BSFTeamSavedData savedData = pPlayer.getServer().overworld().getDataStorage().computeIfAbsent(BSFTeamSavedData::new, BSFTeamSavedData::new, "bsf_team");
+            String playerName = pPlayer.getName().getString();
+            UUID uuid = pPlayer.getUUID();
+            int oldId = savedData.getTeam(uuid);
+            String oldTeamName = new TranslatableComponent(getColorNameKeyById(oldId)).getString();
+            String newTeamName = new TranslatableComponent(getColorNameKeyById(teamId)).getString();
+            HashSet<UUID> oldMembers = savedData.getMembers(oldId);
+            oldMembers.stream()
+                    .map(p -> (ServerPlayer) pLevel.getPlayerByUUID(p))
+                    .filter(Objects::nonNull)
+                    .forEach(p -> p.displayClientMessage(new TranslatableComponent("leave_bsf_team.tip", playerName, oldTeamName), false));
+            if (oldId == teamId) {
+                // 退队
+                savedData.exitTeam(uuid);
+                oldMembers.stream()
+                        .map(p -> (ServerPlayer) pLevel.getPlayerByUUID(p))
+                        .filter(Objects::nonNull)
+                        .forEach(p -> NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> p), new TeamMembersToClient(oldMembers)));
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) pPlayer), new TeamMembersToClient(new HashSet<>()));
+            } else {
+                // 退队后进队
+                savedData.joinTeam(uuid, teamId);
+                oldMembers.stream()
+                        .map(p -> (ServerPlayer) pLevel.getPlayerByUUID(p))
+                        .filter(Objects::nonNull)
+                        .forEach(p -> NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> p), new TeamMembersToClient(oldMembers)));
+                HashSet<UUID> newMembers = savedData.getMembers(teamId);
+                newMembers.stream()
+                        .map(p -> (ServerPlayer) pLevel.getPlayerByUUID(p))
+                        .filter(Objects::nonNull)
+                        .forEach(p -> {
+                            p.displayClientMessage(new TranslatableComponent("join_bsf_team.tip", playerName, newTeamName), false);
+                            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> p), new TeamMembersToClient(newMembers));
+                        });
+            }
+            savedData.setDirty();
+        }
+        pPlayer.awardStat(Stats.ITEM_USED.get(this));
+        return InteractionResultHolder.success(itemstack);
+    }
+}

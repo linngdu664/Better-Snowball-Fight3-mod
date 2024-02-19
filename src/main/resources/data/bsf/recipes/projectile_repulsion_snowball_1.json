@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "bsf:monster_repulsion_snowball"
+    }
+  ],
+  "result": {
+    "item": "bsf:projectile_repulsion_snowball"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AB ",
+    "CDD",
+    "EF "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:glow_ink_sac"
+    },
+    "B": {
+      "item": "minecraft:shulker_shell"
+    },
+    "C": {
+      "item": "minecraft:end_crystal"
+    },
+    "D": {
+      "item": "bsf:snowball_cannon"
+    },
+    "E": {
+      "item": "minecraft:repeater"
+    },
+    "F": {
+      "item": "minecraft:soul_lantern"
+    }
+  },
+  "result": {
+    "item": "bsf:snowball_machine_gun",
+    "count": 1
+  }
+}
