@@ -46,6 +46,12 @@ public abstract class AbstractExecutor extends Entity implements Absorbable {
         }
     }
 
+    @Override
+    public boolean shouldRenderAtSqrDistance(double pDistance) {
+        double d0 = 32 * getViewScale();
+        return pDistance < d0 * d0;
+    }
+
     public int getTimer() {
         return timer;
     }
