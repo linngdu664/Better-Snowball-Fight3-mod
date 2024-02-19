@@ -82,9 +82,9 @@ public class BasinItem extends Item {
             });
             NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesToClient(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2));
             if (itemStack.getOrCreateTag().getByte("SnowType") == 1) {
-                addEffectsToLivingEntities(list, pPlayer, pLevel, p -> p < 5F ? 180 : (int) (180F - 6.6666667F * (p - 5F) * (p - 5F) * (p - 5F)), p -> p < 5F ? 2 : 1, 20);
+                addEffectsToLivingEntities(list, pPlayer, p -> p < 5F ? 180 : (int) (180F - 6.6666667F * (p - 5F) * (p - 5F) * (p - 5F)), p -> p < 5F ? 2 : 1, 20);
             } else {
-                addEffectsToLivingEntities(list, pPlayer, pLevel, p -> p < 4F ? 240 : (int) (-4F * p * p * p + 49F * p * p - 200F * p + 512F), p -> p < 3.0F ? 3 : (p < 6.0F ? 2 : 1), 30);
+                addEffectsToLivingEntities(list, pPlayer, p -> p < 4F ? 240 : (int) (-4F * p * p * p + 49F * p * p - 200F * p + 512F), p -> p < 3.0F ? 3 : (p < 6.0F ? 2 : 1), 30);
             }
             if (!pPlayer.getAbilities().instabuild) {
                 itemStack.getOrCreateTag().remove("SnowType");
@@ -181,7 +181,7 @@ public class BasinItem extends Item {
         return k;
     }
 
-    private void addEffectsToLivingEntities(List<LivingEntity> list, Player pPlayer, Level pLevel, Function<Float, Integer> tFunc, Function<Float, Integer> ampFunc, int jamTime) {
+    private void addEffectsToLivingEntities(List<LivingEntity> list, Player pPlayer, Function<Float, Integer> tFunc, Function<Float, Integer> ampFunc, int jamTime) {
         for (LivingEntity livingEntity : list) {
             if (!(livingEntity instanceof BSFSnowGolemEntity) && !(livingEntity instanceof SnowGolem)) {
                 float r = pPlayer.distanceTo(livingEntity);
