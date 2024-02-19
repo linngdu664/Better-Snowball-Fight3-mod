@@ -1,6 +1,6 @@
 package com.linngdu664.bsf;
 
-import com.linngdu664.bsf.block.entity.BlockEntityRegister;
+import com.linngdu664.bsf.registry.BlockEntityRegister;
 import com.linngdu664.bsf.registry.*;
 import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraftforge.eventbus.api.IEventBus;
