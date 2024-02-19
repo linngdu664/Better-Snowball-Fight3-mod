@@ -19,6 +19,6 @@ Better Snowball Fight Ⅲ
 ==
 ---
 * mod version: 3.1.0
-* minecraft version: 1.19.2
-* forge version: ≥43.3.0
+* minecraft version: 1.18.2
+* forge version: ≥40.2.0
 * compatibility level: JAVA_17
