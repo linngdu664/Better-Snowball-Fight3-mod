@@ -10,18 +10,30 @@ import com.linngdu664.bsf.item.snowball.normal.*;
 import com.linngdu664.bsf.item.snowball.special.*;
 import com.linngdu664.bsf.item.snowball.tracking.*;
 import com.linngdu664.bsf.registry.ItemRegister;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.lwjgl.glfw.GLFW;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModEvents {
+    public static final KeyMapping CYCLE_MOVE_AMMO_NEXT = new KeyMapping("key.bsf.ammo_switch_next", GLFW.GLFW_KEY_H, "key.categories.misc");
+    public static final KeyMapping CYCLE_MOVE_AMMO_PREV = new KeyMapping("key.bsf.ammo_switch_prev", GLFW.GLFW_KEY_G, "key.categories.misc");
+
+    @SubscribeEvent
+    public static void registerKeyBindings(RegisterKeyMappingsEvent event) {
+        event.register(CYCLE_MOVE_AMMO_NEXT);
+        event.register(CYCLE_MOVE_AMMO_PREV);
+    }
+
     @SubscribeEvent
     public static void setupClient(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {

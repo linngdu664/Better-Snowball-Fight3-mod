@@ -1,7 +1,8 @@
-package com.linngdu664.bsf.block.entity;
+package com.linngdu664.bsf.registry;
 
 
 import com.linngdu664.bsf.Main;
+import com.linngdu664.bsf.block.entity.CriticalSnowEntity;
 import com.linngdu664.bsf.registry.BlockRegister;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;

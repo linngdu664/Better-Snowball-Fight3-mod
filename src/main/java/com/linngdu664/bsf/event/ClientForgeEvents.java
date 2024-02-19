@@ -9,18 +9,54 @@ import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.lwjgl.glfw.GLFW;
+
+import java.util.LinkedList;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeEvents {
+    @SubscribeEvent
+    public static void onKeyInput(InputEvent.Key event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        int key = event.getKey();
+        if (minecraft.screen == null && (key == ClientModEvents.CYCLE_MOVE_AMMO_NEXT.getKey().getValue() || key == ClientModEvents.CYCLE_MOVE_AMMO_PREV.getKey().getValue()) && event.getAction() == GLFW.GLFW_PRESS) {
+            Player player = minecraft.player;
+            AbstractBSFWeaponItem weaponItem = null;
+            if (player.getMainHandItem().getItem() instanceof AbstractBSFWeaponItem item) {
+                weaponItem = item;
+            } else if (player.getOffhandItem().getItem() instanceof AbstractBSFWeaponItem item) {
+                weaponItem = item;
+            }
+            if (weaponItem != null) {
+                LinkedList<Item> launchOrder = weaponItem.getLaunchOrder();
+                if (!launchOrder.isEmpty()) {
+                    if (key == ClientModEvents.CYCLE_MOVE_AMMO_NEXT.getKey().getValue()) {
+                        Item item = launchOrder.getFirst();
+                        launchOrder.removeFirst();
+                        launchOrder.addLast(item);
+                    } else {
+                        Item item = launchOrder.getLast();
+                        launchOrder.removeLast();
+                        launchOrder.addFirst(item);
+                    }
+                    player.playSound(SoundEvents.DISPENSER_DISPENSE, 1.0F, 1.0F / (player.level().getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                }
+            }
+        }
+    }
+
     @SubscribeEvent
     public static void onClientLoggingIn(ClientPlayerNetworkEvent.LoggingIn event) {
         TeamLinkerItem.shouldShowHighlight = false;
@@ -50,7 +86,7 @@ public class ClientForgeEvents {
 
     @SubscribeEvent
     public static void onRenderOverlay(RenderGuiOverlayEvent.Pre event) {
-        if (event.getOverlay() == VanillaGuiOverlay.HOTBAR.type()) {
+        if (event.getOverlay().equals(VanillaGuiOverlay.HOTBAR.type())) {
             Minecraft instance = Minecraft.getInstance();
             Player player = instance.player;
             AbstractBSFWeaponItem weaponItem = null;
