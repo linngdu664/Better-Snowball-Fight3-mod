@@ -2,6 +2,7 @@ package com.linngdu664.bsf.entity.snowball.force;
 
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
+import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -59,6 +60,7 @@ public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEnt
     @Override
     protected void onHitBlock(@NotNull BlockHitResult p_37258_) {
         super.onHitBlock(p_37258_);
+        playSound(SoundRegister.FORCE_EXECUTOR_START.get(), 3.0F, 1.0F );
         level().addFreshEntity(getExecutor());
         discard();
 //        isStart = true;

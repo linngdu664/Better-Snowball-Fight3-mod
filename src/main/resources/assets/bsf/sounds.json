@@ -193,5 +193,10 @@
     "sounds": [
       "bsf:freezing"
     ]
+  },
+  "force_executor_start": {
+    "sounds": [
+      "bsf:force_executor_start"
+    ]
   }
 }
