@@ -198,5 +198,10 @@
     "sounds": [
       "bsf:force_executor_start"
     ]
+  },
+  "black_hole_ambience": {
+    "sounds": [
+      "bsf:black_hole_ambience"
+    ]
   }
 }

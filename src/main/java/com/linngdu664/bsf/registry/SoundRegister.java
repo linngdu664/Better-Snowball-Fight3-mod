@@ -24,6 +24,7 @@ public class SoundRegister {
     public static final RegistryObject<SoundEvent> DUCK = build("duck_sound");
     public static final RegistryObject<SoundEvent> FREEZING = build("freezing");
     public static final RegistryObject<SoundEvent> FORCE_EXECUTOR_START = build("force_executor_start");
+    public static final RegistryObject<SoundEvent> BLACK_HOLE_AMBIENCE = build("black_hole_ambience");
 
     private static RegistryObject<SoundEvent> build(String id, float range) {
         return SOUNDS.register(id, () -> SoundEvent.createFixedRangeEvent(new ResourceLocation("bsf", id), range));

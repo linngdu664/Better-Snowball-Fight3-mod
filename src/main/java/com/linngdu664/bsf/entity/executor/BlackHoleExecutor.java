@@ -2,6 +2,7 @@ package com.linngdu664.bsf.entity.executor;
 
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
+import com.linngdu664.bsf.registry.SoundRegister;
 import com.linngdu664.bsf.util.BSFConfig;
 import com.linngdu664.bsf.util.BSFCommonUtil;
 import com.linngdu664.bsf.util.ParticleUtil;
@@ -145,6 +146,9 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         double damageR2 = range * range * 0.01;
         float damage = (float) (range * 0.0528);
         if (!level.isClientSide) {
+            if (timer%20==0){
+                playSound(SoundRegister.BLACK_HOLE_AMBIENCE.get(), 12.0F, 1.0F);
+            }
             if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && BSFConfig.blackHoleDestroy) {
                 BlockPos.betweenClosedStream(getBoundingBox().inflate(destroyR))
                         .filter(p -> p.getCenter().distanceToSqr(pos) < destroyR2 && level.getBlockState(p).getBlock().getExplosionResistance() <= 2400)
