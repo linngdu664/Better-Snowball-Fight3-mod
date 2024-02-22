@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.util;
 
+import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -93,6 +94,26 @@ public class ParticleUtil {
             dz = BSFCommonUtil.randDoubleWithInfer(randomSource, pos1.z, pos2.z);
             Vec3 v = vec.normalize().scale(BSFCommonUtil.randDouble(randomSource, vMin, vMax)).add(inertia);
             pLevel.addParticle(particleOptions, dx, dy, dz, v.x, v.y, v.z);
+        }
+    }
+    public static void spawnSphereGatherParticles(Level level, ParticleOptions particleOptions, Vec3 pos, double range, int num, double v){
+        for (int i = 0; i < num; i++) {
+            RandomSource randomSource = level.getRandom();
+            double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
+            double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1));
+            Vec3 direction = BSFCommonUtil.rotationToVector(1, theta, phi).normalize();
+            Vec3 pos1 = direction.scale(-range).add(pos);
+            Vec3 v1 = direction.scale(v);
+            level.addParticle(particleOptions,pos1.x,pos1.y,pos1.z,v1.x,v1.y,v1.z);
+        }
+    }
+    public static void spawnSphereDiffusionParticles(Level level, ParticleOptions particleOptions, Vec3 pos, int num, double v){
+        for (int i = 0; i < num; i++) {
+            RandomSource randomSource = level.getRandom();
+            double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
+            double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1));
+            Vec3 v1 = BSFCommonUtil.rotationToVector(1, theta, phi).normalize().scale(v);
+            level.addParticle(particleOptions,pos.x,pos.y,pos.z,v1.x,v1.y,v1.z);
         }
     }
 }

@@ -1,9 +1,12 @@
 package com.linngdu664.bsf.entity.executor;
 
+import com.linngdu664.bsf.registry.ParticleRegister;
+import com.linngdu664.bsf.util.ParticleUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractFixedForceExecutor extends AbstractForceExecutor {
     public AbstractFixedForceExecutor(EntityType<?> pEntityType, Level pLevel) {
@@ -14,12 +17,13 @@ public abstract class AbstractFixedForceExecutor extends AbstractForceExecutor {
         super(pEntityType, pX, pY, pZ, pLevel, GM, boundaryR2, range, 200);
     }
 
+
     @Override
-    public void tick() {
-        super.tick();
+    public void remove(RemovalReason pReason) {
+        super.remove(pReason);
         Level level = level();
         if (!level.isClientSide) {
-            ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0.06);
+            ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 10, 0, 0, 0, 0.06);
         }
     }
 
