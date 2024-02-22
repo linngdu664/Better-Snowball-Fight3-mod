@@ -4,6 +4,7 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
+import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -82,8 +83,9 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
     public void tick() {
         super.tick();
         Level level = level();
-        if (!level.isClientSide) {
-            ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL, this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
+        if (level.isClientSide) {
+            Vec3 position = this.getPosition(0);
+            level.addParticle(ParticleTypes.PORTAL, position.x, position.y+0.1, position.z,0,0,0);
         }
     }
 

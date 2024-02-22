@@ -171,8 +171,9 @@ public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowbal
     protected void generateParticles() {
         if (!inBlockDuration) {
             Level level = level();
-            if (!level.isClientSide) {
-                ((ServerLevel) level).sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
+            if (level.isClientSide) {
+                Vec3 position = this.getPosition(0);
+                level.addParticle(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), position.x, position.y+0.1, position.z,0,0,0);
             }
         }
     }

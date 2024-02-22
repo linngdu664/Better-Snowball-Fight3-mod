@@ -4,6 +4,7 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
+import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class GhostSnowballEntity extends AbstractBSFSnowballEntity {
@@ -62,13 +64,15 @@ public class GhostSnowballEntity extends AbstractBSFSnowballEntity {
         super.tick();
         Level level = level();
         if (!level.isClientSide) {
-            ((ServerLevel) level).sendParticles(ParticleTypes.SOUL_FIRE_FLAME, this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
             if (timer == 100) {
                 discard();
                 ((ServerLevel) level).sendParticles(ParticleTypes.SOUL, this.getX(), this.getY(), this.getZ(), 8, 0, 0, 0, 0);
             } else {
                 timer++;
             }
+        }else{
+            Vec3 position = this.getPosition(0);
+            level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, position.x, position.y+0.1, position.z,0,0,0);
         }
     }
 
