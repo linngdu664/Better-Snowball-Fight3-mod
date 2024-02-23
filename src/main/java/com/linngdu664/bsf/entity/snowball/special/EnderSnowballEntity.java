@@ -83,8 +83,7 @@ public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
         super.tick();
         Level level = level();
         if (level.isClientSide) {
-            Vec3 position = this.getPosition(0);
-            level.addParticle(ParticleTypes.PORTAL, position.x, position.y + 0.1, position.z, 0, 0, 0);
+            level.addParticle(ParticleTypes.PORTAL, xo, yo + 0.1, zo, 0, 0, 0);
         }
     }
 

@@ -46,8 +46,8 @@ public abstract class SnowballMixin extends ThrowableItemProjectile {
     public void tick() {
         super.tick();
         Level level = level();
-        if (!level.isClientSide) {
-            ((ServerLevel) level).sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
+        if (level.isClientSide) {
+            level.addParticle(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), xo, yo + 0.1, zo, 0, 0, 0);
         }
     }
 
@@ -90,14 +90,14 @@ public abstract class SnowballMixin extends ThrowableItemProjectile {
                 if (getOwner() instanceof LivingEntity owner) {
                     owner.setLastHurtMob(player);
                 }
-                bsf$spawnBasicParticles(level());
+                bsf$spawnBasicParticles(level);
             }
             ci.cancel();
         } else {
             if (getOwner() instanceof LivingEntity owner) {
                 owner.setLastHurtMob(entity);
             }
-            bsf$spawnBasicParticles(level());
+            bsf$spawnBasicParticles(level);
         }
     }
 

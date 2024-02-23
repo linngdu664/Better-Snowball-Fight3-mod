@@ -149,8 +149,7 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
         // Spawn trace particles
         Level level = level();
         if (level.isClientSide) {
-            Vec3 position = this.getPosition(0);
-            level.addParticle(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), position.x, position.y + 0.1, position.z, 0, 0, 0);
+            level.addParticle(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), xo, yo + 0.1, zo, 0, 0, 0);
         }
     }
 

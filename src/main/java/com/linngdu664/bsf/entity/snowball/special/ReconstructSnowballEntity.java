@@ -15,7 +15,6 @@ import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -70,7 +69,7 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
         Level level = level();
         if (!level.isClientSide && !(posIsLooseSnow(level, result.getBlockPos()))) {
             if (!inBlockDuration) {
-                startTimingOfDiscard(new Vec3(this.getX(), this.getY(), this.getZ()));
+                startTimingOfDiscard();
             }
         }
         super.onHitBlock(result);
@@ -81,7 +80,7 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
         Level level = level();
         if (snowStock <= 0) {
             if (!inBlockDuration) {
-                startTimingOfDiscard(new Vec3(this.getX(), this.getY(), this.getZ()));
+                startTimingOfDiscard();
             }
         }
         if (timer % GROWTH_CONSTRAINT == 0) {
@@ -191,7 +190,7 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
             snowStock--;
         } else {
             if (!inBlockDuration) {
-                startTimingOfDiscard(new Vec3(this.getX(), this.getY(), this.getZ()));
+                startTimingOfDiscard();
             }
         }
     }

@@ -58,7 +58,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        startTimingOfDiscard(new Vec3(this.getX(), this.getY(), this.getZ()));
+        startTimingOfDiscard();
     }
 
     private void handleBuildIcicle(Level level) {
@@ -184,7 +184,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
                 }
             }
             if (!inBlockDuration) {
-                startTimingOfDiscard(new Vec3(this.getX(), this.getY(), this.getZ()));
+                startTimingOfDiscard();
             }
 
         }

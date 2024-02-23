@@ -20,7 +20,6 @@ import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -133,17 +132,14 @@ public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowbal
 
     /**
      * Call this method to trigger the delay (blockDurationTick) time to delete all blocks, and makes snowball invisible.
-     *
-     * @param fixLocation Snowball will be pinned to this point
      */
-    public void startTimingOfDiscard(Vec3 fixLocation) {
+    public void startTimingOfDiscard() {
         setInvisible(true);
         if (!inBlockDuration && !inDestroying) {
 
             inBlockDuration = true;
             this.setNoGravity(true);
         }
-//        this.fixLocation = fixLocation;
     }
 
     /**
@@ -172,8 +168,7 @@ public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowbal
         if (!inBlockDuration) {
             Level level = level();
             if (level.isClientSide) {
-                Vec3 position = this.getPosition(0);
-                level.addParticle(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), position.x, position.y + 0.1, position.z, 0, 0, 0);
+                level.addParticle(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), xo, yo + 0.1, zo, 0, 0, 0);
             }
         }
     }

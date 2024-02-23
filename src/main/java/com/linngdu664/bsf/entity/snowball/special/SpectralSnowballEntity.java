@@ -17,7 +17,6 @@ import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -60,8 +59,7 @@ public class SpectralSnowballEntity extends AbstractBSFSnowballEntity {
         super.tick();
         Level level = level();
         if (level.isClientSide) {
-            Vec3 position = this.getPosition(0);
-            level.addParticle(ParticleTypes.INSTANT_EFFECT, position.x, position.y + 0.1, position.z, 0, 0, 0);
+            level.addParticle(ParticleTypes.INSTANT_EFFECT, xo, yo + 0.1, zo, 0, 0, 0);
         }
     }
 
