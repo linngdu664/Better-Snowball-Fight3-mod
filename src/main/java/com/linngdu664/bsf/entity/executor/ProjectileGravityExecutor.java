@@ -31,7 +31,8 @@ public class ProjectileGravityExecutor extends AbstractFixedForceExecutor {
 
     @Override
     public List<? extends Entity> getTargetList() {
-        return level().getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(range), (p) -> true);
+        double r2 = range * range;
+        return level().getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(range), p -> distanceToSqr(p) < r2);
     }
 
     @Override

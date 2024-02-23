@@ -5,7 +5,6 @@ import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.util.ParticleUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -32,7 +31,8 @@ public class MonsterGravityExecutor extends AbstractFixedForceExecutor {
 
     @Override
     public List<? extends Entity> getTargetList() {
-        return level().getEntitiesOfClass(Mob.class, getBoundingBox().inflate(range), (p) -> p instanceof Enemy);
+        double r2 = range * range;
+        return level().getEntities(this, getBoundingBox().inflate(range), p -> p instanceof Enemy && distanceToSqr(p) < r2);
     }
 
     @Override
