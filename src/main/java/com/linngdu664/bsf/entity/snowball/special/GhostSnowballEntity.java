@@ -4,7 +4,6 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
-import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -70,9 +69,9 @@ public class GhostSnowballEntity extends AbstractBSFSnowballEntity {
             } else {
                 timer++;
             }
-        }else{
+        } else {
             Vec3 position = this.getPosition(0);
-            level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, position.x, position.y+0.1, position.z,0,0,0);
+            level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, position.x, position.y + 0.1, position.z, 0, 0, 0);
         }
     }
 

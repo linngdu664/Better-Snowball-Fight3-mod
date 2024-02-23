@@ -25,8 +25,8 @@ public class MonsterGravityExecutor extends AbstractFixedForceExecutor {
     public void tick() {
         super.tick();
         Level level = level();
-        if (level.isClientSide && timer<141) {
-            ParticleUtil.spawnSphereGatherParticles(level, ParticleRegister.MONSTER_GRAVITY_EXECUTOR_ASH.get(),this.getPosition(0),15,40,0.0197);
+        if (level.isClientSide && timer < 141) {
+            ParticleUtil.spawnSphereGatherParticles(level, ParticleRegister.MONSTER_GRAVITY_EXECUTOR_ASH.get(), this.getPosition(0), 15, 40, 0.0197);
         }
     }
 

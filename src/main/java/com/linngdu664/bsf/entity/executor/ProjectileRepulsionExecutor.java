@@ -24,10 +24,11 @@ public class ProjectileRepulsionExecutor extends AbstractFixedForceExecutor {
     public void tick() {
         super.tick();
         Level level = level();
-        if (level.isClientSide && timer<141) {
-            ParticleUtil.spawnSphereDiffusionParticles(level, ParticleRegister.PROJECTILE_REPULSION_EXECUTOR_ASH.get(),this.getPosition(0),40,1.066864);
+        if (level.isClientSide && timer < 141) {
+            ParticleUtil.spawnSphereDiffusionParticles(level, ParticleRegister.PROJECTILE_REPULSION_EXECUTOR_ASH.get(), this.getPosition(0), 40, 1.066864);
         }
     }
+
     @Override
     public List<? extends Entity> getTargetList() {
         return level().getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(range), (p) -> true);

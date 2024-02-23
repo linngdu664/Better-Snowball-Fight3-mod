@@ -173,7 +173,7 @@ public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowbal
             Level level = level();
             if (level.isClientSide) {
                 Vec3 position = this.getPosition(0);
-                level.addParticle(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), position.x, position.y+0.1, position.z,0,0,0);
+                level.addParticle(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), position.x, position.y + 0.1, position.z, 0, 0, 0);
             }
         }
     }

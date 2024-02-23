@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.block;
 
-import com.linngdu664.bsf.registry.BlockEntityRegister;
 import com.linngdu664.bsf.block.entity.CriticalSnowEntity;
+import com.linngdu664.bsf.registry.BlockEntityRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;

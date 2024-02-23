@@ -19,14 +19,16 @@ public class ProjectileGravityExecutor extends AbstractFixedForceExecutor {
     public ProjectileGravityExecutor(EntityType<?> pEntityType, double pX, double pY, double pZ, Level pLevel) {
         super(pEntityType, pX, pY, pZ, pLevel, 2, 2, 15);
     }
+
     @Override
     public void tick() {
         super.tick();
         Level level = level();
-        if (level.isClientSide && timer<141) {
-            ParticleUtil.spawnSphereGatherParticles(level, ParticleRegister.PROJECTILE_GRAVITY_EXECUTOR_ASH.get(),this.getPosition(0),15,40,0.0197);
+        if (level.isClientSide && timer < 141) {
+            ParticleUtil.spawnSphereGatherParticles(level, ParticleRegister.PROJECTILE_GRAVITY_EXECUTOR_ASH.get(), this.getPosition(0), 15, 40, 0.0197);
         }
     }
+
     @Override
     public List<? extends Entity> getTargetList() {
         return level().getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(range), (p) -> true);

@@ -60,7 +60,7 @@ public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEnt
     @Override
     protected void onHitBlock(@NotNull BlockHitResult p_37258_) {
         super.onHitBlock(p_37258_);
-        playSound(SoundRegister.FORCE_EXECUTOR_START.get(), 3.0F, 1.0F );
+        playSound(SoundRegister.FORCE_EXECUTOR_START.get(), 3.0F, 1.0F);
         level().addFreshEntity(getExecutor());
         discard();
 //        isStart = true;

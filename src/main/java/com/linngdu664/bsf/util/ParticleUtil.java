@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.util;
 
-import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -74,16 +73,15 @@ public class ParticleUtil {
     }
 
     /**
-     *
-     * @param pLevel            Entity's Level.
-     * @param particleOptions   The type of the particle.
-     * @param pos1              Cuboid vertex 1
-     * @param pos2              Cuboid vertex 2
-     * @param vec               Velocity vector
-     * @param inertia           inertia vector
-     * @param vMin              Speed minimum
-     * @param vMax              Speed maximum
-     * @param num               Number of particles
+     * @param pLevel          Entity's Level.
+     * @param particleOptions The type of the particle.
+     * @param pos1            Cuboid vertex 1
+     * @param pos2            Cuboid vertex 2
+     * @param vec             Velocity vector
+     * @param inertia         inertia vector
+     * @param vMin            Speed minimum
+     * @param vMax            Speed maximum
+     * @param num             Number of particles
      */
     public static void spawnForwardRaysParticles(Level pLevel, ParticleOptions particleOptions, Vec3 pos1, Vec3 pos2, Vec3 vec, Vec3 inertia, double vMin, double vMax, int num) {
         double dx, dy, dz;
@@ -96,7 +94,8 @@ public class ParticleUtil {
             pLevel.addParticle(particleOptions, dx, dy, dz, v.x, v.y, v.z);
         }
     }
-    public static void spawnSphereGatherParticles(Level level, ParticleOptions particleOptions, Vec3 pos, double range, int num, double v){
+
+    public static void spawnSphereGatherParticles(Level level, ParticleOptions particleOptions, Vec3 pos, double range, int num, double v) {
         for (int i = 0; i < num; i++) {
             RandomSource randomSource = level.getRandom();
             double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
@@ -104,16 +103,17 @@ public class ParticleUtil {
             Vec3 direction = BSFCommonUtil.rotationToVector(1, theta, phi).normalize();
             Vec3 pos1 = direction.scale(-range).add(pos);
             Vec3 v1 = direction.scale(v);
-            level.addParticle(particleOptions,pos1.x,pos1.y,pos1.z,v1.x,v1.y,v1.z);
+            level.addParticle(particleOptions, pos1.x, pos1.y, pos1.z, v1.x, v1.y, v1.z);
         }
     }
-    public static void spawnSphereDiffusionParticles(Level level, ParticleOptions particleOptions, Vec3 pos, int num, double v){
+
+    public static void spawnSphereDiffusionParticles(Level level, ParticleOptions particleOptions, Vec3 pos, int num, double v) {
         for (int i = 0; i < num; i++) {
             RandomSource randomSource = level.getRandom();
             double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
             double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1));
             Vec3 v1 = BSFCommonUtil.rotationToVector(1, theta, phi).normalize().scale(v);
-            level.addParticle(particleOptions,pos.x,pos.y,pos.z,v1.x,v1.y,v1.z);
+            level.addParticle(particleOptions, pos.x, pos.y, pos.z, v1.x, v1.y, v1.z);
         }
     }
 }

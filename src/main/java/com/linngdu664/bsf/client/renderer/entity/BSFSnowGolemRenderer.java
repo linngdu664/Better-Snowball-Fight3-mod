@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.client.renderer.entity;
 
-import com.linngdu664.bsf.client.renderer.entity.layers.BSFSnowGolemHoldItemLayer;
 import com.linngdu664.bsf.client.model.BSFSnowGolemModel;
+import com.linngdu664.bsf.client.renderer.entity.layers.BSFSnowGolemHoldItemLayer;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;

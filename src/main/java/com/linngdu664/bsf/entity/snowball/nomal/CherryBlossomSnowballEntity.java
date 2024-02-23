@@ -3,7 +3,6 @@ package com.linngdu664.bsf.entity.snowball.nomal;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
-import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -43,7 +42,7 @@ public class CherryBlossomSnowballEntity extends AbstractNormalSnowballEntity {
         Level level = level();
         if (level.isClientSide) {
             Vec3 position = this.getPosition(0);
-            level.addParticle(ParticleTypes.CHERRY_LEAVES, position.x, position.y+0.1, position.z,0,0,0);
+            level.addParticle(ParticleTypes.CHERRY_LEAVES, position.x, position.y + 0.1, position.z, 0, 0, 0);
         }
     }
 

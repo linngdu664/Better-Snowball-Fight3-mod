@@ -20,9 +20,9 @@ public class MonsterRepulsionExecutorAsh extends TextureSheetParticle {
         this.xd = pXSpeed;
         this.yd = pYSpeed;
         this.zd = pZSpeed;
-        this.rCol=0.7f;
-        this.gCol=0;
-        this.bCol=0;
+        this.rCol = 0.7f;
+        this.gCol = 0;
+        this.bCol = 0;
         this.quadSize = 0.12F * (this.random.nextFloat() * this.random.nextFloat() * 1.0F + 1.0F);
         this.lifetime = 59;
         this.setSpriteFromAge(pSprites);
