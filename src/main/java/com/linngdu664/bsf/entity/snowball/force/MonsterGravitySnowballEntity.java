@@ -48,6 +48,6 @@ public class MonsterGravitySnowballEntity extends AbstractForceSnowballEntity {
 
     @Override
     public Entity getExecutor() {
-        return new MonsterGravityExecutor(EntityRegister.MONSTER_GRAVITY_EXECUTOR.get(), getX(), getY(), getZ(), level());
+        return new MonsterGravityExecutor(EntityRegister.MONSTER_GRAVITY_EXECUTOR.get(), getX(), correctedY(getX(),getY(),getZ()), getZ(), level());
     }
 }
