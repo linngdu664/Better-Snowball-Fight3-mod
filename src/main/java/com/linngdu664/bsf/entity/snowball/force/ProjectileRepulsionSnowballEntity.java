@@ -48,6 +48,6 @@ public class ProjectileRepulsionSnowballEntity extends AbstractForceSnowballEnti
 
     @Override
     public Entity getExecutor() {
-        return new ProjectileRepulsionExecutor(EntityRegister.PROJECTILE_REPULSION_EXECUTOR.get(), getX(), getY(), getZ(), level());
+        return new ProjectileRepulsionExecutor(EntityRegister.PROJECTILE_REPULSION_EXECUTOR.get(), getX(), correctedY(getX(),getY(),getZ()), getZ(), level());
     }
 }

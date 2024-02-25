@@ -3,6 +3,8 @@ package com.linngdu664.bsf.entity.snowball.force;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.SoundRegister;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -60,13 +62,17 @@ public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEnt
     @Override
     protected void onHitBlock(@NotNull BlockHitResult p_37258_) {
         super.onHitBlock(p_37258_);
-        playSound(SoundRegister.FORCE_EXECUTOR_START.get(), 3.0F, 1.0F);
-        level().addFreshEntity(getExecutor());
-        discard();
+        Level level = level();
+        if (!level.isClientSide){
+            playSound(SoundRegister.FORCE_EXECUTOR_START.get(), 3.0F, 1.0F);
+            level.addFreshEntity(getExecutor());
+            discard();
 //        isStart = true;
 //        this.fixLocation = new Vec3(this.getX(), this.getY(), this.getZ());
 //        stopTheSnowball();
 //        this.setNoGravity(true);
+        }
+
     }
 
     @Override
@@ -83,6 +89,11 @@ public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEnt
     }
 
     public abstract Entity getExecutor();
+
+    public double correctedY(double x, double y, double z){
+        BlockPos blockPos = new BlockPos(Mth.floor(x),Mth.floor(y-0.5),Mth.floor(z));
+        return level().getBlockState(blockPos).canBeReplaced()?y:blockPos.getY()+1.5;
+    }
 
 //    abstract double getRange();
 //

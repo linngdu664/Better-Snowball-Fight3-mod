@@ -48,6 +48,6 @@ public class ProjectileGravitySnowballEntity extends AbstractForceSnowballEntity
 
     @Override
     public Entity getExecutor() {
-        return new ProjectileGravityExecutor(EntityRegister.PROJECTILE_GRAVITY_EXECUTOR.get(), getX(), getY(), getZ(), level());
+        return new ProjectileGravityExecutor(EntityRegister.PROJECTILE_GRAVITY_EXECUTOR.get(), getX(), correctedY(getX(),getY(),getZ()), getZ(), level());
     }
 }

@@ -37,7 +37,7 @@ public class FixedForceExecutorRenderer extends EntityRenderer<AbstractFixedForc
     public void render(AbstractFixedForceExecutor pEntity, float pEntityYaw, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
         VertexConsumer vertexconsumer = pBuffer.getBuffer(renderType);
         int i = OverlayTexture.NO_OVERLAY;
-        pPoseStack.scale(0.5F, 0.5F, 0.5F);
+        pPoseStack.scale(1F, 1F, 1F);
         pPoseStack.pushPose();
 
 
