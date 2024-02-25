@@ -21,26 +21,6 @@ public class ProjectileGravitySnowballEntity extends AbstractForceSnowballEntity
         super(EntityRegister.PROJECTILE_GRAVITY_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
     }
 
-//    @Override
-//    double getRange() {
-//        return 15;
-//    }
-//
-//    @Override
-//    double getGM() {
-//        return 2;
-//    }
-//
-//    @Override
-//    double getBoundaryR2() {
-//        return 2;
-//    }
-//
-//    @Override
-//    List<? extends Entity> getTargetList() {
-//        return level().getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(getRange()), (p) -> true);
-//    }
-
     @Override
     protected @NotNull Item getDefaultItem() {
         return ItemRegister.PROJECTILE_GRAVITY_SNOWBALL.get();
@@ -48,6 +28,6 @@ public class ProjectileGravitySnowballEntity extends AbstractForceSnowballEntity
 
     @Override
     public Entity getExecutor() {
-        return new ProjectileGravityExecutor(EntityRegister.PROJECTILE_GRAVITY_EXECUTOR.get(), getX(), correctedY(getX(),getY(),getZ()), getZ(), level());
+        return new ProjectileGravityExecutor(EntityRegister.PROJECTILE_GRAVITY_EXECUTOR.get(), getX(), correctedY(), getZ(), level());
     }
 }

@@ -21,26 +21,6 @@ public class ProjectileRepulsionSnowballEntity extends AbstractForceSnowballEnti
         super(EntityRegister.PROJECTILE_REPULSION_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
     }
 
-//    @Override
-//    double getRange() {
-//        return 15;
-//    }
-//
-//    @Override
-//    double getGM() {
-//        return -2;
-//    }
-//
-//    @Override
-//    double getBoundaryR2() {
-//        return 2;
-//    }
-//
-//    @Override
-//    List<? extends Entity> getTargetList() {
-//        return level().getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(getRange()), (p) -> true);
-//    }
-
     @Override
     protected @NotNull Item getDefaultItem() {
         return ItemRegister.PROJECTILE_REPULSION_SNOWBALL.get();
@@ -48,6 +28,6 @@ public class ProjectileRepulsionSnowballEntity extends AbstractForceSnowballEnti
 
     @Override
     public Entity getExecutor() {
-        return new ProjectileRepulsionExecutor(EntityRegister.PROJECTILE_REPULSION_EXECUTOR.get(), getX(), correctedY(getX(),getY(),getZ()), getZ(), level());
+        return new ProjectileRepulsionExecutor(EntityRegister.PROJECTILE_REPULSION_EXECUTOR.get(), getX(), correctedY(), getZ(), level());
     }
 }
