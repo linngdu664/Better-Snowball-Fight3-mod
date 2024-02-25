@@ -6,6 +6,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractFixedForceExecutor extends AbstractForceExecutor {
     public AbstractFixedForceExecutor(EntityType<?> pEntityType, Level pLevel) {
@@ -16,9 +17,8 @@ public abstract class AbstractFixedForceExecutor extends AbstractForceExecutor {
         super(pEntityType, pX, pY, pZ, pLevel, GM, boundaryR2, range, 200);
     }
 
-
     @Override
-    public void remove(RemovalReason pReason) {
+    public void remove(@NotNull RemovalReason pReason) {
         super.remove(pReason);
         Level level = level();
         if (!level.isClientSide) {

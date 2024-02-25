@@ -15,6 +15,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -95,7 +96,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
     }
 
     public void merge(BlackHoleExecutor another) {
-        maxTime += another.maxTime - another.timer;
+        setMaxTime(getMaxTime() + another.getMaxTime() - another.getTimer());
         setRank((int) ((getRank() + another.getRank()) * 0.95));
         Vec3 vec3 = getDeltaMovement();
         push(-0.5 * vec3.x, -0.5 * vec3.y, -0.5 * vec3.z);
@@ -146,7 +147,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         double damageR2 = range * range * 0.01;
         float damage = (float) (range * 0.0528);
         if (!level.isClientSide) {
-            if (timer % 20 == 0) {
+            if (getTimer() % 20 == 0) {
                 playSound(SoundRegister.BLACK_HOLE_AMBIENCE.get(), 12.0F, 1.0F);
             }
             if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && BSFConfig.blackHoleDestroy) {
@@ -162,6 +163,8 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
                     .forEach(p -> {
                         if (p instanceof BlackHoleExecutor blackHoleExecutor) {
                             merge(blackHoleExecutor);
+                        } else if (p instanceof FallingBlockEntity) {
+                            p.discard();
                         } else {
                             p.hurt(level.damageSources().fellOutOfWorld(), damage);
                         }

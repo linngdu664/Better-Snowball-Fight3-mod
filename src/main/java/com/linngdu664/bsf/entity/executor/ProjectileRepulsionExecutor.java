@@ -24,7 +24,7 @@ public class ProjectileRepulsionExecutor extends AbstractFixedForceExecutor {
     public void tick() {
         super.tick();
         Level level = level();
-        if (level.isClientSide && timer < 141) {
+        if (level.isClientSide && getTimer() < getMaxTime() - 59) {
             ParticleUtil.spawnSphereDiffusionParticles(level, ParticleRegister.PROJECTILE_REPULSION_EXECUTOR_ASH.get(), this.getPosition(0), 40, 1.066864);
         }
     }
