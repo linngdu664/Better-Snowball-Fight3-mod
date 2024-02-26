@@ -18,6 +18,14 @@ public abstract class AbstractFixedForceExecutor extends AbstractForceExecutor {
     }
 
     @Override
+    public void tick() {
+        super.tick();
+        if (level().isClientSide) {
+            modelTicker++;
+        }
+    }
+
+    @Override
     public void remove(@NotNull RemovalReason pReason) {
         super.remove(pReason);
         Level level = level();

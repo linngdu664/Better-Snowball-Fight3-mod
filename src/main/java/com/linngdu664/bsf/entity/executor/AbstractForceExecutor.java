@@ -12,6 +12,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public abstract class AbstractForceExecutor extends AbstractExecutor {
+    protected int modelTicker;  // client only
     protected double GM;
     protected double boundaryR2;
     protected double range;
@@ -80,4 +81,8 @@ public abstract class AbstractForceExecutor extends AbstractExecutor {
     }
 
     public abstract List<? extends Entity> getTargetList();
+
+    public int getModelTicker() {
+        return modelTicker;
+    }
 }

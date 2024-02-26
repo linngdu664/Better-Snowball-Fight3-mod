@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.client.renderer.entity;
 
-
 import com.linngdu664.bsf.client.model.FixedForceExecutorModel;
 import com.linngdu664.bsf.entity.executor.AbstractFixedForceExecutor;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -41,13 +40,13 @@ public class FixedForceExecutorRenderer extends EntityRenderer<AbstractFixedForc
         pPoseStack.pushPose();
 
 
-        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getTimer() + pPartialTick) * 10) % 360 * Mth.DEG_TO_RAD, SIN_45, 0F, SIN_45)));
+        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getModelTicker() + pPartialTick) * 10) % 360 * Mth.DEG_TO_RAD, SIN_45, 0F, SIN_45)));
         model.getCircle1().render(pPoseStack, vertexconsumer, pPackedLight, i);
 
-        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getTimer() + pPartialTick) * 20) % 360 * Mth.DEG_TO_RAD, -SIN_45, 0F, SIN_45)));
+        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getModelTicker() + pPartialTick) * 20) % 360 * Mth.DEG_TO_RAD, -SIN_45, 0F, SIN_45)));
         model.getCircle2().render(pPoseStack, vertexconsumer, pPackedLight, i);
 
-        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getTimer() + pPartialTick) * 30) % 360 * Mth.DEG_TO_RAD, SIN_45, 0F, -SIN_45)));
+        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(((pEntity.getModelTicker() + pPartialTick) * 30) % 360 * Mth.DEG_TO_RAD, SIN_45, 0F, -SIN_45)));
         model.getBb_main().render(pPoseStack, vertexconsumer, pPackedLight, i);
 
         pPoseStack.popPose();
@@ -77,6 +76,4 @@ public class FixedForceExecutorRenderer extends EntityRenderer<AbstractFixedForc
             }
         }
     }
-
-
 }

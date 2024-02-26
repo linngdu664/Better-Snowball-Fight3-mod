@@ -20,9 +20,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -31,10 +32,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-@Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EntityRegister {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Main.MODID);
-
     public static final RegistryObject<EntityType<BSFSnowGolemEntity>> BSF_SNOW_GOLEM =
             ENTITY_TYPES.register("bsf_snow_golem", () -> EntityType.Builder.of(BSFSnowGolemEntity::new, MobCategory.MISC)
                     .sized(0.7F, 1.9F).clientTrackingRange(8).immuneTo(Blocks.POWDER_SNOW)
@@ -81,9 +80,7 @@ public class EntityRegister {
     public static final RegistryObject<EntityType<SculkSnowballEntity>> SCULK_SNOWBALL = snowballRegister(SculkSnowballEntity::new, "sculk_snowball");
     public static final RegistryObject<EntityType<DuckSnowballEntity>> DUCK_SNOWBALL = snowballRegister(DuckSnowballEntity::new, "duck_snowball");
 
-    /**
-     * A tool to register snowball entity
-     */
+    //A tool to register snowball entity
     public static <T extends Entity> RegistryObject<EntityType<T>> snowballRegister(EntityType.EntityFactory<T> pFactory, String name) {
         return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(pFactory, MobCategory.MISC)
                 .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10)
@@ -96,55 +93,61 @@ public class EntityRegister {
                 .build(new ResourceLocation(Main.MODID, name).toString()));
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(BSF_SNOW_GOLEM.get(), BSFSnowGolemRenderer::new);
-        event.registerEntityRenderer(MONSTER_GRAVITY_EXECUTOR.get(), pContext -> new FixedForceExecutorRenderer(pContext, FixedForceExecutorLayerType.MONSTER_GRAVITY));
-        event.registerEntityRenderer(MONSTER_REPULSION_EXECUTOR.get(), pContext -> new FixedForceExecutorRenderer(pContext, FixedForceExecutorLayerType.MONSTER_REPULSION));
-        event.registerEntityRenderer(PROJECTILE_GRAVITY_EXECUTOR.get(), pContext -> new FixedForceExecutorRenderer(pContext, FixedForceExecutorLayerType.PROJECTILE_GRAVITY));
-        event.registerEntityRenderer(PROJECTILE_REPULSION_EXECUTOR.get(), pContext -> new FixedForceExecutorRenderer(pContext, FixedForceExecutorLayerType.PROJECTILE_REPULSION));
-        event.registerEntityRenderer(POWDER_EXECUTOR.get(), NoopRenderer::new);
-        event.registerEntityRenderer(BLACK_HOLE_EXECUTOR.get(), BlackHoleExecutorCRenderer::new);
-        event.registerEntityRenderer(BLACK_HOLE_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(COMPACTED_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(ENDER_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(EXPLOSIVE_MONSTER_TRACKING_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(EXPLOSIVE_PLAYER_TRACKING_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(EXPLOSIVE_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(FROZEN_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(GLASS_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(GOLD_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(GPS_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(HEAVY_MONSTER_TRACKING_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(HEAVY_PLAYER_TRACKING_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(ICE_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(IRON_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(LIGHT_MONSTER_TRACKING_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(LIGHT_PLAYER_TRACKING_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(MONSTER_GRAVITY_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(MONSTER_REPULSION_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(OBSIDIAN_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(POWDER_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(PROJECTILE_GRAVITY_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(PROJECTILE_REPULSION_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(SMOOTH_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(SPECTRAL_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(STONE_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(SUBSPACE_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(EXPANSION_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(RECONSTRUCT_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(ICICLE_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(CRITICAL_FROZEN_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(IMPULSE_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(CHERRY_BLOSSOM_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(GHOST_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(SCULK_SNOWBALL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(DUCK_SNOWBALL.get(), ThrownItemRenderer::new);
+    @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    public static class RendererRegister {
+        @SubscribeEvent
+        public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerEntityRenderer(BSF_SNOW_GOLEM.get(), BSFSnowGolemRenderer::new);
+            event.registerEntityRenderer(MONSTER_GRAVITY_EXECUTOR.get(), pContext -> new FixedForceExecutorRenderer(pContext, FixedForceExecutorLayerType.MONSTER_GRAVITY));
+            event.registerEntityRenderer(MONSTER_REPULSION_EXECUTOR.get(), pContext -> new FixedForceExecutorRenderer(pContext, FixedForceExecutorLayerType.MONSTER_REPULSION));
+            event.registerEntityRenderer(PROJECTILE_GRAVITY_EXECUTOR.get(), pContext -> new FixedForceExecutorRenderer(pContext, FixedForceExecutorLayerType.PROJECTILE_GRAVITY));
+            event.registerEntityRenderer(PROJECTILE_REPULSION_EXECUTOR.get(), pContext -> new FixedForceExecutorRenderer(pContext, FixedForceExecutorLayerType.PROJECTILE_REPULSION));
+            event.registerEntityRenderer(POWDER_EXECUTOR.get(), NoopRenderer::new);
+            event.registerEntityRenderer(BLACK_HOLE_EXECUTOR.get(), BlackHoleExecutorCRenderer::new);
+            event.registerEntityRenderer(BLACK_HOLE_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(COMPACTED_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(ENDER_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(EXPLOSIVE_MONSTER_TRACKING_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(EXPLOSIVE_PLAYER_TRACKING_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(EXPLOSIVE_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(FROZEN_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(GLASS_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(GOLD_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(GPS_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(HEAVY_MONSTER_TRACKING_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(HEAVY_PLAYER_TRACKING_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(ICE_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(IRON_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(LIGHT_MONSTER_TRACKING_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(LIGHT_PLAYER_TRACKING_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(MONSTER_GRAVITY_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(MONSTER_REPULSION_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(OBSIDIAN_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(POWDER_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(PROJECTILE_GRAVITY_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(PROJECTILE_REPULSION_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(SMOOTH_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(SPECTRAL_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(STONE_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(SUBSPACE_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(EXPANSION_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(RECONSTRUCT_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(ICICLE_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(CRITICAL_FROZEN_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(IMPULSE_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(CHERRY_BLOSSOM_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(GHOST_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(SCULK_SNOWBALL.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(DUCK_SNOWBALL.get(), ThrownItemRenderer::new);
+        }
     }
 
-    @SubscribeEvent
-    public static void createEntityAttribute(EntityAttributeCreationEvent event) {
-        event.put(BSF_SNOW_GOLEM.get(), BSFSnowGolemEntity.setAttributes());
+    @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class attributeRegister {
+        @SubscribeEvent
+        public static void onCreateEntityAttribute(EntityAttributeCreationEvent event) {
+            event.put(BSF_SNOW_GOLEM.get(), TamableAnimal.createLivingAttributes().add(Attributes.MAX_HEALTH, 15.0).add(Attributes.FOLLOW_RANGE, 100.0).add(Attributes.MOVEMENT_SPEED, 0.3).build());
+        }
     }
 }
+
