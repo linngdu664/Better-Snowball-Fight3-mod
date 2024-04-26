@@ -27,7 +27,6 @@ import org.joml.Vector3f;
 import java.util.List;
 
 public class BlackHoleExecutor extends AbstractForceExecutor {
-    private int modelTicker;    //client only
     private int tmpRank;        //client only
     public static final int SPINNING_SPEED = 30;
     public static final int OBLIQUITY_RANGE = 30;
@@ -226,9 +225,5 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
     @Override
     public List<? extends Entity> getTargetList() {
         return level().getEntities(this, getBoundingBox().inflate(range), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-    }
-
-    public int getModelTicker() {
-        return modelTicker;
     }
 }
