@@ -13,6 +13,7 @@ import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -37,6 +38,8 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void setupClient(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
+            ItemProperties.register(ItemRegister.COLD_COMPRESSION_JET_ENGINE.get(),
+                    new ResourceLocation("sc_xxx"), (itemStack, world, livingEntity, num) -> ((float) itemStack.getMaxDamage()-itemStack.getDamageValue())/itemStack.getMaxDamage());
             ItemProperties.register(ItemRegister.SNOWBALL_CANNON.get(),
                     new ResourceLocation("pull"), (itemStack, world, livingEntity, num) -> {
                         if (livingEntity == null) {

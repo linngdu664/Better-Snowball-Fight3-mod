@@ -17,8 +17,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
-public class SnowflakeRocketItem extends AbstractBSFEnhanceableToolItem {
-    public SnowflakeRocketItem() {
+public class ColdCompressionJetEngine extends AbstractBSFEnhanceableToolItem {
+    public ColdCompressionJetEngine() {
         super(Rarity.RARE, 400);
     }
 
@@ -64,7 +64,7 @@ public class SnowflakeRocketItem extends AbstractBSFEnhanceableToolItem {
 
     @Override
     public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
-        return UseAnim.CROSSBOW;
+        return UseAnim.BOW;
     }
 
     @Override
