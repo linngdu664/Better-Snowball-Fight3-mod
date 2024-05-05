@@ -85,7 +85,7 @@ public class ClientForgeEvents {
                 event.setNewFovModifier(f);
             } else if (itemStack.getItem() instanceof ColdCompressionJetEngineItem) {
                 float f = event.getFovModifier();
-                if (player.getTicksUsingItem() >= ColdCompressionJetEngineItem.getStartupDuration()){
+                if (player.getTicksUsingItem() >= ColdCompressionJetEngineItem.STARTUP_DURATION) {
                     f *= 1.4F;
                 }
                 event.setNewFovModifier(f);

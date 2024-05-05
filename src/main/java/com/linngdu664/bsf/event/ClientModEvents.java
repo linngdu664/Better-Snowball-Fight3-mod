@@ -39,14 +39,14 @@ public class ClientModEvents {
     public static void setupClient(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             ItemProperties.register(ItemRegister.COLD_COMPRESSION_JET_ENGINE.get(),
-                    new ResourceLocation("sc_xxx"), (itemStack, world, livingEntity, num) -> ((float) itemStack.getMaxDamage()-itemStack.getDamageValue())/itemStack.getMaxDamage());
+                    new ResourceLocation("sc_xxx"), (itemStack, world, livingEntity, num) -> ((float) itemStack.getMaxDamage() - itemStack.getDamageValue()) / itemStack.getMaxDamage());
             ItemProperties.register(ItemRegister.COLD_COMPRESSION_JET_ENGINE.get(),
                     new ResourceLocation("sc_starting"), (itemStack, world, livingEntity, num) -> {
                         if (livingEntity == null || livingEntity.getUseItem() != itemStack) {
                             return 0.0F;
                         } else {
-                            float pct = (float) (itemStack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) / ColdCompressionJetEngineItem.getStartupDuration();
-                            return pct>1.4?2.0f:pct;
+                            float pct = (float) (itemStack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) / ColdCompressionJetEngineItem.STARTUP_DURATION;
+                            return pct > 1.4f ? 2.0f : pct;
                         }
                     });
             ItemProperties.register(ItemRegister.SNOWBALL_CANNON.get(),

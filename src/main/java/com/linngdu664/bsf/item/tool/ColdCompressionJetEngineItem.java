@@ -20,6 +20,8 @@ import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem {
+    public static final int STARTUP_DURATION = 24;
+
     public ColdCompressionJetEngineItem() {
         super(Rarity.RARE, 400);
     }
@@ -48,14 +50,14 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
 
     @Override
     public void onUseTick(@NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
-        int i = this.getUseDuration(pStack)-pRemainingUseDuration;
+        int i = getUseDuration(pStack) - pRemainingUseDuration;
         if (pStack.getDamageValue() == pStack.getMaxDamage() - 1) {
             releaseUsing(pStack, pLevel, pLivingEntity, pRemainingUseDuration);
             return;
         }
         Vec3 vec3 = Vec3.directionFromRotation(pLivingEntity.getXRot(), pLivingEntity.getYRot());
         Vec3 particlesPos = pLivingEntity.getEyePosition();
-        if (i < ColdCompressionJetEngineItem.getStartupDuration()) {
+        if (i < STARTUP_DURATION) {
             pStack.hurtAndBreak(1, pLivingEntity, p -> {});
             if (!pLevel.isClientSide) {
                 Vec3 newPos = particlesPos.add(vec3.reverse());
@@ -64,13 +66,13 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
             }
             return;
         }
-        if (i == ColdCompressionJetEngineItem.getStartupDuration()){
+        if (i == STARTUP_DURATION) {
             Vec3 aVec = vec3.scale(2);
             pLivingEntity.push(aVec.x, aVec.y, aVec.z);
             if (!pLevel.isClientSide) {
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(particlesPos, vec3.reverse().scale(0.5), 5F, 10, 0.2F, 0));
             }
-        }else{
+        } else {
             Vec3 aVec = vec3.scale(0.2);
             pLivingEntity.push(aVec.x, aVec.y, aVec.z);
         }
@@ -97,7 +99,8 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return !oldStack.getItem().equals(newStack.getItem());
     }
-    public static int getStartupDuration(){
-        return 24;
-    }
+
+//    public static int getStartupDuration() {
+//        return 24;
+//    }
 }
