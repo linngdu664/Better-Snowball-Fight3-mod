@@ -203,5 +203,30 @@
     "sounds": [
       "bsf:black_hole_ambience"
     ]
+  },
+  "cold_compression_jet_engine_startup1": {
+    "sounds": [
+      "bsf:cold_compression_jet_engine_startup1"
+    ]
+  },
+  "cold_compression_jet_engine_startup2": {
+    "sounds": [
+      "bsf:cold_compression_jet_engine_startup2"
+    ]
+  },
+  "cold_compression_jet_engine_startup3": {
+    "sounds": [
+      "bsf:cold_compression_jet_engine_startup3"
+    ]
+  },
+  "cold_compression_jet_engine_startup4": {
+    "sounds": [
+      "bsf:cold_compression_jet_engine_startup4"
+    ]
+  },
+  "cold_compression_jet_engine_startup5": {
+    "sounds": [
+      "bsf:cold_compression_jet_engine_startup5"
+    ]
   }
 }

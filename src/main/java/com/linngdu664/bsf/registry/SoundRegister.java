@@ -25,6 +25,11 @@ public class SoundRegister {
     public static final RegistryObject<SoundEvent> FREEZING = build("freezing");
     public static final RegistryObject<SoundEvent> FORCE_EXECUTOR_START = build("force_executor_start");
     public static final RegistryObject<SoundEvent> BLACK_HOLE_AMBIENCE = build("black_hole_ambience");
+    public static final RegistryObject<SoundEvent> COLD_COMPRESSION_JET_ENGINE_STARTUP1 = build("cold_compression_jet_engine_startup1");
+    public static final RegistryObject<SoundEvent> COLD_COMPRESSION_JET_ENGINE_STARTUP2 = build("cold_compression_jet_engine_startup2");
+    public static final RegistryObject<SoundEvent> COLD_COMPRESSION_JET_ENGINE_STARTUP3 = build("cold_compression_jet_engine_startup3");
+    public static final RegistryObject<SoundEvent> COLD_COMPRESSION_JET_ENGINE_STARTUP4 = build("cold_compression_jet_engine_startup4");
+    public static final RegistryObject<SoundEvent> COLD_COMPRESSION_JET_ENGINE_STARTUP5 = build("cold_compression_jet_engine_startup5");
 
     private static RegistryObject<SoundEvent> build(String id, float range) {
         return SOUNDS.register(id, () -> SoundEvent.createFixedRangeEvent(new ResourceLocation("bsf", id), range));
