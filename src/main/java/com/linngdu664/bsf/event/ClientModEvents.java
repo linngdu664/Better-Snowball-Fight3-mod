@@ -9,6 +9,7 @@ import com.linngdu664.bsf.item.snowball.force.ProjectileRepulsionSnowballItem;
 import com.linngdu664.bsf.item.snowball.normal.*;
 import com.linngdu664.bsf.item.snowball.special.*;
 import com.linngdu664.bsf.item.snowball.tracking.*;
+import com.linngdu664.bsf.item.tool.ColdCompressionJetEngine;
 import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -40,6 +41,15 @@ public class ClientModEvents {
         event.enqueueWork(() -> {
             ItemProperties.register(ItemRegister.COLD_COMPRESSION_JET_ENGINE.get(),
                     new ResourceLocation("sc_xxx"), (itemStack, world, livingEntity, num) -> ((float) itemStack.getMaxDamage()-itemStack.getDamageValue())/itemStack.getMaxDamage());
+            ItemProperties.register(ItemRegister.COLD_COMPRESSION_JET_ENGINE.get(),
+                    new ResourceLocation("sc_starting"), (itemStack, world, livingEntity, num) -> {
+                        if (livingEntity == null || livingEntity.getUseItem() != itemStack) {
+                            return 0.0F;
+                        } else {
+                            float pct = (float) (itemStack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) / ColdCompressionJetEngine.getStartupDuration();
+                            return pct>1.4?0.0f:pct;
+                        }
+                    });
             ItemProperties.register(ItemRegister.SNOWBALL_CANNON.get(),
                     new ResourceLocation("pull"), (itemStack, world, livingEntity, num) -> {
                         if (livingEntity == null) {

@@ -46,13 +46,23 @@ public class ColdCompressionJetEngine extends AbstractBSFEnhanceableToolItem {
 
     @Override
     public void onUseTick(@NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
+        int i = this.getUseDuration(pStack)-pRemainingUseDuration;
+        if (i < ColdCompressionJetEngine.getStartupDuration()) return;
         if (pStack.getDamageValue() == pStack.getMaxDamage() - 1) {
             releaseUsing(pStack, pLevel, pLivingEntity, pRemainingUseDuration);
             return;
         }
         Vec3 vec3 = Vec3.directionFromRotation(pLivingEntity.getXRot(), pLivingEntity.getYRot());
-        Vec3 aVec = vec3.scale(0.2);
-        pLivingEntity.push(aVec.x, aVec.y, aVec.z);
+        if (i == ColdCompressionJetEngine.getStartupDuration()){
+            Vec3 aVec = vec3.scale(2);
+            pLivingEntity.push(aVec.x, aVec.y, aVec.z);
+            if (!pLevel.isClientSide) {
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(pLivingEntity.getPosition(0), vec3.reverse(), 3F, 30, 0.2F, 0));
+            }
+        }else{
+            Vec3 aVec = vec3.scale(0.2);
+            pLivingEntity.push(aVec.x, aVec.y, aVec.z);
+        }
         if (vec3.y > 0) {
             pLivingEntity.resetFallDistance();
         }
@@ -75,5 +85,8 @@ public class ColdCompressionJetEngine extends AbstractBSFEnhanceableToolItem {
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return !oldStack.getItem().equals(newStack.getItem());
+    }
+    public static int getStartupDuration(){
+        return 24;
     }
 }
