@@ -2,7 +2,9 @@ package com.linngdu664.bsf.item.tool;
 
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import com.linngdu664.bsf.registry.NetworkRegister;
+import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -56,7 +58,9 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
         if (i < ColdCompressionJetEngineItem.getStartupDuration()) {
             pStack.hurtAndBreak(1, pLivingEntity, p -> {});
             if (!pLevel.isClientSide) {
-                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(particlesPos, vec3.reverse().scale(2), 2F, 150, 2F, 0));
+                Vec3 newPos = particlesPos.add(vec3.reverse());
+                ((ServerLevel) pLevel).sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), newPos.x, newPos.y, newPos.z, 1, 0, 0, 0, 0.04);
+//                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(particlesPos, vec3.reverse().scale(2), 2F, 150, 2F, 0));
             }
             return;
         }
