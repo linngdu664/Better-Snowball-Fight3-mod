@@ -96,7 +96,7 @@ public class ItemRegister {
     public static final RegistryObject<Item> SCULK_SNOWBALL_LAUNCHER = ITEMS.register("sculk_snowball_launcher", SculkSnowballLauncherItem::new);
     public static final RegistryObject<Item> SNOW_GOLEM_CONTAINER = ITEMS.register("snow_golem_container", SnowGolemContainer::new);
     public static final RegistryObject<Item> VECTOR_INVERSION_ANCHOR = ITEMS.register("vector_inversion_anchor", VectorInversionAnchorItem::new);
-    public static final RegistryObject<Item> COLD_COMPRESSION_JET_ENGINE = ITEMS.register("cold_compression_jet_engine", ColdCompressionJetEngine::new);
+    public static final RegistryObject<Item> COLD_COMPRESSION_JET_ENGINE = ITEMS.register("cold_compression_jet_engine", ColdCompressionJetEngineItem::new);
 
 
     public static final RegistryObject<Item> POPSICLE = ITEMS.register("popsicle", PopsicleItem::new);

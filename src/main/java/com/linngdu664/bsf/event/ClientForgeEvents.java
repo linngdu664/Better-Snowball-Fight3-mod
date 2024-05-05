@@ -1,6 +1,7 @@
 package com.linngdu664.bsf.event;
 
 import com.linngdu664.bsf.Main;
+import com.linngdu664.bsf.item.tool.ColdCompressionJetEngineItem;
 import com.linngdu664.bsf.item.tool.TeamLinkerItem;
 import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
 import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
@@ -66,22 +67,31 @@ public class ClientForgeEvents {
     public static void onComputeFovModifier(ComputeFovModifierEvent event) {
         Player player = event.getPlayer();
         ItemStack itemStack = player.getUseItem();
-        if (player.isUsingItem() && itemStack.getItem() instanceof SnowballCannonItem) {
-            int i = player.getTicksUsingItem();
-            float f = event.getFovModifier();
-            float f1 = (float) i / 20.0F;
-            if (f1 > 1.0F) {
-                f1 = 1.0F;
-            } else {
-                f1 *= f1;
+        if (player.isUsingItem()){
+            if (itemStack.getItem() instanceof SnowballCannonItem) {
+                int i = player.getTicksUsingItem();
+                float f = event.getFovModifier();
+                float f1 = (float) i / 20.0F;
+                if (f1 > 1.0F) {
+                    f1 = 1.0F;
+                } else {
+                    f1 *= f1;
+                }
+                if (itemStack.is(ItemRegister.POWERFUL_SNOWBALL_CANNON.get())) {
+                    f *= 1.0F - f1 * 0.5F;
+                } else {
+                    f *= 1.0F - f1 * 0.3F;
+                }
+                event.setNewFovModifier(f);
+            } else if (itemStack.getItem() instanceof ColdCompressionJetEngineItem) {
+                float f = event.getFovModifier();
+                if (player.getTicksUsingItem() >= ColdCompressionJetEngineItem.getStartupDuration()){
+                    f *= 1.4F;
+                }
+                event.setNewFovModifier(f);
             }
-            if (itemStack.is(ItemRegister.POWERFUL_SNOWBALL_CANNON.get())) {
-                f *= 1.0F - f1 * 0.5F;
-            } else {
-                f *= 1.0F - f1 * 0.3F;
-            }
-            event.setNewFovModifier(f);
         }
+        
     }
 
     @SubscribeEvent

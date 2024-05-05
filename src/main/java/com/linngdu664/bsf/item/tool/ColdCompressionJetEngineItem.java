@@ -17,8 +17,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
-public class ColdCompressionJetEngine extends AbstractBSFEnhanceableToolItem {
-    public ColdCompressionJetEngine() {
+public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem {
+    public ColdCompressionJetEngineItem() {
         super(Rarity.RARE, 400);
     }
 
@@ -53,14 +53,14 @@ public class ColdCompressionJetEngine extends AbstractBSFEnhanceableToolItem {
         }
         Vec3 vec3 = Vec3.directionFromRotation(pLivingEntity.getXRot(), pLivingEntity.getYRot());
         Vec3 particlesPos = pLivingEntity.getEyePosition();
-        if (i < ColdCompressionJetEngine.getStartupDuration()) {
+        if (i < ColdCompressionJetEngineItem.getStartupDuration()) {
             pStack.hurtAndBreak(1, pLivingEntity, p -> {});
             if (!pLevel.isClientSide) {
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(particlesPos, vec3.reverse().scale(2), 2F, 150, 2F, 0));
             }
             return;
         }
-        if (i == ColdCompressionJetEngine.getStartupDuration()){
+        if (i == ColdCompressionJetEngineItem.getStartupDuration()){
             Vec3 aVec = vec3.scale(2);
             pLivingEntity.push(aVec.x, aVec.y, aVec.z);
             if (!pLevel.isClientSide) {

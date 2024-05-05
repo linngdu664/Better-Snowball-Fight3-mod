@@ -9,12 +9,11 @@ import com.linngdu664.bsf.item.snowball.force.ProjectileRepulsionSnowballItem;
 import com.linngdu664.bsf.item.snowball.normal.*;
 import com.linngdu664.bsf.item.snowball.special.*;
 import com.linngdu664.bsf.item.snowball.tracking.*;
-import com.linngdu664.bsf.item.tool.ColdCompressionJetEngine;
+import com.linngdu664.bsf.item.tool.ColdCompressionJetEngineItem;
 import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -46,7 +45,7 @@ public class ClientModEvents {
                         if (livingEntity == null || livingEntity.getUseItem() != itemStack) {
                             return 0.0F;
                         } else {
-                            float pct = (float) (itemStack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) / ColdCompressionJetEngine.getStartupDuration();
+                            float pct = (float) (itemStack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) / ColdCompressionJetEngineItem.getStartupDuration();
                             return pct>1.4?2.0f:pct;
                         }
                     });
