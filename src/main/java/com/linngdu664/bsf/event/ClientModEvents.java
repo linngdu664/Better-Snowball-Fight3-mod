@@ -47,7 +47,6 @@ public class ClientModEvents {
                             return 0.0F;
                         } else {
                             float pct = (float) (itemStack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) / ColdCompressionJetEngine.getStartupDuration();
-                            System.out.println(pct);
                             return pct>1.4?2.0f:pct;
                         }
                     });

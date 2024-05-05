@@ -47,17 +47,24 @@ public class ColdCompressionJetEngine extends AbstractBSFEnhanceableToolItem {
     @Override
     public void onUseTick(@NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
         int i = this.getUseDuration(pStack)-pRemainingUseDuration;
-        if (i < ColdCompressionJetEngine.getStartupDuration()) return;
         if (pStack.getDamageValue() == pStack.getMaxDamage() - 1) {
             releaseUsing(pStack, pLevel, pLivingEntity, pRemainingUseDuration);
             return;
         }
         Vec3 vec3 = Vec3.directionFromRotation(pLivingEntity.getXRot(), pLivingEntity.getYRot());
+        Vec3 particlesPos = pLivingEntity.getEyePosition();
+        if (i < ColdCompressionJetEngine.getStartupDuration()) {
+            pStack.hurtAndBreak(1, pLivingEntity, p -> {});
+            if (!pLevel.isClientSide) {
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(particlesPos, vec3.reverse().scale(2), 2F, 150, 2F, 0));
+            }
+            return;
+        }
         if (i == ColdCompressionJetEngine.getStartupDuration()){
             Vec3 aVec = vec3.scale(2);
             pLivingEntity.push(aVec.x, aVec.y, aVec.z);
             if (!pLevel.isClientSide) {
-                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(pLivingEntity.getPosition(0), vec3.reverse(), 3F, 30, 0.2F, 0));
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(particlesPos, vec3.reverse().scale(0.5), 5F, 10, 0.2F, 0));
             }
         }else{
             Vec3 aVec = vec3.scale(0.2);
@@ -68,7 +75,7 @@ public class ColdCompressionJetEngine extends AbstractBSFEnhanceableToolItem {
         }
         pStack.hurtAndBreak(1, pLivingEntity, p -> {});
         if (!pLevel.isClientSide) {
-            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(pLivingEntity.getPosition(0), vec3.reverse(), 2F, 60, 0.5F, 0));
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(particlesPos, vec3.reverse(), 2F, 60, 0.5F, 0));
         }
     }
 
