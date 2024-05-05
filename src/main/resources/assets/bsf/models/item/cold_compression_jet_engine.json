@@ -13,707 +13,707 @@
         "sc_starting": 0.00,
         "sc_xxx": 0.00
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_0"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_0"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.01
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_1"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_1"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.02
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_2"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_2"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.03
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_3"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_3"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.04
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_4"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_4"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.05
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_5"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_5"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.06
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_6"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_6"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.07
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_7"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_7"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.08
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_8"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_8"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.09
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_9"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_9"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.10
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_10"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_10"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.11
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_10"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_10"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.12
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_11"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_11"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.13
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_12"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_12"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.14
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_13"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_13"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.15
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_15"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_15"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.16
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_16"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_16"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.17
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_17"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_17"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.18
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_18"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_18"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.19
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_19"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_19"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.20
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_20"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_20"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.21
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_21"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_21"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.22
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_22"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_22"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.23
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_23"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_23"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.24
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_24"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_24"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.25
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_25"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_25"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.26
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_26"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_26"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.27
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_27"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_27"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.28
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_28"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_28"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.29
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_29"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_29"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.30
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_30"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_30"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.31
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_31"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_31"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.32
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_32"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_32"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.33
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_33"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_33"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.34
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_34"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_34"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.35
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_35"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_35"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.36
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_36"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_36"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.37
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_37"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_37"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.38
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_38"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_38"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.39
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_39"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_39"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.40
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_40"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_40"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.41
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_41"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_41"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.42
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_42"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_42"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.43
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_43"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_43"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.44
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_44"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_44"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.45
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_45"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_45"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.46
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_46"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_46"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.47
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_47"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_47"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.48
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_48"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_48"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.49
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_49"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_49"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.50
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_50"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_50"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.51
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_51"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_51"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.52
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_52"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_52"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.53
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_53"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_53"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.54
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_54"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_54"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.55
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_55"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_55"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.56
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_56"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_56"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.57
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_57"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_57"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.58
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_58"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_58"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.59
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_59"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_59"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.60
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_60"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_60"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.61
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_61"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_61"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.62
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_62"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_62"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.63
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_63"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_63"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.64
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_64"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_64"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.65
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_65"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_65"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.66
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_66"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_66"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.67
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_67"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_67"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.68
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_68"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_68"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.69
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_69"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_69"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.70
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_70"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_70"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.71
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_71"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_71"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.72
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_72"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_72"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.73
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_73"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_73"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.74
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_74"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_74"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.75
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_75"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_75"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.76
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_76"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_76"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.77
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_77"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_77"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.78
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_78"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_78"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.79
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_79"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_79"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.80
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_80"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_80"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.81
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_81"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_81"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.82
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_82"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_82"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.83
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_83"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_83"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.84
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_84"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_84"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.85
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_85"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_85"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.86
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_86"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_86"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.87
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_87"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_87"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.88
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_88"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_88"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.89
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_89"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_89"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.90
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_90"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_90"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.91
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_91"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_91"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.92
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_92"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_92"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.93
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_93"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_93"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.94
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_94"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_94"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.95
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_95"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_95"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.96
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_96"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_96"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.97
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_97"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_97"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.98
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_98"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_98"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 0.99
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_99"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_99"
     },
     {
       "predicate": {
         "sc_starting": 0.00,
         "sc_xxx": 1.00
       },
-      "model": "bsf:item/cold_compression_jet_engine_sc/sc_100"
+      "model": "bsf:item/cold_compression_jet_engine_sc/scs_100"
     },
     {
       "predicate": {
@@ -840,6 +840,719 @@
         "sc_starting": 1.00
       },
       "model": "bsf:item/cold_compression_jet_engine_sc/scx_21"
+    },
+    {
+      "predicate": {
+        "sc_starting": 1.05
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/scw"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.00
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_0"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.01
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_1"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.02
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_2"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.03
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_3"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.04
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_4"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.05
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_5"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.06
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_6"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.07
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_7"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.08
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_8"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.09
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_9"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.10
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_10"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.11
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_10"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.12
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_11"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.13
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_12"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.14
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_13"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.15
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_15"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.16
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_16"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.17
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_17"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.18
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_18"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.19
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_19"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.20
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_20"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.21
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_21"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.22
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_22"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.23
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_23"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.24
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_24"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.25
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_25"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.26
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_26"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.27
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_27"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.28
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_28"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.29
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_29"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.30
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_30"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.31
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_31"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.32
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_32"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.33
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_33"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.34
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_34"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.35
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_35"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.36
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_36"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.37
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_37"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.38
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_38"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.39
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_39"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.40
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_40"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.41
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_41"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.42
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_42"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.43
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_43"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.44
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_44"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.45
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_45"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.46
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_46"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.47
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_47"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.48
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_48"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.49
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_49"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.50
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_50"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.51
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_51"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.52
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_52"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.53
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_53"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.54
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_54"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.55
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_55"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.56
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_56"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.57
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_57"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.58
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_58"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.59
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_59"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.60
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_60"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.61
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_61"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.62
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_62"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.63
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_63"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.64
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_64"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.65
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_65"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.66
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_66"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.67
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_67"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.68
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_68"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.69
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_69"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.70
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_70"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.71
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_71"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.72
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_72"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.73
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_73"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.74
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_74"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.75
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_75"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.76
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_76"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.77
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_77"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.78
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_78"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.79
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_79"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.80
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_80"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.81
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_81"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.82
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_82"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.83
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_83"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.84
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_84"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.85
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_85"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.86
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_86"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.87
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_87"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.88
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_88"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.89
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_89"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.90
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_90"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.91
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_91"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.92
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_92"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.93
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_93"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.94
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_94"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.95
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_95"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.96
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_96"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.97
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_97"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.98
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_98"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 0.99
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_99"
+    },
+    {
+      "predicate": {
+        "sc_starting": 2.00,
+        "sc_xxx": 1.00
+      },
+      "model": "bsf:item/cold_compression_jet_engine_sc/sc_100"
     }
   ]
 }

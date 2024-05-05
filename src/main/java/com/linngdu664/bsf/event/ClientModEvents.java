@@ -47,7 +47,8 @@ public class ClientModEvents {
                             return 0.0F;
                         } else {
                             float pct = (float) (itemStack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) / ColdCompressionJetEngine.getStartupDuration();
-                            return pct>1.4?0.0f:pct;
+                            System.out.println(pct);
+                            return pct>1.4?2.0f:pct;
                         }
                     });
             ItemProperties.register(ItemRegister.SNOWBALL_CANNON.get(),
