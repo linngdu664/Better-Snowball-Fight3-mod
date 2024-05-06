@@ -2,7 +2,6 @@ package com.linngdu664.bsf.network;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -36,13 +35,10 @@ public class TeamMembersToClient {
 
     public static void messageConsumer(TeamMembersToClient message, Supplier<NetworkEvent.Context> ctxSupplier) {
         NetworkEvent.Context context = ctxSupplier.get();
-        context.enqueueWork(() -> DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> handlePacket(message.members)));
+        context.enqueueWork(() -> DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
+            staticMembers = message.members;
+            return true;
+        }));
         context.setPacketHandled(true);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static boolean handlePacket(HashSet<UUID> members) {
-        staticMembers = members;
-        return true;
     }
 }

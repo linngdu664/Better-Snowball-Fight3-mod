@@ -14,21 +14,21 @@ public class ParticleUtil {
      * It can only work in the client side. Please use "ForwardConeParticlesSender" to send particles in the server side.
      *
      * @param pLevel          Entity's Level.
+     * @param particleOptions The type of the particle.
      * @param entity          Entity.
      * @param sightVec        The entity's sight vector.
-     * @param particleOptions The type of the particle.
      * @param r               The max radius.
      * @param aStep           Angle step length in degree.
      * @param rStep           Radius step length.
      * @param loweredVision   The negative y offset of the spawning point.
      */
     public static void spawnForwardConeParticles(Level pLevel, Entity entity, Vec3 sightVec, ParticleOptions particleOptions, float r, float aStep, float rStep, double loweredVision) {
-        //particleOptions=ParticleTypes.SNOWFLAKE r=4.5 deg=30 d=0.5f
-        spawnForwardConeParticles(pLevel, entity.getX(), entity.getEyeY(), entity.getZ(), sightVec, particleOptions, r, aStep, rStep, loweredVision);
+        // particleOptions=ParticleTypes.SNOWFLAKE r=4.5 deg=30 d=0.5f
+        spawnForwardConeParticles(pLevel, particleOptions, entity.getX(), entity.getEyeY(), entity.getZ(), sightVec, r, aStep, rStep, loweredVision);
     }
 
-    public static void spawnForwardConeParticles(Level pLevel, double eX, double eY, double eZ, Vec3 sightVec, ParticleOptions particleOptions, float r, float aStep, float rStep, double loweredVision) {
-        //particleOptions=ParticleTypes.SNOWFLAKE r=4.5 deg=30 d=0.5f
+    public static void spawnForwardConeParticles(Level pLevel, ParticleOptions particleOptions, double eX, double eY, double eZ, Vec3 sightVec, float r, float aStep, float rStep, double loweredVision) {
+        // particleOptions=ParticleTypes.SNOWFLAKE r=4.5 deg=30 d=0.5f
         Vec3 vecA = sightVec.cross(new Vec3(0, 1, 0)).normalize();
         if (vecA == Vec3.ZERO) {
             vecA = sightVec.cross(new Vec3(1, 0, 0)).normalize();

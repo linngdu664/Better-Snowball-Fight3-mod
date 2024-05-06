@@ -6,7 +6,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -70,13 +69,15 @@ public class ForwardConeParticlesToClient {
 
     public static void messageConsumer(ForwardConeParticlesToClient message, Supplier<NetworkEvent.Context> ctxSupplier) {
         NetworkEvent.Context context = ctxSupplier.get();
-        context.enqueueWork(() -> DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> handlePacket(message.eX, message.eY, message.eZ, message.sX, message.sY, message.sZ, message.r, message.aStep, message.rStep, message.loweredVision)));
+        context.enqueueWork(() -> DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
+            ParticleUtil.spawnForwardConeParticles(
+                    Minecraft.getInstance().level, ParticleTypes.SNOWFLAKE,
+                    message.eX, message.eY, message.eZ,
+                    new Vec3(message.sX, message.sY, message.sZ),
+                    message.r, message.aStep, message.rStep, message.loweredVision
+            );
+            return true;
+        }));
         context.setPacketHandled(true);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static boolean handlePacket(double x, double y, double z, double vecX, double vecY, double vecZ, float r, float aStep, float rStep, double loweredVision) {
-        ParticleUtil.spawnForwardConeParticles(Minecraft.getInstance().level, x, y, z, new Vec3(vecX, vecY, vecZ), ParticleTypes.SNOWFLAKE, r, aStep, rStep, loweredVision);
-        return true;
     }
 }

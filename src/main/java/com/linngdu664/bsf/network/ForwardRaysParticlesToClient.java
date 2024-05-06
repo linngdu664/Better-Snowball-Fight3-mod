@@ -6,7 +6,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -64,13 +63,16 @@ public class ForwardRaysParticlesToClient {
 
     public static void messageConsumer(ForwardRaysParticlesToClient message, Supplier<NetworkEvent.Context> ctxSupplier) {
         NetworkEvent.Context context = ctxSupplier.get();
-        context.enqueueWork(() -> DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> handlePacket(message.p1x, message.p1y, message.p1z, message.p2x, message.p2y, message.p2z, message.vx, message.vy, message.vz, message.vMin, message.vMax, message.num)));
+        context.enqueueWork(() -> DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
+            ParticleUtil.spawnForwardRaysParticles(
+                    Minecraft.getInstance().level, ParticleTypes.SNOWFLAKE,
+                    new Vec3(message.p1x, message.p1y, message.p1z),
+                    new Vec3(message.p2x, message.p2y, message.p2z),
+                    new Vec3(message.vx, message.vy, message.vz),
+                    message.vMin, message.vMax, message.num
+            );
+            return true;
+        }));
         context.setPacketHandled(true);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static boolean handlePacket(double p1x, double p1y, double p1z, double p2x, double p2y, double p2z, double vx, double vy, double vz, double vMin, double vMax, int num) {
-        ParticleUtil.spawnForwardRaysParticles(Minecraft.getInstance().level, ParticleTypes.SNOWFLAKE, new Vec3(p1x, p1y, p1z), new Vec3(p2x, p2y, p2z), new Vec3(vx, vy, vz), vMin, vMax, num);
-        return true;
     }
 }
