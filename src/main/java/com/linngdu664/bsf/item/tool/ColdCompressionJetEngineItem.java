@@ -79,7 +79,6 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
             if (!pLevel.isClientSide) {
                 pLevel.playSound(null, particlesPos.x, particlesPos.y, particlesPos.z, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP3.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(particlesPos, vec3.reverse().scale(0.5), 5F, 10, 0.2F, 0));
-                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.ALL.noArg(), new ToggleMovingSoundToClient(pLivingEntity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP4.get(), ToggleMovingSoundToClient.PLAY_LOOP));
             }
         } else {
             Vec3 aVec = vec3.scale(0.2);
@@ -93,12 +92,14 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
         }
         pStack.hurtAndBreak(1, pLivingEntity, p -> {});
         if (!pLevel.isClientSide) {
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ToggleMovingSoundToClient(pLivingEntity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP4.get(), ToggleMovingSoundToClient.PLAY_LOOP));
             NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(particlesPos, vec3.reverse(), 2F, 60, 0.5F, 0));
         }
     }
 
     @Override
     public void releaseUsing(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, int pTimeCharged) {
+        pLivingEntity.stopUsingItem();
         if (!pLevel.isClientSide) {
             Vec3 eyePosition = pLivingEntity.getEyePosition();
             pLevel.playSound(null, eyePosition.x, eyePosition.y, eyePosition.z, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP4.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
