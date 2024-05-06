@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.client.resources.sounds;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -21,7 +22,7 @@ public class MovingSoundInstance extends AbstractTickableSoundInstance {
     @Override
     public void tick() {
         if (entity.isRemoved()) {
-            this.stop();
+            Minecraft.getInstance().getSoundManager().stop(this);
         } else {
             x = entity.getX();
             y = entity.getY();
