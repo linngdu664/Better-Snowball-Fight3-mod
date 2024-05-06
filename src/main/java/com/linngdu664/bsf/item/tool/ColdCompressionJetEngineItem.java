@@ -58,18 +58,18 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
             return;
         }
         int i = this.getUseDuration(pStack) - pRemainingUseDuration;
+        System.out.println(i);
         Vec3 vec3 = Vec3.directionFromRotation(pLivingEntity.getXRot(), pLivingEntity.getYRot());
         Vec3 particlesPos = pLivingEntity.getEyePosition();
+        if (i==0 && !pLevel.isClientSide){
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.ALL.noArg(), new ToggleMovingSoundToClient(pLivingEntity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP1.get(), ToggleMovingSoundToClient.PLAY_ONCE));
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.ALL.noArg(), new ToggleMovingSoundToClient(pLivingEntity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP2.get(), ToggleMovingSoundToClient.PLAY_LOOP));
+        }
         if (i < STARTUP_DURATION) {
             pStack.hurtAndBreak(1, pLivingEntity, p -> {});
             if (!pLevel.isClientSide) {
                 Vec3 newPos = particlesPos.add(vec3.reverse());
                 ((ServerLevel) pLevel).sendParticles(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), newPos.x, newPos.y, newPos.z, 1, 0, 0, 0, 0.04);
-                if (i == 0) {
-                    pLevel.playSound(null, newPos.x, newPos.y, newPos.z, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP1.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                } else if (i % 3 == 0) {
-                    pLevel.playSound(null, newPos.x, newPos.y, newPos.z, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP2.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                }
             }
             return;
         }
@@ -77,16 +77,14 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
             Vec3 aVec = vec3.scale(2);
             pLivingEntity.push(aVec.x, aVec.y, aVec.z);
             if (!pLevel.isClientSide) {
-                pLevel.playSound(null, particlesPos.x, particlesPos.y, particlesPos.z, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP3.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.ALL.noArg(), new ToggleMovingSoundToClient(pLivingEntity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP2.get(), ToggleMovingSoundToClient.STOP_LOOP));
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.ALL.noArg(), new ToggleMovingSoundToClient(pLivingEntity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP3.get(), ToggleMovingSoundToClient.PLAY_ONCE));
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(particlesPos, vec3.reverse().scale(0.5), 5F, 10, 0.2F, 0));
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.ALL.noArg(), new ToggleMovingSoundToClient(pLivingEntity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP4.get(), ToggleMovingSoundToClient.PLAY_LOOP));
             }
         } else {
             Vec3 aVec = vec3.scale(0.2);
             pLivingEntity.push(aVec.x, aVec.y, aVec.z);
-//            if (!pLevel.isClientSide && i % 10 == 0) {
-//                pLevel.playSound(null, particlesPos.x, particlesPos.y, particlesPos.z, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP4.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-//            }
         }
         if (vec3.y > 0) {
             pLivingEntity.resetFallDistance();
@@ -100,9 +98,9 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
     @Override
     public void releaseUsing(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, int pTimeCharged) {
         if (!pLevel.isClientSide) {
-            Vec3 eyePosition = pLivingEntity.getEyePosition();
-            pLevel.playSound(null, eyePosition.x, eyePosition.y, eyePosition.z, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP4.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.ALL.noArg(), new ToggleMovingSoundToClient(pLivingEntity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP5.get(), ToggleMovingSoundToClient.PLAY_ONCE));
             NetworkRegister.PACKET_HANDLER.send(PacketDistributor.ALL.noArg(), new ToggleMovingSoundToClient(pLivingEntity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP4.get(), ToggleMovingSoundToClient.STOP_LOOP));
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.ALL.noArg(), new ToggleMovingSoundToClient(pLivingEntity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP2.get(), ToggleMovingSoundToClient.STOP_LOOP));
         }
     }
 
