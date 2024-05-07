@@ -1,6 +1,8 @@
 package com.linngdu664.bsf.item.tool;
 
+import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
+import com.linngdu664.bsf.network.ForwardRaysParticlesToClient;
 import com.linngdu664.bsf.network.ToggleMovingSoundToClient;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
@@ -31,13 +33,17 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
 
     @Override
     public void inventoryTick(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull Entity pEntity, int pSlotId, boolean pIsSelected) {
-        BlockPos blockPos1 = new BlockPos((int) pEntity.getX(), (int) pEntity.getY(), (int) pEntity.getZ());
-        if (pLevel.getBlockState(blockPos1).is(BlockTags.SNOW) || pLevel.getBlockState(blockPos1.below()).is(BlockTags.SNOW)) {
+        BlockPos blockPos1 = new BlockPos((int) pEntity.getX()-1, (int) pEntity.getY(), (int) pEntity.getZ()-1);
+        if (!pLevel.isClientSide && (pLevel.getBlockState(blockPos1).is(BlockTags.SNOW) || pLevel.getBlockState(blockPos1.below()).is(BlockTags.SNOW)) && pStack.getDamageValue()>0 && pLevel.getRandom().nextFloat()<0.55f) {
+            int snowParticlesNum;
             if (pIsSelected) {
                 pStack.setDamageValue(Math.max(pStack.getDamageValue() - 2, 0));
+                snowParticlesNum=4;
             } else {
                 pStack.setDamageValue(Math.max(pStack.getDamageValue() - 1, 0));
+                snowParticlesNum=2;
             }
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pEntity), new ForwardRaysParticlesToClient(pEntity.position().add(-0.5, 0, -0.5), pEntity.position().add(0.5, 0, 0.5), new Vec3(0, 1, 0), 0.1, 0.15, snowParticlesNum));
         }
     }
 
@@ -58,7 +64,6 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
             return;
         }
         int i = this.getUseDuration(pStack) - pRemainingUseDuration;
-        System.out.println(i);
         Vec3 vec3 = Vec3.directionFromRotation(pLivingEntity.getXRot(), pLivingEntity.getYRot());
         Vec3 particlesPos = pLivingEntity.getEyePosition();
         if (i==0 && !pLevel.isClientSide){
