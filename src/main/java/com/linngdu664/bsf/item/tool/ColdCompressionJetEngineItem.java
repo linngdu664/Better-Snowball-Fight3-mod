@@ -7,12 +7,15 @@ import com.linngdu664.bsf.network.ToggleMovingSoundToClient;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -23,6 +26,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem {
     public static final int STARTUP_DURATION = 24;
@@ -90,6 +95,17 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
         } else {
             Vec3 aVec = vec3.scale(0.2);
             pLivingEntity.push(aVec.x, aVec.y, aVec.z);
+            List<LivingEntity> list = pLevel.getEntitiesOfClass(LivingEntity.class,pLivingEntity.getBoundingBox().inflate(2),p-> p!=pLivingEntity);
+            for (LivingEntity le : list) {
+                if (le.getTicksFrozen() < 100) {
+                    le.setTicksFrozen(100);
+                }
+                if(pLivingEntity instanceof Player player){
+                    le.hurt(pLevel.damageSources().playerAttack(player), Float.MIN_VALUE);
+                }
+//                Vec3 v = pLivingEntity.getDeltaMovement().normalize().scale(2);
+//                le.push(v.x,v.y,v.z);
+            }
         }
         if (vec3.y > 0) {
             pLivingEntity.resetFallDistance();
