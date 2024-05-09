@@ -36,7 +36,7 @@ public class SculkSnowballEntity extends AbstractBSFSnowballEntity {
             ((ServerLevel) level).sendParticles(new ShriekParticleOption(0), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
             ((ServerLevel) level).sendParticles(new ShriekParticleOption(5), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
             ((ServerLevel) level).sendParticles(new ShriekParticleOption(10), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
-            level.playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[level.random.nextInt(0, 25)].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+            level.playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[level.random.nextInt(0, 64)].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
         }
     }
 

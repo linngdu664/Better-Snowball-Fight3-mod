@@ -40,9 +40,9 @@ public class SoundRegister {
     }
 
     private static RegistryObject<SoundEvent>[] buildMeme() {
-        RegistryObject<SoundEvent>[] memes = new RegistryObject[25];
-        for (int i = 0; i < 25; i++) {
-            memes[i] = build(String.format("memesound%02d", i + 1));
+        RegistryObject<SoundEvent>[] memes = new RegistryObject[64];
+        for (int i = 0; i < 64; i++) {
+            memes[i] = build(String.format("memesound%02d", i));
         }
         return memes;
     }

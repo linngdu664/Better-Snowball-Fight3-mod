@@ -64,6 +64,11 @@
       "bsf:duck_sound"
     ]
   },
+  "memesound00": {
+    "sounds": [
+      "bsf:memesound00"
+    ]
+  },
   "memesound01": {
     "sounds": [
       "bsf:memesound01"
@@ -187,6 +192,196 @@
   "memesound25": {
     "sounds": [
       "bsf:memesound25"
+    ]
+  },
+  "memesound26": {
+    "sounds": [
+      "bsf:memesound26"
+    ]
+  },
+  "memesound27": {
+    "sounds": [
+      "bsf:memesound27"
+    ]
+  },
+  "memesound28": {
+    "sounds": [
+      "bsf:memesound28"
+    ]
+  },
+  "memesound29": {
+    "sounds": [
+      "bsf:memesound29"
+    ]
+  },
+  "memesound30": {
+    "sounds": [
+      "bsf:memesound30"
+    ]
+  },
+  "memesound31": {
+    "sounds": [
+      "bsf:memesound31"
+    ]
+  },
+  "memesound32": {
+    "sounds": [
+      "bsf:memesound32"
+    ]
+  },
+  "memesound33": {
+    "sounds": [
+      "bsf:memesound33"
+    ]
+  },
+  "memesound34": {
+    "sounds": [
+      "bsf:memesound34"
+    ]
+  },
+  "memesound35": {
+    "sounds": [
+      "bsf:memesound35"
+    ]
+  },
+  "memesound36": {
+    "sounds": [
+      "bsf:memesound36"
+    ]
+  },
+  "memesound37": {
+    "sounds": [
+      "bsf:memesound37"
+    ]
+  },
+  "memesound38": {
+    "sounds": [
+      "bsf:memesound38"
+    ]
+  },
+  "memesound39": {
+    "sounds": [
+      "bsf:memesound39"
+    ]
+  },
+  "memesound40": {
+    "sounds": [
+      "bsf:memesound40"
+    ]
+  },
+  "memesound41": {
+    "sounds": [
+      "bsf:memesound41"
+    ]
+  },
+  "memesound42": {
+    "sounds": [
+      "bsf:memesound42"
+    ]
+  },
+  "memesound43": {
+    "sounds": [
+      "bsf:memesound43"
+    ]
+  },
+  "memesound44": {
+    "sounds": [
+      "bsf:memesound44"
+    ]
+  },
+  "memesound45": {
+    "sounds": [
+      "bsf:memesound45"
+    ]
+  },
+  "memesound46": {
+    "sounds": [
+      "bsf:memesound46"
+    ]
+  },
+  "memesound47": {
+    "sounds": [
+      "bsf:memesound47"
+    ]
+  },
+  "memesound48": {
+    "sounds": [
+      "bsf:memesound48"
+    ]
+  },
+  "memesound49": {
+    "sounds": [
+      "bsf:memesound49"
+    ]
+  },
+  "memesound50": {
+    "sounds": [
+      "bsf:memesound50"
+    ]
+  },
+  "memesound51": {
+    "sounds": [
+      "bsf:memesound51"
+    ]
+  },
+  "memesound52": {
+    "sounds": [
+      "bsf:memesound52"
+    ]
+  },
+  "memesound53": {
+    "sounds": [
+      "bsf:memesound53"
+    ]
+  },
+  "memesound54": {
+    "sounds": [
+      "bsf:memesound54"
+    ]
+  },
+  "memesound55": {
+    "sounds": [
+      "bsf:memesound55"
+    ]
+  },
+  "memesound56": {
+    "sounds": [
+      "bsf:memesound56"
+    ]
+  },
+  "memesound57": {
+    "sounds": [
+      "bsf:memesound57"
+    ]
+  },
+  "memesound58": {
+    "sounds": [
+      "bsf:memesound58"
+    ]
+  },
+  "memesound59": {
+    "sounds": [
+      "bsf:memesound59"
+    ]
+  },
+  "memesound60": {
+    "sounds": [
+      "bsf:memesound60"
+    ]
+  },
+  "memesound61": {
+    "sounds": [
+      "bsf:memesound61"
+    ]
+  },
+  "memesound62": {
+    "sounds": [
+      "bsf:memesound62"
+    ]
+  },
+  "memesound63": {
+    "sounds": [
+      "bsf:memesound63"
     ]
   },
   "freezing": {
