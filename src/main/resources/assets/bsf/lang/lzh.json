@@ -249,6 +249,8 @@
   "copy.tip": "已復製",
   "leave_bsf_team.tip": "%1$s离%2$s伍",
   "join_bsf_team.tip": "%1$s入%2$s伍",
+  "random_sound.tip": "隨機音效",
+  "sound_id.tip": "音效%1$s",
 
   "block.bsf.smart_snow_block": "聰慧雪塊",
   "block.bsf.loose_snow_block": "鬆散雪塊",
