@@ -7,6 +7,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class SoundRegister {
+    public static final int MEME_SOUND_AMOUNT = 64;
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, "bsf");
     public static final RegistryObject<SoundEvent> SNOWBALL_CANNON_SHOOT = build("snowball_cannon_shoot");
     public static final RegistryObject<SoundEvent> SNOWBALL_MACHINE_GUN_SHOOT = build("snowball_machine_gun_shoot");
@@ -40,7 +41,7 @@ public class SoundRegister {
     }
 
     private static RegistryObject<SoundEvent>[] buildMeme() {
-        RegistryObject<SoundEvent>[] memes = new RegistryObject[64];
+        RegistryObject<SoundEvent>[] memes = new RegistryObject[MEME_SOUND_AMOUNT];
         for (int i = 0; i < 64; i++) {
             memes[i] = build(String.format("memesound%02d", i));
         }

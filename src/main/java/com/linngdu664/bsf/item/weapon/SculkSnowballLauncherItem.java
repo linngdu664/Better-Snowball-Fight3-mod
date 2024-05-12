@@ -5,18 +5,22 @@ import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -50,7 +54,11 @@ public class SculkSnowballLauncherItem extends AbstractBSFWeaponItem {
             ItemStack stack = getAmmo(pPlayer, itemStack);
             if (stack != null || pPlayer.isCreative()) {
                 pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
-                SculkSnowballEntity snowballEntity = new SculkSnowballEntity(pPlayer, pLevel);
+                CompoundTag tag = itemStack.getOrCreateTag();
+                if (tag.get("SoundId")==null) {
+                    tag.putInt("SoundId",-1);
+                }
+                SculkSnowballEntity snowballEntity = new SculkSnowballEntity(pPlayer, pLevel,tag.getInt("SoundId"));
                 snowballEntity.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 2.0F, 1.0F);
                 pLevel.addFreshEntity(snowballEntity);
                 itemStack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pUsedHand));
@@ -62,6 +70,10 @@ public class SculkSnowballLauncherItem extends AbstractBSFWeaponItem {
             }
         }
         return InteractionResultHolder.pass(itemStack);
+    }
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return !oldStack.getItem().equals(newStack.getItem());
     }
 
     @Override

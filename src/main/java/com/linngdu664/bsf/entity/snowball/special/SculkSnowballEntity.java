@@ -17,14 +17,17 @@ import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 
 public class SculkSnowballEntity extends AbstractBSFSnowballEntity {
+    private int soundId;
     public SculkSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setItem(new ItemStack(ItemRegister.SCULK_SNOWBALL.get()));
+        this.soundId=-1;
     }
 
-    public SculkSnowballEntity(LivingEntity pShooter, Level pLevel) {
+    public SculkSnowballEntity(LivingEntity pShooter, Level pLevel,int soundId) {
         super(EntityRegister.SCULK_SNOWBALL.get(), pShooter, pLevel);
         this.setItem(new ItemStack(ItemRegister.SCULK_SNOWBALL.get()));
+        this.soundId=soundId;
     }
 
     @Override
@@ -36,7 +39,12 @@ public class SculkSnowballEntity extends AbstractBSFSnowballEntity {
             ((ServerLevel) level).sendParticles(new ShriekParticleOption(0), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
             ((ServerLevel) level).sendParticles(new ShriekParticleOption(5), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
             ((ServerLevel) level).sendParticles(new ShriekParticleOption(10), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
-            level.playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[level.random.nextInt(0, 64)].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+            if(soundId==-1){
+                level.playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[level.random.nextInt(0, 64)].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+            }else{
+                level.playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[soundId].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+            }
+
         }
     }
 
