@@ -46,7 +46,7 @@ public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
         if (!isCaught && pResult.getEntity() instanceof LivingEntity livingEntity && targetLocator != null) {
             targetLocator.getOrCreateTag().putUUID("UUID", livingEntity.getUUID());
             if (getOwner() instanceof Player player) {
-                player.displayClientMessage(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[0])).append(livingEntity.getName().getString() + "  UUID: " + livingEntity.getUUID()), false);
+//                player.displayClientMessage(MutableComponent.create(new TranslatableContents("target.tip", null, new Object[0])).append(livingEntity.getName().getString() + " UUID:" + livingEntity.getUUID()), false);
                 if (pResult.getEntity() instanceof Player player1) {
                     player1.displayClientMessage(MutableComponent.create(new TranslatableContents("targeted.tip", null, new Object[]{})), false);
                 }
