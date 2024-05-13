@@ -42,7 +42,7 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
                 List<Entity> list = level.getEntitiesOfClass(Entity.class, getBoundingBox().inflate(4), EntitySelector.NO_SPECTATORS);
                 impulseForceEffect(list);
                 ((ServerLevel) level).sendParticles(ParticleRegister.IMPULSE.get(), this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
-                level.playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[0].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+                level.playSound(null, getX(), getY(), getZ(), SoundRegister.MEME[1].get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
             }
             discard();
         }
