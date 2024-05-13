@@ -40,17 +40,16 @@ public class PopsicleItem extends Item {
 
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, Level level, @NotNull LivingEntity user) {
-        Player player = (Player) user;
-        if (!level.isClientSide) {
-            player.setRemainingFireTicks(0);
-            player.setTicksFrozen(40);
-            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1));
-        }
-        if (player instanceof ServerPlayer serverPlayer) {
-            CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
-        }
-        if (!player.getAbilities().instabuild) {
-            stack.shrink(1);
+        if (user instanceof Player player) {
+            if (!level.isClientSide) {
+                user.setRemainingFireTicks(0);
+                user.setTicksFrozen(40);
+                user.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1));
+                CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) player, stack);
+            }
+            if (!player.isCreative()) {
+                stack.shrink(1);
+            }
         }
         return stack;
     }

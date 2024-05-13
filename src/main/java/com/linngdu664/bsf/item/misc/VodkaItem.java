@@ -21,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 
 public class VodkaItem extends Item {
     public VodkaItem() {
@@ -30,28 +29,25 @@ public class VodkaItem extends Item {
 
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull LivingEntity pEntityLiving) {
-        Player player = (Player) pEntityLiving;
-        if (player instanceof ServerPlayer serverPlayer) {
-            CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, pStack);
-        }
-        if (!pLevel.isClientSide) {
-            int t;
-            if (player.hasEffect(EffectRegister.COLD_RESISTANCE.get())) {
-                t = Objects.requireNonNull(pEntityLiving.getEffect(EffectRegister.COLD_RESISTANCE.get())).getDuration();
-                player.setRemainingFireTicks(player.getRemainingFireTicks() + 60);
-            } else {
-                t = 0;
+        if (pEntityLiving instanceof Player player) {
+            if (!pLevel.isClientSide) {
+                int t = 0;
+                if (pEntityLiving.hasEffect(EffectRegister.COLD_RESISTANCE.get())) {
+                    t = pEntityLiving.getEffect(EffectRegister.COLD_RESISTANCE.get()).getDuration();
+                    pEntityLiving.setRemainingFireTicks(pEntityLiving.getRemainingFireTicks() + 60);
+                }
+                pEntityLiving.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100 + t));
+                pEntityLiving.addEffect(new MobEffectInstance(EffectRegister.COLD_RESISTANCE.get(), 600));
+                pEntityLiving.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600));
+                CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) player, pStack);
             }
-            player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100 + t));
-            player.addEffect(new MobEffectInstance(EffectRegister.COLD_RESISTANCE.get(), 600));
-            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600));
+            player.awardStat(Stats.ITEM_USED.get(this));
+            if (!player.getAbilities().instabuild) {
+                pStack.shrink(1);
+                player.getInventory().placeItemBackInInventory(new ItemStack(Items.GLASS_BOTTLE), true);
+            }
+            pLevel.gameEvent(pEntityLiving, GameEvent.DRINK, pEntityLiving.getEyePosition());
         }
-        player.awardStat(Stats.ITEM_USED.get(this));
-        if (!player.getAbilities().instabuild) {
-            pStack.shrink(1);
-            player.getInventory().placeItemBackInInventory(new ItemStack(Items.GLASS_BOTTLE), true);
-        }
-        pLevel.gameEvent(pEntityLiving, GameEvent.DRINK, pEntityLiving.getEyePosition());
         return pStack;
     }
 

@@ -44,49 +44,50 @@ public class SnowBlockBlenderItem extends AbstractBSFEnhanceableToolItem {
 
     @Override
     public void onUseTick(@NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
-        Player player = (Player) pLivingEntity;
-        BlockHitResult blockHitResult = getPlayerPOVHitResult(pLevel, player, ClipContext.Fluid.NONE);
-        BlockPos blockPos = blockHitResult.getBlockPos();
-        if (!pLevel.getBlockState(blockPos).getBlock().equals(Blocks.SNOW_BLOCK)) {
-            player.stopUsingItem();
-        } else if (!pLevel.isClientSide) {
-            ServerLevel serverLevel = (ServerLevel) pLevel;
-            RandomSource random = serverLevel.random;
-            if (pRemainingUseDuration == 1) {
-                pLevel.setBlockAndUpdate(blockPos, Blocks.POWDER_SNOW.defaultBlockState());
-                for (int i = 0; i < 5; i++) {
-                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX(), blockPos.getY() + random.nextDouble(), blockPos.getZ() + random.nextDouble(), 5, 0, 0, 0, 0.1);
-                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + 1, blockPos.getY() + random.nextDouble(), blockPos.getZ() + random.nextDouble(), 5, 0, 0, 0, 0.1);
-                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY(), blockPos.getZ() + random.nextDouble(), 5, 0, 0, 0, 0.1);
-                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + 1, blockPos.getZ() + random.nextDouble(), 5, 0, 0, 0, 0.1);
-                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + random.nextDouble(), blockPos.getZ(), 5, 0, 0, 0, 0.1);
-                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + random.nextDouble(), blockPos.getZ() + 1, 5, 0, 0, 0, 0.1);
-                }
-                pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-
-                if (!player.getAbilities().instabuild) {
-                    pStack.hurtAndBreak(1, player, e -> e.broadcastBreakEvent(player.getUsedItemHand()));
-                }
-                player.awardStat(Stats.ITEM_USED.get(this));
-            } else {
-                for (int i = 0; i < 5; i++) {
-                    switch (random.nextInt(0, 6)) {
-                        case 0 ->
-                                serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX(), blockPos.getY() + random.nextDouble(), blockPos.getZ() + random.nextDouble(), 3, 0, 0, 0, 0.04);
-                        case 1 ->
-                                serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + 1, blockPos.getY() + random.nextDouble(), blockPos.getZ() + random.nextDouble(), 3, 0, 0, 0, 0.04);
-                        case 2 ->
-                                serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY(), blockPos.getZ() + random.nextDouble(), 3, 0, 0, 0, 0.04);
-                        case 3 ->
-                                serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + 1, blockPos.getZ() + random.nextDouble(), 3, 0, 0, 0, 0.04);
-                        case 4 ->
-                                serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + random.nextDouble(), blockPos.getZ(), 3, 0, 0, 0, 0.04);
-                        case 5 ->
-                                serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + random.nextDouble(), blockPos.getZ() + 1, 3, 0, 0, 0, 0.04);
+        if (pLivingEntity instanceof Player player) {
+            BlockHitResult blockHitResult = getPlayerPOVHitResult(pLevel, player, ClipContext.Fluid.NONE);
+            BlockPos blockPos = blockHitResult.getBlockPos();
+            if (!pLevel.getBlockState(blockPos).getBlock().equals(Blocks.SNOW_BLOCK)) {
+                player.stopUsingItem();
+            } else if (!pLevel.isClientSide) {
+                ServerLevel serverLevel = (ServerLevel) pLevel;
+                RandomSource random = serverLevel.random;
+                if (pRemainingUseDuration == 1) {
+                    pLevel.setBlockAndUpdate(blockPos, Blocks.POWDER_SNOW.defaultBlockState());
+                    for (int i = 0; i < 5; i++) {
+                        serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX(), blockPos.getY() + random.nextDouble(), blockPos.getZ() + random.nextDouble(), 5, 0, 0, 0, 0.1);
+                        serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + 1, blockPos.getY() + random.nextDouble(), blockPos.getZ() + random.nextDouble(), 5, 0, 0, 0, 0.1);
+                        serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY(), blockPos.getZ() + random.nextDouble(), 5, 0, 0, 0, 0.1);
+                        serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + 1, blockPos.getZ() + random.nextDouble(), 5, 0, 0, 0, 0.1);
+                        serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + random.nextDouble(), blockPos.getZ(), 5, 0, 0, 0, 0.1);
+                        serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + random.nextDouble(), blockPos.getZ() + 1, 5, 0, 0, 0, 0.1);
                     }
-                }
-                if (pRemainingUseDuration % 2 == 1) {
-                    pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                    pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+
+                    if (!player.getAbilities().instabuild) {
+                        pStack.hurtAndBreak(1, player, e -> e.broadcastBreakEvent(player.getUsedItemHand()));
+                    }
+                    player.awardStat(Stats.ITEM_USED.get(this));
+                } else {
+                    for (int i = 0; i < 5; i++) {
+                        switch (random.nextInt(0, 6)) {
+                            case 0 ->
+                                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX(), blockPos.getY() + random.nextDouble(), blockPos.getZ() + random.nextDouble(), 3, 0, 0, 0, 0.04);
+                            case 1 ->
+                                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + 1, blockPos.getY() + random.nextDouble(), blockPos.getZ() + random.nextDouble(), 3, 0, 0, 0, 0.04);
+                            case 2 ->
+                                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY(), blockPos.getZ() + random.nextDouble(), 3, 0, 0, 0, 0.04);
+                            case 3 ->
+                                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + 1, blockPos.getZ() + random.nextDouble(), 3, 0, 0, 0, 0.04);
+                            case 4 ->
+                                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + random.nextDouble(), blockPos.getZ(), 3, 0, 0, 0, 0.04);
+                            case 5 ->
+                                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, blockPos.getX() + random.nextDouble(), blockPos.getY() + random.nextDouble(), blockPos.getZ() + 1, 3, 0, 0, 0, 0.04);
+                        }
+                    }
+                    if (pRemainingUseDuration % 2 == 1) {
+                        pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                    }
                 }
             }
         }

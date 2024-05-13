@@ -13,6 +13,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -54,9 +55,11 @@ public class BasinItem extends Item {
             if (player != null) {
                 if (block.equals(Blocks.SNOW_BLOCK) || block.equals(Blocks.SNOW)) {
                     itemStack.getOrCreateTag().putByte("SnowType", (byte) 1);
+                    player.awardStat(Stats.ITEM_USED.get(this));
                     return InteractionResult.SUCCESS;
                 } else if (block.equals(Blocks.POWDER_SNOW)) {
                     itemStack.getOrCreateTag().putByte("SnowType", (byte) 2);
+                    player.awardStat(Stats.ITEM_USED.get(this));
                     return InteractionResult.SUCCESS;
                 }
             }
@@ -90,6 +93,7 @@ public class BasinItem extends Item {
             }
             pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.POWDER_SNOW_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
         }
+        pPlayer.awardStat(Stats.ITEM_USED.get(this));
         return InteractionResultHolder.success(itemStack);
     }
 

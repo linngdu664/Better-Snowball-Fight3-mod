@@ -84,10 +84,11 @@ public class BSFCommonUtil {
         float z = compoundTag.getFloat(name + "Z");
         return new Vector3f(x, y, z);
     }
-    public static boolean pointOnTheFrontConeArea(Vec3 p1v, Vec3 p1, Vec3 p2, double pointToVectorMaxDistance, double pointToVectorNormalPlaneMaxDistance){
+
+    public static boolean pointOnTheFrontConeArea(Vec3 p1v, Vec3 p1, Vec3 p2, double pointToVectorMaxDistance, double pointToVectorNormalPlaneMaxDistance) {
         Vec3 p1p2v = p2.add(p1.reverse());
-        double b = p1p2v.dot(p1v)/p1v.length();
-        double a = Math.sqrt(p1p2v.lengthSqr()- b*b);
+        double b = p1p2v.dot(p1v) / p1v.length();
+        double a = Math.sqrt(p1p2v.lengthSqr() - b * b);
         return a < pointToVectorMaxDistance && b < pointToVectorNormalPlaneMaxDistance;
     }
 }

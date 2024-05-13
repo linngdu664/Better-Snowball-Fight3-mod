@@ -8,6 +8,7 @@ import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -113,6 +114,9 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
             NetworkRegister.PACKET_HANDLER.send(PacketDistributor.DIMENSION.with(() -> entity.level().dimension()), new ToggleMovingSoundToClient(entity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP5.get(), ToggleMovingSoundToClient.PLAY_ONCE));
             NetworkRegister.PACKET_HANDLER.send(PacketDistributor.DIMENSION.with(() -> entity.level().dimension()), new ToggleMovingSoundToClient(entity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP4.get(), ToggleMovingSoundToClient.STOP_LOOP));
             NetworkRegister.PACKET_HANDLER.send(PacketDistributor.DIMENSION.with(() -> entity.level().dimension()), new ToggleMovingSoundToClient(entity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP2.get(), ToggleMovingSoundToClient.STOP_LOOP));
+        }
+        if (entity instanceof Player player) {
+            player.awardStat(Stats.ITEM_USED.get(this));
         }
     }
 

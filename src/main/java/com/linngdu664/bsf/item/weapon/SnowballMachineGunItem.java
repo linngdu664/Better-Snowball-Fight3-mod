@@ -37,10 +37,9 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
     private ItemStack ammo;
     private boolean isExplosive;
 
-
     public SnowballMachineGunItem() {
         super(1919, Rarity.EPIC, TYPE_FLAG);
-    }//1919
+    }
 
     @Override
     public ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball) {
@@ -99,42 +98,43 @@ public class SnowballMachineGunItem extends AbstractBSFWeaponItem {
 
     @Override
     public void onUseTick(@NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
-        CompoundTag tag = pStack.getOrCreateTag();
-        int timer = tag.getInt("Timer");
-        if (timer >= 360) {
-            pLivingEntity.playSound(SoundRegister.MACHINE_GUN_COOLING.get(), 3.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-            tag.putBoolean("IsCoolDown", true);
-            this.releaseUsing(pStack, pLevel, pLivingEntity, pRemainingUseDuration);
-            return;
-        } else if (ammo == null || ammo.isEmpty() || !ammo.getOrCreateTag().contains("Snowball") || pLivingEntity.hasEffect(EffectRegister.WEAPON_JAM.get())) {
-            this.releaseUsing(pStack, pLevel, pLivingEntity, pRemainingUseDuration);
-            return;
-        }
-        Player player = (Player) pLivingEntity;
-        float pitch = player.getXRot();
-        float yaw = player.getYRot();
-        if (timer % 9 == 0 && (!isExplosive || timer % 36 == 0)) {
-            Vec3 cameraVec = Vec3.directionFromRotation(pitch, yaw);
-            if (pLevel.isClientSide()) {
-                // add push
-                player.push(-cameraVec.x * recoil * 0.25, -cameraVec.y * recoil * 0.25, -cameraVec.z * recoil * 0.25);
-            } else {
-                AbstractBSFSnowballEntity snowballEntity = ItemToEntity(ammo, player, pLevel, getLaunchAdjustment(1, ammo.getItem()));
-                BSFShootFromRotation(snowballEntity, pitch, yaw, 2.6F, 1.0F);
-                pLevel.addFreshEntity(snowballEntity);
-                pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.SNOWBALL_MACHINE_GUN_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                // add particles
-                ((ServerLevel) pLevel).sendParticles(ParticleTypes.SNOWFLAKE, player.getX() + cameraVec.x, player.getEyeY() + cameraVec.y, player.getZ() + cameraVec.z, 4, 0, 0, 0, 0.32);
-                // handle ammo consume and damage weapon.
-                consumeAmmo(ammo, player);
-                pStack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
+        if (pLivingEntity instanceof Player player) {
+            CompoundTag tag = pStack.getOrCreateTag();
+            int timer = tag.getInt("Timer");
+            if (timer >= 360) {
+                player.playSound(SoundRegister.MACHINE_GUN_COOLING.get(), 3.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                tag.putBoolean("IsCoolDown", true);
+                this.releaseUsing(pStack, pLevel, player, pRemainingUseDuration);
+                return;
+            } else if (ammo == null || ammo.isEmpty() || !ammo.getOrCreateTag().contains("Snowball") || player.hasEffect(EffectRegister.WEAPON_JAM.get())) {
+                this.releaseUsing(pStack, pLevel, player, pRemainingUseDuration);
+                return;
             }
+            float pitch = player.getXRot();
+            float yaw = player.getYRot();
+            if (timer % 9 == 0 && (!isExplosive || timer % 36 == 0)) {
+                Vec3 cameraVec = Vec3.directionFromRotation(pitch, yaw);
+                if (pLevel.isClientSide()) {
+                    // add push
+                    player.push(-cameraVec.x * recoil * 0.25, -cameraVec.y * recoil * 0.25, -cameraVec.z * recoil * 0.25);
+                } else {
+                    AbstractBSFSnowballEntity snowballEntity = ItemToEntity(ammo, player, pLevel, getLaunchAdjustment(1, ammo.getItem()));
+                    BSFShootFromRotation(snowballEntity, pitch, yaw, 2.6F, 1.0F);
+                    pLevel.addFreshEntity(snowballEntity);
+                    pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.SNOWBALL_MACHINE_GUN_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                    // add particles
+                    ((ServerLevel) pLevel).sendParticles(ParticleTypes.SNOWFLAKE, player.getX() + cameraVec.x, player.getEyeY() + cameraVec.y, player.getZ() + cameraVec.z, 4, 0, 0, 0, 0.32);
+                    // handle ammo consume and damage weapon.
+                    consumeAmmo(ammo, player);
+                    pStack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
+                }
+            }
+            // set pitch according to recoil.
+            if (pitch > -90.0F && pLevel.isClientSide() && (!isExplosive || timer % 36 < 18)) {
+                player.setXRot(pitch - (float) recoil);
+            }
+            tag.putInt("Timer", isExplosive ? timer + 6 : timer + 3);
         }
-        // set pitch according to recoil.
-        if (pitch > -90.0F && pLevel.isClientSide() && (!isExplosive || timer % 36 < 18)) {
-            player.setXRot(pitch - (float) recoil);
-        }
-        tag.putInt("Timer", isExplosive ? timer + 6 : timer + 3);
     }
 /*
     @Override
