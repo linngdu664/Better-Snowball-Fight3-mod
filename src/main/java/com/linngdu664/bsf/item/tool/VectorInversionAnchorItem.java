@@ -2,6 +2,7 @@ package com.linngdu664.bsf.item.tool;
 
 import com.linngdu664.bsf.network.VectorInversionParticleToClient;
 import com.linngdu664.bsf.registry.NetworkRegister;
+import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -44,7 +45,7 @@ public class VectorInversionAnchorItem extends AbstractBSFEnhanceableToolItem {
         }
         pPlayer.getCooldowns().addCooldown(this, 40);
         pPlayer.awardStat(Stats.ITEM_USED.get(this));
-        pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+        pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.VECTOR_INVERSION.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
         return InteractionResultHolder.success(itemStack);
     }
 }

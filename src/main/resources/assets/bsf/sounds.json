@@ -423,5 +423,10 @@
     "sounds": [
       "bsf:cold_compression_jet_engine_startup5"
     ]
+  },
+  "vector_inversion": {
+    "sounds": [
+      "bsf:vector_inversion"
+    ]
   }
 }
