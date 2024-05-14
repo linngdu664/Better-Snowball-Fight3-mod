@@ -6,12 +6,9 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
-@OnlyIn(Dist.CLIENT)
-public class GeneratorPush extends HugeExplosionParticle {
 
+public class GeneratorPush extends HugeExplosionParticle {
     protected GeneratorPush(ClientLevel pLevel, double pX, double pY, double pZ, double pQuadSizeMultiplier, SpriteSet pSprites) {
         super(pLevel, pX, pY, pZ, pQuadSizeMultiplier, pSprites);
         this.lifetime = 3;

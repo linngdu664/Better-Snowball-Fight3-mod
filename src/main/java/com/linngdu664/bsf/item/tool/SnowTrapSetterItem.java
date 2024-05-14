@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.item.tool;
 
 import com.linngdu664.bsf.network.ForwardRaysParticlesToClient;
-import com.linngdu664.bsf.particle.BSFParticleType;
+import com.linngdu664.bsf.particle.util.BSFParticleType;
 import com.linngdu664.bsf.registry.BlockRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import net.minecraft.ChatFormatting;

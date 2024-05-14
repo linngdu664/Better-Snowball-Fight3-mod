@@ -1,58 +1,62 @@
 package com.linngdu664.bsf.util;
 
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec2;
 
 /**
  * Polar coordinate system.
  * The positive x-axis is the polar axis.
  */
 public class PolarPos2d {
-    private Vec2d pole;
-    private double radius;
-    private double angle;
-    private Vec2d p;
-    public PolarPos2d(Vec2d pole, double radius, double angle) {
-        this.pole=pole;
+    private final Vec2 pole;
+    private final float radius;
+    private float angle;
+    private Vec2 p;
+
+    public PolarPos2d(Vec2 pole, float radius, float angle) {
+        this.pole = pole;
         this.radius = radius;
         this.angle = angle;
-        this.p=new Vec2d(radius*Math.cos(angle),radius*Math.sin(angle));
+        this.p = new Vec2(radius * Mth.cos(angle),radius * Mth.sin(angle));
     }
 
-    public PolarPos2d(Vec2d pole, Vec2d p) {
-        this.pole=pole;
-        this.radius = Math.sqrt(pole.distanceToSqr(p));
-        this.angle = Math.atan2(p.y-pole.y, p.x-pole.x);
-        this.p=p.sub(pole);
+    public PolarPos2d(Vec2 pole, Vec2 p) {
+        this.pole = pole;
+        this.radius = Mth.sqrt(pole.distanceToSqr(p));
+        this.angle = (float) Mth.atan2(p.y-pole.y, p.x-pole.x);
+        this.p = p.add(pole.negated());
     }
-    public Vec2d rotate(double angle) {
-        Vec2d p0 = new Vec2d(p);
+
+    public Vec2 rotate(float angle) {
+        Vec2 p0 = new Vec2(-p.x, -p.y);
         this.angle += angle;
-        updateP();
-        return p.sub(p0);
+        this.p = new Vec2(radius * Mth.cos(this.angle),radius * Mth.sin(this.angle));
+        return p.add(p0);
     }
-    public Vec2d rotateLength(double length){
-        return rotate(length/radius);
+
+    public Vec2 rotateLength(float length) {
+        return rotate(length / radius);
     }
-    private void updateP() {
-        this.p=new Vec2d(radius*Math.cos(angle),radius*Math.sin(angle));
-    }
+
     public Vec2d getPReal() {
-        return new Vec2d(p.x+pole.x,p.y+pole.y);
+        return new Vec2d(p.x + pole.x,p.y + pole.y);
     }
-    public Vec2d getP() {
+
+    public Vec2 getP() {
         return p;
     }
-    public Vec2d getPole() {
+
+    public Vec2 getPole() {
         return pole;
     }
-    public double getAngle() {
+
+    public float getAngle() {
         return angle;
     }
-    public double getRadius() {
+
+    public float getRadius() {
         return radius;
     }
-
-
 
     @Override
     public String toString() {

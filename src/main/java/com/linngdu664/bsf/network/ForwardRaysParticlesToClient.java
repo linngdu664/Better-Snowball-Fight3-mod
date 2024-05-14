@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.network;
 
-import com.linngdu664.bsf.particle.BSFParticleType;
-import com.linngdu664.bsf.util.ParticleUtil;
+import com.linngdu664.bsf.particle.util.BSFParticleType;
+import com.linngdu664.bsf.particle.util.ParticleUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 
 public class ForwardRaysParticlesToClient {
     private final double p1x, p1y, p1z, p2x, p2y, p2z, vx, vy, vz, vMin, vMax;
-    private final int num,type;
+    private final int num, type;
 
     public ForwardRaysParticlesToClient(Vec3 pos1, Vec3 pos2, Vec3 vec, double vMin, double vMax, int num, int type) {
         this.p1x = pos1.x;

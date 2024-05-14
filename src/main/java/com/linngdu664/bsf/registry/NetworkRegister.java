@@ -32,7 +32,7 @@ public class NetworkRegister {
         NetworkRegister.addNetworkMessage(AmmoTypeToServer.class, AmmoTypeToServer::encoder, AmmoTypeToServer::decoder, AmmoTypeToServer::messageConsumer);
         NetworkRegister.addNetworkMessage(TeamMembersToClient.class, TeamMembersToClient::encoder, TeamMembersToClient::decoder, TeamMembersToClient::messageConsumer);
         NetworkRegister.addNetworkMessage(ToggleMovingSoundToClient.class, ToggleMovingSoundToClient::encoder, ToggleMovingSoundToClient::decoder, ToggleMovingSoundToClient::messageConsumer);
-        NetworkRegister.addNetworkMessage(SwitchSoundToServer.class,SwitchSoundToServer::encoder,SwitchSoundToServer::decoder,SwitchSoundToServer::messageConsumer);
-        NetworkRegister.addNetworkMessage(VectorInversionParticleToClient.class,VectorInversionParticleToClient::encoder,VectorInversionParticleToClient::decoder,VectorInversionParticleToClient::messageConsumer);
+        NetworkRegister.addNetworkMessage(SwitchSoundToServer.class, SwitchSoundToServer::encoder, SwitchSoundToServer::decoder, SwitchSoundToServer::messageConsumer);
+        NetworkRegister.addNetworkMessage(VectorInversionParticleToClient.class, VectorInversionParticleToClient::encoder, VectorInversionParticleToClient::decoder, VectorInversionParticleToClient::messageConsumer);
     }
 }

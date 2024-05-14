@@ -13,7 +13,7 @@ import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
 import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
-import com.linngdu664.bsf.particle.BSFParticleType;
+import com.linngdu664.bsf.particle.util.BSFParticleType;
 import com.linngdu664.bsf.registry.*;
 import com.linngdu664.bsf.util.BSFCommonUtil;
 import com.linngdu664.bsf.util.BSFTiers;

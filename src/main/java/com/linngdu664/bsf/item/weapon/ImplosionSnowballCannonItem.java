@@ -4,7 +4,7 @@ import com.linngdu664.bsf.block.LooseSnowBlock;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import com.linngdu664.bsf.network.ForwardRaysParticlesToClient;
-import com.linngdu664.bsf.particle.BSFParticleType;
+import com.linngdu664.bsf.particle.util.BSFParticleType;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;

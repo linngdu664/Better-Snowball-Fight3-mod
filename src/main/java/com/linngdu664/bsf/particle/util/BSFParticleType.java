@@ -1,4 +1,4 @@
-package com.linngdu664.bsf.particle;
+package com.linngdu664.bsf.particle.util;
 
 import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.core.particles.ParticleOptions;

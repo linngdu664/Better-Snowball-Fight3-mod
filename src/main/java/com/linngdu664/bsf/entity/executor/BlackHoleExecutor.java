@@ -5,7 +5,7 @@ import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import com.linngdu664.bsf.util.BSFCommonUtil;
 import com.linngdu664.bsf.util.BSFConfig;
-import com.linngdu664.bsf.util.ParticleUtil;
+import com.linngdu664.bsf.particle.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
