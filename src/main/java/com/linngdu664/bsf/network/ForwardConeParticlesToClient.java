@@ -27,7 +27,7 @@ public class ForwardConeParticlesToClient {
      * @param aStep         The angle step in degree.
      * @param rStep         The radius step.
      * @param loweredVision The offset of eyePos in the negative direction of the y-axis.
-     * @param type
+     * @param type          The particle type from BSFParticleType
      */
     public ForwardConeParticlesToClient(Vec3 eyePos, Vec3 sightVec, float r, float aStep, float rStep, double loweredVision, int type) {
         this.eX = eyePos.x;

@@ -38,8 +38,8 @@ public class PolarPos2d {
         return rotate(length / radius);
     }
 
-    public Vec2d getPReal() {
-        return new Vec2d(p.x + pole.x,p.y + pole.y);
+    public Vec2 getPReal() {
+        return new Vec2(p.x + pole.x, p.y + pole.y);
     }
 
     public Vec2 getP() {
