@@ -1,7 +1,7 @@
 package com.linngdu664.bsf.network;
 
-import com.linngdu664.bsf.particle.BSFParticleType;
-import com.linngdu664.bsf.util.ParticleUtil;
+import com.linngdu664.bsf.particle.util.BSFParticleType;
+import com.linngdu664.bsf.particle.util.ParticleUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
@@ -12,7 +12,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class VectorInversionParticleToClient {
-    private final double px,py,pz,range,v;
+    private final double px, py, pz, range, v;
     private final int num;
 
     public VectorInversionParticleToClient(double px, double py, double pz, double range, double v, int num) {
@@ -23,6 +23,7 @@ public class VectorInversionParticleToClient {
         this.v = v;
         this.num = num;
     }
+
     public static void encoder(VectorInversionParticleToClient message, FriendlyByteBuf buffer) {
         buffer.writeDouble(message.px);
         buffer.writeDouble(message.py);
@@ -41,16 +42,17 @@ public class VectorInversionParticleToClient {
         int num = buffer.readInt();
         return new VectorInversionParticleToClient(px, py, pz, range, v, num);
     }
+
     public static void messageConsumer(VectorInversionParticleToClient message, Supplier<NetworkEvent.Context> ctxSupplier) {
         NetworkEvent.Context context = ctxSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
             ParticleUtil.spawnVectorInversionParticles(
                     Minecraft.getInstance().level, BSFParticleType.VECTOR_INVERSION_PURPLE.get(),
-                    new Vec3(message.px,message.py,message.pz),message.range, message.num, message.v
+                    new Vec3(message.px, message.py, message.pz), message.range, message.num, message.v
             );
             ParticleUtil.spawnVectorInversionParticles(
                     Minecraft.getInstance().level, BSFParticleType.VECTOR_INVERSION_RED.get(),
-                    new Vec3(message.px,message.py,message.pz),message.range, message.num, -message.v
+                    new Vec3(message.px, message.py, message.pz), message.range, message.num, -message.v
             );
             return true;
         }));

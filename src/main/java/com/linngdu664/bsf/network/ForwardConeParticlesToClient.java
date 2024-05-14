@@ -1,9 +1,8 @@
 package com.linngdu664.bsf.network;
 
-import com.linngdu664.bsf.particle.BSFParticleType;
-import com.linngdu664.bsf.util.ParticleUtil;
+import com.linngdu664.bsf.particle.util.BSFParticleType;
+import com.linngdu664.bsf.particle.util.ParticleUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -28,7 +27,7 @@ public class ForwardConeParticlesToClient {
      * @param aStep         The angle step in degree.
      * @param rStep         The radius step.
      * @param loweredVision The offset of eyePos in the negative direction of the y-axis.
-     * @param type
+     * @param type          The particle type from BSFParticleType
      */
     public ForwardConeParticlesToClient(Vec3 eyePos, Vec3 sightVec, float r, float aStep, float rStep, double loweredVision, int type) {
         this.eX = eyePos.x;

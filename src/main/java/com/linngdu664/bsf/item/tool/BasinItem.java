@@ -2,7 +2,7 @@ package com.linngdu664.bsf.item.tool;
 
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
-import com.linngdu664.bsf.particle.BSFParticleType;
+import com.linngdu664.bsf.particle.util.BSFParticleType;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.util.BSFCommonUtil;

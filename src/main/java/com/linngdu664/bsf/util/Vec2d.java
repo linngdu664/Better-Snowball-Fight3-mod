@@ -1,6 +1,6 @@
 package com.linngdu664.bsf.util;
 
-
+@Deprecated
 public class Vec2d {
     public static final Vec2d ZERO = new Vec2d(0, 0);
     public final double x;

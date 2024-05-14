@@ -6,7 +6,7 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.network.ForwardRaysParticlesToClient;
-import com.linngdu664.bsf.particle.BSFParticleType;
+import com.linngdu664.bsf.particle.util.BSFParticleType;
 import com.linngdu664.bsf.registry.BlockRegister;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;

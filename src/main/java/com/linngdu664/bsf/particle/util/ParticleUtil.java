@@ -1,5 +1,6 @@
-package com.linngdu664.bsf.util;
+package com.linngdu664.bsf.particle.util;
 
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -100,7 +101,7 @@ public class ParticleUtil {
             RandomSource randomSource = level.getRandom();
             double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
             double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1));
-            Vec3 direction = BSFCommonUtil.rotationToVector(1, theta, phi).normalize();
+            Vec3 direction = BSFCommonUtil.radRotationToVector(1, theta, phi);
             Vec3 pos1 = direction.scale(-range).add(pos);
             Vec3 v1 = direction.scale(v);
             level.addParticle(particleOptions, pos1.x, pos1.y, pos1.z, v1.x, v1.y, v1.z);
@@ -112,16 +113,17 @@ public class ParticleUtil {
             RandomSource randomSource = level.getRandom();
             double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
             double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1));
-            Vec3 v1 = BSFCommonUtil.rotationToVector(1, theta, phi).normalize().scale(v);
+            Vec3 v1 = BSFCommonUtil.radRotationToVector(v, theta, phi);
             level.addParticle(particleOptions, pos.x, pos.y, pos.z, v1.x, v1.y, v1.z);
         }
     }
+
     public static void spawnVectorInversionParticles(Level level, ParticleOptions particleOptions, Vec3 pos, double range, int num, double v) {
         for (int i = 0; i < num; i++) {
             RandomSource randomSource = level.getRandom();
             double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
             double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1));
-            Vec3 direction = BSFCommonUtil.rotationToVector(1, theta, phi).normalize();
+            Vec3 direction = BSFCommonUtil.radRotationToVector(1, theta, phi);
             Vec3 pos1 = direction.scale(-range).add(pos);
             level.addParticle(particleOptions, pos1.x, pos1.y, pos1.z, pos.x, pos.z, v);
         }
