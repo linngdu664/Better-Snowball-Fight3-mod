@@ -2,6 +2,7 @@ package com.linngdu664.bsf.item.tool;
 
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
+import com.linngdu664.bsf.particle.BSFParticleType;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.util.BSFCommonUtil;
@@ -82,7 +83,7 @@ public class BasinItem extends Item {
                 Vec3 vec32 = new Vec3(p.getX() - pPlayer.getX(), p.getY() - pPlayer.getEyeY(), p.getZ() - pPlayer.getZ());
                 return BSFCommonUtil.vec3AngleCos(vec31, cameraVec) > 0.9363291776 && isNotBlocked(vec31, vec32, pPlayer, pLevel);
             });
-            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesToClient(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2));
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesToClient(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2, BSFParticleType.SNOWFLAKE.ordinal()));
             if (itemStack.getOrCreateTag().getByte("SnowType") == 1) {
                 addEffectsToLivingEntities(list, pPlayer, pLevel, p -> p < 5F ? 180 : (int) (180F - 6.6666667F * (p - 5F) * (p - 5F) * (p - 5F)), p -> p < 5F ? 2 : 1, 20);
             } else {

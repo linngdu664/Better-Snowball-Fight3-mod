@@ -7,6 +7,7 @@ import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.item.tank.SnowballTankItem;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
+import com.linngdu664.bsf.particle.BSFParticleType;
 import com.linngdu664.bsf.registry.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -112,7 +113,7 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
                 if (level.isClientSide) {
                     player.push(-0.24 * cameraVec.x, -0.24 * cameraVec.y, -0.24 * cameraVec.z);
                 } else {
-                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ForwardConeParticlesToClient(player.getEyePosition(), cameraVec, 4.5F, 45, 1.5F, 0.1));
+                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ForwardConeParticlesToClient(player.getEyePosition(), cameraVec, 4.5F, 45, 1.5F, 0.1, BSFParticleType.SNOWFLAKE.ordinal()));
                     level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.SHOTGUN_FIRE_2.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                     player.getCooldowns().addCooldown(this, 20);
                 }
@@ -120,7 +121,7 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
                 if (level.isClientSide) {
                     player.push(-pushRank * cameraVec.x, -pushRank * cameraVec.y, -pushRank * cameraVec.z);
                 } else {
-                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ForwardConeParticlesToClient(player.getEyePosition(), cameraVec, 4.5F, 45, 0.5F, 0.1));
+                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ForwardConeParticlesToClient(player.getEyePosition(), cameraVec, 4.5F, 45, 0.5F, 0.1, BSFParticleType.SNOWFLAKE.ordinal()));
                     level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.SHOTGUN_FIRE_1.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                     player.getCooldowns().addCooldown(this, 30);
                 }

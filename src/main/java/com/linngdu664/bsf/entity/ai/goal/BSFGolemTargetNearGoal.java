@@ -2,6 +2,7 @@ package com.linngdu664.bsf.entity.ai.goal;
 
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
+import com.linngdu664.bsf.particle.BSFParticleType;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
@@ -67,7 +68,7 @@ public class BSFGolemTargetNearGoal extends Goal {
     public void start() {
         if (core.equals(ItemRegister.THRUST_GOLEM_CORE.get())) {
             golem.setDeltaMovement(vec3);
-            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> golem), new ForwardConeParticlesToClient(golem.getEyePosition(), vec3.reverse(), 4.5F, 45, 0.5F, 0.1));
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> golem), new ForwardConeParticlesToClient(golem.getEyePosition(), vec3.reverse(), 4.5F, 45, 0.5F, 0.1, BSFParticleType.SNOWFLAKE.ordinal()));
             golem.playSound(SoundRegister.SHOTGUN_FIRE_1.get(), 1.0F, 1.0F / (golem.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             golem.resetCoreCoolDown();
         } else if (core.equals(ItemRegister.NEAR_TELEPORTATION_GOLEM_CORE.get())) {

@@ -4,6 +4,7 @@ import com.linngdu664.bsf.block.LooseSnowBlock;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import com.linngdu664.bsf.network.ForwardRaysParticlesToClient;
+import com.linngdu664.bsf.particle.BSFParticleType;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
@@ -66,10 +67,10 @@ public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
                         .forEach(p -> {
                             serverLevel.setBlockAndUpdate(p, Blocks.AIR.defaultBlockState());
                             serverLevel.playSound(null, p.getX(), p.getY(), p.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardRaysParticlesToClient(new Vec3(p.getX(), p.getY(), p.getZ()), new Vec3(p.getX() + 1, p.getY() + 1, p.getZ() + 1), eyePos.subtract(p.getCenter()), 0.2, 0.6, 10));
+                            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardRaysParticlesToClient(new Vec3(p.getX(), p.getY(), p.getZ()), new Vec3(p.getX() + 1, p.getY() + 1, p.getZ() + 1), eyePos.subtract(p.getCenter()), 0.2, 0.6, 10, BSFParticleType.SNOWFLAKE.ordinal()));
                         });
                 serverLevel.sendParticles(ParticleRegister.IMPULSE.get(), pPlayer.getX() + cameraVec.x, pPlayer.getEyeY() + cameraVec.y, pPlayer.getZ() + cameraVec.z, 1, 0, 0, 0, 0);
-                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesToClient(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2));
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesToClient(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2, BSFParticleType.SNOWFLAKE.ordinal()));
                 itemStack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pUsedHand));
                 pPlayer.getCooldowns().addCooldown(this, 60);
                 if (stack != null) {

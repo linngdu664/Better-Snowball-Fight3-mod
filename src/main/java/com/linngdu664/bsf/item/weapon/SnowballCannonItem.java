@@ -4,6 +4,7 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
+import com.linngdu664.bsf.particle.BSFParticleType;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.EnchantmentRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
@@ -110,7 +111,7 @@ public class SnowballCannonItem extends AbstractBSFWeaponItem {
                         player.push(-0.066666667F * velocity * cameraVec.x * f, -0.066666667F * velocity * cameraVec.y * f, -0.066666667F * velocity * cameraVec.z * f);
                         //add particles
                     } else {
-                        NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ForwardConeParticlesToClient(player.getEyePosition(), cameraVec, 4.5F, 90, 1.5F, 0.1));
+                        NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ForwardConeParticlesToClient(player.getEyePosition(), cameraVec, 4.5F, 90, 1.5F, 0.1, BSFParticleType.SNOWFLAKE.ordinal()));
                         pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
                     }
                     consumeAmmo(itemStack, player);

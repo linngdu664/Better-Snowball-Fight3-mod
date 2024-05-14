@@ -4,13 +4,14 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 import java.util.Random;
 
 public class BSFCommonUtil {
-    private static final Random random = new Random();
+    public static final Random random = new Random();
 
     // Calculate the cosine of the angle between 2 vectors.
     public static double vec2AngleCos(double x1, double y1, double x2, double y2) {

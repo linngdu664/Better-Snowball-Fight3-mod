@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.network;
 
+import com.linngdu664.bsf.particle.BSFParticleType;
 import com.linngdu664.bsf.util.ParticleUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
@@ -14,6 +15,7 @@ import java.util.function.Supplier;
 public class ForwardConeParticlesToClient {
     private final double eX, eY, eZ, loweredVision, sX, sY, sZ;
     private final float aStep, rStep, r;
+    private final int type;
 
     /**
      * Constructor of the ForwardConeParticlesToClient packet.<p>
@@ -26,8 +28,9 @@ public class ForwardConeParticlesToClient {
      * @param aStep         The angle step in degree.
      * @param rStep         The radius step.
      * @param loweredVision The offset of eyePos in the negative direction of the y-axis.
+     * @param type
      */
-    public ForwardConeParticlesToClient(Vec3 eyePos, Vec3 sightVec, float r, float aStep, float rStep, double loweredVision) {
+    public ForwardConeParticlesToClient(Vec3 eyePos, Vec3 sightVec, float r, float aStep, float rStep, double loweredVision, int type) {
         this.eX = eyePos.x;
         this.eY = eyePos.y;
         this.eZ = eyePos.z;
@@ -38,6 +41,7 @@ public class ForwardConeParticlesToClient {
         this.aStep = aStep;
         this.rStep = rStep;
         this.loweredVision = loweredVision;
+        this.type = type;
     }
 
     public static void encoder(ForwardConeParticlesToClient message, FriendlyByteBuf buffer) {
@@ -51,6 +55,7 @@ public class ForwardConeParticlesToClient {
         buffer.writeFloat(message.aStep);
         buffer.writeFloat(message.rStep);
         buffer.writeDouble(message.loweredVision);
+        buffer.writeInt(message.type);
     }
 
     public static ForwardConeParticlesToClient decoder(FriendlyByteBuf buffer) {
@@ -64,14 +69,15 @@ public class ForwardConeParticlesToClient {
         float aStep = buffer.readFloat();
         float rStep = buffer.readFloat();
         double loweredVision = buffer.readDouble();
-        return new ForwardConeParticlesToClient(new Vec3(eX, eY, eZ), new Vec3(sX, sY, sZ), r, aStep, rStep, loweredVision);
+        int type = buffer.readInt();
+        return new ForwardConeParticlesToClient(new Vec3(eX, eY, eZ), new Vec3(sX, sY, sZ), r, aStep, rStep, loweredVision, type);
     }
 
     public static void messageConsumer(ForwardConeParticlesToClient message, Supplier<NetworkEvent.Context> ctxSupplier) {
         NetworkEvent.Context context = ctxSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
             ParticleUtil.spawnForwardConeParticles(
-                    Minecraft.getInstance().level, ParticleTypes.SNOWFLAKE,
+                    Minecraft.getInstance().level, BSFParticleType.values()[message.type].get(),
                     message.eX, message.eY, message.eZ,
                     new Vec3(message.sX, message.sY, message.sZ),
                     message.r, message.aStep, message.rStep, message.loweredVision

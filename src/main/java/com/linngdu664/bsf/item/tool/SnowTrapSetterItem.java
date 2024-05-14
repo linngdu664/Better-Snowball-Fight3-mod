@@ -1,6 +1,7 @@
 package com.linngdu664.bsf.item.tool;
 
 import com.linngdu664.bsf.network.ForwardRaysParticlesToClient;
+import com.linngdu664.bsf.particle.BSFParticleType;
 import com.linngdu664.bsf.registry.BlockRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import net.minecraft.ChatFormatting;
@@ -55,7 +56,7 @@ public class SnowTrapSetterItem extends AbstractBSFEnhanceableToolItem {
                 pLevel.setBlockAndUpdate(blockPos, BlockRegister.SNOW_TRAP.get().defaultBlockState());
                 pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOW_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                 pStack.hurtAndBreak(1, player, e -> e.broadcastBreakEvent(player.getUsedItemHand()));
-                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ForwardRaysParticlesToClient(blockPos.getCenter().add(-0.5, -0.4, -0.5), blockPos.getCenter().add(0.5, -0.4, 0.5), new Vec3(0, 1, 0), 0.1, 0.3, 5));
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ForwardRaysParticlesToClient(blockPos.getCenter().add(-0.5, -0.4, -0.5), blockPos.getCenter().add(0.5, -0.4, 0.5), new Vec3(0, 1, 0), 0.1, 0.3, 5, BSFParticleType.SNOWFLAKE.ordinal()));
                 player.awardStat(Stats.ITEM_USED.get(this));
             }
         }
