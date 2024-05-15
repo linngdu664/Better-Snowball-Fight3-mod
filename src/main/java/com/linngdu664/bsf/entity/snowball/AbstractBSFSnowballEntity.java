@@ -11,6 +11,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -30,6 +31,9 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile implements Absorbable {
+    protected static final float PARTICLE_GENERATION_STEP_SIZE=0.5F;
+    protected float particleGeneratePointOffset;
+    protected Vec3 previousTickPosition;
     protected boolean isCaught = false;
     protected ILaunchAdjustment launchAdjustment = new ILaunchAdjustment() {
         @Override
@@ -65,19 +69,23 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
 
     public AbstractBSFSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.previousTickPosition=this.getPosition(0);
     }
 
     public AbstractBSFSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, double pX, double pY, double pZ, Level pLevel) {
         super(pEntityType, pX, pY, pZ, pLevel);
+        this.previousTickPosition=this.getPosition(0);
     }
 
     public AbstractBSFSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
         super(pEntityType, pShooter, pLevel);
         this.launchAdjustment = launchAdjustment;
+        this.previousTickPosition=this.getPosition(0);
     }
 
     public AbstractBSFSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel) {
         super(pEntityType, pShooter, pLevel);
+        this.previousTickPosition=this.getPosition(0);
     }
 
 
@@ -142,15 +150,33 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
     @Override
     public void tick() {
         super.tick();
-        generateParticles();
+        float v = (float)this.getDeltaMovement().length();
+        int n = (int) (v/PARTICLE_GENERATION_STEP_SIZE);
+        int num=0;
+        if (particleGeneratePointOffset<v) {
+            generateParticles(this.getPreviousPosition(particleGeneratePointOffset/v,previousTickPosition));
+            num++;
+        }
+        for (int i = 1; i <= n && particleGeneratePointOffset+i*PARTICLE_GENERATION_STEP_SIZE<v; i++) {
+            generateParticles(this.getPreviousPosition((particleGeneratePointOffset+i*PARTICLE_GENERATION_STEP_SIZE)/v,previousTickPosition));
+            num++;
+        }
+        particleGeneratePointOffset=num*PARTICLE_GENERATION_STEP_SIZE+particleGeneratePointOffset-v;
+        previousTickPosition=this.getPosition(0);
     }
 
-    protected void generateParticles() {
+    protected void generateParticles(Vec3 vec3) {
         // Spawn trace particles
         Level level = level();
         if (level.isClientSide) {
-            level.addParticle(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), xo, yo + 0.1, zo, 0, 0, 0);
+            level.addParticle(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), vec3.x, vec3.y+0.1, vec3.z, 0, 0, 0);
         }
+    }
+    public final Vec3 getPreviousPosition(float pPartialTicks,Vec3 previousTickPosition) {
+        double d0 = Mth.lerp(pPartialTicks, previousTickPosition.x, this.xo);
+        double d1 = Mth.lerp(pPartialTicks, previousTickPosition.y, this.yo);
+        double d2 = Mth.lerp(pPartialTicks, previousTickPosition.z, this.zo);
+        return new Vec3(d0, d1, d2);
     }
 
     /**

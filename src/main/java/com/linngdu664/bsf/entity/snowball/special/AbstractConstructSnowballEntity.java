@@ -20,6 +20,7 @@ import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -164,11 +165,11 @@ public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowbal
     }
 
     @Override
-    protected void generateParticles() {
+    protected void generateParticles(Vec3 vec3) {
         if (!inBlockDuration) {
             Level level = level();
             if (level.isClientSide) {
-                level.addParticle(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), xo, yo + 0.1, zo, 0, 0, 0);
+                level.addParticle(ParticleRegister.SHORT_TIME_SNOWFLAKE.get(), vec3.x, vec3.y+0.1, vec3.z, 0, 0, 0);
             }
         }
     }
