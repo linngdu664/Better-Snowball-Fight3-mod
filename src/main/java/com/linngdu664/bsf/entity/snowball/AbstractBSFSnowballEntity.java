@@ -153,11 +153,7 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
         float v = (float)this.getDeltaMovement().length();
         int n = (int) (v/PARTICLE_GENERATION_STEP_SIZE);
         int num=0;
-        if (particleGeneratePointOffset<v) {
-            generateParticles(this.getPreviousPosition(particleGeneratePointOffset/v,previousTickPosition));
-            num++;
-        }
-        for (int i = 1; i <= n && particleGeneratePointOffset+i*PARTICLE_GENERATION_STEP_SIZE<v; i++) {
+        for (int i = 0; i <= n && particleGeneratePointOffset+i*PARTICLE_GENERATION_STEP_SIZE<v; i++) {
             generateParticles(this.getPreviousPosition((particleGeneratePointOffset+i*PARTICLE_GENERATION_STEP_SIZE)/v,previousTickPosition));
             num++;
         }
