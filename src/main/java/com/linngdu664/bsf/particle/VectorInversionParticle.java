@@ -29,7 +29,6 @@ public class VectorInversionParticle extends TextureSheetParticle {
         this.lifetime = 40;
         this.setSpriteFromAge(pSprites);
 
-
         Vec3 axis = BSFCommonUtil.radRotationToVector(1, axisYaw, axisPitch);   // 单位方向向量
         Vec3 vec33 = axis.scale(offset.length() * BSFCommonUtil.vec3AngleCos(offset, axis));
         vec31 = offset.subtract(vec33);
@@ -82,7 +81,7 @@ public class VectorInversionParticle extends TextureSheetParticle {
             RandomSource randomSource = pLevel.getRandom();
             float f = randomSource.nextFloat() * 0.6F + 0.4F;
             double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
-            double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1));
+            double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1)) - Mth.HALF_PI;
             return new VectorInversionParticle(pLevel,  new Vec3(pX, pY, pZ), BSFCommonUtil.radRotationToVector(10, theta, phi), pXSpeed, pYSpeed, pZSpeed, f * 0.9F, f * 0.3F, f * 0.3F, this.sprite);
         }
     }
@@ -99,7 +98,7 @@ public class VectorInversionParticle extends TextureSheetParticle {
             RandomSource randomSource = pLevel.getRandom();
             float f = randomSource.nextFloat() * 0.6F + 0.4F;
             double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
-            double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1));  // todo：统一一下一些东西！这东西俯仰角竟然是[0, pi]而不是[-pi/2, pi/2]
+            double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1)) - Mth.HALF_PI;
             return new VectorInversionParticle(pLevel, new Vec3(pX, pY, pZ), BSFCommonUtil.radRotationToVector(10, theta, phi), pXSpeed, pYSpeed, pZSpeed, f * 0.9F, f * 0.3F, f, this.sprite);
         }
     }

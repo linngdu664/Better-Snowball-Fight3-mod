@@ -67,14 +67,13 @@ public class BSFCommonUtil {
     }
 
     /**
-     * 注意：这玩意的phi的取值是[0, pi]而不是[-pi/2, pi/2]！
-     * @param r
-     * @param theta
-     * @param phi
-     * @return
+     * @param r     radius
+     * @param theta yaw in radian [0, 2*pi]
+     * @param phi   pitch in radian [-pi/2, pi/2]
+     * @return      xyz vector
      */
     public static Vec3 radRotationToVector(double r, double theta, double phi) {
-        return new Vec3(r * Mth.sin((float) phi) * Mth.cos((float) theta), r * Mth.cos((float) phi), r * Mth.sin((float) phi) * Mth.sin((float) theta));
+        return new Vec3(r * Mth.cos((float) phi) * Mth.cos((float) theta), r * Mth.sin((float) phi), r * Mth.cos((float) phi) * Mth.sin((float) theta));
     }
 
     public static Vec3i vec3ToI(Vec3 vec3) {

@@ -152,7 +152,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
         //init icicle
         for (int i = 0; i < TRY_SUMMON_ICICLE_MAX_TIMES; i++) {
             double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
-            double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1));
+            double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1)) - Mth.HALF_PI;
             Vec3 direction = BSFCommonUtil.radRotationToVector(TRY_SUMMON_ICICLE_DETECTION_RADIUS, theta, phi);
             BlockPos blockPos1 = impactPoint.offset(Mth.floor(direction.x), Mth.floor(direction.y), Mth.floor(direction.z));
             if ((level.getBlockState(blockPos1).canBeReplaced() || posIsLooseSnow(level, blockPos1)) && iciclesNum < ICICLE_MAX_NUM) {
