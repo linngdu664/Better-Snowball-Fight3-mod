@@ -40,7 +40,7 @@ public class VectorInversionAnchorItem extends AbstractBSFEnhanceableToolItem {
                     }
                 });
         if (!pLevel.isClientSide) {
-            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new VectorInversionParticleToClient(pPlayer.getX(), pPlayer.getEyeY(), pPlayer.getZ(), 10, 0.2, 400));
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new VectorInversionParticleToClient(pPlayer.getX(), pPlayer.getEyeY(), pPlayer.getZ(), 10, 0.24, 400));
         }
         pPlayer.getCooldowns().addCooldown(this, 40);
         pPlayer.awardStat(Stats.ITEM_USED.get(this));

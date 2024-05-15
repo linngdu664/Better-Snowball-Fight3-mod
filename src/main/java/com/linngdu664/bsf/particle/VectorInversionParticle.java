@@ -1,6 +1,7 @@
 package com.linngdu664.bsf.particle;
 
 import com.linngdu664.bsf.util.BSFCommonUtil;
+import com.linngdu664.bsf.util.SphereAxisRotationHelper;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -11,9 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class VectorInversionParticle extends TextureSheetParticle {
     private final SpriteSet sprites;
-    private float angle = 0;
+    private final SphereAxisRotationHelper rotationHelper;
     private float speed;
-    Vec3 vec31, vec32;
 
     protected VectorInversionParticle(ClientLevel pLevel, Vec3 center, Vec3 offset, double axisYaw, double axisPitch, double speed, float r, float g, float b, SpriteSet pSprites) {
         super(pLevel, center.x + offset.x, center.y + offset.y, center.z + offset.z);
@@ -28,11 +28,7 @@ public class VectorInversionParticle extends TextureSheetParticle {
         this.quadSize = 0.4F * (this.random.nextFloat() * this.random.nextFloat() * 1.0F + 4.5F);
         this.lifetime = 40;
         this.setSpriteFromAge(pSprites);
-
-        Vec3 axis = BSFCommonUtil.radRotationToVector(1, axisYaw, axisPitch);   // 单位方向向量
-        Vec3 vec33 = axis.scale(offset.length() * BSFCommonUtil.vec3AngleCos(offset, axis));
-        vec31 = offset.subtract(vec33);
-        vec32 = vec31.cross(axis);     // axis为单位向量且垂直于vec31，不需要调整结果长度
+        rotationHelper = new SphereAxisRotationHelper(offset, axisYaw, axisPitch);
     }
 
     @Override
@@ -48,16 +44,9 @@ public class VectorInversionParticle extends TextureSheetParticle {
         if (this.age++ >= this.lifetime) {
             this.remove();
         } else {
-            Vec3 posDiff = vec31.scale(Mth.cos(angle + speed) - Mth.cos(angle)).add(vec32.scale(Mth.sin(angle + speed) - Mth.sin(angle)));
+            Vec3 posDiff = rotationHelper.getDeltaMovement(speed);
             this.move(posDiff.x, posDiff.y, posDiff.z);
-            angle += speed;
-            if (this.speedUpWhenYMotionIsBlocked && this.y == this.yo) {
-                this.speed *= 1.1F;
-            }
             this.speed *= this.friction;
-            if (this.onGround) {
-                this.speed *= 0.7F;
-            }
         }
         this.setSpriteFromAge(this.sprites);
         scale(0.92f);
