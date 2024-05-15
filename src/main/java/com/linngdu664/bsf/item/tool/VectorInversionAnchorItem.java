@@ -5,7 +5,6 @@ import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -41,7 +40,7 @@ public class VectorInversionAnchorItem extends AbstractBSFEnhanceableToolItem {
                     }
                 });
         if (!pLevel.isClientSide) {
-            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new VectorInversionParticleToClient(pPlayer.getX(),pPlayer.getEyeY(),pPlayer.getZ(),10,3,400));
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new VectorInversionParticleToClient(pPlayer.getX(), pPlayer.getEyeY(), pPlayer.getZ(), 10, 0.2, 400));
         }
         pPlayer.getCooldowns().addCooldown(this, 40);
         pPlayer.awardStat(Stats.ITEM_USED.get(this));

@@ -7,6 +7,7 @@ import net.minecraft.world.phys.Vec2;
  * Polar coordinate system.
  * The positive x-axis is the polar axis.
  */
+@Deprecated
 public class PolarPos2d {
     private final Vec2 pole;
     private final float radius;

@@ -120,12 +120,7 @@ public class ParticleUtil {
 
     public static void spawnVectorInversionParticles(Level level, ParticleOptions particleOptions, Vec3 pos, double range, int num, double v) {
         for (int i = 0; i < num; i++) {
-            RandomSource randomSource = level.getRandom();
-            double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
-            double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1));
-            Vec3 direction = BSFCommonUtil.radRotationToVector(1, theta, phi);
-            Vec3 pos1 = direction.scale(-range).add(pos);
-            level.addParticle(particleOptions, pos1.x, pos1.y, pos1.z, pos.x, pos.z, v);
+            level.addParticle(particleOptions, pos.x, pos.y, pos.z, 0, Mth.PI, v);
         }
     }
 }

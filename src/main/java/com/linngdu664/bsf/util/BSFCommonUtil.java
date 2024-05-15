@@ -66,6 +66,13 @@ public class BSFCommonUtil {
         return random.nextInt(a, b);
     }
 
+    /**
+     * 注意：这玩意的phi的取值是[0, pi]而不是[-pi/2, pi/2]！
+     * @param r
+     * @param theta
+     * @param phi
+     * @return
+     */
     public static Vec3 radRotationToVector(double r, double theta, double phi) {
         return new Vec3(r * Mth.sin((float) phi) * Mth.cos((float) theta), r * Mth.cos((float) phi), r * Mth.sin((float) phi) * Mth.sin((float) theta));
     }
