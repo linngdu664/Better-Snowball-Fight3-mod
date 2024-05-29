@@ -12,48 +12,40 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class VectorInversionParticleToClient {
-    private final double px, py, pz, range, v;
+public class SubspaceSnowballParticlesToClient {
+    private final double px, py, pz, range;
     private final int num;
 
-    public VectorInversionParticleToClient(double px, double py, double pz, double range, double v, int num) {
+    public SubspaceSnowballParticlesToClient(double px, double py, double pz, double range, int num) {
         this.px = px;
         this.py = py;
         this.pz = pz;
         this.range = range;
-        this.v = v;
         this.num = num;
     }
-
-    public static void encoder(VectorInversionParticleToClient message, FriendlyByteBuf buffer) {
+    public static void encoder(SubspaceSnowballParticlesToClient message, FriendlyByteBuf buffer) {
         buffer.writeDouble(message.px);
         buffer.writeDouble(message.py);
         buffer.writeDouble(message.pz);
         buffer.writeDouble(message.range);
-        buffer.writeDouble(message.v);
         buffer.writeInt(message.num);
     }
 
-    public static VectorInversionParticleToClient decoder(FriendlyByteBuf buffer) {
+    public static SubspaceSnowballParticlesToClient decoder(FriendlyByteBuf buffer) {
         double px = buffer.readDouble();
         double py = buffer.readDouble();
         double pz = buffer.readDouble();
         double range = buffer.readDouble();
-        double v = buffer.readDouble();
         int num = buffer.readInt();
-        return new VectorInversionParticleToClient(px, py, pz, range, v, num);
+        return new SubspaceSnowballParticlesToClient(px, py, pz, range, num);
     }
 
-    public static void messageConsumer(VectorInversionParticleToClient message, Supplier<NetworkEvent.Context> ctxSupplier) {
+    public static void messageConsumer(SubspaceSnowballParticlesToClient message, Supplier<NetworkEvent.Context> ctxSupplier) {
         NetworkEvent.Context context = ctxSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
-            ParticleUtil.spawnVectorInversionParticles(
-                    Minecraft.getInstance().level, ParticleRegister.VECTOR_INVERSION_PURPLE.get(),
-                    new Vec3(message.px, message.py, message.pz), message.range, message.num, message.v
-            );
-            ParticleUtil.spawnVectorInversionParticles(
-                    Minecraft.getInstance().level, ParticleRegister.VECTOR_INVERSION_RED.get(),
-                    new Vec3(message.px, message.py, message.pz), message.range, message.num, -message.v
+            ParticleUtil.spawnSubspaceSnowballParticles(
+                    Minecraft.getInstance().level, ParticleRegister.SUBSPACE_SNOWBALL_HIT_PARTICLE.get(),
+                    new Vec3(message.px, message.py, message.pz), message.range, message.num
             );
             return true;
         }));

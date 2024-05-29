@@ -34,5 +34,6 @@ public class NetworkRegister {
         NetworkRegister.addNetworkMessage(ToggleMovingSoundToClient.class, ToggleMovingSoundToClient::encoder, ToggleMovingSoundToClient::decoder, ToggleMovingSoundToClient::messageConsumer);
         NetworkRegister.addNetworkMessage(SwitchSoundToServer.class, SwitchSoundToServer::encoder, SwitchSoundToServer::decoder, SwitchSoundToServer::messageConsumer);
         NetworkRegister.addNetworkMessage(VectorInversionParticleToClient.class, VectorInversionParticleToClient::encoder, VectorInversionParticleToClient::decoder, VectorInversionParticleToClient::messageConsumer);
+        NetworkRegister.addNetworkMessage(SubspaceSnowballParticlesToClient.class, SubspaceSnowballParticlesToClient::encoder, SubspaceSnowballParticlesToClient::decoder, SubspaceSnowballParticlesToClient::messageConsumer);
     }
 }

@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.util;
 
-@Deprecated
 public class Vec2d {
     public static final Vec2d ZERO = new Vec2d(0, 0);
     public final double x;
@@ -26,7 +25,7 @@ public class Vec2d {
         return new Vec2d(this.x + pOther.x, this.y + pOther.y);
     }
 
-    public Vec2d add(float pValue) {
+    public Vec2d add(double pValue) {
         return new Vec2d(this.x + pValue, this.y + pValue);
     }
 
@@ -34,7 +33,7 @@ public class Vec2d {
         return new Vec2d(this.x - pOther.x, this.y - pOther.y);
     }
 
-    public Vec2d sub(float pValue) {
+    public Vec2d sub(double pValue) {
         return new Vec2d(this.x - pValue, this.y - pValue);
     }
 

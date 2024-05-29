@@ -101,6 +101,17 @@ public class BSFCommonUtil {
         return new Vector3f(x, y, z);
     }
 
+    /**
+     * 自定义二次函数
+     * @param x x值
+     * @param maxX x最大值
+     * @param maxY y最大值
+     * @return y值
+     */
+    public static double quadraticFunction(double x, double maxX, double maxY) {
+        return 4*x*maxY*(maxX-x)/(maxX*maxX);
+    }
+
     public static boolean pointOnTheFrontConeArea(Vec3 p1v, Vec3 p1, Vec3 p2, double pointToVectorMaxDistance, double pointToVectorNormalPlaneMaxDistance) {
         Vec3 p1p2v = p2.add(p1.reverse());
         double b = p1p2v.dot(p1v) / p1v.length();

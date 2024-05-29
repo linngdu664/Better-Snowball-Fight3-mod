@@ -1,12 +1,16 @@
 package com.linngdu664.bsf.particle.util;
 
 import com.linngdu664.bsf.util.BSFCommonUtil;
+import com.sun.jna.platform.win32.WinGDI;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import java.awt.*;
 
 public class ParticleUtil {
     /**
@@ -118,9 +122,24 @@ public class ParticleUtil {
         }
     }
 
+    public static void spawnSubspaceSnowballParticles(Level level, ParticleOptions particleOptions, Vec3 pos, double range, int num) {
+        for (int i = 0; i < num; i++) {
+            RandomSource randomSource = level.getRandom();
+            double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
+            double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1)) - Mth.HALF_PI;
+            Vec3 direction = BSFCommonUtil.radRotationToVector(1, theta, phi).normalize();
+            Vec3 pos1 = direction.scale(-range).add(pos);
+            level.addParticle(particleOptions, pos1.x, pos1.y, pos1.z, pos.x, pos.y, pos.z);
+        }
+    }
+
     public static void spawnVectorInversionParticles(Level level, ParticleOptions particleOptions, Vec3 pos, double range, int num, double v) {
         for (int i = 0; i < num; i++) {
             level.addParticle(particleOptions, pos.x, pos.y, pos.z, 0, Mth.PI / 2, v);
         }
+    }
+    public static Color hsvColor(int hue, int saturation, int brightness){
+        int rgb=Mth.hsvToRgb((float) hue /360, (float) saturation /100, (float) brightness /100);
+        return new Color((rgb >> 16) & 0xFF,(rgb >> 8) & 0xFF,(rgb) & 0xFF);
     }
 }

@@ -1,13 +1,18 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.entity.Absorbable;
+import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.registry.EntityRegister;
-import com.linngdu664.bsf.registry.ItemRegister;
-import com.linngdu664.bsf.registry.SoundRegister;
+import com.linngdu664.bsf.network.SubspaceSnowballParticlesToClient;
+import com.linngdu664.bsf.network.VectorInversionParticleToClient;
+import com.linngdu664.bsf.particle.util.ParticleUtil;
+import com.linngdu664.bsf.registry.*;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
@@ -21,6 +26,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -58,8 +65,9 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         timer = pCompound.getInt("Timer");
         damage = pCompound.getFloat("Damage");
         blazeDamage = pCompound.getFloat("BlazeDamage");
-        release = pCompound.getBoolean("Release");
+        release=pCompound.getBoolean("Release");
     }
+
 
     @Override
     public void tick() {
@@ -148,8 +156,11 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                 itemEntity.setDefaultPickUpDelay();
                 level.addFreshEntity(itemEntity);
             }
-            ((ServerLevel) level).sendParticles(ParticleTypes.ITEM_SNOWBALL, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0);
-            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0.04);
+            if(!release){
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(this.getX(), this.getEyeY(), this.getZ(), 2,100));
+            }
+//            ((ServerLevel) level).sendParticles(ParticleTypes.ITEM_SNOWBALL, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0);
+//            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0.04);
             this.discard();
         }
     }
@@ -158,9 +169,10 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
         Level level = level();
-        if (!release && !level.isClientSide) {
-            ((ServerLevel) level).sendParticles(ParticleTypes.ITEM_SNOWBALL, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0);
-            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0.04);
+        if (!release&&!level.isClientSide) {
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(this.getX(), this.getEyeY(), this.getZ(), 2,100));
+//            ((ServerLevel) level).sendParticles(ParticleTypes.ITEM_SNOWBALL, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0);
+//            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0.04);
             this.discard();
         }
     }
