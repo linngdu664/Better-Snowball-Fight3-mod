@@ -38,7 +38,7 @@ public class SubspaceSnowballHitParticle extends TextureSheetParticle {
         this.gCol = g;
         this.bCol = b;
         this.quadSize = 0.4F * (this.random.nextFloat() * this.random.nextFloat() * 1.0F + 4.5F);
-        this.lifetime = 20;
+        this.lifetime = 7;
         this.setSpriteFromAge(pSprites);
     }
 
