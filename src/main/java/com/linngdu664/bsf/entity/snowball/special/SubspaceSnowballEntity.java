@@ -2,6 +2,7 @@ package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.entity.Absorbable;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
+import com.linngdu664.bsf.entity.executor.BlackHoleExecutor;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.network.SubspaceSnowballParticlesToClient;
@@ -10,27 +11,31 @@ import com.linngdu664.bsf.particle.util.ParticleUtil;
 import com.linngdu664.bsf.registry.*;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
+import net.minecraftforge.common.extensions.IForgePlayer;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     private final ArrayList<ItemStack> itemStackArrayList = new ArrayList<>();
@@ -86,7 +91,7 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                     ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 16, 0, 0, 0, 0.05);
                     this.discard();
                 }
-                if (!release && damage < 15.0F) {
+                if (!release) {
                     damage += absorbable.getSubspacePower();
                     blazeDamage += absorbable.getSubspacePower();
                 }
@@ -157,6 +162,9 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                 level.addFreshEntity(itemEntity);
             }
             if(!release){
+                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4), EntitySelector.LIVING_ENTITY_STILL_ALIVE);
+                damageList(list,damage);
+
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(this.getX(), this.getEyeY(), this.getZ(), 2,100));
             }
 //            ((ServerLevel) level).sendParticles(ParticleTypes.ITEM_SNOWBALL, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0);
@@ -170,10 +178,26 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         super.onHitEntity(pResult);
         Level level = level();
         if (!release&&!level.isClientSide) {
+            List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(5), EntitySelector.NO_SPECTATORS);
+            damageList(list,damage);
             NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(this.getX(), this.getEyeY(), this.getZ(), 2,100));
 //            ((ServerLevel) level).sendParticles(ParticleTypes.ITEM_SNOWBALL, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0);
 //            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0.04);
             this.discard();
+        }
+    }
+
+
+    private void damageList(List<? extends LivingEntity> list, float damage) {
+        Vec3 pos = getPosition(1);
+        for (LivingEntity entity : list) {
+            System.out.println(entity);
+            Vec3 rVec = new Vec3(entity.getX(), (entity.getBoundingBox().minY + entity.getBoundingBox().maxY) * 0.5, entity.getZ()).add(pos.reverse());
+            System.out.println(rVec);
+            if (rVec.length() < 3) {
+                System.out.println((float) (damage/rVec.length()));
+                entity.hurt(level().damageSources().fellOutOfWorld(), (float) (damage/rVec.length()));
+            }
         }
     }
 
