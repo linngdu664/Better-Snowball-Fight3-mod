@@ -125,14 +125,14 @@ public class BSFCommonUtil {
         double a = Math.sqrt(p1p2v.lengthSqr() - b * b);
         return a < pointToVectorMaxDistance && b < pointToVectorNormalPlaneMaxDistance;
     }
-    public static Vec3 getRealEntityHitPosOnMoveVector(Projectile pProjectile) {
+    public static Vec3 getRealEntityHitPosOnMoveVector(Entity pProjectile) {
         Vec3 vec3 = pProjectile.getDeltaMovement();
         Level level = pProjectile.level();
         Vec3 vec31 = pProjectile.position();
         return getRealEntityHitPos(level, pProjectile,vec31, vec3, Entity::canBeHitByProjectile);
     }
     @Nullable
-    public static Vec3 getRealEntityHitPos(Level pLevel, Projectile pProjectile, Vec3 pStartVec, Vec3 pEndVecOffset, Predicate<Entity> pFilter) {
+    public static Vec3 getRealEntityHitPos(Level pLevel, Entity pProjectile, Vec3 pStartVec, Vec3 pEndVecOffset, Predicate<Entity> pFilter) {
         Vec3 pEndVec=pStartVec.add(pEndVecOffset);
         AABB pBoundingBox = pProjectile.getBoundingBox().expandTowards(pEndVecOffset).inflate(1.0);
         double d0 = Double.MAX_VALUE;
