@@ -4,10 +4,17 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
+import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.Random;
+import java.util.function.Predicate;
 
 public class BSFCommonUtil {
     private static final Random random = new Random();
@@ -117,5 +124,31 @@ public class BSFCommonUtil {
         double b = p1p2v.dot(p1v) / p1v.length();
         double a = Math.sqrt(p1p2v.lengthSqr() - b * b);
         return a < pointToVectorMaxDistance && b < pointToVectorNormalPlaneMaxDistance;
+    }
+    public static Vec3 getRealEntityHitPosOnMoveVector(Projectile pProjectile) {
+        Vec3 vec3 = pProjectile.getDeltaMovement();
+        Level level = pProjectile.level();
+        Vec3 vec31 = pProjectile.position();
+        return getRealEntityHitPos(level, pProjectile,vec31, vec3, Entity::canBeHitByProjectile);
+    }
+    @Nullable
+    public static Vec3 getRealEntityHitPos(Level pLevel, Projectile pProjectile, Vec3 pStartVec, Vec3 pEndVecOffset, Predicate<Entity> pFilter) {
+        Vec3 pEndVec=pStartVec.add(pEndVecOffset);
+        AABB pBoundingBox = pProjectile.getBoundingBox().expandTowards(pEndVecOffset).inflate(1.0);
+        double d0 = Double.MAX_VALUE;
+        Vec3 vec3 = null;
+        for (Entity entity1 : pLevel.getEntities(pProjectile, pBoundingBox, pFilter)) {
+            AABB aabb = entity1.getBoundingBox().inflate(0.3f);
+            Optional<Vec3> optional = aabb.clip(pStartVec, pEndVec);
+            if (optional.isPresent()) {
+                Vec3 vec31 = optional.get();
+                double d1 = pStartVec.distanceToSqr(vec31);
+                if (d1 < d0) {
+                    d0 = d1;
+                    vec3 = vec31;
+                }
+            }
+        }
+        return vec3;
     }
 }
