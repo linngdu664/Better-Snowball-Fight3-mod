@@ -31,7 +31,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile implements Absorbable {
-    protected static final float PARTICLE_GENERATION_STEP_SIZE=0.5F;
+    protected float particleGenerationStepSize =0.5F;
     protected float particleGeneratePointOffset;
     protected Vec3 previousTickPosition;
     protected boolean isCaught = false;
@@ -150,17 +150,27 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
     @Override
     public void tick() {
         super.tick();
+        callTrackParticles();
+    }
+    protected void callTrackParticles(){
         float v = (float)this.getDeltaMovement().length();
-        int n = (int) (v/PARTICLE_GENERATION_STEP_SIZE);
+        int n = (int) (v/ particleGenerationStepSize);
         int num=0;
-        for (int i = 0; i <= n && particleGeneratePointOffset+i*PARTICLE_GENERATION_STEP_SIZE<v; i++) {
-            generateParticles(this.getPreviousPosition((particleGeneratePointOffset+i*PARTICLE_GENERATION_STEP_SIZE)/v,previousTickPosition));
+        for (int i = 0; i <= n && particleGeneratePointOffset+i* particleGenerationStepSize <v; i++) {
+            generateParticles(this.getPreviousPosition((particleGeneratePointOffset+i* particleGenerationStepSize)/v,previousTickPosition));
             num++;
         }
-        particleGeneratePointOffset=num*PARTICLE_GENERATION_STEP_SIZE+particleGeneratePointOffset-v;
+        particleGeneratePointOffset=num* particleGenerationStepSize +particleGeneratePointOffset-v;
         previousTickPosition=this.getPosition(0);
     }
-
+    protected void callTrackParticlesEnd(Vec3 pos){
+        float v = (float)this.getPosition(1).distanceTo(pos);
+        Vec3 vec3d = this.getPosition(1).add(this.getDeltaMovement().normalize().scale(v));
+        int n = (int) (v/ particleGenerationStepSize);
+        for (int i = 0; i <= n && particleGeneratePointOffset+i* particleGenerationStepSize <v; i++) {
+            generateParticles(this.getCurrentlyPosition((particleGeneratePointOffset+i* particleGenerationStepSize)/v,vec3d));
+        }
+    }
     protected void generateParticles(Vec3 vec3) {
         // Spawn trace particles
         Level level = level();
@@ -172,6 +182,12 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
         double d0 = Mth.lerp(pPartialTicks, previousTickPosition.x, this.xo);
         double d1 = Mth.lerp(pPartialTicks, previousTickPosition.y, this.yo);
         double d2 = Mth.lerp(pPartialTicks, previousTickPosition.z, this.zo);
+        return new Vec3(d0, d1, d2);
+    }
+    public final Vec3 getCurrentlyPosition(float pPartialTicks,Vec3 position) {
+        double d0 = Mth.lerp(pPartialTicks, this.xo, position.x);
+        double d1 = Mth.lerp(pPartialTicks, this.yo, position.y);
+        double d2 = Mth.lerp(pPartialTicks, this.zo, position.z);
         return new Vec3(d0, d1, d2);
     }
 

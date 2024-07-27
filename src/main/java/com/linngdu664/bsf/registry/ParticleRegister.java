@@ -31,6 +31,7 @@ public class ParticleRegister {
     public static final RegistryObject<SimpleParticleType> VECTOR_INVERSION_RED = PARTICLES.register("vector_inversion_red", (Lazy<SimpleParticleType>) () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> VECTOR_INVERSION_PURPLE = PARTICLES.register("vector_inversion_purple", (Lazy<SimpleParticleType>) () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> SUBSPACE_SNOWBALL_HIT_PARTICLE = PARTICLES.register("subspace_snowball_hit_particle", (Lazy<SimpleParticleType>) () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> SUBSPACE_SNOWBALL_ATTACK_TRACE = PARTICLES.register("subspace_snowball_attack_trace", (Lazy<SimpleParticleType>) () -> new SimpleParticleType(false));
 
     @SubscribeEvent
     public static void registerParticleProvider(RegisterParticleProvidersEvent event) {
@@ -47,5 +48,6 @@ public class ParticleRegister {
         particleEngine.register(ParticleRegister.VECTOR_INVERSION_RED.get(), VectorInversionParticle.ProviderRed::new);
         particleEngine.register(ParticleRegister.VECTOR_INVERSION_PURPLE.get(), VectorInversionParticle.ProviderPurple::new);
         particleEngine.register(ParticleRegister.SUBSPACE_SNOWBALL_HIT_PARTICLE.get(), SubspaceSnowballHitParticle.Provider::new);
+        particleEngine.register(ParticleRegister.SUBSPACE_SNOWBALL_ATTACK_TRACE.get(), SubspaceSnowballAttackTraceParticle.Provider::new);
     }
 }

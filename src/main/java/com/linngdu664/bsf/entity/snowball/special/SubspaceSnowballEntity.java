@@ -36,12 +36,14 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     public SubspaceSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setNoGravity(true);
+        this.particleGenerationStepSize=0.1f;
     }
 
     public SubspaceSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, boolean release) {
         super(EntityRegister.SUBSPACE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
         this.release = release;
         this.setNoGravity(true);
+        this.particleGenerationStepSize=0.1f;
     }
 
     @Override
@@ -113,12 +115,19 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
             timer++;
         }
     }
+    protected void generateParticles(Vec3 vec3) {
+        // Spawn trace particles
+        Level level = level();
+        if (!level.isClientSide) {
+            ((ServerLevel) level).sendParticles(ParticleRegister.SUBSPACE_SNOWBALL_ATTACK_TRACE.get(), vec3.x, vec3.y+0.1, vec3.z, 1, 0, 0, 0, 0);
+        }
+    }
 
     @Override
     protected void onHitBlock(@NotNull BlockHitResult pResult) {
         super.onHitBlock(pResult);
         Vec3 location = pResult.getLocation();
-
+        callTrackParticlesEnd(location);
         Level level = level();
         if (!level.isClientSide) {
             for (ItemStack itemStack : itemStackArrayList) {
@@ -129,7 +138,6 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
             if(!release){
                 float r = damage<5?2:damage/5+1;
                 List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location.x,location.y,location.z,location.x,location.y,location.z).inflate(r+3), EntitySelector.LIVING_ENTITY_STILL_ALIVE);
-                System.out.println(new AABB(location.x,location.y,location.z,location.x,location.y,location.z).inflate(r+3));
                 damageList(list,damage,r,location);
 
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(location.x, location.y, location.z, r,(int)(25*r)));
@@ -142,6 +150,7 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
         Vec3 location = BSFCommonUtil.getRealEntityHitPosOnMoveVecWithHitResult(this,pResult);
+        callTrackParticlesEnd(location);
         Level level = level();
         if (!release&&!level.isClientSide) {
             float r = damage<5?2:damage/5+1;
