@@ -46,7 +46,7 @@ public class ExplosiveMonsterTrackingSnowballEntity extends AbstractMonsterTrack
 
     @Override
     public boolean isLockFeet() {
-        return true;
+        return false;
     }
 
     @Override

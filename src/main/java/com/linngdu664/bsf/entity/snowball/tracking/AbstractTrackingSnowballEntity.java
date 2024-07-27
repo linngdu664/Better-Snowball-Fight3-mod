@@ -66,7 +66,7 @@ public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowball
             if (isLockFeet()) {
                 delta = target.getPosition(1).subtract(getPosition(1));
             } else {
-                delta = target.getEyePosition().subtract(getPosition(1));
+                delta = target.getBoundingBox().getCenter().subtract(getPosition(1));
             }
             double cosTheta = BSFCommonUtil.vec2AngleCos(delta.x, delta.z, velocity.x, velocity.z);
             if (cosTheta > 1) {

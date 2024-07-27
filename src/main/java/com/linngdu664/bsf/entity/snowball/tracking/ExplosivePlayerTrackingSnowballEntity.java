@@ -46,7 +46,7 @@ public class ExplosivePlayerTrackingSnowballEntity extends AbstractPlayerTrackin
 
     @Override
     public boolean isLockFeet() {
-        return true;
+        return false;
     }
 
     @Override
