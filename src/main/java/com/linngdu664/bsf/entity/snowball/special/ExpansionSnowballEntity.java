@@ -3,6 +3,7 @@ package com.linngdu664.bsf.entity.snowball.special;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -34,7 +35,7 @@ public class ExpansionSnowballEntity extends AbstractConstructSnowballEntity {
         Level level = level();
         if (!level.isClientSide) {
             if (!isCaught) {
-                Vec3 vec3 = pResult.getLocation();
+                Vec3 vec3 = BSFCommonUtil.getRealHitPosOnMoveVecWithHitResult(this, pResult);
                 BlockPos blockPos = new BlockPos(Mth.floor(vec3.x), Mth.floor(vec3.y), Mth.floor(vec3.z));
                 float eighthPi = Mth.PI / 8;
                 for (int i = 0; i < 16; i++) {

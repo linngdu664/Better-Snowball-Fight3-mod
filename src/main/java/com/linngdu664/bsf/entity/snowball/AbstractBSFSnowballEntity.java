@@ -212,13 +212,13 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
         return Math.abs(cameraVec.dot(speedVec) + 1.0) < 0.2;
     }
 
-    protected void handleExplosion(float radius) {
+    protected void handleExplosion(float radius,Vec3 location) {
         Level level = level();
         if (!level.isClientSide) {
             if (level.getGameRules().getBoolean((GameRules.RULE_MOBGRIEFING)) && BSFConfig.explosiveDestroy) {
-                level.explode(null, this.getX(), this.getY(), this.getZ(), radius, Level.ExplosionInteraction.TNT);
+                level.explode(null, location.x, location.y, location.z, radius, Level.ExplosionInteraction.TNT);
             } else {
-                level.explode(null, this.getX(), this.getY(), this.getZ(), radius, Level.ExplosionInteraction.NONE);
+                level.explode(null, location.x, location.y, location.z, radius, Level.ExplosionInteraction.NONE);
             }
         }
 

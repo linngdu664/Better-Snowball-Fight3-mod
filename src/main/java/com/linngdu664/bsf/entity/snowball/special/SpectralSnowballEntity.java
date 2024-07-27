@@ -4,19 +4,24 @@ import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -40,17 +45,26 @@ public class SpectralSnowballEntity extends AbstractBSFSnowballEntity {
         Level level = level();
         if (!level.isClientSide) {
             if (!isCaught) {
-                ((ServerLevel) level).sendParticles(ParticleTypes.FIREWORK, this.getX(), this.getY(), this.getZ(), 60, 0, 0, 0, 0.12);
-                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4), EntitySelector.NO_SPECTATORS.and(EntitySelector.withinDistance(getX(), getY(), getZ(), 3.5)));
+                Vec3 location = BSFCommonUtil.getRealHitPosOnMoveVecWithHitResult(this, pResult);
+                ((ServerLevel) level).sendParticles(ParticleTypes.FIREWORK, location.x, location.y, location.z, 60, 0, 0, 0, 0.12);
+                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location,location).inflate(4), EntitySelector.NO_SPECTATORS.and(EntitySelector.withinDistance(location.x, location.y, location.z, 3.5)));
                 for (LivingEntity livingEntity : list) {
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 70, 0));
                 }
                 if (!list.isEmpty()) {
-                    level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.NEUTRAL, 1F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                    level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.BELL_RESONATE, SoundSource.NEUTRAL, 1F, 0.66666667F);
+                    level.playSound(null, location.x, location.y, location.z, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.NEUTRAL, 1F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                    level.playSound(null, location.x, location.y, location.z, SoundEvents.BELL_RESONATE, SoundSource.NEUTRAL, 1F, 0.66666667F);
                 }
             }
             this.discard();
+        }
+    }
+
+    @Override
+    protected void onHitEntity(EntityHitResult pResult) {
+        super.onHitEntity(pResult);
+        if (pResult.getEntity() instanceof LivingEntity livingEntity){
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 90, 0));
         }
     }
 

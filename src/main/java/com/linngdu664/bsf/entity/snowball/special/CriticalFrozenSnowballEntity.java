@@ -30,6 +30,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
@@ -62,7 +63,7 @@ public class CriticalFrozenSnowballEntity extends AbstractBSFSnowballEntity {
                 } else {
                     frozenRange = 2.5F;
                 }
-                Vec3 location = pResult.getLocation();
+                Vec3 location = BSFCommonUtil.getRealHitPosOnMoveVecWithHitResult(this, pResult);
                 BlockPos blockPos = new BlockPos(Mth.floor(location.x), Mth.floor(location.y), Mth.floor(location.z));
                 BlockState ice = Blocks.ICE.defaultBlockState();
                 BlockState basalt = Blocks.BASALT.defaultBlockState();
@@ -92,7 +93,7 @@ public class CriticalFrozenSnowballEntity extends AbstractBSFSnowballEntity {
                         }
                     }
                 }
-                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4), p -> !(p instanceof BSFSnowGolemEntity) && !(p instanceof SnowGolem) && !(p instanceof Player player && player.isSpectator()) && distanceToSqr(p) < frozenRange * frozenRange);
+                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location,location).inflate(4), p -> !(p instanceof BSFSnowGolemEntity) && !(p instanceof SnowGolem) && !(p instanceof Player player && player.isSpectator()) && distanceToSqr(p) < frozenRange * frozenRange);
                 for (LivingEntity entity : list) {
                     int frozenTicks = launchAdjustment.adjustFrozenTicks(getBasicFrozenTicks());
                     if (frozenTicks > 0) {
@@ -107,11 +108,11 @@ public class CriticalFrozenSnowballEntity extends AbstractBSFSnowballEntity {
                     }
                 }
                 if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
-                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 40, 0, 0, 0, 0.12);
+                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, location.x, location.y, location.z, 40, 0, 0, 0, 0.12);
                 } else {
-                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 20, 0, 0, 0, 0.12);
+                    ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, location.x, location.y, location.z, 20, 0, 0, 0, 0.12);
                 }
-                level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_HURT_FREEZE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                level.playSound(null, location.x, location.y, location.z, SoundEvents.PLAYER_HURT_FREEZE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
             this.discard();
         }

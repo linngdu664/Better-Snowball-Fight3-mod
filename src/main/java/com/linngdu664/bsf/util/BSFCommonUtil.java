@@ -5,10 +5,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
@@ -126,8 +126,25 @@ public class BSFCommonUtil {
         double a = Math.sqrt(p1p2v.lengthSqr() - b * b);
         return a < pointToVectorMaxDistance && b < pointToVectorNormalPlaneMaxDistance;
     }
-    public static Vec3 getRealEntityHitPosOnMoveVectorWithHitResult(Entity pProjectile, EntityHitResult pResult){
-        Vec3 vec3 = getRealEntityHitPosOnMoveVector(pProjectile);
+
+    /**
+     * 在onHit里使用，返回真实击中点位，或者实体的碰撞箱中心点
+     * @return 撞击点位
+     */
+    public static Vec3 getRealHitPosOnMoveVecWithHitResult(Entity pProjectile, HitResult pResult){
+        if (pResult.getType()==HitResult.Type.ENTITY){
+            return getRealEntityHitPosOnMoveVecWithHitResult(pProjectile,(EntityHitResult) pResult);
+        }else{
+            return pResult.getLocation();
+        }
+    }
+
+    /**
+     * 在onEntityHit里自动判断如果获取真实撞击点位失败则获取EntityHitResult实体的碰撞箱中心点
+     * @return 撞击点位
+     */
+    public static Vec3 getRealEntityHitPosOnMoveVecWithHitResult(Entity pProjectile, EntityHitResult pResult){
+        Vec3 vec3 = getRealEntityHitPosOnMoveVec(pProjectile);
         if (vec3 == null) {
             vec3=pResult.getEntity().getBoundingBox().getCenter();
         }
@@ -136,10 +153,9 @@ public class BSFCommonUtil {
 
     /**
      * 直接通过传入实体位置和速度获取实体在当前tick撞击实体的真实点位
-     * @param pProjectile
      * @return 撞击点位，有可能为null
      */
-    public static Vec3 getRealEntityHitPosOnMoveVector(Entity pProjectile) {
+    public static Vec3 getRealEntityHitPosOnMoveVec(Entity pProjectile) {
         Vec3 vec3 = pProjectile.getDeltaMovement();
         Level level = pProjectile.level();
         Vec3 vec31 = pProjectile.position();

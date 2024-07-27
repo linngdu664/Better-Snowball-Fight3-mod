@@ -3,6 +3,7 @@ package com.linngdu664.bsf.entity.snowball.tracking;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -24,7 +25,7 @@ public class ExplosiveMonsterTrackingSnowballEntity extends AbstractMonsterTrack
     protected void onHit(@NotNull HitResult pResult) {
         super.onHit(pResult);
         if (!level().isClientSide && !isCaught) {
-            handleExplosion(1.5F);
+            handleExplosion(1.5F, BSFCommonUtil.getRealHitPosOnMoveVecWithHitResult(this, pResult));
         }
     }
 
