@@ -64,9 +64,9 @@ public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowball
             setNoGravity(true);
             Vec3 delta;
             if (isLockFeet()) {
-                delta = target.getPosition(0).subtract(getPosition(0));
+                delta = target.getPosition(1).subtract(getPosition(1));
             } else {
-                delta = target.getEyePosition().subtract(getPosition(0));
+                delta = target.getEyePosition().subtract(getPosition(1));
             }
             double cosTheta = BSFCommonUtil.vec2AngleCos(delta.x, delta.z, velocity.x, velocity.z);
             if (cosTheta > 1) {
