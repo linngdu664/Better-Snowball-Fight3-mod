@@ -59,6 +59,11 @@
       "bsf:machine_gun_cooling"
     ]
   },
+  "subspace_snowball_attack": {
+    "sounds": [
+      "bsf:subspace_snowball_attack"
+    ]
+  },
   "duck_sound": {
     "sounds": [
       "bsf:duck_sound"

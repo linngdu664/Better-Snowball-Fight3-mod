@@ -139,8 +139,8 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                 float r = damage<5?2:damage/5+1;
                 List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location.x,location.y,location.z,location.x,location.y,location.z).inflate(r+3), EntitySelector.LIVING_ENTITY_STILL_ALIVE);
                 damageList(list,damage,r,location);
-
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(location.x, location.y, location.z, r,(int)(25*r)));
+                level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegister.SUBSPACE_SNOWBALL_ATTACK.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
             this.discard();
         }
@@ -157,6 +157,7 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
             List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location.x,location.y,location.z,location.x,location.y,location.z).inflate(r+3), EntitySelector.NO_SPECTATORS);
             damageList(list,damage,r,location);
             NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(location.x, location.y, location.z, r,(int)(25*r)));
+            level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegister.SUBSPACE_SNOWBALL_ATTACK.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             this.discard();
         }
     }
