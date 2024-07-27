@@ -9,6 +9,7 @@ import com.linngdu664.bsf.network.SubspaceSnowballParticlesToClient;
 import com.linngdu664.bsf.network.VectorInversionParticleToClient;
 import com.linngdu664.bsf.particle.util.ParticleUtil;
 import com.linngdu664.bsf.registry.*;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -92,52 +93,26 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                     this.discard();
                 }
                 if (!release) {
-                    damage += absorbable.getSubspacePower();
-                    blazeDamage += absorbable.getSubspacePower();
+                    damage += damage<15?absorbable.getSubspacePower():15*absorbable.getSubspacePower()/damage;
+                    blazeDamage += damage<15?absorbable.getSubspacePower():15*absorbable.getSubspacePower()/damage;
+                    Vec3 vec3 = this.getDeltaMovement().scale(0.05);
+                    this.push(vec3.x, vec3.y, vec3.z);
                 }
                 level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegister.SUBSPACE_SNOWBALL_CUT.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             });
-//            List<AbstractBSFSnowballEntity> list = level.getEntitiesOfClass(AbstractBSFSnowballEntity.class, aabb, p -> !this.equals(p));
-            /*
-            for (AbstractBSFSnowballEntity snowball : list) {
-                if (release && !(snowball instanceof GPSSnowballEntity)) {
-                    itemStackArrayList.add(snowball.getItem());
-                }
-                ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, snowball.getX(), snowball.getY(), snowball.getZ(), 8, 0, 0, 0, 0.05);
-                snowball.discard();
-                if (snowball instanceof SubspaceSnowballEntity) {
-                    ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 16, 0, 0, 0, 0.05);
-                    this.discard();
-                }
-                if (!release && damage < 15.0F) {
-                    damage += snowball.getSubspacePower();
-                    blazeDamage += snowball.getSubspacePower();
-                }
-                level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegister.SUBSPACE_SNOWBALL_CUT.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-            }*/
             level.getEntitiesOfClass(Snowball.class, aabb, p -> true).forEach(p -> {
                 if (release) {
                     itemStackArrayList.add(p.getItem());
                 }
                 ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, p.getX(), p.getY(), p.getZ(), 8, 0, 0, 0, 0.05);
                 p.discard();
-                if (!release && damage < 15.0F) {
-                    damage += 1;
-                    blazeDamage += 1;
+                if (!release) {
+                    damage += damage<15?1:15/damage;
+                    blazeDamage += damage<15?1:15/damage;
+                    Vec3 vec3 = this.getDeltaMovement().scale(0.05);
+                    this.push(vec3.x, vec3.y, vec3.z);
                 }
             });
-//            List<Snowball> list2 = level.getEntitiesOfClass(Snowball.class, aabb, p -> true);
-//            for (Snowball snowball : list2) {
-//                if (release) {
-//                    itemStackArrayList.add(snowball.getItem());
-//                }
-//                ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, snowball.getX(), snowball.getY(), snowball.getZ(), 8, 0, 0, 0, 0.05);
-//                snowball.discard();
-//                if (!release && damage < 15.0F) {
-//                    damage += 1;
-//                    blazeDamage += 1;
-//                }
-//            }
             if (timer == 150) {
                 for (ItemStack itemStack : itemStackArrayList) {
                     ItemEntity itemEntity = new ItemEntity(level, getX(), getY(), getZ(), itemStack);
@@ -152,8 +127,10 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     }
 
     @Override
-    protected void onHitBlock(@NotNull BlockHitResult p_37258_) {
-        super.onHitBlock(p_37258_);
+    protected void onHitBlock(@NotNull BlockHitResult pResult) {
+        super.onHitBlock(pResult);
+        Vec3 location = pResult.getLocation();
+
         Level level = level();
         if (!level.isClientSide) {
             for (ItemStack itemStack : itemStackArrayList) {
@@ -162,13 +139,13 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                 level.addFreshEntity(itemEntity);
             }
             if(!release){
-                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4), EntitySelector.LIVING_ENTITY_STILL_ALIVE);
-                damageList(list,damage);
+                float r = damage<5?2:damage/5+1;
+                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location.x,location.y,location.z,location.x,location.y,location.z).inflate(r+3), EntitySelector.LIVING_ENTITY_STILL_ALIVE);
+                System.out.println(new AABB(location.x,location.y,location.z,location.x,location.y,location.z).inflate(r+3));
+                damageList(list,damage,r,location);
 
-                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(this.getX(), this.getEyeY(), this.getZ(), 2,100));
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(location.x, location.y, location.z, r,(int)(25*r)));
             }
-//            ((ServerLevel) level).sendParticles(ParticleTypes.ITEM_SNOWBALL, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0);
-//            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0.04);
             this.discard();
         }
     }
@@ -176,26 +153,22 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
+        Vec3 location = BSFCommonUtil.getRealEntityHitPosOnMoveVectorWithHitResult(this,pResult);
         Level level = level();
         if (!release&&!level.isClientSide) {
-            List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(5), EntitySelector.NO_SPECTATORS);
-            damageList(list,damage);
-            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(this.getX(), this.getEyeY(), this.getZ(), 2,100));
-//            ((ServerLevel) level).sendParticles(ParticleTypes.ITEM_SNOWBALL, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0);
-//            ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), (int) damage * 4, 0, 0, 0, 0.04);
+            float r = damage<5?2:damage/5+1;
+            List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location.x,location.y,location.z,location.x,location.y,location.z).inflate(r+3), EntitySelector.NO_SPECTATORS);
+            damageList(list,damage,r,location);
+            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(location.x, location.y, location.z, r,(int)(25*r)));
             this.discard();
         }
     }
 
 
-    private void damageList(List<? extends LivingEntity> list, float damage) {
-        Vec3 pos = getPosition(1);
+    private void damageList(List<? extends LivingEntity> list, float damage,float range,Vec3 location) {
         for (LivingEntity entity : list) {
-            System.out.println(entity);
-            Vec3 rVec = new Vec3(entity.getX(), (entity.getBoundingBox().minY + entity.getBoundingBox().maxY) * 0.5, entity.getZ()).add(pos.reverse());
-            System.out.println(rVec);
-            if (rVec.length() < 3) {
-                System.out.println((float) (damage/rVec.length()));
+            Vec3 rVec = new Vec3(entity.getX(), (entity.getBoundingBox().minY + entity.getBoundingBox().maxY) * 0.5, entity.getZ()).add(location.reverse());
+            if (rVec.length() < range) {
                 entity.hurt(level().damageSources().fellOutOfWorld(), (float) (damage/rVec.length()));
             }
         }
