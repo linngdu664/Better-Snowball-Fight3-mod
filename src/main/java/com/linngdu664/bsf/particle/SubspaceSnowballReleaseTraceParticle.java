@@ -66,7 +66,7 @@ public class SubspaceSnowballReleaseTraceParticle extends TextureSheetParticle {
             float f = randomSource.nextFloat() * 0.6F + 0.4F;
             double theta = BSFCommonUtil.randDouble(randomSource, 0, 2 * Mth.PI);
             double phi = Math.acos(BSFCommonUtil.randDouble(randomSource, -1, 1)) - Mth.HALF_PI;
-            return new SubspaceSnowballReleaseTraceParticle(pLevel,  new Vec3(pX, pY, pZ), BSFCommonUtil.radRotationToVector(2.5, theta, phi),new Vec3(pXSpeed, pYSpeed, pZSpeed), f * 0.9F, f * 0.3F, f * 0.3F, this.sprite);
+            return new SubspaceSnowballReleaseTraceParticle(pLevel,  new Vec3(pX, pY, pZ), BSFCommonUtil.radRotationToVector(2.5, theta, phi),new Vec3(pXSpeed, pYSpeed, pZSpeed).normalize(), f * 0.9F, f * 0.3F, f * 0.3F, this.sprite);
         }
     }
 
