@@ -10,7 +10,9 @@ public class SphereAxisRotationHelper {
 
 
     public SphereAxisRotationHelper(Vec3 offset, double axisYaw, double axisPitch) {
-        Vec3 axis = BSFCommonUtil.radRotationToVector(1, axisYaw, axisPitch);   // 单位方向向量
+        this(offset,BSFCommonUtil.radRotationToVector(1, axisYaw, axisPitch));
+    }
+    public SphereAxisRotationHelper(Vec3 offset, Vec3 axis) {
         Vec3 vec33 = axis.scale(offset.length() * BSFCommonUtil.vec3AngleCos(offset, axis));
         circle1 = offset.subtract(vec33);
         circle2 = circle1.cross(axis);     // axis为单位向量且垂直于vec31，不需要调整结果长度

@@ -4,6 +4,7 @@ import com.linngdu664.bsf.entity.Absorbable;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.network.SubspaceSnowballParticlesToClient;
+import com.linngdu664.bsf.network.SubspaceSnowballReleaseTraceParticlesToClient;
 import com.linngdu664.bsf.registry.*;
 import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.core.particles.ParticleTypes;
@@ -43,7 +44,9 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         super(EntityRegister.SUBSPACE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
         this.release = release;
         this.setNoGravity(true);
-        this.particleGenerationStepSize=0.1f;
+        if (!release){
+            this.particleGenerationStepSize=0.1f;
+        }
     }
 
     @Override
@@ -119,7 +122,12 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         // Spawn trace particles
         Level level = level();
         if (!level.isClientSide) {
-            ((ServerLevel) level).sendParticles(ParticleRegister.SUBSPACE_SNOWBALL_ATTACK_TRACE.get(), vec3.x, vec3.y+0.1, vec3.z, 1, 0, 0, 0, 0);
+            if (release){
+                Vec3 deltaMovement = this.getDeltaMovement();
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballReleaseTraceParticlesToClient(vec3.x, vec3.y, vec3.z, deltaMovement.x, deltaMovement.y, deltaMovement.z));
+            }else{
+                ((ServerLevel) level).sendParticles(ParticleRegister.SUBSPACE_SNOWBALL_ATTACK_TRACE.get(), vec3.x, vec3.y+0.1, vec3.z, 1, 0, 0, 0, 0);
+            }
         }
     }
 
@@ -140,8 +148,8 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                 List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location,location).inflate(r+3), EntitySelector.LIVING_ENTITY_STILL_ALIVE);
                 damageList(list,damage,r,location);
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(location.x, location.y, location.z, r,(int)(25*r)));
-                level.playSound(null, location.x,location.y,location.z, SoundRegister.SUBSPACE_SNOWBALL_ATTACK.get(), SoundSource.PLAYERS, 1.3F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             }
+            level.playSound(null, location.x,location.y,location.z, SoundRegister.SUBSPACE_SNOWBALL_ATTACK.get(), SoundSource.PLAYERS, 1.3F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             this.discard();
         }
     }
@@ -152,13 +160,15 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         Vec3 location = BSFCommonUtil.getRealEntityHitPosOnMoveVecWithHitResult(this,pResult);
         callTrackParticlesEnd(location);
         Level level = level();
-        if (!release&&!level.isClientSide) {
-            float r = damage<5?2:damage/5+1;
-            List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location,location).inflate(r+3), EntitySelector.NO_SPECTATORS);
-            damageList(list,damage,r,location);
-            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(location.x, location.y, location.z, r,(int)(25*r)));
+        if (!level.isClientSide){
+            if (!release) {
+                float r = damage<5?2:damage/5+1;
+                List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location,location).inflate(r+3), EntitySelector.NO_SPECTATORS);
+                damageList(list,damage,r,location);
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(location.x, location.y, location.z, r,(int)(25*r)));
+                this.discard();
+            }
             level.playSound(null, location.x,location.y,location.z, SoundRegister.SUBSPACE_SNOWBALL_ATTACK.get(), SoundSource.PLAYERS, 0.7F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-            this.discard();
         }
     }
 

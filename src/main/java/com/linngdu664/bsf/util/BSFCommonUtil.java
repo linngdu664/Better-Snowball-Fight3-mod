@@ -181,4 +181,12 @@ public class BSFCommonUtil {
         }
         return vec3;
     }
+
+    public static double vec3GetYaw(Vec3 vec) {
+        return Math.atan2(vec.z, vec.x);
+    }
+
+    public static double vec3GetPitch(Vec3 vec) {
+        return Math.atan2(vec.y, Math.sqrt(vec.x * vec.x + vec.z * vec.z));
+    }
 }
