@@ -52,9 +52,11 @@ public class PowderSnowballEntity extends AbstractBSFSnowballEntity {
     protected void onHitBlock(@NotNull BlockHitResult p_37258_) {
         super.onHitBlock(p_37258_);
         Level level = level();
-        ((ServerLevel) level).sendParticles(ParticleRegister.BIG_LONG_TIME_SNOWFLAKE.get(), this.getX(), this.getY(), this.getZ(), 25, 0, 0, 0, 0.4);
-        level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegister.POWDER_SNOWBALL.get(), SoundSource.PLAYERS, 0.3F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-        level.addFreshEntity(new PowderExecutor(EntityRegister.POWDER_EXECUTOR.get(), getX(), getY(), getZ(), level()));
+        if (!level.isClientSide()) {
+            ((ServerLevel) level).sendParticles(ParticleRegister.BIG_LONG_TIME_SNOWFLAKE.get(), this.getX(), this.getY(), this.getZ(), 25, 0, 0, 0, 0.4);
+            level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegister.POWDER_SNOWBALL.get(), SoundSource.PLAYERS, 0.3F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+            level.addFreshEntity(new PowderExecutor(EntityRegister.POWDER_EXECUTOR.get(), getX(), getY(), getZ(), level()));
+        }
         discard();
 //        isStart = true;
 //        if (!level.isClientSide) {
