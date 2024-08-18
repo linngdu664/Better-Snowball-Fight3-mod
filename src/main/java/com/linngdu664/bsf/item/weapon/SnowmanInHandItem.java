@@ -27,6 +27,9 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import team.lodestar.lodestone.handlers.ScreenshakeHandler;
+import team.lodestar.lodestone.systems.easing.Easing;
+import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 
 import java.util.List;
 
@@ -87,6 +90,7 @@ public class SnowmanInHandItem extends Item {
         } else if (pStack.getDamageValue() < pStack.getMaxDamage() - 1) {//attack
             if (pLevel.isClientSide()) {
                 pLivingEntity.push(-cameraVec.x * 0.025, -cameraVec.y * 0.025, -cameraVec.z * 0.025);
+                ScreenshakeHandler.addScreenshake((new ScreenshakeInstance(1)).setIntensity(0.5f).setEasing(Easing.ELASTIC_IN));
             } else {
                 for (int i = 0; i < 3; i++) {
                     SmoothSnowballEntity snowballEntity = new SmoothSnowballEntity(pLivingEntity, pLevel, LAUNCH_ADJUSTMENT);

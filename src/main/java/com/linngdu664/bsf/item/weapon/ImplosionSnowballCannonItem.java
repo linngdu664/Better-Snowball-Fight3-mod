@@ -29,6 +29,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import team.lodestar.lodestone.handlers.ScreenshakeHandler;
+import team.lodestar.lodestone.systems.easing.Easing;
+import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 
 public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
     public static final int TYPE_FLAG = 64;
@@ -78,6 +81,8 @@ public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
                 }
                 pPlayer.awardStat(Stats.ITEM_USED.get(this));
             }
+        }else{
+            ScreenshakeHandler.addScreenshake((new ScreenshakeInstance(5)).setIntensity(0.5f).setEasing(Easing.EXPO_IN_OUT));
         }
         return InteractionResultHolder.pass(itemStack);
     }

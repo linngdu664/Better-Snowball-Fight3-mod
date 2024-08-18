@@ -21,6 +21,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import team.lodestar.lodestone.handlers.ScreenshakeHandler;
+import team.lodestar.lodestone.systems.easing.Easing;
+import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 
 import java.util.List;
 import java.util.Vector;
@@ -48,6 +51,7 @@ public class RepulsiveFieldGeneratorItem extends AbstractBSFEnhanceableToolItem 
                 pStack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
             }
             player.awardStat(Stats.ITEM_USED.get(this));
+            ScreenshakeHandler.addScreenshake((new ScreenshakeInstance(5)).setIntensity(0.5f).setEasing(Easing.EXPO_IN_OUT));
             player.getCooldowns().addCooldown(this, getUseDuration(pStack) - pTimeCharged + 20);
             pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegister.FIELD_PUSH.get(), SoundSource.PLAYERS, 0.5F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
         }

@@ -10,23 +10,32 @@ import com.linngdu664.bsf.util.BSFCommonUtil;
 import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import team.lodestar.lodestone.network.screenshake.ScreenshakePacket;
+import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
+import team.lodestar.lodestone.systems.easing.Easing;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
@@ -144,6 +153,12 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     }
 
     private void icicleInit(Level level) {
+        List<Player> nearbyPlayers = level.getNearbyPlayers(TargetingConditions.forNonCombat(), null,
+                new AABB(this.position().add(100, 100, 100), this.position().subtract(100, 100, 100)));
+        nearbyPlayers.forEach(p -> {
+            LodestonePacketRegistry.LODESTONE_CHANNEL.send((PacketDistributor.PLAYER.with(() -> (ServerPlayer) p)),
+                    new ScreenshakePacket(20).setEasing(Easing.SINE_IN_OUT).setIntensity((float)0.5));
+        });
 //        stopTheSnowball(impactPoint.getCenter());
         this.setDeltaMovement(0, 0, 0);
         this.setNoGravity(true);

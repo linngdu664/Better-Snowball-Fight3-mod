@@ -5,6 +5,7 @@ import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -18,6 +19,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import team.lodestar.lodestone.network.screenshake.ScreenshakePacket;
+import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
+import team.lodestar.lodestone.systems.easing.Easing;
 
 public class VectorInversionAnchorItem extends AbstractBSFEnhanceableToolItem {
     public VectorInversionAnchorItem() {
@@ -37,6 +41,10 @@ public class VectorInversionAnchorItem extends AbstractBSFEnhanceableToolItem {
                         double y = 0.5 * (aabb.maxY - aabb.minY);
                         double z = 0.5 * (aabb.maxZ - aabb.minZ);
                         ((ServerLevel) pLevel).sendParticles(ParticleTypes.ENCHANT, center.x, center.y, center.z, (int) (400 * z * x * y), x, y, z, 0.3);
+                        if (p instanceof ServerPlayer player) {
+                            LodestonePacketRegistry.LODESTONE_CHANNEL.send((PacketDistributor.PLAYER.with(() -> player)),
+                                    new ScreenshakePacket(5).setEasing(Easing.EXPO_IN_OUT).setIntensity((float)0.5));
+                        }
                     }
                 });
         if (!pLevel.isClientSide) {

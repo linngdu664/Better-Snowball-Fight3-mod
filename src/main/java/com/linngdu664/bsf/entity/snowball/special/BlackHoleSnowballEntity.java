@@ -9,14 +9,24 @@ import com.linngdu664.bsf.registry.SoundRegister;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import team.lodestar.lodestone.network.screenshake.ScreenshakePacket;
+import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
+import team.lodestar.lodestone.systems.easing.Easing;
+
+import java.util.List;
 
 public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
     public int startTime = 20;
@@ -91,6 +101,12 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
     }
 
     private void startBlackHole() {
+        List<Player> nearbyPlayers = level().getNearbyPlayers(TargetingConditions.forNonCombat(), null,
+                new AABB(this.position().add(100, 100, 100), this.position().subtract(100, 100, 100)));
+        nearbyPlayers.forEach(p -> {
+            LodestonePacketRegistry.LODESTONE_CHANNEL.send((PacketDistributor.PLAYER.with(() -> (ServerPlayer) p)),
+                    new ScreenshakePacket(20).setEasing(Easing.SINE_IN_OUT).setIntensity((float)0.6));
+        });
         discard();
         Level level = level();
         Vec3 vec3 = getDeltaMovement();

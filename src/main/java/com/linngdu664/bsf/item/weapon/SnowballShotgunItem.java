@@ -30,6 +30,9 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import team.lodestar.lodestone.handlers.ScreenshakeHandler;
+import team.lodestar.lodestone.systems.easing.Easing;
+import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 
 import java.util.List;
 
@@ -128,6 +131,7 @@ public class SnowballShotgunItem extends AbstractBSFWeaponItem {
             }
             stack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(p.getUsedItemHand()));
             player.awardStat(Stats.ITEM_USED.get(this));
+            ScreenshakeHandler.addScreenshake((new ScreenshakeInstance(3)).setIntensity(0.8f).setEasing(Easing.ELASTIC_IN));
         }
         return InteractionResultHolder.pass(stack);
     }

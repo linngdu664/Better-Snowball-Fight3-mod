@@ -15,6 +15,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
@@ -22,7 +24,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import team.lodestar.lodestone.network.screenshake.ScreenshakePacket;
+import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
+import team.lodestar.lodestone.systems.easing.Easing;
 
 import java.util.List;
 
@@ -76,6 +82,8 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
                 entity.push(aVec.x, aVec.y, aVec.z);
                 if (entity instanceof ServerPlayer player) {
                     player.connection.send(new ClientboundSetEntityMotionPacket(entity));
+                    LodestonePacketRegistry.LODESTONE_CHANNEL.send((PacketDistributor.PLAYER.with(() -> (ServerPlayer) entity)),
+                            new ScreenshakePacket(5).setEasing(Easing.EXPO_IN_OUT).setIntensity((float)0.8));
                 }
             }
         }
