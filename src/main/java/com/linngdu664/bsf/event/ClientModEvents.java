@@ -14,6 +14,8 @@ import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -47,6 +49,14 @@ public class ClientModEvents {
                         } else {
                             float pct = (float) (itemStack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) / ColdCompressionJetEngineItem.STARTUP_DURATION;
                             return pct > 1.4f ? 2.0f : pct;
+                        }
+                    });
+            ItemProperties.register(ItemRegister.IMPLOSION_SNOWBALL_CANNON.get(),
+                    new ResourceLocation("cooling"), (itemStack, world, livingEntity, num) -> {
+                        if (livingEntity instanceof Player player) {
+                            return player.getCooldowns().getCooldownPercent(itemStack.getItem(), 1);
+                        }else{
+                            return 0;
                         }
                     });
             ItemProperties.register(ItemRegister.SNOWBALL_CANNON.get(),

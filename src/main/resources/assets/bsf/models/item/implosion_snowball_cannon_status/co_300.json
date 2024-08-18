@@ -1,0 +1,7 @@
+{
+  "parent": "bsf:item/implosion_snowball_cannon",
+  "textures": {
+    "1": "bsf:item/implosion_snowball_cannon_aura_cooling",
+    "4": "bsf:item/implosion_snowball_cannon_cover_300"
+  }
+}

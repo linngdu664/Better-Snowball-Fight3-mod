@@ -82,7 +82,7 @@ public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
                 pPlayer.awardStat(Stats.ITEM_USED.get(this));
             }
         }else{
-            ScreenshakeHandler.addScreenshake((new ScreenshakeInstance(5)).setIntensity(0.5f).setEasing(Easing.EXPO_IN_OUT));
+            ScreenshakeHandler.addScreenshake((new ScreenshakeInstance(6)).setIntensity(0.8f).setEasing(Easing.EXPO_IN_OUT));
         }
         return InteractionResultHolder.pass(itemStack);
     }

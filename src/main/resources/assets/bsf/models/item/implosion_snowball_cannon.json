@@ -1,0 +1,120 @@
+{
+  "parent": "bsf:custom/implosion_snowball_cannon_model",
+  "textures": {
+    "0": "bsf:item/implosion_snowball_cannon_body",
+    "1": "bsf:item/implosion_snowball_cannon_aura_static",
+    "3": "bsf:item/implosion_snowball_cannon_ring",
+    "4": "bsf:item/implosion_snowball_cannon_cover_333",
+    "particle": "bsf:item/implosion_snowball_cannon_body"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "cooling": 0.00
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_333"
+    },
+    {
+      "predicate": {
+        "cooling": 0.02
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_332"
+    },
+    {
+      "predicate": {
+        "cooling": 0.04
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_331"
+    },
+    {
+      "predicate": {
+        "cooling": 0.06
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_330"
+    },
+    {
+      "predicate": {
+        "cooling": 0.08
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_320"
+    },
+    {
+      "predicate": {
+        "cooling": 0.10
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_310"
+    },
+    {
+      "predicate": {
+        "cooling": 0.12
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_300"
+    },
+    {
+      "predicate": {
+        "cooling": 0.14
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_200"
+    },
+    {
+      "predicate": {
+        "cooling": 0.16
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_100"
+    },
+    {
+      "predicate": {
+        "cooling": 0.20
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_000"
+    },
+    {
+      "predicate": {
+        "cooling": 0.86
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_001"
+    },
+    {
+      "predicate": {
+        "cooling": 0.88
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_002"
+    },
+    {
+      "predicate": {
+        "cooling": 0.90
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_003"
+    },
+    {
+      "predicate": {
+        "cooling": 0.92
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_013"
+    },
+    {
+      "predicate": {
+        "cooling": 0.94
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_023"
+    },
+    {
+      "predicate": {
+        "cooling": 0.96
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_033"
+    },
+    {
+      "predicate": {
+        "cooling": 0.98
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_133"
+    },{
+      "predicate": {
+        "cooling": 1.00
+      },
+      "model": "bsf:item/implosion_snowball_cannon_status/co_233"
+    }
+
+  ]
+}
