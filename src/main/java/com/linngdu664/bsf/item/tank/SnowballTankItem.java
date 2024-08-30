@@ -3,6 +3,7 @@ package com.linngdu664.bsf.item.tank;
 import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -77,10 +78,10 @@ public class SnowballTankItem extends Item {
             snowballItem.generateWeaponTips(pTooltipComponents);
             snowballItem.addLastTips(pTooltipComponents);
         } else {
-            pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_storage_tank1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
-            pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_storage_tank2.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
-            pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_storage_tank3.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
             pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_storage_tank.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+            pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_storage_tank1.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+            pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_storage_tank2.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+            pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowball_storage_tank3.tooltip", null, new Object[]{Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage()})).withStyle(ChatFormatting.GRAY));
         }
     }
 

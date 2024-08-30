@@ -41,6 +41,6 @@ public class ReconstructSnowballItem extends AbstractSnowStorageSnowballItem {
 
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("reconstruct_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("reconstruct_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 }

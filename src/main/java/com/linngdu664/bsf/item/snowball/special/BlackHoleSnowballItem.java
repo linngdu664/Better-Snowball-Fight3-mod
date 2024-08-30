@@ -61,12 +61,13 @@ public class BlackHoleSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("black_hole_snowball1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("black_hole_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.OBFUSCATED));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("black_hole_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+
     }
 
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("black_hole_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.OBFUSCATED));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("black_hole_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_PURPLE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("black_hole_snowball1.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 }

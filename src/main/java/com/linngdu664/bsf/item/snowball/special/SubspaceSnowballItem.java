@@ -5,6 +5,7 @@ import com.linngdu664.bsf.entity.snowball.special.SubspaceSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
@@ -58,11 +59,13 @@ public class SubspaceSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball1.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_PURPLE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball2.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball3.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball4.tooltip", null, new Object[]{Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage()})).withStyle(ChatFormatting.GRAY));
     }
 }

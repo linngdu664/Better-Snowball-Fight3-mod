@@ -66,6 +66,6 @@ public class GloveItem extends AbstractBSFEnhanceableToolItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("glove.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("glove.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 }

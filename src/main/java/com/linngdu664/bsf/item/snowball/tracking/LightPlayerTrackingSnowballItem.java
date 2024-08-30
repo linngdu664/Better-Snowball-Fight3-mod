@@ -9,6 +9,7 @@ import com.linngdu664.bsf.item.weapon.SnowballMachineGunItem;
 import com.linngdu664.bsf.item.weapon.SnowballShotgunItem;
 import com.linngdu664.bsf.registry.ItemRegister;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
@@ -53,11 +54,11 @@ public class LightPlayerTrackingSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("can_change.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("LPT_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("LPT_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("can_change.tooltip", null, new Object[]{Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage()})).withStyle(ChatFormatting.GRAY));
     }
 }

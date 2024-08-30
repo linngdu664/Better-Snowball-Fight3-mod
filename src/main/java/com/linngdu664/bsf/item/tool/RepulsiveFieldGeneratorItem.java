@@ -113,7 +113,6 @@ public class RepulsiveFieldGeneratorItem extends AbstractBSFEnhanceableToolItem 
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("repulsive_field_generator1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("repulsive_field_generator.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("repulsive_field_generator.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 }

@@ -7,6 +7,7 @@ import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -112,18 +113,9 @@ public class BasinItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        CompoundTag tag = pStack.getOrCreateTag();
-        if (!tag.contains("SnowType")) {
-            pTooltipComponents.add(MutableComponent.create(new TranslatableContents("empty_basin.tooltip1", null, new Object[0])).withStyle(ChatFormatting.BLUE));
-            pTooltipComponents.add(MutableComponent.create(new TranslatableContents("empty_basin.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
-        } else {
-            pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin_of_snow.tooltip1", null, new Object[0])).withStyle(ChatFormatting.BLUE));
-            if (tag.getByte("SnowType") == 1) {
-                pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin_of_snow.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
-            } else {
-                pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin_of_powder_snow.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
-            }
-        }
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin0.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin1.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin2.tooltip", null, new Object[]{Minecraft.getInstance().options.keyUse.getTranslatedKeyMessage()})).withStyle(ChatFormatting.GRAY));
     }
 
     /**

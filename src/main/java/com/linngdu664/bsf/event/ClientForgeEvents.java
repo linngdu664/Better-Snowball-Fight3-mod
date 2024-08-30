@@ -135,4 +135,8 @@ public class ClientForgeEvents {
             }
         }
     }
+
+    public static void test() {
+
+    }
 }

@@ -49,12 +49,12 @@ public class ThrustSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("thrust_snowball1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("thrust_snowball2.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("thrust_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("thrust_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("thrust_snowball1.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("thrust_snowball2.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 }

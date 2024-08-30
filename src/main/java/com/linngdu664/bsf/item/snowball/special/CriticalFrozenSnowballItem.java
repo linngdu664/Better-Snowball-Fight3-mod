@@ -59,6 +59,6 @@ public class CriticalFrozenSnowballItem extends AbstractBSFSnowballItem {
 
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("critical_frozen_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("critical_frozen_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 }

@@ -6,6 +6,8 @@ import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -141,8 +143,9 @@ public class SnowmanInHandItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowman_in_hand.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowman_in_hand1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowman_in_hand2.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
+        Options options = Minecraft.getInstance().options;
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowman_in_hand.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowman_in_hand1.tooltip", null, new Object[]{options.keyShift.getTranslatedKeyMessage()})).withStyle(ChatFormatting.DARK_GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snowman_in_hand2.tooltip", null, new Object[]{options.keyUse.getTranslatedKeyMessage()})).withStyle(ChatFormatting.DARK_GRAY));
     }
 }

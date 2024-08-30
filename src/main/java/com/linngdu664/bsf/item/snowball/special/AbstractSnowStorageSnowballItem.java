@@ -94,6 +94,6 @@ public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowbal
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_storage_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_storage_snowball.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 }

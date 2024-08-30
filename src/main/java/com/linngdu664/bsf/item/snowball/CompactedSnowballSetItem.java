@@ -108,6 +108,6 @@ public class CompactedSnowballSetItem extends Item {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_cannon.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_machine_gun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("lunch_no_shotgun.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_RED));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("compacted_snowball_set.tooltip", null, new Object[0])).withStyle(ChatFormatting.DARK_AQUA));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("compacted_snowball_set.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 }
