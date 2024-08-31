@@ -35,7 +35,7 @@ import team.lodestar.lodestone.handlers.ScreenshakeHandler;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 
-public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
+public class ImplosionSnowballCannonItem extends Item {
     public static final int TYPE_FLAG = 64;
     public static final int DISTANCE = 16;
     public static final int RADIUM = 3;
@@ -43,7 +43,7 @@ public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
     public static final double HURT_POWER = 1;
 
     public ImplosionSnowballCannonItem() {
-        super(1000, Rarity.RARE, TYPE_FLAG);    // 暂定耐久
+        super(new Properties().stacksTo(1).durability(1000).rarity(Rarity.EPIC));
     }
 
     @Override
@@ -100,13 +100,4 @@ public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
         return InteractionResultHolder.pass(itemStack);
     }
 
-    @Override
-    public ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball) {
-        return null;
-    }
-
-    @Override
-    public boolean isAllowBulkedSnowball() {
-        return true;
-    }
 }

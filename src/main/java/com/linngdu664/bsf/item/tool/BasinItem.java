@@ -115,7 +115,7 @@ public class BasinItem extends Item {
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin0.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin1.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin2.tooltip", null, new Object[]{Minecraft.getInstance().options.keyUse.getTranslatedKeyMessage()})).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("basin2.tooltip", null, new Object[]{Minecraft.getInstance().options.keyUse.getTranslatedKeyMessage()})).withStyle(ChatFormatting.DARK_GRAY));
     }
 
     /**

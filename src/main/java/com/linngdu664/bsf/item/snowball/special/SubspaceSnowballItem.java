@@ -66,6 +66,6 @@ public class SubspaceSnowballItem extends AbstractBSFSnowballItem {
     public void addLastTips(List<Component> pTooltipComponents) {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball2.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball3.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
-        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball4.tooltip", null, new Object[]{Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage()})).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("subspace_snowball4.tooltip", null, new Object[]{Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage()})).withStyle(ChatFormatting.DARK_GRAY));
     }
 }
