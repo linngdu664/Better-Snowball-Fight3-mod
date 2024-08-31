@@ -2,12 +2,10 @@ package com.linngdu664.bsf.item.weapon;
 
 import com.linngdu664.bsf.block.LooseSnowBlock;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import com.linngdu664.bsf.network.ForwardRaysParticlesToClient;
 import com.linngdu664.bsf.particle.util.BSFParticleType;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
-import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.core.BlockPos;
@@ -19,13 +17,17 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +37,10 @@ import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 
 public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
     public static final int TYPE_FLAG = 64;
+    public static final int DISTANCE = 16;
+    public static final int RADIUM = 3;
+    public static final double PUSH_POWER = 1;
+    public static final double HURT_POWER = 1;
 
     public ImplosionSnowballCannonItem() {
         super(1000, Rarity.RARE, TYPE_FLAG);    // 暂定耐久
@@ -47,43 +53,50 @@ public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
             return InteractionResultHolder.fail(itemStack);
         }
         if (!pLevel.isClientSide) {
-            ItemStack stack = getAmmo(pPlayer, itemStack);
-            if (stack != null || pPlayer.isCreative()) {
-                ServerLevel serverLevel = (ServerLevel) pLevel;
-                serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 0.8F));
-                AABB aabb = pPlayer.getBoundingBox().inflate(8);
-                Vec3 cameraVec = Vec3.directionFromRotation(pPlayer.getXRot(), pPlayer.getYRot());
-                Vec3 eyePos = pPlayer.getEyePosition();
-                serverLevel.getEntities(pPlayer, aabb, p -> !p.isSpectator() && p.distanceToSqr(pPlayer) < 64 && BSFCommonUtil.vec3AngleCos(p.getEyePosition().subtract(eyePos), cameraVec) > 0.9363291776)
-                        .forEach(p -> {
-                            float r = p.distanceTo(pPlayer);
-                            float f1 = r < 4 ? 1f : -0.016666667f * r * r * r + 0.20416667f * r * r - 0.83333333f * r + 2.1333333f;
-                            Vec3 vec3 = p.getEyePosition().subtract(eyePos).scale(f1 * 0.5);
-                            p.push(vec3.x, vec3.y, vec3.z);
-                            p.hurt(serverLevel.damageSources().playerAttack(pPlayer), f1);
-                            if (p instanceof ServerPlayer serverPlayer) {
-                                serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(p));
-                            }
-                        });
-                BlockPos.betweenClosedStream(aabb)
-                        .filter(p -> serverLevel.getBlockState(p).getBlock() instanceof LooseSnowBlock && BSFCommonUtil.vec3AngleCos(p.getCenter().subtract(eyePos), cameraVec) > 0.9363291776)
-                        .forEach(p -> {
-                            serverLevel.setBlockAndUpdate(p, Blocks.AIR.defaultBlockState());
-                            serverLevel.playSound(null, p.getX(), p.getY(), p.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardRaysParticlesToClient(new Vec3(p.getX(), p.getY(), p.getZ()), new Vec3(p.getX() + 1, p.getY() + 1, p.getZ() + 1), eyePos.subtract(p.getCenter()), 0.2, 0.6, 10, BSFParticleType.SNOWFLAKE.ordinal()));
-                        });
-                serverLevel.sendParticles(ParticleRegister.IMPULSE.get(), pPlayer.getX() + cameraVec.x, pPlayer.getEyeY() + cameraVec.y, pPlayer.getZ() + cameraVec.z, 1, 0, 0, 0, 0);
-                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardConeParticlesToClient(pPlayer.getEyePosition(), cameraVec, 4.5F, 30, 0.5F, 0.2, BSFParticleType.SNOWFLAKE.ordinal()));
-                itemStack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pUsedHand));
-                pPlayer.getCooldowns().addCooldown(this, 60);
-                if (stack != null) {
-                    consumeAmmo(stack, pPlayer);
+            ServerLevel serverLevel = (ServerLevel) pLevel;
+            serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 0.8F));
+            Vec3 cameraVec = pPlayer.getViewVector(1);
+            AABB aabb = pPlayer.getBoundingBox().inflate(RADIUM).expandTowards(cameraVec.scale(DISTANCE + RADIUM));
+
+            BlockPos.betweenClosedStream(aabb)
+                    .filter(p -> serverLevel.getBlockState(p).getBlock() instanceof LooseSnowBlock && BSFCommonUtil.pointOnTheFrontConeArea(pPlayer.getViewVector(1f), pPlayer.getEyePosition(1), p.getCenter(), RADIUM, DISTANCE))
+                    .forEach(p -> {
+                        serverLevel.setBlockAndUpdate(p, Blocks.AIR.defaultBlockState());
+                        serverLevel.playSound(null, p.getX(), p.getY(), p.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                        NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardRaysParticlesToClient(new Vec3(p.getX(), p.getY(), p.getZ()), new Vec3(p.getX() + 1, p.getY() + 1, p.getZ() + 1), cameraVec, 0.2, 0.6, 10, BSFParticleType.SNOWFLAKE.ordinal()));
+                    });
+
+            serverLevel.getEntitiesOfClass(
+                    Entity.class,
+                    aabb,
+                    p -> !pPlayer.equals(p) && BSFCommonUtil.pointOnTheFrontConeArea(pPlayer.getViewVector(1f), pPlayer.getEyePosition(1), p.getBoundingBox().getCenter(), RADIUM, DISTANCE)
+            ).forEach(p -> {
+                Vec3 pPos = p.getBoundingBox().getCenter();
+                double d = BSFCommonUtil.vec3Projection(pPos.subtract(pPlayer.getEyePosition(1)), cameraVec);
+                System.out.println(d);
+                if (d<=0){
+                    return;
                 }
-                pPlayer.awardStat(Stats.ITEM_USED.get(this));
-            }
-        }else{
-            ScreenshakeHandler.addScreenshake((new ScreenshakeInstance(6)).setIntensity(0.8f).setEasing(Easing.EXPO_IN_OUT));
+                Vec3 projPos = pPos.add(cameraVec.scale(-d));
+                BlockHitResult blockHitResult = pLevel.clip(new ClipContext(pPos, projPos, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, p));
+                if (blockHitResult.getType()!=BlockHitResult.Type.MISS){
+                    return;
+                }
+                double basePower = Math.log(DISTANCE + 1 - d);
+                Vec3 pushVec = cameraVec.scale(basePower * PUSH_POWER);
+                if (p instanceof LivingEntity) {
+                    p.hurt(serverLevel.damageSources().flyIntoWall(), (float) (basePower * HURT_POWER));
+                }
+                p.push(pushVec.x, pushVec.y, pushVec.z);
+                if (p instanceof ServerPlayer serverPlayer) {
+                    serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(p));
+                }
+            });
+            itemStack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pUsedHand));
+            pPlayer.getCooldowns().addCooldown(this, 60);
+            pPlayer.awardStat(Stats.ITEM_USED.get(this));
         }
+        ScreenshakeHandler.addScreenshake((new ScreenshakeInstance(8)).setIntensity(1.5f).setEasing(Easing.BOUNCE_IN));
         return InteractionResultHolder.pass(itemStack);
     }
 

@@ -29,6 +29,13 @@ public class BSFCommonUtil {
         return Mth.invSqrt(a.lengthSqr()) * Mth.invSqrt(b.lengthSqr()) * a.dot(b);
     }
 
+    /**
+     * a向量在b向量方向上的投影
+     */
+    public static double vec3Projection(Vec3 a, Vec3 b) {
+        return vec3AngleCos(a,b)*a.length();
+    }
+
     // Calculate the square of the modulus(length) of a vector.
     public static double lengthSqr(double x, double y) {
         return x * x + y * y;
