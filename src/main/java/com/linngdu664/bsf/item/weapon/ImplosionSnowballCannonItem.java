@@ -35,7 +35,7 @@ import team.lodestar.lodestone.handlers.ScreenshakeHandler;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 
-public class ImplosionSnowballCannonItem extends Item {
+public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
     public static final int TYPE_FLAG = 64;
     public static final int DISTANCE = 16;
     public static final int RADIUM = 3;
@@ -43,7 +43,7 @@ public class ImplosionSnowballCannonItem extends Item {
     public static final double HURT_POWER = 1;
 
     public ImplosionSnowballCannonItem() {
-        super(new Properties().stacksTo(1).durability(1000).rarity(Rarity.EPIC));
+        super(1000, Rarity.EPIC, TYPE_FLAG);
     }
 
     @Override
@@ -53,51 +53,67 @@ public class ImplosionSnowballCannonItem extends Item {
             return InteractionResultHolder.fail(itemStack);
         }
         if (!pLevel.isClientSide) {
-            ServerLevel serverLevel = (ServerLevel) pLevel;
-            serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 0.8F));
-            Vec3 cameraVec = pPlayer.getViewVector(1);
-            AABB aabb = pPlayer.getBoundingBox().inflate(RADIUM).expandTowards(cameraVec.scale(DISTANCE + RADIUM));
+            ItemStack stack = getAmmo(pPlayer, itemStack);
+            if (stack != null || pPlayer.isCreative()) {
+                ServerLevel serverLevel = (ServerLevel) pLevel;
+                serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 0.8F));
+                Vec3 cameraVec = pPlayer.getViewVector(1);
+                AABB aabb = pPlayer.getBoundingBox().inflate(RADIUM).expandTowards(cameraVec.scale(DISTANCE + RADIUM));
 
-            BlockPos.betweenClosedStream(aabb)
-                    .filter(p -> serverLevel.getBlockState(p).getBlock() instanceof LooseSnowBlock && BSFCommonUtil.pointOnTheFrontConeArea(pPlayer.getViewVector(1f), pPlayer.getEyePosition(1), p.getCenter(), RADIUM, DISTANCE))
-                    .forEach(p -> {
-                        serverLevel.setBlockAndUpdate(p, Blocks.AIR.defaultBlockState());
-                        serverLevel.playSound(null, p.getX(), p.getY(), p.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                        NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardRaysParticlesToClient(new Vec3(p.getX(), p.getY(), p.getZ()), new Vec3(p.getX() + 1, p.getY() + 1, p.getZ() + 1), cameraVec, 0.2, 0.6, 10, BSFParticleType.SNOWFLAKE.ordinal()));
-                    });
+                BlockPos.betweenClosedStream(aabb)
+                        .filter(p -> serverLevel.getBlockState(p).getBlock() instanceof LooseSnowBlock && BSFCommonUtil.pointOnTheFrontConeArea(pPlayer.getViewVector(1f), pPlayer.getEyePosition(1), p.getCenter(), RADIUM, DISTANCE))
+                        .forEach(p -> {
+                            serverLevel.setBlockAndUpdate(p, Blocks.AIR.defaultBlockState());
+                            serverLevel.playSound(null, p.getX(), p.getY(), p.getZ(), SoundEvents.SNOW_BREAK, SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+                            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pPlayer), new ForwardRaysParticlesToClient(new Vec3(p.getX(), p.getY(), p.getZ()), new Vec3(p.getX() + 1, p.getY() + 1, p.getZ() + 1), cameraVec, 0.2, 0.6, 10, BSFParticleType.SNOWFLAKE.ordinal()));
+                        });
 
-            serverLevel.getEntitiesOfClass(
-                    Entity.class,
-                    aabb,
-                    p -> !pPlayer.equals(p) && BSFCommonUtil.pointOnTheFrontConeArea(pPlayer.getViewVector(1f), pPlayer.getEyePosition(1), p.getBoundingBox().getCenter(), RADIUM, DISTANCE)
-            ).forEach(p -> {
-                Vec3 pPos = p.getBoundingBox().getCenter();
-                double d = BSFCommonUtil.vec3Projection(pPos.subtract(pPlayer.getEyePosition(1)), cameraVec);
-                System.out.println(d);
-                if (d<=0){
-                    return;
+                serverLevel.getEntitiesOfClass(
+                        Entity.class,
+                        aabb,
+                        p -> !pPlayer.equals(p) && BSFCommonUtil.pointOnTheFrontConeArea(pPlayer.getViewVector(1f), pPlayer.getEyePosition(1), p.getBoundingBox().getCenter(), RADIUM, DISTANCE)
+                ).forEach(p -> {
+                    Vec3 pPos = p.getBoundingBox().getCenter();
+                    double d = BSFCommonUtil.vec3Projection(pPos.subtract(pPlayer.getEyePosition(1)), cameraVec);
+                    System.out.println(d);
+                    if (d<=0){
+                        return;
+                    }
+                    Vec3 projPos = pPos.add(cameraVec.scale(-d));
+                    BlockHitResult blockHitResult = pLevel.clip(new ClipContext(pPos, projPos, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, p));
+                    if (blockHitResult.getType()!=BlockHitResult.Type.MISS){
+                        return;
+                    }
+                    double basePower = Math.log(DISTANCE + 1 - d);
+                    Vec3 pushVec = cameraVec.scale(basePower * PUSH_POWER);
+                    if (p instanceof LivingEntity) {
+                        p.hurt(serverLevel.damageSources().flyIntoWall(), (float) (basePower * HURT_POWER));
+                    }
+                    p.push(pushVec.x, pushVec.y, pushVec.z);
+                    if (p instanceof ServerPlayer serverPlayer) {
+                        serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(p));
+                    }
+                });
+                itemStack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pUsedHand));
+                pPlayer.getCooldowns().addCooldown(this, 60);
+                if (stack != null) {
+                    consumeAmmo(stack, pPlayer);
                 }
-                Vec3 projPos = pPos.add(cameraVec.scale(-d));
-                BlockHitResult blockHitResult = pLevel.clip(new ClipContext(pPos, projPos, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, p));
-                if (blockHitResult.getType()!=BlockHitResult.Type.MISS){
-                    return;
-                }
-                double basePower = Math.log(DISTANCE + 1 - d);
-                Vec3 pushVec = cameraVec.scale(basePower * PUSH_POWER);
-                if (p instanceof LivingEntity) {
-                    p.hurt(serverLevel.damageSources().flyIntoWall(), (float) (basePower * HURT_POWER));
-                }
-                p.push(pushVec.x, pushVec.y, pushVec.z);
-                if (p instanceof ServerPlayer serverPlayer) {
-                    serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(p));
-                }
-            });
-            itemStack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pUsedHand));
-            pPlayer.getCooldowns().addCooldown(this, 60);
-            pPlayer.awardStat(Stats.ITEM_USED.get(this));
-        }
-        ScreenshakeHandler.addScreenshake((new ScreenshakeInstance(8)).setIntensity(1.5f).setEasing(Easing.BOUNCE_IN));
+                pPlayer.awardStat(Stats.ITEM_USED.get(this));
+            }
+            ScreenshakeHandler.addScreenshake((new ScreenshakeInstance(8)).setIntensity(1.5f).setEasing(Easing.BOUNCE_IN));
+            }
+
         return InteractionResultHolder.pass(itemStack);
+    }
+    @Override
+    public ILaunchAdjustment getLaunchAdjustment(double damageDropRate, Item snowball) {
+        return null;
+    }
+
+    @Override
+    public boolean isAllowBulkedSnowball() {
+        return true;
     }
 
 }
