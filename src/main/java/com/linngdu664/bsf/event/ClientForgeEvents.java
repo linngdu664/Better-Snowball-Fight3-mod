@@ -1,7 +1,9 @@
 package com.linngdu664.bsf.event;
 
 import com.linngdu664.bsf.Main;
+import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.item.tool.ColdCompressionJetEngineItem;
+import com.linngdu664.bsf.item.tool.SnowGolemModeTweakerItem;
 import com.linngdu664.bsf.item.tool.TeamLinkerItem;
 import com.linngdu664.bsf.item.weapon.AbstractBSFWeaponItem;
 import com.linngdu664.bsf.item.weapon.SnowballCannonItem;
@@ -11,11 +13,15 @@ import com.linngdu664.bsf.registry.NetworkRegister;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
@@ -113,9 +119,11 @@ public class ClientForgeEvents {
             Minecraft instance = Minecraft.getInstance();
             Player player = instance.player;
             AbstractBSFWeaponItem weaponItem = null;
-            if (player.getMainHandItem().getItem() instanceof AbstractBSFWeaponItem item) {
+            ItemStack mainHandItem = player.getMainHandItem();
+            ItemStack offHandItem = player.getOffhandItem();
+            if (mainHandItem.getItem() instanceof AbstractBSFWeaponItem item) {
                 weaponItem = item;
-            } else if (player.getOffhandItem().getItem() instanceof AbstractBSFWeaponItem item) {
+            } else if (offHandItem.getItem() instanceof AbstractBSFWeaponItem item) {
                 weaponItem = item;
             }
             if (weaponItem != null) {
@@ -124,8 +132,8 @@ public class ClientForgeEvents {
                 ItemStack next = weaponItem.getNextAmmoItemStack();
                 GuiGraphics guiGraphics = event.getGuiGraphics();
                 Window window = event.getWindow();
-                int startPos = window.getHeight() * 3 / 8 / (int) window.getGuiScale();
-                guiGraphics.blit(new ResourceLocation("bsf", "textures/gui/snowball_frame.png"), 0, startPos, 0, 0, 23, 62, 23, 62);
+                BSFGui.V2I v2I = BSFGui.SNOWBALL_GUI.renderCenterVertically(guiGraphics, window, 0);
+                int startPos = v2I.y;
                 guiGraphics.renderItem(prev, 3, startPos + 3);
                 guiGraphics.renderItem(current, 3, startPos + 23);
                 guiGraphics.renderItem(next, 3, startPos + 43);
@@ -133,10 +141,36 @@ public class ClientForgeEvents {
                 guiGraphics.drawString(instance.font, String.valueOf(current.getCount()), 24, startPos + 27, 0xffffffff);
                 guiGraphics.drawString(instance.font, String.valueOf(next.getCount()), 24, startPos + 47, 0xffffffff);
             }
+            ItemStack tweaker = null;
+            if (mainHandItem.getItem() instanceof SnowGolemModeTweakerItem) {
+                tweaker = mainHandItem;
+            } else if (offHandItem.getItem() instanceof SnowGolemModeTweakerItem) {
+                tweaker = offHandItem;
+            }
+            if (tweaker != null) {
+                CompoundTag tag = tweaker.getOrCreateTag();
+                byte locator = tag.getByte("Locator");
+                byte status = tag.getByte("Status");
+                GuiGraphics guiGraphics = event.getGuiGraphics();
+                Window window = event.getWindow();
+                BSFGui.V2I v2I = BSFGui.TWEAKER_LOCATOR_GUI.renderRatio(guiGraphics, window, 0.7, 0.5,30,0);
+                BSFGui.TWEAKER_SELECTOR_GUI.render(guiGraphics, v2I.x-1, v2I.y-1+locator*20);
+                v2I = BSFGui.TWEAKER_STATUS_GUI.renderRatio(guiGraphics,window,0.7,0.5,80,0);
+                BSFGui.TWEAKER_SELECTOR_GUI.render(guiGraphics, v2I.x-1, v2I.y-1+status*20);
+            }
+//            HitResult pick = instance.hitResult;
+//            System.out.println(pick);
+//            if (pick.getType() == HitResult.Type.ENTITY && ((EntityHitResult) pick).getEntity() instanceof BSFSnowGolemEntity entity) {
+//                GuiGraphics guiGraphics = event.getGuiGraphics();
+//                Window window = event.getWindow();
+//                byte locator = entity.getLocator();
+//                byte status = entity.getStatus();
+//                BSFGui.V2I v2I = BSFGui.GOLEM_LOCATOR_GUI.renderRatio(guiGraphics, window, 0.7, 0.5);
+//                BSFGui.GOLEM_SELECTOR_GUI.render(guiGraphics, v2I.x-1, v2I.y-1+locator*20);
+//                v2I = BSFGui.GOLEM_STATUS_GUI.renderRatio(guiGraphics,window,0.7,0.5,50,0);
+//                BSFGui.GOLEM_SELECTOR_GUI.render(guiGraphics, v2I.x-1, v2I.y-1+status*20);
+//            }
         }
     }
 
-    public static void test() {
-
-    }
 }

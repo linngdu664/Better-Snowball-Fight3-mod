@@ -31,9 +31,14 @@ public class SnowGolemModeTweakerItem extends Item {
         if (!pLevel.isClientSide) {
             CompoundTag tag = itemStack.getOrCreateTag();
             if (pPlayer.isShiftKeyDown()) {
-                boolean useLocator = !tag.getBoolean("UseLocator");
-                tag.putBoolean("UseLocator", useLocator);
-                pPlayer.displayClientMessage(useLocator ? MutableComponent.create(new TranslatableContents("snow_golem_locator_true.tip", null, new Object[0])) : MutableComponent.create(new TranslatableContents("snow_golem_locator_false.tip", null, new Object[0])), false);
+                byte locator = (byte) ((tag.getByte("Locator") + 1) % 4);
+                tag.putByte("Locator", locator);
+                pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents(switch (locator) {
+                    case 0 -> "snow_golem_locator_monster.tip";
+                    case 1 -> "snow_golem_locator_specify.tip";
+                    case 2 -> "snow_golem_locator_enemy_team.tip";
+                    default -> "snow_golem_locator_all_creatures.tip";
+                }, null, new Object[0])), false);
             } else {
                 byte status = (byte) ((tag.getByte("Status") + 1) % 5);
                 tag.putByte("Status", status);
@@ -53,7 +58,7 @@ public class SnowGolemModeTweakerItem extends Item {
     @Override
     public void onCraftedBy(ItemStack pStack, @NotNull Level pLevel, @NotNull Player pPlayer) {
         pStack.getOrCreateTag().putByte("Status", (byte) 0);
-        pStack.getOrCreateTag().putBoolean("UseLocator", false);
+        pStack.getOrCreateTag().putBoolean("Locator", false);
     }
 
     @Override

@@ -111,7 +111,7 @@ public class BSFGolemRangedAttackGoal extends Goal {
                         double t = r * cosAlpha / (v * cosTheta);
                         double y = v * sinTheta * t - 0.015 * t * t + golem.getEyeY();
                         if (y >= aabb.minY - 0.8 && y <= aabb.maxY + 0.8) {
-                            if (entity.getType().equals(golem.getTarget().getType()) && !entity.equals(golem.getOwner()) && !golem.isUseLocator()) {
+                            if (entity.getType().equals(golem.getTarget().getType()) && !entity.equals(golem.getOwner()) && golem.getLocator()==0) {
                                 golem.setTarget(entity);
                             }
                             attackTime = 1;

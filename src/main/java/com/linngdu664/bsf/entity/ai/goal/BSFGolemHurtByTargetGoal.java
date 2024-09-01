@@ -16,7 +16,7 @@ public class BSFGolemHurtByTargetGoal extends HurtByTargetGoal {
 
     @Override
     public boolean canUse() {
-        if (snowGolem.isUseLocator() && snowGolem.getTarget() != null && !snowGolem.getTarget().isRemoved()) {
+        if (snowGolem.getLocator()==1 && snowGolem.getTarget() != null && !snowGolem.getTarget().isRemoved()) {
             return false;
         }
         LivingEntity owner = snowGolem.getOwner();

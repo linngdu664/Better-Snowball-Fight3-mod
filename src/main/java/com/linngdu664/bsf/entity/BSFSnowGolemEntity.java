@@ -89,7 +89,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
      4: turret
      */
     private byte statusFlag;
-    private boolean useLocator;
+    private byte locatorFlag;
     private boolean enhance;
     private int potionSickness;
     private int coreCoolDown;
@@ -114,7 +114,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putByte("Status", statusFlag);
-        pCompound.putBoolean("UseLocator", useLocator);
+        pCompound.putByte("Locator", locatorFlag);
         CompoundTag compoundTag = new CompoundTag();
         getWeapon().save(compoundTag);
         pCompound.put("Weapon", compoundTag);
@@ -140,7 +140,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         statusFlag = pCompound.getByte("Status");
-        useLocator = pCompound.getBoolean("UseLocator");
+        locatorFlag = pCompound.getByte("Locator");
         setWeapon(ItemStack.of(pCompound.getCompound("Weapon")));
         setAmmo(ItemStack.of(pCompound.getCompound("Ammo")));
         setCore(ItemStack.of(pCompound.getCompound("Core")));
@@ -159,8 +159,8 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         return statusFlag;
     }
 
-    public boolean isUseLocator() {
-        return useLocator;
+    public byte getLocator() {
+        return locatorFlag;
     }
 
     public ItemStack getWeapon() {
@@ -314,15 +314,15 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 }
             } else if (item.equals(ItemRegister.SNOW_GOLEM_MODE_TWEAKER.get())) {
                 CompoundTag tag = itemStack.getOrCreateTag();
-                if (tag.getBoolean("UseLocator") != useLocator) {
+                if (tag.getByte("Locator") != locatorFlag) {
                     setTarget(null);
                 }
-                useLocator = tag.getBoolean("UseLocator");
+                locatorFlag = tag.getByte("Locator");
                 statusFlag = tag.getByte("Status");
                 setOrderedToSit(statusFlag == 0);
                 pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("import_state.tip", null, new Object[0])), false);
                 level.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-            } else if (item.equals(ItemRegister.TARGET_LOCATOR.get()) && useLocator) {
+            } else if (item.equals(ItemRegister.TARGET_LOCATOR.get()) && locatorFlag==1) {
                 Entity entity = ((ServerLevel) level).getEntity(itemStack.getOrCreateTag().getUUID("UUID"));
                 if (entity instanceof LivingEntity livingEntity && entity != this) {
                     pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("snow_golem_locator_tip", null, new Object[0])), false);

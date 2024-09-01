@@ -360,8 +360,10 @@
   "entity.bsf.bsf_snowball": "雪球",
 
   "entity.bsf.bsf_snow_golem": "高级雪傀儡",
-  "snow_golem_locator_false.tip": "目标：附近怪物",
-  "snow_golem_locator_true.tip": "目标：目标定位器指定的实体",
+  "snow_golem_locator_monster.tip": "目标：附近怪物",
+  "snow_golem_locator_specify.tip": "目标：目标定位器指定的实体",
+  "snow_golem_locator_enemy_team.tip": "目标：敌队",
+  "snow_golem_locator_all_creatures.tip": "目标：全部生物",
   "snow_golem_standby.tip": "模式：待机",
   "snow_golem_follow.tip": "模式：跟随",
   "snow_golem_follow_and_attack.tip": "模式：跟随并攻击",
