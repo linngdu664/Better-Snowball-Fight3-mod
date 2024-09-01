@@ -70,43 +70,43 @@
     },
     {
       "predicate": {
-        "cooling": 0.86
+        "cooling": 0.93
       },
       "model": "bsf:item/implosion_snowball_cannon_status/co_001"
     },
     {
       "predicate": {
-        "cooling": 0.88
+        "cooling": 0.94
       },
       "model": "bsf:item/implosion_snowball_cannon_status/co_002"
     },
     {
       "predicate": {
-        "cooling": 0.90
+        "cooling": 0.95
       },
       "model": "bsf:item/implosion_snowball_cannon_status/co_003"
     },
     {
       "predicate": {
-        "cooling": 0.92
+        "cooling": 0.96
       },
       "model": "bsf:item/implosion_snowball_cannon_status/co_013"
     },
     {
       "predicate": {
-        "cooling": 0.94
+        "cooling": 0.97
       },
       "model": "bsf:item/implosion_snowball_cannon_status/co_023"
     },
     {
       "predicate": {
-        "cooling": 0.96
+        "cooling": 0.98
       },
       "model": "bsf:item/implosion_snowball_cannon_status/co_033"
     },
     {
       "predicate": {
-        "cooling": 0.98
+        "cooling": 0.99
       },
       "model": "bsf:item/implosion_snowball_cannon_status/co_133"
     },{
