@@ -7,7 +7,11 @@ import com.linngdu664.bsf.particle.util.BSFParticleType;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
@@ -18,16 +22,21 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.handlers.ScreenshakeHandler;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 
 import java.util.List;
+
+import static com.linngdu664.bsf.event.ClientModEvents.CYCLE_MOVE_AMMO_NEXT;
+import static com.linngdu664.bsf.event.ClientModEvents.CYCLE_MOVE_AMMO_PREV;
 
 public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem {
     public static final int STARTUP_DURATION = 24;
@@ -138,5 +147,10 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return !oldStack.getItem().equals(newStack.getItem());
+    }
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("cold_compression_jet_engine.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("cold_compression_jet_engine1.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 }

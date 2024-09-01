@@ -11,7 +11,11 @@ import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import com.linngdu664.bsf.util.BSFCommonUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,6 +30,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -35,9 +40,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.handlers.ScreenshakeHandler;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
+
+import java.util.List;
+
+import static com.linngdu664.bsf.event.ClientModEvents.CYCLE_MOVE_AMMO_NEXT;
+import static com.linngdu664.bsf.event.ClientModEvents.CYCLE_MOVE_AMMO_PREV;
 
 public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
     public static final int TYPE_FLAG = 64;
@@ -91,11 +102,11 @@ public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
                     if (d<=0){
                         return;
                     }
-                    Vec3 projPos = pPos.add(cameraVec.scale(-d));
-                    BlockHitResult blockHitResult = pLevel.clip(new ClipContext(pPos, projPos, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, p));
-                    if (blockHitResult.getType()!=BlockHitResult.Type.MISS){
-                        return;
-                    }
+//                    Vec3 projPos = pPos.add(cameraVec.scale(-d));
+//                    BlockHitResult blockHitResult = pLevel.clip(new ClipContext(pPos, projPos, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, p));
+//                    if (blockHitResult.getType()!=BlockHitResult.Type.MISS){
+//                        return;
+//                    }
                     double basePower = Math.log(DISTANCE + 1 - d);
                     Vec3 pushVec = cameraVec.scale(basePower * PUSH_POWER);
                     if (p instanceof LivingEntity) {
@@ -129,6 +140,14 @@ public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
     @Override
     public boolean isAllowBulkedSnowball() {
         return true;
+    }
+
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("implosion_snowball_cannon.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("implosion_snowball_cannon1.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("guns1.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("guns2.tooltip", null, new Object[]{CYCLE_MOVE_AMMO_PREV.getTranslatedKeyMessage(),CYCLE_MOVE_AMMO_NEXT.getTranslatedKeyMessage()})).withStyle(ChatFormatting.DARK_GRAY));
     }
 
 }

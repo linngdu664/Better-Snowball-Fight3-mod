@@ -3,6 +3,10 @@ package com.linngdu664.bsf.item.tool;
 import com.linngdu664.bsf.network.TeamMembersToClient;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.util.BSFTeamSavedData;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,11 +17,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -81,5 +88,12 @@ public class TeamLinkerItem extends Item {
         }
         pPlayer.awardStat(Stats.ITEM_USED.get(this));
         return InteractionResultHolder.success(itemstack);
+
+    }
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        Options options = Minecraft.getInstance().options;
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("team_linker.tooltip", null, new Object[]{options.keyUse.getTranslatedKeyMessage()})).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("team_linker1.tooltip", null, new Object[]{options.keyShift.getTranslatedKeyMessage(),options.keyUse.getTranslatedKeyMessage()})).withStyle(ChatFormatting.GRAY));
     }
 }

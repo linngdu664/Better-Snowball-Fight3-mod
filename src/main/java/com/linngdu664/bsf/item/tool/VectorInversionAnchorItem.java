@@ -3,7 +3,11 @@ package com.linngdu664.bsf.item.tool;
 import com.linngdu664.bsf.network.VectorInversionParticleToClient;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -14,14 +18,18 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.network.screenshake.ScreenshakePacket;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.systems.easing.Easing;
+
+import java.util.List;
 
 public class VectorInversionAnchorItem extends AbstractBSFEnhanceableToolItem {
     public VectorInversionAnchorItem() {
@@ -54,5 +62,9 @@ public class VectorInversionAnchorItem extends AbstractBSFEnhanceableToolItem {
         pPlayer.awardStat(Stats.ITEM_USED.get(this));
         pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.VECTOR_INVERSION.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
         return InteractionResultHolder.success(itemStack);
+    }
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents("vector_inversion_anchor.tooltip", null, new Object[0])).withStyle(ChatFormatting.GRAY));
     }
 }

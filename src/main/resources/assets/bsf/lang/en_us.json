@@ -190,7 +190,7 @@
   "jedi_glove.tooltip": "Catch the snowball flying towards you without touching",
   "snow_trap_setter.tooltip": "Press and hold to place traps on the snow",
   "sculk_snowball_launcher.tooltip": "Launches noise-making sculk snowball",
-  "snow_golem_container.tooltip": "Store/Release Snow Golem",
+  "snow_golem_container.tooltip": "Store/Release Advanced Snow Golem",
   "snowball_clamp.tooltip": "Compress the snow into a snowball",
   "guns1.tooltip": "可以直接发射雪球储罐里的雪球",
   "guns2.tooltip": "<%1$s> <%2$s> 循环选择弹药",
@@ -273,7 +273,7 @@
   "creative_snow_golem_tool.tooltip": "右键高级雪傀儡开启增强模式",
   "creative_snow_golem_tool1.tooltip": "shift按下时右键高级雪傀儡复制，右键方块生成",
   "thrust_snowball.tooltip": "内嵌端羟基聚醚预聚物",
-  "thrust_snowball1.tooltip": "不可发射，仅供雪球散弹枪产生推力",
+  "thrust_snowball1.tooltip": "不可发射，仅供雪球散弹枪/聚爆雪球炮产生推力",
   "thrust_snowball2.tooltip": "雪球散弹枪推进反冲的时候会自动优先消耗推力雪球",
   "ender_snowball.tooltip": "交换命中的目标与投掷者",
   "snowball_cannon_upgrade_smithing_template1.tooltip": "Smithing Template",
@@ -298,6 +298,13 @@
   "ender_teleportation_golem_core_cd.tooltip": "Cooling Time: 10s",
   "active_teleportation_golem_core.tooltip": "Actively teleports to behind the target",
   "active_teleportation_golem_core_cd.tooltip": "Cooling Time: 12s",
+  "implosion_snowball_cannon.tooltip": "消耗推力雪球推动前方所有实体",
+  "implosion_snowball_cannon1.tooltip": "会破坏雪球生成的松散雪块",
+  "cold_compression_jet_engine.tooltip": "提供持续的推力",
+  "cold_compression_jet_engine1.tooltip": "站着雪上会自动充能",
+  "vector_inversion_anchor.tooltip": "逆转周围内所有实体的速度",
+  "team_linker.tooltip": "<%1$s> 加入/退出队伍",
+  "team_linker1.tooltip": "<%1$s+%2$s> 开/关显示队友位置",
 
   "void.tooltip": "",
 
@@ -383,5 +390,6 @@
   "key.bsf.ammo_switch_prev": "Switch to Previous Ammo",
   "key.bsf.ammo_switch_next": "Switch to Next Ammo",
   "enchantment.bsf.kinetic_energy_storage": "Kinetic Energy Storage",
-  "enchantment.bsf.snow_golem_exclusive": "Snow Golem Exclusive"
+  "enchantment.bsf.snow_golem_exclusive": "Snow Golem Exclusive",
+  "enchantment.bsf.floating_shooting": "漂浮射击"
 }

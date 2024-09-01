@@ -190,7 +190,7 @@
   "jedi_glove.tooltip": "隔空接住前方飞来的雪球",
   "snow_trap_setter.tooltip": "长按在雪上放置陷阱",
   "sculk_snowball_launcher.tooltip": "发射会产生噪音的幽匿雪球",
-  "snow_golem_container.tooltip": "收纳/放出雪傀儡",
+  "snow_golem_container.tooltip": "收纳/放出高级雪傀儡",
   "snowball_clamp.tooltip": "把雪压制成雪球",
   "guns1.tooltip": "可以直接发射雪球储罐里的雪球",
   "guns2.tooltip": "<%1$s> <%2$s> 循环选择弹药",
@@ -273,7 +273,7 @@
   "creative_snow_golem_tool.tooltip": "右键高级雪傀儡开启增强模式",
   "creative_snow_golem_tool1.tooltip": "shift按下时右键高级雪傀儡复制，右键方块生成",
   "thrust_snowball.tooltip": "内嵌端羟基聚醚预聚物",
-  "thrust_snowball1.tooltip": "不可发射，仅供雪球散弹枪产生推力",
+  "thrust_snowball1.tooltip": "不可发射，仅供雪球散弹枪/聚爆雪球炮产生推力",
   "thrust_snowball2.tooltip": "雪球散弹枪推进反冲的时候会自动优先消耗推力雪球",
   "ender_snowball.tooltip": "交换命中的目标与投掷者",
   "snowball_cannon_upgrade_smithing_template1.tooltip": "原材料",
@@ -298,6 +298,13 @@
   "ender_teleportation_golem_core_cd.tooltip": "冷却时间:10s",
   "active_teleportation_golem_core.tooltip": "主动传送到目标后面",
   "active_teleportation_golem_core_cd.tooltip": "冷却时间:12s",
+  "implosion_snowball_cannon.tooltip": "消耗推力雪球推动前方所有实体",
+  "implosion_snowball_cannon1.tooltip": "会破坏雪球生成的松散雪块",
+  "cold_compression_jet_engine.tooltip": "提供持续的推力",
+  "cold_compression_jet_engine1.tooltip": "站着雪上会自动充能",
+  "vector_inversion_anchor.tooltip": "逆转周围内所有实体的速度",
+  "team_linker.tooltip": "<%1$s> 加入/退出队伍",
+  "team_linker1.tooltip": "<%1$s+%2$s> 开/关显示队友位置",
 
 
 
@@ -383,5 +390,6 @@
   "key.bsf.ammo_switch_prev": "向前循环切换弹药",
   "key.bsf.ammo_switch_next": "向后循环切换弹药",
   "enchantment.bsf.kinetic_energy_storage": "动能储存",
-  "enchantment.bsf.snow_golem_exclusive": "雪傀儡专属"
+  "enchantment.bsf.snow_golem_exclusive": "雪傀儡专属",
+  "enchantment.bsf.floating_shooting": "漂浮射击"
 }
