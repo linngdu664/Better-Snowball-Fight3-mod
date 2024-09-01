@@ -5,6 +5,7 @@ import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.network.ForwardRaysParticlesToClient;
 import com.linngdu664.bsf.network.ImplosionSnowballCannonParticleToClient;
 import com.linngdu664.bsf.network.SubspaceSnowballReleaseTraceParticlesToClient;
+import com.linngdu664.bsf.network.ToggleMovingSoundToClient;
 import com.linngdu664.bsf.particle.util.BSFParticleType;
 import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
@@ -73,7 +74,7 @@ public class ImplosionSnowballCannonItem extends AbstractBSFWeaponItem {
             Vec3 cameraVec = pPlayer.getViewVector(1);
             if (!pLevel.isClientSide) {
                 ServerLevel serverLevel = (ServerLevel) pLevel;
-                serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundRegister.SNOWBALL_CANNON_SHOOT.get(), SoundSource.NEUTRAL, 1.0F, 1.0F / (serverLevel.getRandom().nextFloat() * 0.4F + 0.8F));
+                NetworkRegister.PACKET_HANDLER.send(PacketDistributor.DIMENSION.with(pLevel::dimension), new ToggleMovingSoundToClient(pPlayer, SoundRegister.IMPLOSION_SNOWBALL_CANNON.get(), ToggleMovingSoundToClient.PLAY_ONCE));
                 Vec3 eyePosition = pPlayer.getEyePosition();
                 for (double l = 0; l < DISTANCE; l+=0.5) {
                     Vec3 paPos = eyePosition.add(cameraVec.scale(l));

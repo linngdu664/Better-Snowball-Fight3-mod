@@ -33,6 +33,7 @@ public class SoundRegister {
     public static final RegistryObject<SoundEvent> COLD_COMPRESSION_JET_ENGINE_STARTUP5 = build("cold_compression_jet_engine_startup5");
     public static final RegistryObject<SoundEvent> VECTOR_INVERSION = build("vector_inversion");
     public static final RegistryObject<SoundEvent> SUBSPACE_SNOWBALL_ATTACK = build("subspace_snowball_attack");
+    public static final RegistryObject<SoundEvent> IMPLOSION_SNOWBALL_CANNON = build("implosion_snowball_cannon");
 
     private static RegistryObject<SoundEvent> build(String id, float range) {
         return SOUNDS.register(id, () -> SoundEvent.createFixedRangeEvent(new ResourceLocation("bsf", id), range));

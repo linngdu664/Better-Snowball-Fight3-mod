@@ -433,5 +433,10 @@
     "sounds": [
       "bsf:vector_inversion"
     ]
+  },
+  "implosion_snowball_cannon": {
+    "sounds": [
+      "bsf:implosion_snowball_cannon"
+    ]
   }
 }
