@@ -113,6 +113,11 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         entityData.define(CORE, ItemStack.EMPTY);
         entityData.define(WEAPON_ANG, 0);
         entityData.define(STYLE, (byte) (getRandom().nextInt(0, STYLE_NUM)));
+        entityData.define(statusFlag, (byte)0);
+        entityData.define(locatorFlag, (byte)0);
+        entityData.define(potionSickness, 0);
+        entityData.define(enhance, false);
+        entityData.define(coreCoolDown, 0);
     }
 
     @Override

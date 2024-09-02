@@ -25,40 +25,40 @@ public class SnowGolemModeTweakerItem extends Item {
         super(new Properties().rarity(Rarity.UNCOMMON).stacksTo(1));
     }
 
-    @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
-        ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
-        if (!pLevel.isClientSide) {
-            CompoundTag tag = itemStack.getOrCreateTag();
-            if (pPlayer.isShiftKeyDown()) {
-                byte locator = (byte) ((tag.getByte("Locator") + 1) % 4);
-                tag.putByte("Locator", locator);
-                pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents(switch (locator) {
-                    case 0 -> "snow_golem_locator_monster.tip";
-                    case 1 -> "snow_golem_locator_specify.tip";
-                    case 2 -> "snow_golem_locator_enemy_team.tip";
-                    default -> "snow_golem_locator_all_creatures.tip";
-                }, null, new Object[0])), false);
-            } else {
-                byte status = (byte) ((tag.getByte("Status") + 1) % 5);
-                tag.putByte("Status", status);
-                pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents(switch (status) {
-                    case 0 -> "snow_golem_standby.tip";
-                    case 1 -> "snow_golem_follow.tip";
-                    case 2 -> "snow_golem_follow_and_attack.tip";
-                    case 3 -> "snow_golem_attack.tip";
-                    default -> "snow_golem_turret.tip";
-                }, null, new Object[0])), false);
-            }
-            pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-        }
-        return InteractionResultHolder.success(pPlayer.getItemInHand(pUsedHand));
-    }
+//    @Override
+//    public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
+//        ItemStack itemStack = pPlayer.getItemInHand(pUsedHand);
+//        if (!pLevel.isClientSide) {
+//            CompoundTag tag = itemStack.getOrCreateTag();
+//            if (pPlayer.isShiftKeyDown()) {
+//                byte locator = (byte) ((tag.getByte("Locator") + 1) % 4);
+//                tag.putByte("Locator", locator);
+//                pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents(switch (locator) {
+//                    case 0 -> "snow_golem_locator_monster.tip";
+//                    case 1 -> "snow_golem_locator_specify.tip";
+//                    case 2 -> "snow_golem_locator_enemy_team.tip";
+//                    default -> "snow_golem_locator_all_creatures.tip";
+//                }, null, new Object[0])), false);
+//            } else {
+//                byte status = (byte) ((tag.getByte("Status") + 1) % 5);
+//                tag.putByte("Status", status);
+//                pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents(switch (status) {
+//                    case 0 -> "snow_golem_standby.tip";
+//                    case 1 -> "snow_golem_follow.tip";
+//                    case 2 -> "snow_golem_follow_and_attack.tip";
+//                    case 3 -> "snow_golem_attack.tip";
+//                    default -> "snow_golem_turret.tip";
+//                }, null, new Object[0])), false);
+//            }
+//            pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
+//        }
+//        return InteractionResultHolder.success(pPlayer.getItemInHand(pUsedHand));
+//    }
 
     @Override
     public void onCraftedBy(ItemStack pStack, @NotNull Level pLevel, @NotNull Player pPlayer) {
         pStack.getOrCreateTag().putByte("Status", (byte) 0);
-        pStack.getOrCreateTag().putBoolean("Locator", false);
+        pStack.getOrCreateTag().putByte("Locator", (byte) 0);
     }
 
     @Override
@@ -66,5 +66,19 @@ public class SnowGolemModeTweakerItem extends Item {
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_golem_mode_tweaker.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_golem_mode_tweaker1.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
         pTooltipComponents.add(MutableComponent.create(new TranslatableContents("snow_golem_mode_tweaker2.tooltip", null, new Object[0])).withStyle(ChatFormatting.BLUE));
+        CompoundTag tag = pStack.getOrCreateTag();
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents(switch (tag.getByte("Locator")) {
+            case 0 -> "snow_golem_locator_monster.tip";
+            case 1 -> "snow_golem_locator_specify.tip";
+            case 2 -> "snow_golem_locator_enemy_team.tip";
+            default -> "snow_golem_locator_all_creatures.tip";
+        }, null, new Object[0])).withStyle(ChatFormatting.DARK_GRAY));
+        pTooltipComponents.add(MutableComponent.create(new TranslatableContents(switch (tag.getByte("Status")) {
+            case 0 -> "snow_golem_standby.tip";
+            case 1 -> "snow_golem_follow.tip";
+            case 2 -> "snow_golem_follow_and_attack.tip";
+            case 3 -> "snow_golem_attack.tip";
+            default -> "snow_golem_turret.tip";
+        }, null, new Object[0])).withStyle(ChatFormatting.DARK_GRAY));
     }
 }

@@ -37,5 +37,7 @@ public class NetworkRegister {
         NetworkRegister.addNetworkMessage(SubspaceSnowballParticlesToClient.class, SubspaceSnowballParticlesToClient::encoder, SubspaceSnowballParticlesToClient::decoder, SubspaceSnowballParticlesToClient::messageConsumer);
         NetworkRegister.addNetworkMessage(SubspaceSnowballReleaseTraceParticlesToClient.class, SubspaceSnowballReleaseTraceParticlesToClient::encoder, SubspaceSnowballReleaseTraceParticlesToClient::decoder, SubspaceSnowballReleaseTraceParticlesToClient::messageConsumer);
         NetworkRegister.addNetworkMessage(ImplosionSnowballCannonParticleToClient.class, ImplosionSnowballCannonParticleToClient::encoder, ImplosionSnowballCannonParticleToClient::decoder, ImplosionSnowballCannonParticleToClient::messageConsumer);
+        NetworkRegister.addNetworkMessage(SwitchTweakerStatusModeToServer.class, SwitchTweakerStatusModeToServer::encoder, SwitchTweakerStatusModeToServer::decoder, SwitchTweakerStatusModeToServer::messageConsumer);
+        NetworkRegister.addNetworkMessage(SwitchTweakerTargetModeToServer.class, SwitchTweakerTargetModeToServer::encoder, SwitchTweakerTargetModeToServer::decoder, SwitchTweakerTargetModeToServer::messageConsumer);
     }
 }
