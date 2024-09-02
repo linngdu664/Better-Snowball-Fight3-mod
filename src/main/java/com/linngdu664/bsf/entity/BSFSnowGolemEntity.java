@@ -75,6 +75,11 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     private static final EntityDataAccessor<ItemStack> CORE = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.ITEM_STACK);
     private static final EntityDataAccessor<Integer> WEAPON_ANG = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Byte> STYLE = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> statusFlag = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> locatorFlag = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Integer> potionSickness = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> enhance = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> coreCoolDown = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.INT);
     private float launchVelocity;
     private float launchAccuracy;
     private double shootX;
@@ -88,11 +93,11 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
      3: patrol & attack
      4: turret
      */
-    private byte statusFlag;
-    private byte locatorFlag;
-    private boolean enhance;
-    private int potionSickness;
-    private int coreCoolDown;
+//    private byte statusFlag;
+//    private byte locatorFlag;
+//    private boolean enhance;
+//    private int potionSickness;
+//    private int coreCoolDown;
     private boolean dropEquipment;
 
     public BSFSnowGolemEntity(EntityType<? extends TamableAnimal> p_21803_, Level p_21804_) {
@@ -113,8 +118,8 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putByte("Status", statusFlag);
-        pCompound.putByte("Locator", locatorFlag);
+        pCompound.putByte("Status", getStatus());
+        pCompound.putByte("Locator", getLocator());
         CompoundTag compoundTag = new CompoundTag();
         getWeapon().save(compoundTag);
         pCompound.put("Weapon", compoundTag);
@@ -125,9 +130,9 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         getCore().save(compoundTag);
         pCompound.put("Core", compoundTag);
         pCompound.putByte("Style", getStyle());
-        pCompound.putBoolean("Enhance", enhance);
-        pCompound.putInt("PotionSickness", potionSickness);
-        pCompound.putInt("CoreCoolDown", coreCoolDown);
+        pCompound.putBoolean("Enhance", getEnhance());
+        pCompound.putInt("PotionSickness", getPotionSickness());
+        pCompound.putInt("CoreCoolDown", getCoreCoolDown());
         pCompound.putBoolean("DropEquipment", dropEquipment);
         if (getTarget() != null) {
             pCompound.putUUID("TargetUUID", getTarget().getUUID());
@@ -139,16 +144,16 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        statusFlag = pCompound.getByte("Status");
-        locatorFlag = pCompound.getByte("Locator");
+        setStatus(pCompound.getByte("Status"));
+        setLocator(pCompound.getByte("Locator"));
         setWeapon(ItemStack.of(pCompound.getCompound("Weapon")));
         setAmmo(ItemStack.of(pCompound.getCompound("Ammo")));
         setCore(ItemStack.of(pCompound.getCompound("Core")));
         setWeaponAng(pCompound.getInt("WeaponAng"));
         setStyle(pCompound.getByte("Style"));
-        enhance = pCompound.getBoolean("Enhance");
-        potionSickness = pCompound.getInt("PotionSickness");
-        coreCoolDown = pCompound.getInt("CoreCoolDown");
+        setEnhance(pCompound.getBoolean("Enhance"));
+        setPotionSickness(pCompound.getInt("PotionSickness"));
+        setCoreCoolDown(pCompound.getInt("CoreCoolDown"));
         dropEquipment = pCompound.getBoolean("DropEquipment");
         if (pCompound.contains("TargetUUID")) {
             setTarget((LivingEntity) ((ServerLevel) level()).getEntity(pCompound.getUUID("TargetUUID")));
@@ -156,11 +161,17 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     }
 
     public byte getStatus() {
-        return statusFlag;
+        return entityData.get(statusFlag);
+    }
+    public void setStatus(byte status){
+        entityData.set(statusFlag,status);
     }
 
     public byte getLocator() {
-        return locatorFlag;
+        return entityData.get(locatorFlag);
+    }
+    public void setLocator(byte locator){
+        entityData.set(locatorFlag,locator);
     }
 
     public ItemStack getWeapon() {
@@ -224,7 +235,22 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     }
 
     public int getCoreCoolDown() {
-        return coreCoolDown;
+        return entityData.get(coreCoolDown);
+    }
+    public void setCoreCoolDown(int coolDown) {
+        entityData.set(coreCoolDown,coolDown);
+    }
+    public int getPotionSickness() {
+        return entityData.get(potionSickness);
+    }
+    public void setPotionSickness(int sickness) {
+        entityData.set(potionSickness,sickness);
+    }
+    public boolean getEnhance() {
+        return entityData.get(enhance);
+    }
+    public void setEnhance(boolean enhance0) {
+        entityData.set(enhance,enhance0);
     }
 
     public void setDropEquipment(boolean b) {
@@ -285,27 +311,27 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                     setAmmo(ItemStack.EMPTY);
                 }
             } else if (item.equals(ItemRegister.SMOOTH_SNOWBALL.get()) || item.equals(Items.POWDER_SNOW_BUCKET) || item.equals(Items.SNOW_BLOCK) || item.equals(Items.ICE)) {
-                if (potionSickness == 0) {
+                if (getPotionSickness() == 0) {
                     itemStack.shrink(1);
                     if (item.equals(ItemRegister.SMOOTH_SNOWBALL.get())) {
                         heal(2);
-                        potionSickness = 20;
+                        setPotionSickness(20);
                         ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getEyeY(), this.getZ(), 8, 0, 0, 0, 0.04);
                         playSound(SoundEvents.SNOW_BREAK, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                     } else if (item.equals(Items.POWDER_SNOW_BUCKET)) {
                         pPlayer.getInventory().placeItemBackInInventory(new ItemStack(Items.BUCKET, 1), true);
                         heal(8);
-                        potionSickness = 100;
+                        setPotionSickness(100);
                         ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getEyeY(), this.getZ(), 24, 0, 0, 0, 0.04);
                         playSound(SoundEvents.SNOW_BREAK, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                     } else if (item.equals(Items.SNOW_BLOCK)) {
                         heal(5);
-                        potionSickness = 60;
+                        setPotionSickness(60);
                         ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, this.getX(), this.getEyeY(), this.getZ(), 16, 0, 0, 0, 0.04);
                         playSound(SoundEvents.SNOW_BREAK, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                     } else {
                         addEffect(new MobEffectInstance(MobEffects.REGENERATION, 600, 1));
-                        potionSickness = 60;
+                        setPotionSickness(60);
                         ((ServerLevel) level).sendParticles(ParticleTypes.ITEM_SNOWBALL, this.getX(), this.getEyeY(), this.getZ(), 16, 0, 0, 0, 0.04);
                         playSound(SoundEvents.GLASS_BREAK, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                     }
@@ -314,15 +340,15 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 }
             } else if (item.equals(ItemRegister.SNOW_GOLEM_MODE_TWEAKER.get())) {
                 CompoundTag tag = itemStack.getOrCreateTag();
-                if (tag.getByte("Locator") != locatorFlag) {
+                if (tag.getByte("Locator") != getLocator()) {
                     setTarget(null);
                 }
-                locatorFlag = tag.getByte("Locator");
-                statusFlag = tag.getByte("Status");
-                setOrderedToSit(statusFlag == 0);
+                setLocator(tag.getByte("Locator"));
+                setStatus(tag.getByte("Status"));
+                setOrderedToSit(getStatus() == 0);
                 pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("import_state.tip", null, new Object[0])), false);
                 level.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-            } else if (item.equals(ItemRegister.TARGET_LOCATOR.get()) && locatorFlag==1) {
+            } else if (item.equals(ItemRegister.TARGET_LOCATOR.get()) && getLocator()==1) {
                 Entity entity = ((ServerLevel) level).getEntity(itemStack.getOrCreateTag().getUUID("UUID"));
                 if (entity instanceof LivingEntity livingEntity && entity != this) {
                     pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("snow_golem_locator_tip", null, new Object[0])), false);
@@ -343,7 +369,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                     addAdditionalSaveData(itemStack.getOrCreateTag());
                     pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("copy.tip", null, new Object[0])), false);
                 } else {
-                    enhance = !enhance;
+                    setEnhance(!getEnhance());
                     pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("golem_enhance.tip", null, new Object[0])).append(String.valueOf(enhance)), false);
                 }
                 level.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
@@ -413,11 +439,11 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         Level level = level();
         if (!level.isClientSide) {
             setTicksFrozen(0);
-            if (enhance) {
+            if (getEnhance()) {
                 heal(1);
             }
-            if (potionSickness > 0) {
-                potionSickness--;
+            if (getPotionSickness() > 0) {
+                setPotionSickness(getPotionSickness()-1);
             }
             if (getWeaponAng() > 0) {
                 setWeaponAng(getWeaponAng() - 60);
@@ -426,9 +452,9 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
             if (item.equals(ItemRegister.SWIFTNESS_GOLEM_CORE.get())) {
                 addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2, 0));
             }
-            if (coreCoolDown > 0) {
-                coreCoolDown--;
-            } else if (coreCoolDown == 0) {
+            if (getCoreCoolDown() > 0) {
+                setCoreCoolDown(getCoreCoolDown()-1);
+            } else if (getCoreCoolDown() == 0) {
                 if (item.equals(ItemRegister.REGENERATION_GOLEM_CORE.get())) {
                     addEffect(new MobEffectInstance(MobEffects.REGENERATION, 2, 2));
                 } else if (item.equals(ItemRegister.REPULSIVE_FIELD_GOLEM_CORE.get()) && getTarget() != null) {
@@ -465,7 +491,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
             Item item = getCore().getItem();
             if (item.equals(ItemRegister.REGENERATION_GOLEM_CORE.get())) {
                 resetCoreCoolDown();
-            } else if (pSource.getDirectEntity() instanceof Projectile && item.equals(ItemRegister.ENDER_TELEPORTATION_GOLEM_CORE.get()) && coreCoolDown == 0 && (statusFlag == 2 || statusFlag == 3)) {
+            } else if (pSource.getDirectEntity() instanceof Projectile && item.equals(ItemRegister.ENDER_TELEPORTATION_GOLEM_CORE.get()) && getCoreCoolDown() == 0 && (getStatus() == 2 || getStatus() == 3)) {
                 Vec3 vec3 = getRandomTeleportPos();
                 if (vec3 != null) {
                     tpWithParticlesAndResetCD(vec3);
@@ -496,7 +522,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
             AbstractBSFSnowballEntity snowball = ((AbstractBSFSnowballItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, compoundTag.getString("Snowball")))).getCorrespondingEntity(level, this, launchAdjustment);
             snowball.shoot(shootX, shootY, shootZ, launchVelocity, launchAccuracy);
             level.addFreshEntity(snowball);
-            if (!enhance) {
+            if (!getEnhance()) {
                 ammo.setDamageValue(ammo.getDamageValue() + 1);
                 if (ammo.getDamageValue() == ammo.getMaxDamage()) {
                     ItemStack empty;
@@ -516,7 +542,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 }
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new ForwardConeParticlesToClient(getEyePosition(), new Vec3(shootX, shootY, shootZ), 4.5F, aStep, 1.5F, 0.1F, BSFParticleType.SNOWFLAKE.ordinal()));
                 playSound(j == 4 ? SoundRegister.SHOTGUN_FIRE_2.get() : SoundRegister.SNOWBALL_CANNON_SHOOT.get(), 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
-                if (getRandom().nextFloat() <= damageChance && !enhance) {
+                if (getRandom().nextFloat() <= damageChance && !getEnhance()) {
                     weapon.setDamageValue(weapon.getDamageValue() + 1);
                     if (weapon.getDamageValue() == 256) {
                         setWeapon(ItemStack.EMPTY);
@@ -597,7 +623,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     }
 
     public void resetCoreCoolDown() {
-        coreCoolDown = ((SnowGolemCoreItem) getCore().getItem()).getCoolDown();
+        setCoreCoolDown(((SnowGolemCoreItem) getCore().getItem()).getCoolDown());
     }
 
     public Vec3 getRandomTeleportPos() {
