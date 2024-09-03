@@ -33,8 +33,7 @@ public class BSFGolemOwnerHurtPlayerGoal extends TargetGoal {
                 if (!(ownerLastHurt instanceof Player)) {
                     return false;
                 }
-                BSFTeamSavedData savedData = snowGolem.getServer().overworld().getDataStorage().computeIfAbsent(BSFTeamSavedData::new, BSFTeamSavedData::new, "bsf_team");
-                if (savedData.isSameTeam(owner, ownerLastHurt)) {
+                if (snowGolem.getServer().overworld().getDataStorage().computeIfAbsent(BSFTeamSavedData::new, BSFTeamSavedData::new, "bsf_team").isSameTeam(owner, ownerLastHurt)) {
                     return false;
                 }
                 int $$1 = owner.getLastHurtMobTimestamp();

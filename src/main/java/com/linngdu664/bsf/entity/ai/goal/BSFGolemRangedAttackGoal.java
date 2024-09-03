@@ -11,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -111,9 +112,17 @@ public class BSFGolemRangedAttackGoal extends Goal {
                         double t = r * cosAlpha / (v * cosTheta);
                         double y = v * sinTheta * t - 0.015 * t * t + golem.getEyeY();
                         if (y >= aabb.minY - 0.8 && y <= aabb.maxY + 0.8) {
-                            if (entity.getType().equals(golem.getTarget().getType()) && !entity.equals(golem.getOwner()) && golem.getLocator()==0) {
+                            LivingEntity owner = golem.getOwner();
+                            if (golem.getLocator() == 0 && entity.getType().equals(golem.getTarget().getType())
+                                    || golem.getLocator() == 2 && !golem.getServer().overworld().getDataStorage().computeIfAbsent(BSFTeamSavedData::new, BSFTeamSavedData::new, "bsf_team").isSameTeam(entity, owner)
+                                    || golem.getLocator() == 3 && (owner != null && (!(entity instanceof Player) && golem.wantsToAttack(entity, owner)
+                                    || entity instanceof Player player && !player.isCreative() && !player.isSpectator() && !player.equals(owner))
+                                    || owner == null && entity instanceof Player player && !player.isCreative() && !player.isSpectator())) {
                                 golem.setTarget(entity);
                             }
+//                            if (entity.getType().equals(golem.getTarget().getType()) && !entity.equals(golem.getOwner()) && golem.getLocator()==0) {
+//                                golem.setTarget(entity);
+//                            }
                             attackTime = 1;
                             return false;
                         }
@@ -135,8 +144,8 @@ public class BSFGolemRangedAttackGoal extends Goal {
         float attackRadiusSqr = this.attackRadiusSqr;
         float attackRadius = this.attackRadius;
         if (golem.getWeapon().getItem() instanceof SnowballShotgunItem) {
-            attackRadius *= 0.2;
-            attackRadiusSqr *= 0.04;
+            attackRadius *= 0.2F;
+            attackRadiusSqr *= 0.04F;
         }
         if (target != null) {
             if (golem.getCore().getItem().equals(ItemRegister.ACTIVE_TELEPORTATION_GOLEM_CORE.get()) && golem.getCoreCoolDown() == 0 && (golem.getStatus() == 2 || golem.getStatus() == 3)) {
