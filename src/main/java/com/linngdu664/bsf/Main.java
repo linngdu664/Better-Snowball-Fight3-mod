@@ -1,7 +1,8 @@
 package com.linngdu664.bsf;
 
+import com.linngdu664.bsf.config.ClientConfig;
+import com.linngdu664.bsf.config.ServerConfig;
 import com.linngdu664.bsf.registry.*;
-import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -14,7 +15,8 @@ public class Main {
 
     public Main() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BSFConfig.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         BlockRegister.BLOCKS.register(bus);
         BlockEntityRegister.BLOCK_ENTITIES.register(bus);
         ItemRegister.ITEMS.register(bus);

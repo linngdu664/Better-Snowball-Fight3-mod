@@ -2,6 +2,7 @@ package com.linngdu664.bsf.event;
 
 import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
+import com.linngdu664.bsf.client.screenshake.ScreenshakeHandler;
 import com.linngdu664.bsf.item.tool.ColdCompressionJetEngineItem;
 import com.linngdu664.bsf.item.tool.SnowGolemModeTweakerItem;
 import com.linngdu664.bsf.item.tool.TeamLinkerItem;
@@ -13,11 +14,13 @@ import com.linngdu664.bsf.network.SwitchTweakerTargetModeToServer;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.mojang.blaze3d.platform.Window;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -29,6 +32,7 @@ import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
@@ -37,6 +41,8 @@ import java.util.LinkedList;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeEvents {
+    public static final RandomSource BSF_RANDOM_SOURCE = RandomSource.create();
+
     @SubscribeEvent
     public static void onMouseScroll(InputEvent.MouseScrollingEvent event) {
         Minecraft minecraft = Minecraft.getInstance();
@@ -190,5 +196,18 @@ public class ClientForgeEvents {
 
         }
     }
-
+    @SubscribeEvent
+    public static void clientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase.equals(TickEvent.Phase.END)) {
+            Minecraft minecraft = Minecraft.getInstance();
+            if (minecraft.level != null) {
+                if (minecraft.isPaused()) {
+                    return;
+                }
+                Camera camera = minecraft.gameRenderer.getMainCamera();
+                ScreenshakeHandler.clientTick(camera, null);
+                ScreenshakeHandler.clientTick(camera, BSF_RANDOM_SOURCE);
+            }
+        }
+    }
 }

@@ -1,6 +1,5 @@
 package com.linngdu664.bsf.network;
 
-import com.linngdu664.bsf.particle.util.BSFParticleType;
 import com.linngdu664.bsf.particle.util.ParticleUtil;
 import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.client.Minecraft;

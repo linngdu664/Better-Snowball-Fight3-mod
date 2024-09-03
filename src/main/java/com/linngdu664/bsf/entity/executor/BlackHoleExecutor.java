@@ -1,11 +1,11 @@
 package com.linngdu664.bsf.entity.executor;
 
+import com.linngdu664.bsf.config.ServerConfig;
+import com.linngdu664.bsf.particle.util.ParticleUtil;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
 import com.linngdu664.bsf.util.BSFCommonUtil;
-import com.linngdu664.bsf.util.BSFConfig;
-import com.linngdu664.bsf.particle.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -149,11 +149,11 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
             if (getTimer() % 20 == 0) {
                 playSound(SoundRegister.BLACK_HOLE_AMBIENCE.get(), 12.0F, 1.0F);
             }
-            if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && BSFConfig.blackHoleDestroy) {
+            if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && ServerConfig.BLACK_HOLE_DESTROY.getConfigValue()) {
                 BlockPos.betweenClosedStream(getBoundingBox().inflate(destroyR))
                         .filter(p -> p.getCenter().distanceToSqr(pos) < destroyR2 && level.getBlockState(p).getBlock().getExplosionResistance() <= 2400)
                         .forEach(p -> {
-                            level.destroyBlock(p, BSFConfig.blackHoleDrop);
+                            level.destroyBlock(p, ServerConfig.BLACK_HOLE_DROP.getConfigValue());
                             level.setBlockAndUpdate(p, Blocks.AIR.defaultBlockState());
                         });
             }
@@ -198,7 +198,7 @@ public class BlackHoleExecutor extends AbstractForceExecutor {
         super.remove(pReason);
         Level level = level();
         if (pReason.equals(Entity.RemovalReason.DISCARDED) && !level.isClientSide) {
-            if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && BSFConfig.blackHoleDestroy) {
+            if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && ServerConfig.BLACK_HOLE_DESTROY.getConfigValue()) {
                 level.explode(null, getX(), getY(), getZ(), Math.min(0.56F * (float) Math.sqrt(range) + 2.4F, 12F), Level.ExplosionInteraction.TNT);
             } else {
                 level.explode(null, getX(), getY(), getZ(), Math.min(0.56F * (float) Math.sqrt(range) + 2.4F, 12F), Level.ExplosionInteraction.NONE);

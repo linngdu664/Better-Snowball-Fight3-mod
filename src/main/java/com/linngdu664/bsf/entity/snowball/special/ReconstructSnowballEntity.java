@@ -1,9 +1,9 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
+import com.linngdu664.bsf.config.ServerConfig;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.EntityRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
-import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
@@ -29,12 +29,12 @@ public class ReconstructSnowballEntity extends AbstractSnowStorageSnowballEntity
     private int timer = 0;
 
     public ReconstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel, BSFConfig.reconstructSnowballDuration);
+        super(pEntityType, pLevel, ServerConfig.RECONSTRUCT_SNOWBALL_DURATION.getConfigValue());
         setNoGravity(true);
     }
 
     public ReconstructSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
-        super(EntityRegister.RECONSTRUCT_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock, BSFConfig.reconstructSnowballDuration);
+        super(EntityRegister.RECONSTRUCT_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock, ServerConfig.RECONSTRUCT_SNOWBALL_DURATION.getConfigValue());
         setNoGravity(true);
         this.destroyStepSize = Math.max(snowStock / 40, 1);
     }

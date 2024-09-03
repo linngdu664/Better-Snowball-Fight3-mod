@@ -1,8 +1,8 @@
 package com.linngdu664.bsf.entity.executor;
 
+import com.linngdu664.bsf.particle.util.ParticleUtil;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
-import com.linngdu664.bsf.particle.util.ParticleUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Enemy;

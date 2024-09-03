@@ -1,5 +1,7 @@
 package com.linngdu664.bsf.item.tool;
 
+import com.linngdu664.bsf.client.screenshake.Easing;
+import com.linngdu664.bsf.network.ScreenshakeToClient;
 import com.linngdu664.bsf.network.VectorInversionParticleToClient;
 import com.linngdu664.bsf.registry.NetworkRegister;
 import com.linngdu664.bsf.registry.SoundRegister;
@@ -25,9 +27,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import team.lodestar.lodestone.network.screenshake.ScreenshakePacket;
-import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
-import team.lodestar.lodestone.systems.easing.Easing;
 
 import java.util.List;
 
@@ -50,8 +49,7 @@ public class VectorInversionAnchorItem extends AbstractBSFEnhanceableToolItem {
                         double z = 0.5 * (aabb.maxZ - aabb.minZ);
                         ((ServerLevel) pLevel).sendParticles(ParticleTypes.ENCHANT, center.x, center.y, center.z, (int) (400 * z * x * y), x, y, z, 0.3);
                         if (p instanceof ServerPlayer player) {
-                            LodestonePacketRegistry.LODESTONE_CHANNEL.send((PacketDistributor.PLAYER.with(() -> player)),
-                                    new ScreenshakePacket(5).setEasing(Easing.EXPO_IN_OUT).setIntensity((float)0.5));
+                            NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> player), new ScreenshakeToClient(5).setEasing(Easing.EXPO_IN_OUT).setIntensity(0.5F));
                         }
                     }
                 });

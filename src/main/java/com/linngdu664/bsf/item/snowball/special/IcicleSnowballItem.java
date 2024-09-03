@@ -1,9 +1,9 @@
 package com.linngdu664.bsf.item.snowball.special;
 
+import com.linngdu664.bsf.config.ServerConfig;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.special.IcicleSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -36,7 +36,7 @@ public class IcicleSnowballItem extends AbstractSnowStorageSnowballItem {
 
     @Override
     public int getMaxCapacity() {
-        return BSFConfig.icicleSnowballCapacity;
+        return ServerConfig.ICICLE_SNOWBALL_CAPACITY.getConfigValue();
     }
 
     @Override

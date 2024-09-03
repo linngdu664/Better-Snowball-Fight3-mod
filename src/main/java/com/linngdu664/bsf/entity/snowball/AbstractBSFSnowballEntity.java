@@ -1,12 +1,12 @@
 package com.linngdu664.bsf.entity.snowball;
 
+import com.linngdu664.bsf.config.ServerConfig;
 import com.linngdu664.bsf.entity.Absorbable;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
 import com.linngdu664.bsf.item.tool.GloveItem;
 import com.linngdu664.bsf.registry.ParticleRegister;
-import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -228,10 +228,10 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
         return Math.abs(cameraVec.dot(speedVec) + 1.0) < 0.2;
     }
 
-    protected void handleExplosion(float radius,Vec3 location) {
+    protected void handleExplosion(float radius, Vec3 location) {
         Level level = level();
         if (!level.isClientSide) {
-            if (level.getGameRules().getBoolean((GameRules.RULE_MOBGRIEFING)) && BSFConfig.explosiveDestroy) {
+            if (level.getGameRules().getBoolean((GameRules.RULE_MOBGRIEFING)) && ServerConfig.EXPLOSIVE_DESTROY.getConfigValue()) {
                 level.explode(null, location.x, location.y, location.z, radius, Level.ExplosionInteraction.TNT);
             } else {
                 level.explode(null, location.x, location.y, location.z, radius, Level.ExplosionInteraction.NONE);

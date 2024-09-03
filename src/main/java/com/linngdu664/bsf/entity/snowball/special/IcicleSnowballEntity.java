@@ -1,13 +1,12 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.block.LooseSnowBlock;
+import com.linngdu664.bsf.client.screenshake.Easing;
+import com.linngdu664.bsf.config.ServerConfig;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.registry.BlockRegister;
-import com.linngdu664.bsf.registry.EntityRegister;
-import com.linngdu664.bsf.registry.ItemRegister;
-import com.linngdu664.bsf.registry.SoundRegister;
+import com.linngdu664.bsf.network.ScreenshakeToClient;
+import com.linngdu664.bsf.registry.*;
 import com.linngdu664.bsf.util.BSFCommonUtil;
-import com.linngdu664.bsf.util.BSFConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,9 +28,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
-import team.lodestar.lodestone.network.screenshake.ScreenshakePacket;
-import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
-import team.lodestar.lodestone.systems.easing.Easing;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -55,11 +51,11 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     private BlockPos impactPoint;
 
     public IcicleSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel, BSFConfig.icicleSnowballDuration);
+        super(pEntityType, pLevel, ServerConfig.ICICLE_SNOWBALL_DURATION.getConfigValue());
     }
 
     public IcicleSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock) {
-        super(EntityRegister.ICICLE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock, BSFConfig.icicleSnowballDuration);
+        super(EntityRegister.ICICLE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, snowStock, ServerConfig.ICICLE_SNOWBALL_DURATION.getConfigValue());
         this.initSnowStock = snowStock;
         this.destroyStepSize = Math.max(snowStock / 60, 1);
     }
@@ -155,10 +151,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     private void icicleInit(Level level) {
         List<Player> nearbyPlayers = level.getNearbyPlayers(TargetingConditions.forNonCombat(), null,
                 new AABB(this.position().add(100, 100, 100), this.position().subtract(100, 100, 100)));
-        nearbyPlayers.forEach(p -> {
-            LodestonePacketRegistry.LODESTONE_CHANNEL.send((PacketDistributor.PLAYER.with(() -> (ServerPlayer) p)),
-                    new ScreenshakePacket(20).setEasing(Easing.SINE_IN_OUT).setIntensity((float)0.5));
-        });
+        nearbyPlayers.forEach(p -> NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) p), new ScreenshakeToClient(20).setEasing(Easing.SINE_IN_OUT).setIntensity(0.5F)));
 //        stopTheSnowball(impactPoint.getCenter());
         this.setDeltaMovement(0, 0, 0);
         this.setNoGravity(true);
