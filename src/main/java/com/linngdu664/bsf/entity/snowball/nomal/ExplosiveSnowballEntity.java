@@ -15,15 +15,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class ExplosiveSnowballEntity extends AbstractNormalSnowballEntity {
     public ExplosiveSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(5));
     }
 
     public ExplosiveSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.EXPLOSIVE_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        super(EntityRegister.EXPLOSIVE_SNOWBALL.get(), pX, pY, pZ, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(5));
     }
 
     public ExplosiveSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.EXPLOSIVE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.EXPLOSIVE_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(5).applyAdjustment(launchAdjustment));
     }
 
     @Override
@@ -35,16 +35,17 @@ public class ExplosiveSnowballEntity extends AbstractNormalSnowballEntity {
         }
     }
 
-    @Override
-    public float getBasicDamage() {
-        return 3;
-    }
+//    @Override
+//    public float getBasicDamage() {
+//        return 3;
+//    }
+//
+//    @Override
+//    public float getBasicBlazeDamage() {
+//        return 5;
+//    }
 
     @Override
-    public float getBasicBlazeDamage() {
-        return 5;
-    }
-
     public float getSubspacePower() {
         return 3;
     }

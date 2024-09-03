@@ -21,13 +21,13 @@ public class SculkSnowballEntity extends AbstractBSFSnowballEntity {
     private int soundId;
 
     public SculkSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().basicPunch(2));
         this.setItem(new ItemStack(ItemRegister.SCULK_SNOWBALL.get()));
         this.soundId = -1;
     }
 
     public SculkSnowballEntity(LivingEntity pShooter, Level pLevel, int soundId) {
-        super(EntityRegister.SCULK_SNOWBALL.get(), pShooter, pLevel);
+        super(EntityRegister.SCULK_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().basicPunch(2));
         this.setItem(new ItemStack(ItemRegister.SCULK_SNOWBALL.get()));
         this.soundId = soundId;
     }
@@ -61,10 +61,10 @@ public class SculkSnowballEntity extends AbstractBSFSnowballEntity {
         }
     }
 
-    @Override
-    public double getBasicPunch() {
-        return 2;
-    }
+//    @Override
+//    public double getBasicPunch() {
+//        return 2;
+//    }
 
     @Override
     protected @NotNull Item getDefaultItem() {

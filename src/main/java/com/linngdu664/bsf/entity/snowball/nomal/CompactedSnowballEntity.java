@@ -12,21 +12,21 @@ import org.jetbrains.annotations.NotNull;
 
 public class CompactedSnowballEntity extends AbstractNormalSnowballEntity {
     public CompactedSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().basicPunch(2));
     }
 
     public CompactedSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.COMPACTED_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        super(EntityRegister.COMPACTED_SNOWBALL.get(), pX, pY, pZ, pLevel, new BSFSnowballEntityProperties().basicPunch(2));
     }
 
     public CompactedSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.COMPACTED_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.COMPACTED_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().basicPunch(2).applyAdjustment(launchAdjustment));
     }
 
-    @Override
-    public double getBasicPunch() {
-        return 2;
-    }
+//    @Override
+//    public double getBasicPunch() {
+//        return 2;
+//    }
 
     @Override
     protected @NotNull Item getDefaultItem() {

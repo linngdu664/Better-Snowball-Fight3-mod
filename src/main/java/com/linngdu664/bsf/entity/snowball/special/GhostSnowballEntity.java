@@ -24,12 +24,12 @@ public class GhostSnowballEntity extends AbstractBSFSnowballEntity {
     private int timer = 0;
 
     public GhostSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().canBeCaught(false));
         this.setNoGravity(true);
     }
 
     public GhostSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.GHOST_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.GHOST_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().canBeCaught(false).applyAdjustment(launchAdjustment));
         this.setNoGravity(true);
     }
 
@@ -80,10 +80,10 @@ public class GhostSnowballEntity extends AbstractBSFSnowballEntity {
         }
     }
 
-    @Override
-    public boolean canBeCaught() {
-        return false;
-    }
+//    @Override
+//    public boolean canBeCaught() {
+//        return false;
+//    }
 
     @Override
     public float getSubspacePower() {

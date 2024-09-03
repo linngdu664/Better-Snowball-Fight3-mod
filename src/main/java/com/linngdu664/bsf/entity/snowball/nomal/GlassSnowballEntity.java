@@ -12,26 +12,26 @@ import org.jetbrains.annotations.NotNull;
 
 public class GlassSnowballEntity extends AbstractNormalSnowballEntity {
     public GlassSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(5));
     }
 
     public GlassSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.GLASS_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        super(EntityRegister.GLASS_SNOWBALL.get(), pX, pY, pZ, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(5));
     }
 
     public GlassSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.GLASS_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.GLASS_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(5).applyAdjustment(launchAdjustment));
     }
 
-    @Override
-    public float getBasicDamage() {
-        return 3;
-    }
-
-    @Override
-    public float getBasicBlazeDamage() {
-        return 5;
-    }
+//    @Override
+//    public float getBasicDamage() {
+//        return 3;
+//    }
+//
+//    @Override
+//    public float getBasicBlazeDamage() {
+//        return 5;
+//    }
 
     @Override
     protected @NotNull Item getDefaultItem() {

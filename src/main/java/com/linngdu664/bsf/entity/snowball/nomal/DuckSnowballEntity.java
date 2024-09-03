@@ -16,15 +16,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class DuckSnowballEntity extends AbstractBSFSnowballEntity {
     public DuckSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties());
     }
 
     public DuckSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.DUCK_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        super(EntityRegister.DUCK_SNOWBALL.get(), pX, pY, pZ, pLevel, new BSFSnowballEntityProperties());
     }
 
     public DuckSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.DUCK_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.DUCK_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().applyAdjustment(launchAdjustment));
     }
 
     @Override

@@ -12,31 +12,31 @@ import org.jetbrains.annotations.NotNull;
 
 public class IceSnowballEntity extends AbstractNormalSnowballEntity {
     public IceSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(6).basicFrozenTicks(40));
     }
 
     public IceSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.ICE_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        super(EntityRegister.ICE_SNOWBALL.get(), pX, pY, pZ, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(6).basicFrozenTicks(40));
     }
 
     public IceSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.ICE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.ICE_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(6).basicFrozenTicks(40).applyAdjustment(launchAdjustment));
     }
 
-    @Override
-    public float getBasicDamage() {
-        return 3;
-    }
-
-    @Override
-    public float getBasicBlazeDamage() {
-        return 6;
-    }
-
-    @Override
-    public int getBasicFrozenTicks() {
-        return 60;
-    }
+//    @Override
+//    public float getBasicDamage() {
+//        return 3;
+//    }
+//
+//    @Override
+//    public float getBasicBlazeDamage() {
+//        return 6;
+//    }
+//
+//    @Override
+//    public int getBasicFrozenTicks() {
+//        return 60;
+//    }
 
     @Override
     public float getSubspacePower() {

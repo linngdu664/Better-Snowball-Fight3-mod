@@ -34,12 +34,12 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
     private int timer = 0;
 
     public BlackHoleSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().basicDamage(4).basicBlazeDamage(6).canBeCaught(false));
         this.setNoGravity(true);
     }
 
     public BlackHoleSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.BLACK_HOLE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.BLACK_HOLE_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().basicDamage(4).basicBlazeDamage(6).canBeCaught(false).applyAdjustment(launchAdjustment));
         this.setNoGravity(true);
     }
 
@@ -115,20 +115,20 @@ public class BlackHoleSnowballEntity extends AbstractBSFSnowballEntity {
         level.addFreshEntity(new BlackHoleExecutor(EntityRegister.BLACK_HOLE_EXECUTOR.get(), getX(), getY(), getZ(), level(), getDeltaMovement(), endTime - startTime));
     }
 
-    @Override
-    public boolean canBeCaught() {
-        return false;
-    }
-
-    @Override
-    public float getBasicDamage() {
-        return 4;
-    }
-
-    @Override
-    public float getBasicBlazeDamage() {
-        return 6;
-    }
+//    @Override
+//    public boolean canBeCaught() {
+//        return false;
+//    }
+//
+//    @Override
+//    public float getBasicDamage() {
+//        return 4;
+//    }
+//
+//    @Override
+//    public float getBasicBlazeDamage() {
+//        return 6;
+//    }
 
     @Override
     public float getSubspacePower() {

@@ -15,15 +15,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class CherryBlossomSnowballEntity extends AbstractNormalSnowballEntity {
     public CherryBlossomSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties());
     }
 
     public CherryBlossomSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.CHERRY_BLOSSOM_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        super(EntityRegister.CHERRY_BLOSSOM_SNOWBALL.get(), pX, pY, pZ, pLevel, new BSFSnowballEntityProperties());
     }
 
     public CherryBlossomSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.CHERRY_BLOSSOM_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.CHERRY_BLOSSOM_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().applyAdjustment(launchAdjustment));
     }
 
     @Override

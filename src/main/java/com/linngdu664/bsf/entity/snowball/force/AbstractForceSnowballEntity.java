@@ -16,11 +16,11 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractForceSnowballEntity extends AbstractBSFSnowballEntity {
     public AbstractForceSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties());
     }
 
     public AbstractForceSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(pEntityType, pShooter, pLevel, launchAdjustment);
+        super(pEntityType, pShooter, pLevel, new BSFSnowballEntityProperties().applyAdjustment(launchAdjustment));
     }
 
     @Override

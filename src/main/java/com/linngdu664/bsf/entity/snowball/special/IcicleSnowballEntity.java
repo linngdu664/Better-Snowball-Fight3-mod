@@ -29,10 +29,9 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     private static final int TRY_SUMMON_ICICLE_MAX_TIMES = 20;
@@ -42,7 +41,7 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
     private static final int FREEZE_TIME = BSFCommonUtil.staticRandInt(40, 50);
     private static final float FREEZE_PROPAGATION_RATE = 0.1f;
     private final Icicle[] icicles = new Icicle[ICICLE_MAX_NUM];
-    private final Queue<BlockPos> tmpFreezingBlocks = new LinkedList<>();
+    private final ArrayDeque<BlockPos> tmpFreezingBlocks = new ArrayDeque<>();
     private boolean isBuildingIcicle = false;
     private boolean isFreezing = false;
     private int iciclesNum = 0;
@@ -198,10 +197,10 @@ public class IcicleSnowballEntity extends AbstractSnowStorageSnowballEntity {
         }
     }
 
-    @Override
-    public boolean canBeCaught() {
-        return false;
-    }
+//    @Override
+//    public boolean canBeCaught() {
+//        return false;
+//    }
 
     @Override
     public float getSubspacePower() {

@@ -28,11 +28,11 @@ import java.util.List;
 
 public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
     public ImpulseSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties());
     }
 
     public ImpulseSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.IMPULSE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.IMPULSE_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().applyAdjustment(launchAdjustment));
     }
 
     @Override

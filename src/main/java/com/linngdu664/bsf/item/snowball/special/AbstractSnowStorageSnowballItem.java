@@ -2,8 +2,6 @@ package com.linngdu664.bsf.item.snowball.special;
 
 import com.linngdu664.bsf.block.LooseSnowBlock;
 import com.linngdu664.bsf.block.entity.CriticalSnowEntity;
-import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
-import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.snowball.AbstractBSFSnowballItem;
 import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.ChatFormatting;
@@ -30,11 +28,6 @@ public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowbal
 
     public AbstractSnowStorageSnowballItem(Rarity rarity, SnowballProperties snowballProperties) {
         super(rarity, snowballProperties.allowLaunchTypeFlag(HAND_TYPE_FLAG));
-    }
-
-    @Override
-    public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
-        return null;
     }
 
     protected int absorbSnow(LivingEntity livingEntity, Level level) {
@@ -89,8 +82,6 @@ public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowbal
 //    public int getTypeFlag() {
 //        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
 //    }
-
-    public abstract int getMaxCapacity();
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {

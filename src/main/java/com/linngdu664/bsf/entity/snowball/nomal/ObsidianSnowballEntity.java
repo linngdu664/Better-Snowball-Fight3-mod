@@ -12,26 +12,26 @@ import org.jetbrains.annotations.NotNull;
 
 public class ObsidianSnowballEntity extends AbstractNormalSnowballEntity {
     public ObsidianSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().basicDamage(6).basicBlazeDamage(8));
     }
 
     public ObsidianSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.OBSIDIAN_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        super(EntityRegister.OBSIDIAN_SNOWBALL.get(), pX, pY, pZ, pLevel, new BSFSnowballEntityProperties().basicDamage(6).basicBlazeDamage(8));
     }
 
     public ObsidianSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.OBSIDIAN_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.OBSIDIAN_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().basicDamage(6).basicBlazeDamage(8).applyAdjustment(launchAdjustment));
     }
 
-    @Override
-    public float getBasicDamage() {
-        return 6;
-    }
-
-    @Override
-    public float getBasicBlazeDamage() {
-        return 8;
-    }
+//    @Override
+//    public float getBasicDamage() {
+//        return 6;
+//    }
+//
+//    @Override
+//    public float getBasicBlazeDamage() {
+//        return 8;
+//    }
 
     @Override
     public float getSubspacePower() {

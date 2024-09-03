@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class ExplosiveMonsterTrackingSnowballEntity extends AbstractMonsterTrackingSnowballEntity {
     public ExplosiveMonsterTrackingSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(5), false);
     }
 
     public ExplosiveMonsterTrackingSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.EXPLOSIVE_MONSTER_TRACKING_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.EXPLOSIVE_MONSTER_TRACKING_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(5).applyAdjustment(launchAdjustment), false);
     }
 
     @Override
@@ -29,25 +29,25 @@ public class ExplosiveMonsterTrackingSnowballEntity extends AbstractMonsterTrack
         }
     }
 
-    @Override
-    public float getBasicDamage() {
-        return 3;
-    }
-
-    @Override
-    public float getBasicBlazeDamage() {
-        return 5;
-    }
+//    @Override
+//    public float getBasicDamage() {
+//        return 3;
+//    }
+//
+//    @Override
+//    public float getBasicBlazeDamage() {
+//        return 5;
+//    }
 
     @Override
     public float getSubspacePower() {
         return 3.25F;
     }
 
-    @Override
-    public boolean isLockFeet() {
-        return false;
-    }
+//    @Override
+//    public boolean isLockFeet() {
+//        return false;
+//    }
 
     @Override
     protected @NotNull Item getDefaultItem() {

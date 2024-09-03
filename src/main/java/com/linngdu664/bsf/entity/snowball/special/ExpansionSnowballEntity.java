@@ -22,11 +22,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class ExpansionSnowballEntity extends AbstractConstructSnowballEntity {
     public ExpansionSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel, ServerConfig.EXPANSION_SNOWBALL_DURATION.getConfigValue());
+        super(pEntityType, pLevel, ServerConfig.EXPANSION_SNOWBALL_DURATION.getConfigValue(), new BSFSnowballEntityProperties());
     }
 
     public ExpansionSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.EXPANSION_SNOWBALL.get(), pShooter, pLevel, launchAdjustment, ServerConfig.EXPANSION_SNOWBALL_DURATION.getConfigValue());
+        super(EntityRegister.EXPANSION_SNOWBALL.get(), pShooter, pLevel, ServerConfig.EXPANSION_SNOWBALL_DURATION.getConfigValue(), new BSFSnowballEntityProperties().applyAdjustment(launchAdjustment));
     }
 
     @Override

@@ -27,15 +27,15 @@ import java.util.List;
 
 public class SpectralSnowballEntity extends AbstractBSFSnowballEntity {
     public SpectralSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties());
     }
 
     public SpectralSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.SPECTRAL_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        super(EntityRegister.SPECTRAL_SNOWBALL.get(), pX, pY, pZ, pLevel, new BSFSnowballEntityProperties());
     }
 
     public SpectralSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.SPECTRAL_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.SPECTRAL_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().applyAdjustment(launchAdjustment));
     }
 
     @Override

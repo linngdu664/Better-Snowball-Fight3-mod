@@ -15,11 +15,11 @@ public abstract class AbstractSnowStorageSnowballEntity extends AbstractConstruc
     protected int snowStock = 0;
 
     public AbstractSnowStorageSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel, int duration) {
-        super(pEntityType, pLevel, duration);
+        super(pEntityType, pLevel, duration, new BSFSnowballEntityProperties().canBeCaught(false));
     }
 
     public AbstractSnowStorageSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int snowStock, int duration) {
-        super(pEntityType, pShooter, pLevel, launchAdjustment, duration);
+        super(pEntityType, pShooter, pLevel, duration, new BSFSnowballEntityProperties().canBeCaught(false).applyAdjustment(launchAdjustment));
         this.snowStock = snowStock;
     }
 

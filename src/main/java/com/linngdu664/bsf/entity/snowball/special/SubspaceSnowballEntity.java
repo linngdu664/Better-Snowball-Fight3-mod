@@ -34,17 +34,17 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     private final ArrayList<ItemStack> itemStackArrayList = new ArrayList<>();
     private boolean release = true;
     private int timer = 0;
-    private float damage = Float.MIN_NORMAL;
-    private float blazeDamage = 3F;
+//    private float damage = Float.MIN_NORMAL;
+//    private float blazeDamage = 3F;
 
     public SubspaceSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().canBeCaught(false));
         this.setNoGravity(true);
         this.particleGenerationStepSize=0.1f;
     }
 
     public SubspaceSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, boolean release) {
-        super(EntityRegister.SUBSPACE_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.SUBSPACE_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().canBeCaught(false).applyAdjustment(launchAdjustment));
         this.release = release;
         this.setNoGravity(true);
         if (!release){
@@ -56,8 +56,8 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("Timer", timer);
-        pCompound.putFloat("Damage", damage);
-        pCompound.putFloat("BlazeDamage", blazeDamage);
+//        pCompound.putFloat("Damage", damage);
+//        pCompound.putFloat("BlazeDamage", blazeDamage);
         pCompound.putBoolean("Release", release);
     }
 
@@ -65,8 +65,8 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
     public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         timer = pCompound.getInt("Timer");
-        damage = pCompound.getFloat("Damage");
-        blazeDamage = pCompound.getFloat("BlazeDamage");
+//        damage = pCompound.getFloat("Damage");
+//        blazeDamage = pCompound.getFloat("BlazeDamage");
         release=pCompound.getBoolean("Release");
     }
 
@@ -89,8 +89,11 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                     this.discard();
                 }
                 if (!release) {
-                    damage += damage<15?absorbable.getSubspacePower():15*absorbable.getSubspacePower()/damage;
-                    blazeDamage += damage<15?absorbable.getSubspacePower():15*absorbable.getSubspacePower()/damage;
+                    float damage = getDamage();
+                    setDamage(damage + (damage < 15 ? absorbable.getSubspacePower() : 15 * absorbable.getSubspacePower() / damage));
+                    setBlazeDamage(getBlazeDamage() + (damage < 15 ? absorbable.getSubspacePower() : 15 * absorbable.getSubspacePower() / damage));
+//                    damage += damage<15?absorbable.getSubspacePower():15*absorbable.getSubspacePower()/damage;
+//                    blazeDamage += damage<15?absorbable.getSubspacePower():15*absorbable.getSubspacePower()/damage;
                     Vec3 vec3 = this.getDeltaMovement().scale(0.05);
                     this.push(vec3.x, vec3.y, vec3.z);
                 }
@@ -103,8 +106,11 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                 ((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, p.getX(), p.getY(), p.getZ(), 8, 0, 0, 0, 0.05);
                 p.discard();
                 if (!release) {
-                    damage += damage<15?1:15/damage;
-                    blazeDamage += damage<15?1:15/damage;
+                    float damage = getDamage();
+                    setDamage(damage + (damage < 15 ? 1 : 15 / damage));
+                    setBlazeDamage(getBlazeDamage() + (damage < 15 ? 1 : 15 / damage));
+//                    damage += damage<15?1:15/damage;
+//                    blazeDamage += damage<15?1:15/damage;
                     Vec3 vec3 = this.getDeltaMovement().scale(0.05);
                     this.push(vec3.x, vec3.y, vec3.z);
                 }
@@ -147,7 +153,8 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
                 level.addFreshEntity(itemEntity);
             }
             if(!release){
-                float r = damage<5?2:damage/5+1;
+                float damage = getDamage();
+                float r = damage < 5 ? 2 : damage / 5 + 1;
                 List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location,location).inflate(r+3), EntitySelector.LIVING_ENTITY_STILL_ALIVE);
                 damageList(list,damage,r,location);
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(location.x, location.y, location.z, r,(int)(25*r)));
@@ -165,7 +172,8 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         Level level = level();
         if (!level.isClientSide){
             if (!release) {
-                float r = damage<5?2:damage/5+1;
+                float damage = getDamage();
+                float r = damage < 5 ? 2 : damage / 5 + 1;
                 List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location,location).inflate(r+3), EntitySelector.NO_SPECTATORS);
                 damageList(list,damage,r,location);
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new SubspaceSnowballParticlesToClient(location.x, location.y, location.z, r,(int)(25*r)));
@@ -185,20 +193,20 @@ public class SubspaceSnowballEntity extends AbstractBSFSnowballEntity {
         }
     }
 
-    @Override
-    public boolean canBeCaught() {
-        return false;
-    }
-
-    @Override
-    public float getBasicDamage() {
-        return damage;
-    }
-
-    @Override
-    public float getBasicBlazeDamage() {
-        return blazeDamage;
-    }
+//    @Override
+//    public boolean canBeCaught() {
+//        return false;
+//    }
+//
+//    @Override
+//    public float getBasicDamage() {
+//        return damage;
+//    }
+//
+//    @Override
+//    public float getBasicBlazeDamage() {
+//        return blazeDamage;
+//    }
 
     @Override
     protected @NotNull Item getDefaultItem() {

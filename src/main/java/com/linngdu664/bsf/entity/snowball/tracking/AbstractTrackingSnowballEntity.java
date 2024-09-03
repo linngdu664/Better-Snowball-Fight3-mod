@@ -1,7 +1,6 @@
 package com.linngdu664.bsf.entity.snowball.tracking;
 
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
-import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -15,13 +14,17 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowballEntity {
     private Entity target;
+    private final boolean isLockFeet;
+    protected final double range = 10;
 
-    public AbstractTrackingSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public AbstractTrackingSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel, BSFSnowballEntityProperties pProperties, boolean isLockFeet) {
+        super(pEntityType, pLevel, pProperties);
+        this.isLockFeet = isLockFeet;
     }
 
-    public AbstractTrackingSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(pEntityType, pShooter, pLevel, launchAdjustment);
+    public AbstractTrackingSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, BSFSnowballEntityProperties pProperties, boolean isLockFeet) {
+        super(pEntityType, pShooter, pLevel, pProperties);
+        this.isLockFeet = isLockFeet;
     }
 
     @Override
@@ -40,13 +43,13 @@ public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowball
         }
     }
 
-    public double getRange() {
-        return 10;
-    }
+//    public double getRange() {
+//        return 10;
+//    }
 
     public abstract Entity getTarget();
 
-    public abstract boolean isLockFeet();
+//    public abstract boolean isLockFeet();
 
     /**
      * This method is designed for the tracking snowball. If the target is not null,
@@ -63,7 +66,7 @@ public abstract class AbstractTrackingSnowballEntity extends AbstractBSFSnowball
         } else {
             setNoGravity(true);
             Vec3 delta;
-            if (isLockFeet()) {
+            if (isLockFeet) {
                 delta = target.getPosition(1).subtract(getPosition(1));
             } else {
                 delta = target.getBoundingBox().getCenter().subtract(getPosition(1));

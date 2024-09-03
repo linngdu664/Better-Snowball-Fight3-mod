@@ -1,7 +1,6 @@
 package com.linngdu664.bsf.entity.snowball.tracking;
 
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
-import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.util.BSFCommonUtil;
 import com.linngdu664.bsf.util.BSFTeamSavedData;
 import net.minecraft.world.entity.Entity;
@@ -17,12 +16,12 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public abstract class AbstractPlayerTrackingSnowballEntity extends AbstractTrackingSnowballEntity {
-    public AbstractPlayerTrackingSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public AbstractPlayerTrackingSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel, BSFSnowballEntityProperties pProperties, boolean isLockFeet) {
+        super(pEntityType, pLevel, pProperties, isLockFeet);
     }
 
-    public AbstractPlayerTrackingSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(pEntityType, pShooter, pLevel, launchAdjustment);
+    public AbstractPlayerTrackingSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, BSFSnowballEntityProperties pProperties, boolean isLockFeet) {
+        super(pEntityType, pShooter, pLevel, pProperties, isLockFeet);
     }
 
     @Override
@@ -30,7 +29,7 @@ public abstract class AbstractPlayerTrackingSnowballEntity extends AbstractTrack
         Vec3 velocity = getDeltaMovement();
         Level level = level();
         Entity shooter = getOwner();
-        AABB aabb = getBoundingBox().inflate(getRange());
+        AABB aabb = getBoundingBox().inflate(range);
         BSFTeamSavedData savedData = getServer().overworld().getDataStorage().computeIfAbsent(BSFTeamSavedData::new, BSFTeamSavedData::new, "bsf_team");
         List<Player> list = level.getEntitiesOfClass(Player.class, aabb, p -> !p.isSpectator() && !p.equals(shooter) && !savedData.isSameTeam(shooter, p) && !(shooter instanceof BSFSnowGolemEntity golem && (p.equals(golem.getOwner()) || savedData.isSameTeam(golem.getOwner(), p))) && BSFCommonUtil.vec3AngleCos(velocity, p.getPosition(1).subtract(getPosition(1))) > 0.5);
         if (!list.isEmpty()) {

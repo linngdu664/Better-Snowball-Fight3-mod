@@ -40,15 +40,15 @@ import java.util.List;
 
 public class CriticalFrozenSnowballEntity extends AbstractBSFSnowballEntity {
     public CriticalFrozenSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(8).basicFrozenTicks(60));
     }
 
     public CriticalFrozenSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.CRITICAL_FROZEN_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        super(EntityRegister.CRITICAL_FROZEN_SNOWBALL.get(), pX, pY, pZ, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(8).basicFrozenTicks(60));
     }
 
     public CriticalFrozenSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.CRITICAL_FROZEN_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.CRITICAL_FROZEN_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(8).basicFrozenTicks(60).applyAdjustment(launchAdjustment));
     }
 
     @Override
@@ -58,7 +58,7 @@ public class CriticalFrozenSnowballEntity extends AbstractBSFSnowballEntity {
         if (!level.isClientSide) {
             if (!isCaught) {
                 float frozenRange;
-                if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
+                if (getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
                     frozenRange = 3.5F;
                 } else {
                     frozenRange = 2.5F;
@@ -84,10 +84,10 @@ public class CriticalFrozenSnowballEntity extends AbstractBSFSnowballEntity {
                                 } else if (level.getBlockEntity(blockPos1) instanceof CriticalSnowEntity blockEntity) {
                                     blockEntity.setAge(0);
                                     blockEntity.setChanged();
-                                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new ForwardRaysParticlesToClient(blockPos1.getCenter().add(-0.5, -0.4, -0.5), blockPos1.getCenter().add(0.5, -0.4, 0.5), new Vec3(0, 1, 0), 0.2, 0.6, launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON ? 10 : 5, BSFParticleType.SNOWFLAKE.ordinal()));
+                                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new ForwardRaysParticlesToClient(blockPos1.getCenter().add(-0.5, -0.4, -0.5), blockPos1.getCenter().add(0.5, -0.4, 0.5), new Vec3(0, 1, 0), 0.2, 0.6, getLaunchFrom() == LaunchFrom.FREEZING_CANNON ? 10 : 5, BSFParticleType.SNOWFLAKE.ordinal()));
                                 } else if (blockState.canBeReplaced() && newBlock.canSurvive(level, blockPos1)) {
                                     level.setBlockAndUpdate(blockPos1, newBlock);
-                                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new ForwardRaysParticlesToClient(blockPos1.getCenter().add(-0.5, -0.4, -0.5), blockPos1.getCenter().add(0.5, -0.4, 0.5), new Vec3(0, 1, 0), 0.2, 0.6, launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON ? 10 : 5, BSFParticleType.SNOWFLAKE.ordinal()));
+                                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> this), new ForwardRaysParticlesToClient(blockPos1.getCenter().add(-0.5, -0.4, -0.5), blockPos1.getCenter().add(0.5, -0.4, 0.5), new Vec3(0, 1, 0), 0.2, 0.6, getLaunchFrom() == LaunchFrom.FREEZING_CANNON ? 10 : 5, BSFParticleType.SNOWFLAKE.ordinal()));
                                 }
                             }
                         }
@@ -95,19 +95,19 @@ public class CriticalFrozenSnowballEntity extends AbstractBSFSnowballEntity {
                 }
                 List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location,location).inflate(4), p -> !(p instanceof BSFSnowGolemEntity) && !(p instanceof SnowGolem) && !(p instanceof Player player && player.isSpectator()) && distanceToSqr(p) < frozenRange * frozenRange);
                 for (LivingEntity entity : list) {
-                    int frozenTicks = launchAdjustment.adjustFrozenTicks(getBasicFrozenTicks());
+                    int frozenTicks = getFrozenTicks();
                     if (frozenTicks > 0) {
                         if (entity.getTicksFrozen() < 200) {
                             entity.setTicksFrozen(entity.getTicksFrozen() + frozenTicks);
                         }
                         entity.hurt(level.damageSources().thrown(this, this.getOwner()), Float.MIN_NORMAL);
-                        if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
+                        if (getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
                             entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 4));
                         }
                         entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 2));
                     }
                 }
-                if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
+                if (getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
                     ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, location.x, location.y, location.z, 40, 0, 0, 0, 0.12);
                 } else {
                     ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, location.x, location.y, location.z, 20, 0, 0, 0, 0.12);
@@ -123,20 +123,20 @@ public class CriticalFrozenSnowballEntity extends AbstractBSFSnowballEntity {
         return ItemRegister.CRITICAL_FROZEN_SNOWBALL.get();
     }
 
-    @Override
-    public float getBasicDamage() {
-        return 3;
-    }
-
-    @Override
-    public float getBasicBlazeDamage() {
-        return 8;
-    }
-
-    @Override
-    public int getBasicFrozenTicks() {
-        return 60;
-    }
+//    @Override
+//    public float getBasicDamage() {
+//        return 3;
+//    }
+//
+//    @Override
+//    public float getBasicBlazeDamage() {
+//        return 8;
+//    }
+//
+//    @Override
+//    public int getBasicFrozenTicks() {
+//        return 60;
+//    }
 
     @Override
     public float getSubspacePower() {

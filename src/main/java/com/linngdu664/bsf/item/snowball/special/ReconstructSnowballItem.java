@@ -31,12 +31,7 @@ public class ReconstructSnowballItem extends AbstractSnowStorageSnowballItem {
 
     @Override
     public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
-        return new ReconstructSnowballEntity(livingEntity, level, launchAdjustment, Math.min(absorbSnow(livingEntity, level), getMaxCapacity()));
-    }
-
-    @Override
-    public int getMaxCapacity() {
-        return ServerConfig.RECONSTRUCT_SNOWBALL_CAPACITY.getConfigValue();
+        return new ReconstructSnowballEntity(livingEntity, level, launchAdjustment, Math.min(absorbSnow(livingEntity, level), ServerConfig.RECONSTRUCT_SNOWBALL_CAPACITY.getConfigValue()));
     }
 
     @Override

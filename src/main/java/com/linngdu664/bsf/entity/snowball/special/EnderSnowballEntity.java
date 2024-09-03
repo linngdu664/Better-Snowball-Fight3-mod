@@ -29,11 +29,11 @@ import java.util.HashSet;
 
 public class EnderSnowballEntity extends AbstractBSFSnowballEntity {
     public EnderSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties());
     }
 
     public EnderSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.ENDER_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.ENDER_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().applyAdjustment(launchAdjustment));
     }
 
     @Override

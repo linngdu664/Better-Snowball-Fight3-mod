@@ -12,26 +12,26 @@ import org.jetbrains.annotations.NotNull;
 
 public class GoldSnowballEntity extends AbstractNormalSnowballEntity {
     public GoldSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().basicDamage(5).basicBlazeDamage(7));
     }
 
     public GoldSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.GOLD_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        super(EntityRegister.GOLD_SNOWBALL.get(), pX, pY, pZ, pLevel, new BSFSnowballEntityProperties().basicDamage(5).basicBlazeDamage(7));
     }
 
     public GoldSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.GOLD_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.GOLD_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().basicDamage(5).basicBlazeDamage(7).applyAdjustment(launchAdjustment));
     }
 
-    @Override
-    public float getBasicDamage() {
-        return 5;
-    }
-
-    @Override
-    public float getBasicBlazeDamage() {
-        return 7;
-    }
+//    @Override
+//    public float getBasicDamage() {
+//        return 5;
+//    }
+//
+//    @Override
+//    public float getBasicBlazeDamage() {
+//        return 7;
+//    }
 
     @Override
     public float getSubspacePower() {

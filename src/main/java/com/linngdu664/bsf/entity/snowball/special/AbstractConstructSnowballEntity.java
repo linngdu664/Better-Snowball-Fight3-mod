@@ -2,7 +2,6 @@ package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.block.LooseSnowBlock;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
-import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.registry.BlockRegister;
 import com.linngdu664.bsf.registry.ParticleRegister;
 import net.minecraft.core.BlockPos;
@@ -23,26 +22,26 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public abstract class AbstractConstructSnowballEntity extends AbstractBSFSnowballEntity {
     private static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(AbstractConstructSnowballEntity.class, EntityDataSerializers.BOOLEAN);
-    protected final Stack<BlockPos> allBlock = new Stack<>();
+    protected final ArrayDeque<BlockPos> allBlock = new ArrayDeque<>();
     protected int blockDurationTick;    // default: 20 * 4
     protected float destroyStepSize = 5;
     protected boolean inBlockDuration = false;
     private boolean inDestroying = false;
 
 
-    public AbstractConstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel, int duration) {
-        super(pEntityType, pLevel);
+    public AbstractConstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel, int duration, BSFSnowballEntityProperties pProperties) {
+        super(pEntityType, pLevel, pProperties);
         this.blockDurationTick = duration;
     }
 
-    public AbstractConstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment, int duration) {
-        super(pEntityType, pShooter, pLevel, launchAdjustment);
+    public AbstractConstructSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, LivingEntity pShooter, Level pLevel, int duration, BSFSnowballEntityProperties pProperties) {
+        super(pEntityType, pShooter, pLevel, pProperties);
         this.blockDurationTick = duration;
     }
 

@@ -12,17 +12,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class LightMonsterTrackingSnowballEntity extends AbstractMonsterTrackingSnowballEntity {
     public LightMonsterTrackingSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties(), false);
     }
 
     public LightMonsterTrackingSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.LIGHT_MONSTER_TRACKING_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.LIGHT_MONSTER_TRACKING_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().applyAdjustment(launchAdjustment), false);
     }
 
-    @Override
-    public boolean isLockFeet() {
-        return false;
-    }
+//    @Override
+//    public boolean isLockFeet() {
+//        return false;
+//    }
 
     @Override
     protected @NotNull Item getDefaultItem() {

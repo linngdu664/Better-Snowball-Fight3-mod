@@ -22,12 +22,12 @@ public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
     private ItemStack targetLocator;
 
     public GPSSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().basicPunch(1));
         this.setItem(new ItemStack(ItemRegister.GPS_SNOWBALL.get()));
     }
 
     public GPSSnowballEntity(LivingEntity pShooter, Level pLevel, ItemStack targetLocator) {
-        super(EntityRegister.GPS_SNOWBALL.get(), pShooter, pLevel);
+        super(EntityRegister.GPS_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().basicPunch(1));
         this.targetLocator = targetLocator;
         this.setItem(new ItemStack(ItemRegister.GPS_SNOWBALL.get()));
     }
@@ -58,10 +58,10 @@ public class GPSSnowballEntity extends AbstractBSFSnowballEntity {
         }
     }
 
-    @Override
-    public double getBasicPunch() {
-        return 1;
-    }
+//    @Override
+//    public double getBasicPunch() {
+//        return 1;
+//    }
 
     @Override
     protected @NotNull Item getDefaultItem() {

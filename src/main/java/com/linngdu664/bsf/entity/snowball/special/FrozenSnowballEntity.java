@@ -35,15 +35,15 @@ import java.util.List;
 
 public class FrozenSnowballEntity extends AbstractBSFSnowballEntity {
     public FrozenSnowballEntity(EntityType<? extends ThrowableItemProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+        super(pEntityType, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(8).basicFrozenTicks(60));
     }
 
     public FrozenSnowballEntity(Level pLevel, double pX, double pY, double pZ) {
-        super(EntityRegister.FROZEN_SNOWBALL.get(), pX, pY, pZ, pLevel);
+        super(EntityRegister.FROZEN_SNOWBALL.get(), pX, pY, pZ, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(8).basicFrozenTicks(60));
     }
 
     public FrozenSnowballEntity(LivingEntity pShooter, Level pLevel, ILaunchAdjustment launchAdjustment) {
-        super(EntityRegister.FROZEN_SNOWBALL.get(), pShooter, pLevel, launchAdjustment);
+        super(EntityRegister.FROZEN_SNOWBALL.get(), pShooter, pLevel, new BSFSnowballEntityProperties().basicDamage(3).basicBlazeDamage(8).basicFrozenTicks(60).applyAdjustment(launchAdjustment));
     }
 
     @Override
@@ -53,7 +53,7 @@ public class FrozenSnowballEntity extends AbstractBSFSnowballEntity {
         if (!level.isClientSide) {
             if (!isCaught) {
                 float frozenRange;
-                if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
+                if (getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
                     frozenRange = 3.5F;
                 } else {
                     frozenRange = 2.5F;
@@ -88,19 +88,19 @@ public class FrozenSnowballEntity extends AbstractBSFSnowballEntity {
                 }
                 List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, new AABB(location,location).inflate(4), p -> !(p instanceof BSFSnowGolemEntity) && !(p instanceof SnowGolem) && !(p instanceof Player player && player.isSpectator()) && distanceToSqr(p) < frozenRange * frozenRange);
                 for (LivingEntity entity : list) {
-                    int frozenTicks = launchAdjustment.adjustFrozenTicks(getBasicFrozenTicks());
+                    int frozenTicks = getFrozenTicks();
                     if (frozenTicks > 0) {
                         if (entity.getTicksFrozen() < 200) {
                             entity.setTicksFrozen(entity.getTicksFrozen() + frozenTicks);
                         }
                         entity.hurt(level.damageSources().thrown(this, this.getOwner()), Float.MIN_NORMAL);
-                        if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
+                        if (getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
                             entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 4));
                         }
                         entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 2));
                     }
                 }
-                if (launchAdjustment.getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
+                if (getLaunchFrom() == LaunchFrom.FREEZING_CANNON) {
                     ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, location.x, location.y, location.z, 400, 0, 0, 0, 0.32);
                 } else {
                     ((ServerLevel) level).sendParticles(ParticleTypes.SNOWFLAKE, location.x, location.y, location.z, 200, 0, 0, 0, 0.32);
@@ -116,20 +116,20 @@ public class FrozenSnowballEntity extends AbstractBSFSnowballEntity {
         return ItemRegister.FROZEN_SNOWBALL.get();
     }
 
-    @Override
-    public float getBasicDamage() {
-        return 3;
-    }
-
-    @Override
-    public float getBasicBlazeDamage() {
-        return 8;
-    }
-
-    @Override
-    public int getBasicFrozenTicks() {
-        return 60;
-    }
+//    @Override
+//    public float getBasicDamage() {
+//        return 3;
+//    }
+//
+//    @Override
+//    public float getBasicBlazeDamage() {
+//        return 8;
+//    }
+//
+//    @Override
+//    public int getBasicFrozenTicks() {
+//        return 60;
+//    }
 
     @Override
     public float getSubspacePower() {
