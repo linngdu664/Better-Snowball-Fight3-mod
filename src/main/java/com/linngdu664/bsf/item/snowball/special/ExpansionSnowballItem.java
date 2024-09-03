@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ExpansionSnowballItem extends AbstractBSFSnowballItem {
     public ExpansionSnowballItem() {
-        super(Rarity.UNCOMMON);
+        super(Rarity.UNCOMMON, new SnowballProperties().idForTank(17).allowLaunchTypeFlag(HAND_TYPE_FLAG));
     }
 
     @Override
@@ -34,10 +34,10 @@ public class ExpansionSnowballItem extends AbstractBSFSnowballItem {
         return new ExpansionSnowballEntity(livingEntity, level, launchAdjustment);
     }
 
-    @Override
-    public int getTypeFlag() {
-        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
-    }
+//    @Override
+//    public int getTypeFlag() {
+//        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
+//    }
 
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {
