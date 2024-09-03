@@ -1,5 +1,8 @@
 package com.linngdu664.bsf.item.weapon;
 
+import com.linngdu664.bsf.client.screenshake.Easing;
+import com.linngdu664.bsf.client.screenshake.ScreenshakeHandler;
+import com.linngdu664.bsf.client.screenshake.ScreenshakeInstance;
 import com.linngdu664.bsf.entity.snowball.nomal.SmoothSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.entity.snowball.util.LaunchFrom;
@@ -29,9 +32,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import team.lodestar.lodestone.handlers.ScreenshakeHandler;
-import team.lodestar.lodestone.systems.easing.Easing;
-import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 
 import java.util.List;
 

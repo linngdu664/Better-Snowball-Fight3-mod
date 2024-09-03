@@ -1,5 +1,8 @@
 package com.linngdu664.bsf.item.tool;
 
+import com.linngdu664.bsf.client.screenshake.Easing;
+import com.linngdu664.bsf.client.screenshake.ScreenshakeHandler;
+import com.linngdu664.bsf.client.screenshake.ScreenshakeInstance;
 import com.linngdu664.bsf.network.ForwardConeParticlesToClient;
 import com.linngdu664.bsf.network.ForwardRaysParticlesToClient;
 import com.linngdu664.bsf.network.ToggleMovingSoundToClient;
@@ -29,14 +32,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import team.lodestar.lodestone.handlers.ScreenshakeHandler;
-import team.lodestar.lodestone.systems.easing.Easing;
-import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 
 import java.util.List;
-
-import static com.linngdu664.bsf.event.ClientModEvents.CYCLE_MOVE_AMMO_NEXT;
-import static com.linngdu664.bsf.event.ClientModEvents.CYCLE_MOVE_AMMO_PREV;
 
 public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem {
     public static final int STARTUP_DURATION = 24;
@@ -98,8 +95,9 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.DIMENSION.with(pLevel::dimension), new ToggleMovingSoundToClient(pLivingEntity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP3.get(), ToggleMovingSoundToClient.PLAY_ONCE));
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.DIMENSION.with(pLevel::dimension), new ToggleMovingSoundToClient(pLivingEntity, SoundRegister.COLD_COMPRESSION_JET_ENGINE_STARTUP4.get(), ToggleMovingSoundToClient.PLAY_LOOP));
                 NetworkRegister.PACKET_HANDLER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> pLivingEntity), new ForwardConeParticlesToClient(particlesPos, vec3.reverse().scale(0.5), 5F, 10, 0.2F, 0, BSFParticleType.SNOWFLAKE.ordinal()));
+            } else {
+                ScreenshakeHandler.addScreenshake((new ScreenshakeInstance(6)).setIntensity(0.6f).setEasing(Easing.EXPO_IN_OUT));
             }
-            ScreenshakeHandler.addScreenshake((new ScreenshakeInstance(6)).setIntensity(0.6f).setEasing(Easing.EXPO_IN_OUT));
         } else {
             Vec3 aVec = vec3.scale(0.2);
             pLivingEntity.push(aVec.x, aVec.y, aVec.z);

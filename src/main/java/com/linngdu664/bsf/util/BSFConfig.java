@@ -46,29 +46,33 @@ public class BSFConfig {
 //            .comment("A list of items to log on common setup.")
 //            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), BSFConfig::validateItemName);
     public static final ForgeConfigSpec SPEC = BUILDER.build();
-    public static boolean explosiveDestroy;
-    public static boolean blackHoleDestroy;
-    public static boolean blackHoleDrop;
-    public static int reconstructSnowballCapacity;
-    public static int icicleSnowballCapacity;
-    public static int expansionSnowballDuration;
-    public static int reconstructSnowballDuration;
-    public static int icicleSnowballDuration;
-    public static boolean enableFriendlyFire;
+//    public static boolean explosiveDestroy;
+//    public static boolean blackHoleDestroy;
+//    public static boolean blackHoleDrop;
+//    public static int reconstructSnowballCapacity;
+//    public static int icicleSnowballCapacity;
+//    public static int expansionSnowballDuration;
+//    public static int reconstructSnowballDuration;
+//    public static int icicleSnowballDuration;
+//    public static boolean enableFriendlyFire;
+//
+//    public static double screenshakeIntensity = 1.0;
 //    public static String magicNumberIntroduction;
 //    public static Set<Item> items;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
-        explosiveDestroy = EXPLOSIVE_DESTROY.get();
-        blackHoleDestroy = BLACK_HOLE_DESTROY.get();
-        blackHoleDrop = BLACK_HOLE_DROP.get();
-        reconstructSnowballCapacity = RECONSTRUCT_SNOWBALL_CAPACITY.get();
-        icicleSnowballCapacity = ICICLE_SNOWBALL_CAPACITY.get();
-        expansionSnowballDuration = EXPANSION_SNOWBALL_DURATION.get();
-        reconstructSnowballDuration = RECONSTRUCT_SNOWBALL_DURATION.get();
-        icicleSnowballDuration = ICICLE_SNOWBALL_DURATION.get();
-        enableFriendlyFire = ENABLE_FRIENDLY_FIRE.get();
+//        explosiveDestroy = EXPLOSIVE_DESTROY.get();
+//        blackHoleDestroy = BLACK_HOLE_DESTROY.get();
+//        blackHoleDrop = BLACK_HOLE_DROP.get();
+//        reconstructSnowballCapacity = RECONSTRUCT_SNOWBALL_CAPACITY.get();
+//        icicleSnowballCapacity = ICICLE_SNOWBALL_CAPACITY.get();
+//        expansionSnowballDuration = EXPANSION_SNOWBALL_DURATION.get();
+//        reconstructSnowballDuration = RECONSTRUCT_SNOWBALL_DURATION.get();
+//        icicleSnowballDuration = ICICLE_SNOWBALL_DURATION.get();
+//        enableFriendlyFire = ENABLE_FRIENDLY_FIRE.get();
+
+//        screenshakeIntensity = SCREENSHAKE_INTENSITY.get();
 //        magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
 //
 //         convert the list of strings into a set of items

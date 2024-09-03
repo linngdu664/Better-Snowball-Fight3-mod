@@ -37,5 +37,6 @@ public class NetworkRegister {
         NetworkRegister.addNetworkMessage(SubspaceSnowballParticlesToClient.class, SubspaceSnowballParticlesToClient::encoder, SubspaceSnowballParticlesToClient::decoder, SubspaceSnowballParticlesToClient::messageConsumer);
         NetworkRegister.addNetworkMessage(SubspaceSnowballReleaseTraceParticlesToClient.class, SubspaceSnowballReleaseTraceParticlesToClient::encoder, SubspaceSnowballReleaseTraceParticlesToClient::decoder, SubspaceSnowballReleaseTraceParticlesToClient::messageConsumer);
         NetworkRegister.addNetworkMessage(ImplosionSnowballCannonParticleToClient.class, ImplosionSnowballCannonParticleToClient::encoder, ImplosionSnowballCannonParticleToClient::decoder, ImplosionSnowballCannonParticleToClient::messageConsumer);
+        NetworkRegister.addNetworkMessage(ScreenshakeToClient.class, ScreenshakeToClient::encoder, ScreenshakeToClient::decoder, ScreenshakeToClient::messageConsumer);
     }
 }

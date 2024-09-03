@@ -2,10 +2,8 @@ package com.linngdu664.bsf.entity.snowball.special;
 
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
-import com.linngdu664.bsf.registry.EntityRegister;
-import com.linngdu664.bsf.registry.ItemRegister;
-import com.linngdu664.bsf.registry.ParticleRegister;
-import com.linngdu664.bsf.registry.SoundRegister;
+import com.linngdu664.bsf.network.ScreenshakeToClient;
+import com.linngdu664.bsf.registry.*;
 import com.linngdu664.bsf.util.BSFCommonUtil;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -15,8 +13,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
@@ -26,9 +22,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
-import team.lodestar.lodestone.network.screenshake.ScreenshakePacket;
-import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
-import team.lodestar.lodestone.systems.easing.Easing;
+import com.linngdu664.bsf.client.screenshake.Easing;
 
 import java.util.List;
 
@@ -82,8 +76,7 @@ public class ImpulseSnowballEntity extends AbstractBSFSnowballEntity {
                 entity.push(aVec.x, aVec.y, aVec.z);
                 if (entity instanceof ServerPlayer player) {
                     player.connection.send(new ClientboundSetEntityMotionPacket(entity));
-                    LodestonePacketRegistry.LODESTONE_CHANNEL.send((PacketDistributor.PLAYER.with(() -> (ServerPlayer) entity)),
-                            new ScreenshakePacket(5).setEasing(Easing.EXPO_IN_OUT).setIntensity((float)0.8));
+                    NetworkRegister.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> player), new ScreenshakeToClient(5).setEasing(Easing.EXPO_IN_OUT).setIntensity(0.8F));
                 }
             }
         }
