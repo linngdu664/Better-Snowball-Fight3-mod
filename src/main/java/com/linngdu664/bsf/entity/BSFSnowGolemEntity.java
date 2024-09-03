@@ -2,6 +2,7 @@ package com.linngdu664.bsf.entity;
 
 import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.entity.ai.goal.*;
+import com.linngdu664.bsf.entity.ai.goal.target.*;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.item.misc.SnowGolemCoreItem;
@@ -42,8 +43,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.SitWhenOrderedToGoal;
-import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
@@ -75,11 +74,11 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     private static final EntityDataAccessor<ItemStack> CORE = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.ITEM_STACK);
     private static final EntityDataAccessor<Integer> WEAPON_ANG = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Byte> STYLE = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Byte> statusFlag = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Byte> locatorFlag = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Integer> potionSickness = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> enhance = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> coreCoolDown = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Byte> STATUS_FLAG = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> LOCATOR_FLAG = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Integer> POTION_SICKNESS = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> ENHANCE = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> CORE_COOL_DOWN = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.INT);
     private float launchVelocity;
     private float launchAccuracy;
     private double shootX;
@@ -92,7 +91,14 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
      2: follow & attack
      3: patrol & attack
      4: turret
+
+     locator flag:
+     0: monster
+     1: target locator
+     2: enemy player
+     3: all
      */
+
 //    private byte statusFlag;
 //    private byte locatorFlag;
 //    private boolean enhance;
@@ -113,11 +119,11 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         entityData.define(CORE, ItemStack.EMPTY);
         entityData.define(WEAPON_ANG, 0);
         entityData.define(STYLE, (byte) (getRandom().nextInt(0, STYLE_NUM)));
-        entityData.define(statusFlag, (byte)0);
-        entityData.define(locatorFlag, (byte)0);
-        entityData.define(potionSickness, 0);
-        entityData.define(enhance, false);
-        entityData.define(coreCoolDown, 0);
+        entityData.define(STATUS_FLAG, (byte)0);
+        entityData.define(LOCATOR_FLAG, (byte)0);
+        entityData.define(POTION_SICKNESS, 0);
+        entityData.define(ENHANCE, false);
+        entityData.define(CORE_COOL_DOWN, 0);
     }
 
     @Override
@@ -166,17 +172,17 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     }
 
     public byte getStatus() {
-        return entityData.get(statusFlag);
+        return entityData.get(STATUS_FLAG);
     }
     public void setStatus(byte status){
-        entityData.set(statusFlag,status);
+        entityData.set(STATUS_FLAG,status);
     }
 
     public byte getLocator() {
-        return entityData.get(locatorFlag);
+        return entityData.get(LOCATOR_FLAG);
     }
     public void setLocator(byte locator){
-        entityData.set(locatorFlag,locator);
+        entityData.set(LOCATOR_FLAG,locator);
     }
 
     public ItemStack getWeapon() {
@@ -240,22 +246,22 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     }
 
     public int getCoreCoolDown() {
-        return entityData.get(coreCoolDown);
+        return entityData.get(CORE_COOL_DOWN);
     }
     public void setCoreCoolDown(int coolDown) {
-        entityData.set(coreCoolDown,coolDown);
+        entityData.set(CORE_COOL_DOWN,coolDown);
     }
     public int getPotionSickness() {
-        return entityData.get(potionSickness);
+        return entityData.get(POTION_SICKNESS);
     }
     public void setPotionSickness(int sickness) {
-        entityData.set(potionSickness,sickness);
+        entityData.set(POTION_SICKNESS,sickness);
     }
     public boolean getEnhance() {
-        return entityData.get(enhance);
+        return entityData.get(ENHANCE);
     }
     public void setEnhance(boolean enhance0) {
-        entityData.set(enhance,enhance0);
+        entityData.set(ENHANCE,enhance0);
     }
 
     public void setDropEquipment(boolean b) {
@@ -271,10 +277,10 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         goalSelector.addGoal(5, new BSFGolemRandomStrollGoal(this, 0.8, 1E-5F));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 5.0F));
-        targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
-        targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
-        targetSelector.addGoal(3, new BSFGolemHurtByTargetGoal(this));
-        targetSelector.addGoal(4, new BSFGolemNearestAttackableTargetGoal(this, LivingEntity.class, 1, true, false, (p) -> getOwner() == null ? p instanceof Player player && !player.isCreative() && !player.isSpectator() : p instanceof Enemy));
+        targetSelector.addGoal(1, new BSFGolemHurtByTargetGoal(this));
+        targetSelector.addGoal(2, new BSFGolemOwnerHurtByTargetGoal(this));
+        targetSelector.addGoal(3, new BSFGolemOwnerHurtPlayerGoal(this));
+        targetSelector.addGoal(4, new BSFGolemNearsetAttackableTargetGoal(this));
     }
 
     @Override
@@ -341,7 +347,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                         playSound(SoundEvents.GLASS_BREAK, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
                     }
                 } else {
-                    pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("potionSickness.tip", null, new Object[0])).append(String.valueOf(potionSickness)), false);
+                    pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("potionSickness.tip", null, new Object[0])).append(String.valueOf(POTION_SICKNESS)), false);
                 }
             } else if (item.equals(ItemRegister.SNOW_GOLEM_MODE_TWEAKER.get())) {
                 CompoundTag tag = itemStack.getOrCreateTag();
@@ -375,7 +381,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                     pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("copy.tip", null, new Object[0])), false);
                 } else {
                     setEnhance(!getEnhance());
-                    pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("golem_enhance.tip", null, new Object[0])).append(String.valueOf(enhance)), false);
+                    pPlayer.displayClientMessage(MutableComponent.create(new TranslatableContents("golem_enhance.tip", null, new Object[0])).append(String.valueOf(ENHANCE)), false);
                 }
                 level.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + 0.5F);
             } else if (item.equals(ItemRegister.SNOW_GOLEM_CONTAINER.get())) {
