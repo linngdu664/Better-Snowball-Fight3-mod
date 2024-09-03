@@ -27,7 +27,7 @@ import java.util.List;
 
 public class LightPlayerTrackingSnowballItem extends AbstractBSFSnowballItem {
     public LightPlayerTrackingSnowballItem() {
-        super(Rarity.RARE);
+        super(Rarity.RARE, new SnowballProperties().idForTank(28).allowLaunchTypeFlag(SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG));
     }
 
     @Override
@@ -47,10 +47,10 @@ public class LightPlayerTrackingSnowballItem extends AbstractBSFSnowballItem {
         return new LightPlayerTrackingSnowballEntity(livingEntity, level, launchAdjustment);
     }
 
-    @Override
-    public int getTypeFlag() {
-        return SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG;
-    }
+//    @Override
+//    public int getTypeFlag() {
+//        return SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG;
+//    }
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {

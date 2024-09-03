@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ImpulseSnowballItem extends AbstractBSFSnowballItem {
     public ImpulseSnowballItem() {
-        super(Rarity.RARE);
+        super(Rarity.RARE, new SnowballProperties().idForTank(19).allowLaunchTypeFlag(AbstractBSFSnowballItem.HAND_TYPE_FLAG | SnowballCannonItem.TYPE_FLAG));
     }
 
     @Override
@@ -35,10 +35,10 @@ public class ImpulseSnowballItem extends AbstractBSFSnowballItem {
         return new ImpulseSnowballEntity(livingEntity, level, launchAdjustment);
     }
 
-    @Override
-    public int getTypeFlag() {
-        return AbstractBSFSnowballItem.HAND_TYPE_FLAG | SnowballCannonItem.TYPE_FLAG;
-    }
+//    @Override
+//    public int getTypeFlag() {
+//        return AbstractBSFSnowballItem.HAND_TYPE_FLAG | SnowballCannonItem.TYPE_FLAG;
+//    }
 
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {

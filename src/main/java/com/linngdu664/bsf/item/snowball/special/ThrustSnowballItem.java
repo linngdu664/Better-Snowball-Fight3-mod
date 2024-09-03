@@ -22,7 +22,11 @@ import java.util.List;
 
 public class ThrustSnowballItem extends AbstractBSFSnowballItem {
     public ThrustSnowballItem() {
-        super(Rarity.COMMON);
+        super(Rarity.COMMON, new SnowballProperties()
+                .idForTank(14)
+                .allowLaunchTypeFlag(SnowballShotgunItem.TYPE_FLAG | ImplosionSnowballCannonItem.TYPE_FLAG)
+                .shotgunPushRank(0.38)
+        );
     }
 
     @Override
@@ -32,20 +36,15 @@ public class ThrustSnowballItem extends AbstractBSFSnowballItem {
         return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 
-    @Override
-    public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
-        return null;
-    }
-
-    @Override
-    public int getTypeFlag() {
-        return SnowballShotgunItem.TYPE_FLAG | ImplosionSnowballCannonItem.TYPE_FLAG;
-    }
-
-    @Override
-    public double getShotgunPushRank() {
-        return 0.38;
-    }
+//    @Override
+//    public int getTypeFlag() {
+//        return SnowballShotgunItem.TYPE_FLAG | ImplosionSnowballCannonItem.TYPE_FLAG;
+//    }
+//
+//    @Override
+//    public double getShotgunPushRank() {
+//        return 0.38;
+//    }
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {

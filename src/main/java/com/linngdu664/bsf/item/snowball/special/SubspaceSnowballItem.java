@@ -25,7 +25,7 @@ import java.util.List;
 
 public class SubspaceSnowballItem extends AbstractBSFSnowballItem {
     public SubspaceSnowballItem() {
-        super(Rarity.EPIC);
+        super(Rarity.EPIC, new SnowballProperties().idForTank(15).allowLaunchTypeFlag(HAND_TYPE_FLAG));
     }
 
     @Override
@@ -47,15 +47,10 @@ public class SubspaceSnowballItem extends AbstractBSFSnowballItem {
         return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 
-    @Override
-    public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
-        return null;
-    }
-
-    @Override
-    public int getTypeFlag() {
-        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
-    }
+//    @Override
+//    public int getTypeFlag() {
+//        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
+//    }
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {

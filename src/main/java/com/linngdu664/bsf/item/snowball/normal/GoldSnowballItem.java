@@ -29,7 +29,12 @@ import java.util.List;
 
 public class GoldSnowballItem extends AbstractBSFSnowballItem {
     public GoldSnowballItem() {
-        super(Rarity.COMMON);
+        super(Rarity.COMMON, new SnowballProperties()
+                .idForTank(6)
+                .allowLaunchTypeFlag(AbstractBSFSnowballItem.HAND_TYPE_FLAG | SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG)
+                .machineGunRecoil(0.14)
+                .shotgunPushRank(0.18)
+        );
         DispenserBlock.registerBehavior(this, new AbstractProjectileDispenseBehavior() {
             protected @NotNull Projectile getProjectile(@NotNull Level p_123476_, @NotNull Position p_123477_, @NotNull ItemStack p_123478_) {
                 return Util.make(new GoldSnowballEntity(p_123476_, p_123477_.x(), p_123477_.y(), p_123477_.z()), (p_123474_) -> {
@@ -48,20 +53,20 @@ public class GoldSnowballItem extends AbstractBSFSnowballItem {
         return new GoldSnowballEntity(livingEntity, level, launchAdjustment);
     }
 
-    @Override
-    public int getTypeFlag() {
-        return AbstractBSFSnowballItem.HAND_TYPE_FLAG | SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG;
-    }
-
-    @Override
-    public double getMachineGunRecoil() {
-        return 0.14;
-    }
-
-    @Override
-    public double getShotgunPushRank() {
-        return 0.18;
-    }
+//    @Override
+//    public int getTypeFlag() {
+//        return AbstractBSFSnowballItem.HAND_TYPE_FLAG | SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG;
+//    }
+//
+//    @Override
+//    public double getMachineGunRecoil() {
+//        return 0.14;
+//    }
+//
+//    @Override
+//    public double getShotgunPushRank() {
+//        return 0.18;
+//    }
 
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {

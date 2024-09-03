@@ -30,7 +30,7 @@ import java.util.List;
 
 public class CompactedSnowballItem extends AbstractBSFSnowballItem {
     public CompactedSnowballItem() {
-        super(Rarity.COMMON);
+        super(Rarity.COMMON,  new SnowballProperties().idForTank(0).allowLaunchTypeFlag(AbstractBSFSnowballItem.HAND_TYPE_FLAG | SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG | SculkSnowballLauncherItem.TYPE_FLAG));
         DispenserBlock.registerBehavior(this, new AbstractProjectileDispenseBehavior() {
             protected @NotNull Projectile getProjectile(@NotNull Level p_123476_, @NotNull Position p_123477_, @NotNull ItemStack p_123478_) {
                 return Util.make(new CompactedSnowballEntity(p_123476_, p_123477_.x(), p_123477_.y(), p_123477_.z()), (p_123474_) -> {
@@ -49,10 +49,10 @@ public class CompactedSnowballItem extends AbstractBSFSnowballItem {
         return new CompactedSnowballEntity(livingEntity, level, launchAdjustment);
     }
 
-    @Override
-    public int getTypeFlag() {
-        return AbstractBSFSnowballItem.HAND_TYPE_FLAG | SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG | SculkSnowballLauncherItem.TYPE_FLAG;
-    }
+//    @Override
+//    public int getTypeFlag() {
+//        return AbstractBSFSnowballItem.HAND_TYPE_FLAG | SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG | SculkSnowballLauncherItem.TYPE_FLAG;
+//    }
 
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {

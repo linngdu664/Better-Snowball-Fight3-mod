@@ -33,10 +33,25 @@ import java.util.List;
 
 public abstract class AbstractBSFSnowballItem extends Item {
     public static final int HAND_TYPE_FLAG = 1;
+    private final SnowballProperties snowballProperties;
+//    private final int id;
+//    private final double machineGunRecoil;
+//    private final double shotgunPushRank;
 
-    public AbstractBSFSnowballItem(Rarity rarity) {
+    public AbstractBSFSnowballItem(Rarity rarity, SnowballProperties snowballProperties) {
         super(new Properties().stacksTo(16).rarity(rarity));
+        this.snowballProperties = snowballProperties;
     }
+
+//    public AbstractBSFSnowballItem(Rarity rarity, int id) {
+//        super(new Properties().stacksTo(16).rarity(rarity));
+//        this.id = id;
+//    }
+//
+//    public AbstractBSFSnowballItem(Rarity rarity, int id, double machineGunRecoil) {
+//        super(new Properties().stacksTo(16).rarity(rarity));
+//        this.id = id;
+//    }
 
     public ILaunchAdjustment getLaunchAdjustment(float playerBadEffectRate) {
         return new ILaunchAdjustment() {
@@ -196,15 +211,59 @@ public abstract class AbstractBSFSnowballItem extends Item {
      * @param livingEntity The entity who throws/launches the snowball.
      * @return The corresponding entity.
      */
-    public abstract AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment);
-
-    public abstract int getTypeFlag();
-
-    public double getMachineGunRecoil() {
-        return 0.075;
+    public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
+        return null;
     }
 
-    public double getShotgunPushRank() {
-        return 0.1;
+    public final int getIdForTank() {
+        return snowballProperties.idForTank;
+    }
+
+    public final int getTypeFlag() {
+        return snowballProperties.allowLaunchTypeFlag;
+    }
+
+    public final double getMachineGunRecoil() {
+        return snowballProperties.machineGunRecoil;
+//        return 0.075;
+    }
+
+    public final double getShotgunPushRank() {
+        return snowballProperties.shotgunPushRank;
+//        return 0.1;
+    }
+
+    public static class SnowballProperties {
+        int idForTank;
+        int allowLaunchTypeFlag;
+        double machineGunRecoil;
+        double shotgunPushRank;
+
+        public SnowballProperties() {
+            idForTank = -1;
+            allowLaunchTypeFlag = 0;
+            machineGunRecoil = 0.075;
+            shotgunPushRank = 0.1;
+        }
+
+        public SnowballProperties idForTank(int idForTank) {
+            this.idForTank = idForTank;
+            return this;
+        }
+
+        public SnowballProperties allowLaunchTypeFlag(int allowLaunchTypeFlag) {
+            this.allowLaunchTypeFlag = allowLaunchTypeFlag;
+            return this;
+        }
+
+        public SnowballProperties machineGunRecoil(double machineGunRecoil) {
+            this.machineGunRecoil = machineGunRecoil;
+            return this;
+        }
+
+        public SnowballProperties shotgunPushRank(double shotgunPushRank) {
+            this.shotgunPushRank = shotgunPushRank;
+            return this;
+        }
     }
 }

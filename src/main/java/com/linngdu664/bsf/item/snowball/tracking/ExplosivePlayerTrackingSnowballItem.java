@@ -27,7 +27,12 @@ import java.util.List;
 
 public class ExplosivePlayerTrackingSnowballItem extends AbstractBSFSnowballItem {
     public ExplosivePlayerTrackingSnowballItem() {
-        super(Rarity.RARE);
+        super(Rarity.RARE, new SnowballProperties()
+                .idForTank(30)
+                .allowLaunchTypeFlag(SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG)
+                .machineGunRecoil(0.12)
+                .shotgunPushRank(0.42)
+        );
     }
 
     @Override
@@ -47,20 +52,20 @@ public class ExplosivePlayerTrackingSnowballItem extends AbstractBSFSnowballItem
         return new ExplosivePlayerTrackingSnowballEntity(livingEntity, level, launchAdjustment);
     }
 
-    @Override
-    public int getTypeFlag() {
-        return SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG;
-    }
-
-    @Override
-    public double getMachineGunRecoil() {
-        return 0.12;
-    }
-
-    @Override
-    public double getShotgunPushRank() {
-        return 0.42;
-    }
+//    @Override
+//    public int getTypeFlag() {
+//        return SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG | SnowballMachineGunItem.TYPE_FLAG;
+//    }
+//
+//    @Override
+//    public double getMachineGunRecoil() {
+//        return 0.12;
+//    }
+//
+//    @Override
+//    public double getShotgunPushRank() {
+//        return 0.42;
+//    }
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {

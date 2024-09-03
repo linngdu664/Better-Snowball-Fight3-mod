@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ReconstructSnowballItem extends AbstractSnowStorageSnowballItem {
     public ReconstructSnowballItem() {
-        super(Rarity.RARE);
+        super(Rarity.RARE, new SnowballProperties().idForTank(18));
     }
 
     @Override

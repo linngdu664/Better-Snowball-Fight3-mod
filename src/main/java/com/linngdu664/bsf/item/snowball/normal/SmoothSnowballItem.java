@@ -30,7 +30,7 @@ import java.util.List;
 
 public class SmoothSnowballItem extends AbstractBSFSnowballItem {
     public SmoothSnowballItem() {
-        super(Rarity.COMMON);
+        super(Rarity.COMMON, new SnowballProperties().allowLaunchTypeFlag(HAND_TYPE_FLAG));
         DispenserBlock.registerBehavior(this, new AbstractProjectileDispenseBehavior() {
             protected @NotNull Projectile getProjectile(@NotNull Level p_123476_, @NotNull Position p_123477_, @NotNull ItemStack p_123478_) {
                 return Util.make(new SmoothSnowballEntity(p_123476_, p_123477_.x(), p_123477_.y(), p_123477_.z()), (p_123474_) -> {
@@ -62,15 +62,10 @@ public class SmoothSnowballItem extends AbstractBSFSnowballItem {
         return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 
-    @Override
-    public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
-        return null;
-    }
-
-    @Override
-    public int getTypeFlag() {
-        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
-    }
+//    @Override
+//    public int getTypeFlag() {
+//        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
+//    }
 
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {

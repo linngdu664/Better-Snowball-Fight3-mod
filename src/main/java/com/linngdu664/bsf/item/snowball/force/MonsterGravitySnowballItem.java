@@ -26,7 +26,7 @@ import java.util.List;
 
 public class MonsterGravitySnowballItem extends AbstractBSFSnowballItem {
     public MonsterGravitySnowballItem() {
-        super(Rarity.RARE);
+        super(Rarity.RARE, new SnowballProperties().idForTank(21).allowLaunchTypeFlag(HAND_TYPE_FLAG));
     }
 
     @Override
@@ -51,15 +51,10 @@ public class MonsterGravitySnowballItem extends AbstractBSFSnowballItem {
         return InteractionResultHolder.sidedSuccess(itemStack, pLevel.isClientSide());
     }
 
-    @Override
-    public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
-        return null;
-    }
-
-    @Override
-    public int getTypeFlag() {
-        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
-    }
+//    @Override
+//    public int getTypeFlag() {
+//        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
+//    }
 
     @Override
     public void addUsageTips(List<Component> pTooltipComponents) {

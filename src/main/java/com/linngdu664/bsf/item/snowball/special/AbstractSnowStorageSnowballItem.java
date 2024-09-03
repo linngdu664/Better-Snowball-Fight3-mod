@@ -28,8 +28,8 @@ import java.util.List;
 public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowballItem {
     protected static final float SUCK_RANGE = 7f;
 
-    public AbstractSnowStorageSnowballItem(Rarity rarity) {
-        super(rarity);
+    public AbstractSnowStorageSnowballItem(Rarity rarity, SnowballProperties snowballProperties) {
+        super(rarity, snowballProperties.allowLaunchTypeFlag(HAND_TYPE_FLAG));
     }
 
     @Override
@@ -85,10 +85,10 @@ public abstract class AbstractSnowStorageSnowballItem extends AbstractBSFSnowbal
         return level.getBlockState(pos).getBlock() instanceof LooseSnowBlock;
     }
 
-    @Override
-    public int getTypeFlag() {
-        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
-    }
+//    @Override
+//    public int getTypeFlag() {
+//        return AbstractBSFSnowballItem.HAND_TYPE_FLAG;
+//    }
 
     public abstract int getMaxCapacity();
 

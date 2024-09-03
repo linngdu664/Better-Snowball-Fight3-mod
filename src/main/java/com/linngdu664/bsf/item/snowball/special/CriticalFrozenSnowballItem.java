@@ -28,7 +28,11 @@ import java.util.List;
 
 public class CriticalFrozenSnowballItem extends AbstractBSFSnowballItem {
     public CriticalFrozenSnowballItem() {
-        super(Rarity.RARE);
+        super(Rarity.RARE, new SnowballProperties()
+                .idForTank(12)
+                .allowLaunchTypeFlag(AbstractBSFSnowballItem.HAND_TYPE_FLAG | SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG)
+                .shotgunPushRank(0.12)
+        );
         DispenserBlock.registerBehavior(this, new AbstractProjectileDispenseBehavior() {
             protected @NotNull Projectile getProjectile(@NotNull Level p_123476_, @NotNull Position p_123477_, @NotNull ItemStack p_123478_) {
                 return Util.make(new CriticalFrozenSnowballEntity(p_123476_, p_123477_.x(), p_123477_.y(), p_123477_.z()), (p_123474_) -> {
@@ -42,20 +46,20 @@ public class CriticalFrozenSnowballItem extends AbstractBSFSnowballItem {
         return throwOrStorage(pPlayer, pLevel, pUsedHand, 1.125F, 30);
     }
 
-    @Override
-    public double getShotgunPushRank() {
-        return 0.12;
-    }
+//    @Override
+//    public double getShotgunPushRank() {
+//        return 0.12;
+//    }
 
     @Override
     public AbstractBSFSnowballEntity getCorrespondingEntity(Level level, LivingEntity livingEntity, ILaunchAdjustment launchAdjustment) {
         return new CriticalFrozenSnowballEntity(livingEntity, level, launchAdjustment);
     }
 
-    @Override
-    public int getTypeFlag() {
-        return AbstractBSFSnowballItem.HAND_TYPE_FLAG | SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG;
-    }
+//    @Override
+//    public int getTypeFlag() {
+//        return AbstractBSFSnowballItem.HAND_TYPE_FLAG | SnowballCannonItem.TYPE_FLAG | SnowballShotgunItem.TYPE_FLAG;
+//    }
 
     @Override
     public void addLastTips(List<Component> pTooltipComponents) {
