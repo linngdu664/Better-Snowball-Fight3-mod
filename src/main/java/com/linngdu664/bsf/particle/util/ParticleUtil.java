@@ -1,9 +1,7 @@
 package com.linngdu664.bsf.particle.util;
 
 import com.linngdu664.bsf.util.BSFCommonUtil;
-import com.sun.jna.platform.win32.WinGDI;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;

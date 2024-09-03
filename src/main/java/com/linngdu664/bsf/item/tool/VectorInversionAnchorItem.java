@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.item.tool;
 
+import com.linngdu664.bsf.client.screenshake.Easing;
 import com.linngdu664.bsf.network.ScreenshakeToClient;
 import com.linngdu664.bsf.network.VectorInversionParticleToClient;
 import com.linngdu664.bsf.registry.NetworkRegister;
@@ -26,7 +27,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.linngdu664.bsf.client.screenshake.Easing;
 
 import java.util.List;
 

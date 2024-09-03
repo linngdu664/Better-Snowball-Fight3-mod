@@ -1,6 +1,7 @@
 package com.linngdu664.bsf.event;
 
 import com.linngdu664.bsf.Main;
+import com.linngdu664.bsf.config.ServerConfig;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.item.misc.IceSkatesItem;
 import com.linngdu664.bsf.item.misc.SnowFallBootsItem;
@@ -11,7 +12,6 @@ import com.linngdu664.bsf.registry.EffectRegister;
 import com.linngdu664.bsf.registry.EnchantmentRegister;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
-import com.linngdu664.bsf.util.BSFConfig;
 import com.linngdu664.bsf.util.BSFTeamSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -66,7 +66,7 @@ public class GamePlayEvents {
             BSFTeamSavedData savedData = player1.getServer().overworld().getDataStorage().computeIfAbsent(BSFTeamSavedData::new, BSFTeamSavedData::new, "bsf_team");
             int id = savedData.getTeam(player1.getUUID());
             String msgId = event.getSource().getMsgId();
-            if (id >= 0 && id == savedData.getTeam(player2.getUUID()) && msgId.equals("thrown") && !BSFConfig.enableFriendlyFire) {
+            if (id >= 0 && id == savedData.getTeam(player2.getUUID()) && msgId.equals("thrown") && !ServerConfig.ENABLE_FRIENDLY_FIRE.getConfigValue()) {
                 event.setCanceled(true);
             }
         }

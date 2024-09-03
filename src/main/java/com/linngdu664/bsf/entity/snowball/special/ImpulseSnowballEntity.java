@@ -1,5 +1,6 @@
 package com.linngdu664.bsf.entity.snowball.special;
 
+import com.linngdu664.bsf.client.screenshake.Easing;
 import com.linngdu664.bsf.entity.snowball.AbstractBSFSnowballEntity;
 import com.linngdu664.bsf.entity.snowball.util.ILaunchAdjustment;
 import com.linngdu664.bsf.network.ScreenshakeToClient;
@@ -22,7 +23,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
-import com.linngdu664.bsf.client.screenshake.Easing;
 
 import java.util.List;
 
