@@ -167,7 +167,7 @@ public class ClientForgeEvents {
                 statusV2I = BSFGui.GOLEM_STATUS_GUI.renderRatio(guiGraphics,window,0.7,0.5,60,0);
                 statusV2I.set(statusV2I.x-1,statusV2I.y-1+status*20);
                 BSFGui.GOLEM_SELECTOR_GUI.render(guiGraphics, statusV2I.x, statusV2I.y);
-//                guiGraphics.renderOutline();
+//                BSFGui.renderLineTool(guiGraphics,50,50,100,100,0xffffffff);
             }
             ItemStack tweaker = null;
             if (mainHandItem.getItem() instanceof SnowGolemModeTweakerItem) {

@@ -6,8 +6,10 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
+import net.minecraft.world.phys.Vec2;
 import org.joml.Matrix4f;
 
 public class BSFGui {
@@ -97,10 +99,23 @@ public class BSFGui {
             this.y = y;
         }
     }
-    public static void renderLineTool(){
+    public static void renderLineTool(GuiGraphics guiGraphics, V2I a, V2I b, int pColor){
 
+//        renderFillTool(guiGraphics);
     }
-    public static void renderFillTool(){
+    public static void renderFillTool(GuiGraphics guiGraphics, Vec2 a, Vec2 b, Vec2 c, Vec2 d, int pColor){
+        Matrix4f matrix4f = guiGraphics.pose.last().pose();
+
+        float f3 = (float) FastColor.ARGB32.alpha(pColor) / 255.0F;
+        float f = (float) FastColor.ARGB32.red(pColor) / 255.0F;
+        float f1 = (float) FastColor.ARGB32.green(pColor) / 255.0F;
+        float f2 = (float) FastColor.ARGB32.blue(pColor) / 255.0F;
+        VertexConsumer vertexconsumer = guiGraphics.bufferSource.getBuffer(RenderType.gui());
+        vertexconsumer.vertex(matrix4f, a.x, a.y, 0).color(f, f1, f2, f3).endVertex();
+        vertexconsumer.vertex(matrix4f, b.x,b.y, 0).color(f, f1, f2, f3).endVertex();
+        vertexconsumer.vertex(matrix4f, c.x,c.y, 0).color(f, f1, f2, f3).endVertex();
+        vertexconsumer.vertex(matrix4f, d.x,d.y, 0).color(f, f1, f2, f3).endVertex();
+        guiGraphics.flushIfUnmanaged();
     }
 
 }
