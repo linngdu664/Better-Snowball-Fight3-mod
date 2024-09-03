@@ -1,6 +1,10 @@
 package com.linngdu664.bsf.util;
 
+import com.linngdu664.bsf.event.BSFGui;
+import com.mojang.blaze3d.platform.Window;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -11,9 +15,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
+import org.joml.Matrix3f;
+import org.joml.Quaternionf;
+import org.joml.Vector2i;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -232,5 +241,26 @@ public class BSFCommonUtil {
 
     public static double vec3GetPitch(Vec3 vec) {
         return Math.atan2(vec.y, Math.sqrt(vec.x * vec.x + vec.z * vec.z));
+    }
+
+    public static List<BSFGui.V2I> calcScreenPosFromWorldPos(List<Vec3> points, int guiWidth, int guiHeight, int widthProtect, int heightProtect, float partialTicks) {
+        Minecraft mc = Minecraft.getInstance();
+        GameRenderer gameRenderer = mc.gameRenderer;
+        Camera camera = gameRenderer.getMainCamera();
+        Vec3 cameraPos = camera.getPosition();
+        Matrix3f rotMat = new Matrix3f().rotation(camera.rotation().conjugate(new Quaternionf()));      // make rot mat
+        Window window = mc.getWindow();
+        float fovy = (float) gameRenderer.getFov(camera, partialTicks, true) * Mth.DEG_TO_RAD;
+        float tanHalfFovy = Mth.sin(fovy * 0.5F) / Mth.cos(fovy * 0.5F);
+        float tanHalfFovx = tanHalfFovy * (float) window.getWidth() / (float) window.getHeight();
+        return points.stream()
+                .map(p -> rotMat.transform(new Vector3f((float) (p.x - cameraPos.x), (float) (p.y - cameraPos.y), (float) (p.z - cameraPos.z))))
+                .map(p -> {
+                    float rx = p.x / -p.z / tanHalfFovx;
+                    int xScreen = p.z >= 0 ? (p.x >= 0 ? guiWidth - widthProtect : widthProtect) : Mth.clamp((int) (guiWidth * 0.5F * (1 + rx)), widthProtect, guiWidth - widthProtect);
+                    float ry = p.y / Mth.sqrt(p.x * p.x + p.z * p.z) / tanHalfFovy;
+                    int yScreen = Mth.clamp((int) (guiHeight * 0.5F * (1 - ry)), heightProtect, guiHeight - heightProtect);
+                    return new BSFGui.V2I(xScreen, yScreen);
+                }).toList();
     }
 }
