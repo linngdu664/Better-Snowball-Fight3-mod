@@ -156,6 +156,7 @@ public class ClientForgeEvents {
             HitResult pick = instance.hitResult;
             BSFGui.V2I locateV2I = null,statusV2I = null;
             if (pick.getType() == HitResult.Type.ENTITY && ((EntityHitResult) pick).getEntity() instanceof BSFSnowGolemEntity entity && player.equals(entity.getOwner())) {
+                //显示模式
                 byte locator = entity.getLocator();
                 byte status = entity.getStatus();
                 locateV2I = BSFGui.GOLEM_LOCATOR_GUI.renderRatio(guiGraphics, window, 0.7, 0.5);
@@ -165,6 +166,12 @@ public class ClientForgeEvents {
                 statusV2I.set(statusV2I.x-1,statusV2I.y-1+status*20);
                 BSFGui.GOLEM_SELECTOR_GUI.render(guiGraphics, statusV2I.x, statusV2I.y);
 //                BSFGui.renderLineTool(guiGraphics,50,50,100,100,0xffffffff);
+                //显示血条/cd
+                BSFGui.V2I barFrame=new BSFGui.V2I(100,10);
+                int padding = 2;
+                BSFGui.V2I barPos=new BSFGui.V2I(BSFGui.centerHorizontally(window, barFrame.x),BSFGui.verticallyRatio(window, barFrame.y, 0.3));
+                BSFGui.renderProgressBar(guiGraphics,barPos,barFrame,padding,0xffffffff,0xff000000,entity.getHealth()/entity.getMaxHealth());
+                //显示装备
             }
             ItemStack tweaker = null;
             if (mainHandItem.getItem() instanceof SnowGolemModeTweakerItem) {

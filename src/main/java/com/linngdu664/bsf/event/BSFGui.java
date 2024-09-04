@@ -96,6 +96,12 @@ public class BSFGui {
     public static int horizontallyRatio(Window window, int width,double widthRatio) {
         return (int)((window.getWidth() / window.getGuiScale()-width) * widthRatio);
     }
+
+    public static void renderProgressBar(GuiGraphics guiGraphics,V2I pos,V2I frame,int padding,int frameColor,int innerColor,float percent){
+        guiGraphics.renderOutline(pos.x,pos.y,pos.x+frame.x,pos.y+frame.y,frameColor);
+        int innerW = (int)((frame.x-padding-padding)*percent);
+        guiGraphics.fill(pos.x+padding,pos.y+padding,pos.x+padding+innerW,pos.y+frame.y-padding,innerColor);
+    }
     public static class V2I{
         public int x;
         public int y;
