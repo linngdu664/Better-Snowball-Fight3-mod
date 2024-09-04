@@ -7,7 +7,6 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
@@ -24,15 +23,17 @@ import java.util.List;
 
 public class BSFGui {
     public static final GuiTexture SNOWBALL_FRAME = new GuiTexture("textures/gui/snowball_frame.png",23,62);
-    public static final GuiTexture TWEAKER_FRAME = new GuiTexture("textures/gui/tweaker_frame.png",100,106);
-    public static final GuiImage SNOWBALL_GUI = new GuiImage(SNOWBALL_FRAME,0,0,23,62);
+    public static final GuiTexture TWEAKER_FRAME = new GuiTexture("textures/gui/tweaker_frame.png",114,106);
+    public static final GuiImage SNOWBALL_SLOT_FRAME_GUI = new GuiImage(SNOWBALL_FRAME,0,0,23,62);
     public static final GuiImage TWEAKER_LOCATOR_GUI = new GuiImage(TWEAKER_FRAME,1,0,22,82);
     public static final GuiImage TWEAKER_STATUS_GUI = new GuiImage(TWEAKER_FRAME,24,0,22,102);
     public static final GuiImage TWEAKER_SELECTOR_GUI = new GuiImage(TWEAKER_FRAME,0,82,24,24);
     public static final GuiImage GOLEM_LOCATOR_GUI = new GuiImage(TWEAKER_FRAME,47,0,22,82);
     public static final GuiImage GOLEM_STATUS_GUI = new GuiImage(TWEAKER_FRAME,70,0,22,102);
     public static final GuiImage GOLEM_SELECTOR_GUI = new GuiImage(TWEAKER_FRAME,46,82,24,24);
-    public static final GuiImage SETTER_ARROW = new GuiImage(TWEAKER_FRAME,92,1,8,20);
+    public static final GuiImage SETTER_ARROW_GUI = new GuiImage(TWEAKER_FRAME,92,1,8,20);
+    public static final GuiImage ADVANCE_MODE_GUI = new GuiImage(TWEAKER_FRAME,92,60,22,22);
+    public static final GuiImage EQUIPMENT_SLOT_FRAME_GUI = new GuiImage(TWEAKER_FRAME,92,84,22,22);
 
 
 
@@ -98,7 +99,7 @@ public class BSFGui {
     }
 
     public static void renderProgressBar(GuiGraphics guiGraphics,V2I pos,V2I frame,int padding,int frameColor,int innerColor,float percent){
-        guiGraphics.renderOutline(pos.x,pos.y,pos.x+frame.x,pos.y+frame.y,frameColor);
+        guiGraphics.renderOutline(pos.x,pos.y,frame.x,frame.y,frameColor);
         int innerW = (int)((frame.x-padding-padding)*percent);
         guiGraphics.fill(pos.x+padding,pos.y+padding,pos.x+padding+innerW,pos.y+frame.y-padding,innerColor);
     }
@@ -114,10 +115,20 @@ public class BSFGui {
             this.x = x;
             this.y = y;
         }
-    }
-    public static void renderLineTool(GuiGraphics guiGraphics, V2I a, V2I b, int pColor){
 
-//        renderFillTool(guiGraphics);
+        @Override
+        public String toString() {
+            return "V2I{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    '}';
+        }
+    }
+    public static void renderLineTool(GuiGraphics guiGraphics, Vec2 p1, Vec2 p2,float d, int pColor){
+        Vec2 ad = p2.add(p1.negated());
+        Vec2 v1 = ad.scale(d/ad.length());
+        Vec2 v2 = new Vec2(-v1.y, v1.x);
+        renderFillTool(guiGraphics,p1,p1.add(v2),p2.add(v2),p2,pColor);
     }
     public static void renderFillTool(GuiGraphics guiGraphics, Vec2 a, Vec2 b, Vec2 c, Vec2 d, int pColor){
         Matrix4f matrix4f = guiGraphics.pose.last().pose();

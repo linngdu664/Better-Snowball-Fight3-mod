@@ -453,6 +453,10 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
             setTicksFrozen(0);
             if (getEnhance()) {
                 heal(1);
+                addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2, 3));
+                if (getCoreCoolDown() > 0) {
+                    setCoreCoolDown(Math.max(getCoreCoolDown() - 5, 0));
+                }
             }
             if (getPotionSickness() > 0) {
                 setPotionSickness(getPotionSickness()-1);
@@ -468,7 +472,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                 setCoreCoolDown(getCoreCoolDown()-1);
             } else if (getCoreCoolDown() == 0) {
                 if (item.equals(ItemRegister.REGENERATION_GOLEM_CORE.get())) {
-                    addEffect(new MobEffectInstance(MobEffects.REGENERATION, 2, 2));
+                    this.heal(0.05f);
                 } else if (item.equals(ItemRegister.REPULSIVE_FIELD_GOLEM_CORE.get()) && getTarget() != null) {
                     LivingEntity target = getTarget();
                     List<Projectile> list1 = level.getEntitiesOfClass(Projectile.class, getBoundingBox().inflate(3), p -> !this.equals(p.getOwner()) && BSFCommonUtil.vec3AngleCos(getTarget().getPosition(0).subtract(getPosition(0)), p.getPosition(0).subtract(getPosition(0))) > 0);

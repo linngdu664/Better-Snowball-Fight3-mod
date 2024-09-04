@@ -3,6 +3,7 @@ package com.linngdu664.bsf.event;
 import com.linngdu664.bsf.Main;
 import com.linngdu664.bsf.entity.BSFSnowGolemEntity;
 import com.linngdu664.bsf.client.screenshake.ScreenshakeHandler;
+import com.linngdu664.bsf.item.misc.SnowGolemCoreItem;
 import com.linngdu664.bsf.item.tool.ColdCompressionJetEngineItem;
 import com.linngdu664.bsf.item.tool.SnowGolemModeTweakerItem;
 import com.linngdu664.bsf.item.tool.TeamLinkerItem;
@@ -13,6 +14,7 @@ import com.linngdu664.bsf.network.SwitchTweakerStatusModeToServer;
 import com.linngdu664.bsf.network.SwitchTweakerTargetModeToServer;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
+import com.linngdu664.bsf.util.BSFCommonUtil;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -25,6 +27,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
@@ -36,7 +40,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeEvents {
@@ -144,7 +150,7 @@ public class ClientForgeEvents {
                 ItemStack current = weaponItem.getCurrentAmmoItemStack();
                 ItemStack prev = weaponItem.getPrevAmmoItemStack();
                 ItemStack next = weaponItem.getNextAmmoItemStack();
-                BSFGui.V2I v2I = BSFGui.SNOWBALL_GUI.renderCenterVertically(guiGraphics, window, 0);
+                BSFGui.V2I v2I = BSFGui.SNOWBALL_SLOT_FRAME_GUI.renderCenterVertically(guiGraphics, window, 0);
                 int startPos = v2I.y;
                 guiGraphics.renderItem(prev, 3, startPos + 3);
                 guiGraphics.renderItem(current, 3, startPos + 23);
@@ -165,13 +171,33 @@ public class ClientForgeEvents {
                 statusV2I = BSFGui.GOLEM_STATUS_GUI.renderRatio(guiGraphics,window,0.7,0.5,60,0);
                 statusV2I.set(statusV2I.x-1,statusV2I.y-1+status*20);
                 BSFGui.GOLEM_SELECTOR_GUI.render(guiGraphics, statusV2I.x, statusV2I.y);
-//                BSFGui.renderLineTool(guiGraphics,50,50,100,100,0xffffffff);
+                if (entity.getEnhance()){
+                    BSFGui.ADVANCE_MODE_GUI.renderRatio(guiGraphics, window, 0.5, 0.8);
+                }
+
+
                 //显示血条/cd
                 BSFGui.V2I barFrame=new BSFGui.V2I(100,10);
                 int padding = 2;
-                BSFGui.V2I barPos=new BSFGui.V2I(BSFGui.centerHorizontally(window, barFrame.x),BSFGui.verticallyRatio(window, barFrame.y, 0.3));
-                BSFGui.renderProgressBar(guiGraphics,barPos,barFrame,padding,0xffffffff,0xff000000,entity.getHealth()/entity.getMaxHealth());
+                BSFGui.V2I barPos=new BSFGui.V2I(BSFGui.centerHorizontally(window, barFrame.x),BSFGui.verticallyRatio(window, barFrame.y, 0.1));
+                BSFGui.renderProgressBar(guiGraphics,barPos,barFrame,padding,0xffffffff,0xffe82f27,entity.getHealth()/entity.getMaxHealth());
+                if (entity.getCore().getItem() instanceof SnowGolemCoreItem item && entity.getCoreCoolDown()>0){
+                    barPos.y+=15;
+                    BSFGui.renderProgressBar(guiGraphics,barPos,barFrame,padding,0xffffffff,0xff26a7ff, (float) entity.getCoreCoolDown() /item.getCoolDown());
+                }
+                if (entity.getPotionSickness()>0){
+                    barPos.y+=15;
+                    BSFGui.renderProgressBar(guiGraphics,barPos,barFrame,padding,0xffffffff,0xff62df86, (float) entity.getPotionSickness() /100);
+                }
                 //显示装备
+                float partialTick = event.getPartialTick();
+                Vec3 p1 = entity.getEyePosition(partialTick);
+                List<Vec3> list = new ArrayList<>();
+                list.add(p1);
+                Vec3 viewVector = entity.getViewVector(partialTick);
+                list.add(p1.add(new Vec3(viewVector.x,0, viewVector.z).normalize()).add(0,-0.5,0));
+                List<BSFGui.V2I> v2IS = BSFGui.calcScreenPosFromWorldPos(list, guiGraphics.guiWidth(), guiGraphics.guiHeight(), 0, 0, partialTick);
+                v2IS.forEach(v2I -> BSFGui.renderLineTool(guiGraphics,new Vec2(50,50),new Vec2(v2I.x, v2I.y),1,0xffffffff));
             }
             ItemStack tweaker = null;
             if (mainHandItem.getItem() instanceof SnowGolemModeTweakerItem) {
@@ -190,10 +216,10 @@ public class ClientForgeEvents {
                 statusV2IT.set(statusV2IT.x-1, statusV2IT.y-1+status*20);
                 BSFGui.TWEAKER_SELECTOR_GUI.render(guiGraphics, statusV2IT.x, statusV2IT.y);
                 if (locateV2I!=null &&  locateV2I.y!=locateV2IT.y){
-                    BSFGui.SETTER_ARROW.render(guiGraphics, locateV2I.x+23, locateV2IT.y+2);
+                    BSFGui.SETTER_ARROW_GUI.render(guiGraphics, locateV2I.x+23, locateV2IT.y+2);
                 }
                 if (statusV2I!=null &&  statusV2I.y!=statusV2IT.y){
-                    BSFGui.SETTER_ARROW.render(guiGraphics, statusV2I.x+23, statusV2IT.y+2);
+                    BSFGui.SETTER_ARROW_GUI.render(guiGraphics, statusV2I.x+23, statusV2IT.y+2);
                 }
             }
         }
