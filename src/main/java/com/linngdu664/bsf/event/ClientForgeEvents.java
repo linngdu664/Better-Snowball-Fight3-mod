@@ -19,7 +19,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -139,12 +138,12 @@ public class ClientForgeEvents {
             } else if (offHandItem.getItem() instanceof AbstractBSFWeaponItem item) {
                 weaponItem = item;
             }
+            GuiGraphics guiGraphics = event.getGuiGraphics();
+            Window window = event.getWindow();
             if (weaponItem != null) {
                 ItemStack current = weaponItem.getCurrentAmmoItemStack();
                 ItemStack prev = weaponItem.getPrevAmmoItemStack();
                 ItemStack next = weaponItem.getNextAmmoItemStack();
-                GuiGraphics guiGraphics = event.getGuiGraphics();
-                Window window = event.getWindow();
                 BSFGui.V2I v2I = BSFGui.SNOWBALL_GUI.renderCenterVertically(guiGraphics, window, 0);
                 int startPos = v2I.y;
                 guiGraphics.renderItem(prev, 3, startPos + 3);
@@ -157,8 +156,6 @@ public class ClientForgeEvents {
             HitResult pick = instance.hitResult;
             BSFGui.V2I locateV2I = null,statusV2I = null;
             if (pick.getType() == HitResult.Type.ENTITY && ((EntityHitResult) pick).getEntity() instanceof BSFSnowGolemEntity entity && player.equals(entity.getOwner())) {
-                GuiGraphics guiGraphics = event.getGuiGraphics();
-                Window window = event.getWindow();
                 byte locator = entity.getLocator();
                 byte status = entity.getStatus();
                 locateV2I = BSFGui.GOLEM_LOCATOR_GUI.renderRatio(guiGraphics, window, 0.7, 0.5);
@@ -179,8 +176,6 @@ public class ClientForgeEvents {
                 CompoundTag tag = tweaker.getOrCreateTag();
                 byte locator = tag.getByte("Locator");
                 byte status = tag.getByte("Status");
-                GuiGraphics guiGraphics = event.getGuiGraphics();
-                Window window = event.getWindow();
                 BSFGui.V2I locateV2IT = BSFGui.TWEAKER_LOCATOR_GUI.renderRatio(guiGraphics, window, 0.7, 0.5,30,0);
                 locateV2IT.set(locateV2IT.x-1, locateV2IT.y-1+locator*20);
                 BSFGui.TWEAKER_SELECTOR_GUI.render(guiGraphics, locateV2IT.x, locateV2IT.y);
@@ -194,7 +189,6 @@ public class ClientForgeEvents {
                     BSFGui.SETTER_ARROW.render(guiGraphics, statusV2I.x+23, statusV2IT.y+2);
                 }
             }
-
         }
     }
     @SubscribeEvent

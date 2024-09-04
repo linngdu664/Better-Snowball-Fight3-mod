@@ -3,14 +3,24 @@ package com.linngdu664.bsf.event;
 import com.linngdu664.bsf.Main;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BSFGui {
     public static final GuiTexture SNOWBALL_FRAME = new GuiTexture("textures/gui/snowball_frame.png",23,62);
@@ -84,7 +94,7 @@ public class BSFGui {
         return horizontallyRatio(window,width,0.5);
     }
     public static int horizontallyRatio(Window window, int width,double widthRatio) {
-        return (int)((window.getWidth() / (int) window.getGuiScale()-width) * widthRatio);
+        return (int)((window.getWidth() / window.getGuiScale()-width) * widthRatio);
     }
     public static class V2I{
         public int x;
@@ -118,4 +128,28 @@ public class BSFGui {
         guiGraphics.flushIfUnmanaged();
     }
 
+
+    public static ArrayList<V2I> calcScreenPosFromWorldPos(List<Vec3> points, int guiWidth, int guiHeight, int widthProtect, int heightProtect, float partialTicks) {
+        Minecraft mc = Minecraft.getInstance();
+        GameRenderer gameRenderer = mc.gameRenderer;
+        Camera camera = gameRenderer.getMainCamera();
+        Vec3 cameraPos = camera.getPosition();
+        Matrix3f rotMat = new Matrix3f().rotation(camera.rotation().conjugate(new Quaternionf()));      // make rot mat
+        Window window = mc.getWindow();
+        float fovy = (float) gameRenderer.getFov(camera, partialTicks, true) * Mth.DEG_TO_RAD;
+        float tanHalfFovy = Mth.sin(fovy * 0.5F) / Mth.cos(fovy * 0.5F);
+        float tanHalfFovx = tanHalfFovy * (float) window.getWidth() / (float) window.getHeight();
+        ArrayList<V2I> screenPoints = new ArrayList<>();
+        for (Vec3 vec3 : points) {
+            Vector3f vector3f = new Vector3f((float) (vec3.x - cameraPos.x), (float) (vec3.y - cameraPos.y), (float) (vec3.z - cameraPos.z));
+            rotMat.transform(vector3f);
+            // 这个版本转完之后摄像机朝向z轴正方向，真他妈无语
+            float rx = vector3f.x / vector3f.z / tanHalfFovx;
+            int xScreen = vector3f.z <= 0 ? (vector3f.x >= 0 ? widthProtect : guiWidth - widthProtect) : Mth.clamp((int) (guiWidth * 0.5F * (1 - rx)), widthProtect, guiWidth - widthProtect);
+            float ry = vector3f.y / Mth.sqrt(vector3f.x * vector3f.x + vector3f.z * vector3f.z) / tanHalfFovy;
+            int yScreen = Mth.clamp((int) (guiHeight * 0.5F * (1 - ry)), heightProtect, guiHeight - heightProtect);
+            screenPoints.add(new BSFGui.V2I(xScreen, yScreen));
+        }
+        return screenPoints;
+    }
 }
