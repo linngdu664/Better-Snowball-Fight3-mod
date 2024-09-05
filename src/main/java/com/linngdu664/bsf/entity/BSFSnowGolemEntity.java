@@ -689,4 +689,8 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         playSound(SoundEvents.ENDERMAN_TELEPORT);
         resetCoreCoolDown();
     }
+    public Vec3 getMiddleModelForward(float partialTicks,double degreeOffset) {
+        return BSFCommonUtil.radRotationToVector(1, (Mth.lerp(partialTicks, this.yBodyRotO+((this.yHeadRotO - this.yBodyRotO)* 0.25), this.yBodyRot+((this.yHeadRot - this.yBodyRot)* 0.25)) + 90 + degreeOffset)* Mth.DEG_TO_RAD, 0);
+
+    }
 }

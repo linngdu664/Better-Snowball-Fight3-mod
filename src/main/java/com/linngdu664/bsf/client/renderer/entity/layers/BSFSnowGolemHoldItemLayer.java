@@ -29,6 +29,7 @@ public class BSFSnowGolemHoldItemLayer extends RenderLayer<BSFSnowGolemEntity, B
         ItemInHandRenderer itemInHandRenderer = Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer();
         if (!itemstack.isEmpty()) {
             pMatrixStack.pushPose();
+            pMatrixStack.mulPose(new Quaternionf(new AxisAngle4f(pNetHeadYaw * Mth.DEG_TO_RAD * 0.25F, 0F, 1F, 0F)));
             pMatrixStack.translate(-0.05, 0.2, -0.8);
             pMatrixStack.mulPose(new Quaternionf(new AxisAngle4f(Math.max(pLivingEntity.getWeaponAng() - 60 * pPartialTicks, 0) * Mth.DEG_TO_RAD, 1F, 0F, 0F)));
             itemInHandRenderer.renderItem(pLivingEntity, itemstack, ItemDisplayContext.HEAD, false, pMatrixStack, pBuffer, pPackedLight);
@@ -37,12 +38,14 @@ public class BSFSnowGolemHoldItemLayer extends RenderLayer<BSFSnowGolemEntity, B
         itemstack = pLivingEntity.getAmmo();
         if (!itemstack.isEmpty()) {
             pMatrixStack.pushPose();
+            pMatrixStack.mulPose(new Quaternionf(new AxisAngle4f(pNetHeadYaw * Mth.DEG_TO_RAD * 0.25F, 0F, 1F, 0F)));
             itemInHandRenderer.renderItem(pLivingEntity, itemstack, ItemDisplayContext.HEAD, false, pMatrixStack, pBuffer, pPackedLight);
             pMatrixStack.popPose();
         }
         itemstack = pLivingEntity.getCore();
         if (!itemstack.isEmpty()) {
             pMatrixStack.pushPose();
+            pMatrixStack.mulPose(new Quaternionf(new AxisAngle4f(pNetHeadYaw * Mth.DEG_TO_RAD * 0.25F, 0F, 1F, 0F)));
             pMatrixStack.translate(0, 0.15, -0.48);
             pMatrixStack.scale(0.35F, 0.35F, 0.35F);
             itemInHandRenderer.renderItem(pLivingEntity, itemstack, ItemDisplayContext.HEAD, false, pMatrixStack, pBuffer, pPackedLight);
