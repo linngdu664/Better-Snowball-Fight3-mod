@@ -11,15 +11,17 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import oshi.util.tuples.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class BSFGui {
     public static final GuiTexture SNOWBALL_FRAME = new GuiTexture("textures/gui/snowball_frame.png",23,62);
@@ -67,16 +69,16 @@ public class BSFGui {
             return new V2I(x,y);
         }
         public V2I renderCenterVertically(GuiGraphics guiGraphics,Window window,int x){
-            return render(guiGraphics,x,centerVertically(window,this.height));
+            return render(guiGraphics,x, heightFrameCenter(window,this.height));
         }
         public V2I renderCenterHorizontally(GuiGraphics guiGraphics,Window window,int y){
-            return render(guiGraphics,centerHorizontally(window,this.width),y);
+            return render(guiGraphics, widthFrameCenter(window,this.width),y);
         }
         public V2I renderRatio(GuiGraphics guiGraphics,Window window,double widthRatio,double heightRatio){
             return renderRatio(guiGraphics,window,widthRatio,heightRatio,0,0);
         }
         public V2I renderRatio(GuiGraphics guiGraphics,Window window,double widthRatio,double heightRatio,int xOffset ,int yOffset){
-            return render(guiGraphics,horizontallyRatio(window,this.width,widthRatio)+xOffset,verticallyRatio(window,this.height,heightRatio)+yOffset);
+            return render(guiGraphics, widthFrameRatio(window,this.width,widthRatio)+xOffset, heightFrameRatio(window,this.height,heightRatio)+yOffset);
         }
     }
     /*
@@ -84,24 +86,43 @@ public class BSFGui {
         y height vertical
      */
 
-    public static int centerVertically(Window window, int height) {
-        return verticallyRatio(window,height,0.5);
+    public static int heightFrameCenter(Window window, int height) {
+        return heightFrameRatio(window,height,0.5);
     }
-    public static int verticallyRatio(Window window, int height, double heightRatio) {
+    public static int heightFrameRatio(Window window, int height, double heightRatio) {
         return (int)((window.getHeight() / window.getGuiScale()-height) * heightRatio);
     }
-
-    public static int centerHorizontally(Window window, int width) {
-        return horizontallyRatio(window,width,0.5);
+    public static int heightWinRatio(Window window,double heightRatio){
+        return heightFrameRatio(window,0,heightRatio);
     }
-    public static int horizontallyRatio(Window window, int width,double widthRatio) {
+    public static int widthFrameCenter(Window window, int width) {
+        return widthFrameRatio(window,width,0.5);
+    }
+    public static int widthFrameRatio(Window window, int width, double widthRatio) {
         return (int)((window.getWidth() / window.getGuiScale()-width) * widthRatio);
+    }
+    public static int widthWinRatio(Window window, double widthRatio){
+        return widthFrameRatio(window,0,widthRatio);
+    }
+
+    public static V2I v2IRatio(Window window,int width,int height,double widthRatio,double heightRatio){
+        return v2IRatio(window,width,height,widthRatio,heightRatio,0,0);
+    }
+    public static V2I v2IRatio(Window window,int width,int height,double widthRatio,double heightRatio,int xOffset,int yOffset){
+        return new V2I(widthFrameRatio(window,width,widthRatio)+xOffset, heightFrameRatio(window,height,heightRatio)+yOffset);
     }
 
     public static void renderProgressBar(GuiGraphics guiGraphics,V2I pos,V2I frame,int padding,int frameColor,int innerColor,float percent){
         guiGraphics.renderOutline(pos.x,pos.y,frame.x,frame.y,frameColor);
         int innerW = (int)((frame.x-padding-padding)*percent);
         guiGraphics.fill(pos.x+padding,pos.y+padding,pos.x+padding+innerW,pos.y+frame.y-padding,innerColor);
+    }
+    public static void renderEquipIntroduced(GuiGraphics guiGraphics, V2I equipPoint, V2I framePoint, int lineXDistance, int color, ItemStack itemStack){
+        V2I linkPoint = new V2I(equipPoint.x + EQUIPMENT_SLOT_FRAME_GUI.height / 2, equipPoint.y + EQUIPMENT_SLOT_FRAME_GUI.width / 2);
+        renderLineTool(guiGraphics,linkPoint.getVec2(),new Vec2(linkPoint.x-lineXDistance, framePoint.y),1,color);
+        guiGraphics.hLine(framePoint.x,linkPoint.x-lineXDistance,framePoint.y,color);
+        EQUIPMENT_SLOT_FRAME_GUI.render(guiGraphics, equipPoint.x, equipPoint.y);
+        guiGraphics.renderItem(itemStack,equipPoint.x+3,equipPoint.y+3);
     }
     public static class V2I{
         public int x;
@@ -114,6 +135,9 @@ public class BSFGui {
         public void set(int x, int y) {
             this.x = x;
             this.y = y;
+        }
+        public Vec2 getVec2(){
+            return new Vec2(this.x,this.y);
         }
 
         @Override
@@ -145,8 +169,7 @@ public class BSFGui {
         guiGraphics.flushIfUnmanaged();
     }
 
-
-    public static ArrayList<V2I> calcScreenPosFromWorldPos(List<Vec3> points, int guiWidth, int guiHeight, int widthProtect, int heightProtect, float partialTicks) {
+    public static void calcScreenPosFromWorldPos(List<Pair<Vec3, Consumer<V2I>>> points, int guiWidth, int guiHeight, int widthProtect, int heightProtect, float partialTicks) {
         Minecraft mc = Minecraft.getInstance();
         GameRenderer gameRenderer = mc.gameRenderer;
         Camera camera = gameRenderer.getMainCamera();
@@ -156,8 +179,8 @@ public class BSFGui {
         float fovy = (float) gameRenderer.getFov(camera, partialTicks, true) * Mth.DEG_TO_RAD;
         float tanHalfFovy = Mth.sin(fovy * 0.5F) / Mth.cos(fovy * 0.5F);
         float tanHalfFovx = tanHalfFovy * (float) window.getWidth() / (float) window.getHeight();
-        ArrayList<V2I> screenPoints = new ArrayList<>();
-        for (Vec3 vec3 : points) {
+        for (Pair<Vec3, Consumer<V2I>> pMethod : points) {
+            Vec3 vec3 = pMethod.getA();
             Vector3f vector3f = new Vector3f((float) (vec3.x - cameraPos.x), (float) (vec3.y - cameraPos.y), (float) (vec3.z - cameraPos.z));
             rotMat.transform(vector3f);
             // 这个版本转完之后摄像机朝向z轴正方向，真他妈无语
@@ -165,8 +188,7 @@ public class BSFGui {
             int xScreen = vector3f.z <= 0 ? (vector3f.x >= 0 ? widthProtect : guiWidth - widthProtect) : Mth.clamp((int) (guiWidth * 0.5F * (1 - rx)), widthProtect, guiWidth - widthProtect);
             float ry = vector3f.y / Mth.sqrt(vector3f.x * vector3f.x + vector3f.z * vector3f.z) / tanHalfFovy;
             int yScreen = Mth.clamp((int) (guiHeight * 0.5F * (1 - ry)), heightProtect, guiHeight - heightProtect);
-            screenPoints.add(new BSFGui.V2I(xScreen, yScreen));
+            pMethod.getB().accept(new V2I(xScreen, yScreen));
         }
-        return screenPoints;
     }
 }

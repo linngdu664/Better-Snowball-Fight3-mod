@@ -14,7 +14,6 @@ import com.linngdu664.bsf.network.SwitchTweakerStatusModeToServer;
 import com.linngdu664.bsf.network.SwitchTweakerTargetModeToServer;
 import com.linngdu664.bsf.registry.ItemRegister;
 import com.linngdu664.bsf.registry.NetworkRegister;
-import com.linngdu664.bsf.util.BSFCommonUtil;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -27,7 +26,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
@@ -39,10 +37,14 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
+import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
+
+import static com.linngdu664.bsf.event.BSFGui.*;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeEvents {
@@ -150,7 +152,7 @@ public class ClientForgeEvents {
                 ItemStack current = weaponItem.getCurrentAmmoItemStack();
                 ItemStack prev = weaponItem.getPrevAmmoItemStack();
                 ItemStack next = weaponItem.getNextAmmoItemStack();
-                BSFGui.V2I v2I = BSFGui.SNOWBALL_SLOT_FRAME_GUI.renderCenterVertically(guiGraphics, window, 0);
+                V2I v2I = SNOWBALL_SLOT_FRAME_GUI.renderCenterVertically(guiGraphics, window, 0);
                 int startPos = v2I.y;
                 guiGraphics.renderItem(prev, 3, startPos + 3);
                 guiGraphics.renderItem(current, 3, startPos + 23);
@@ -160,44 +162,63 @@ public class ClientForgeEvents {
                 guiGraphics.drawString(instance.font, String.valueOf(next.getCount()), 24, startPos + 47, 0xffffffff);
             }
             HitResult pick = instance.hitResult;
-            BSFGui.V2I locateV2I = null,statusV2I = null;
+            V2I locateV2I = null,statusV2I = null;
             if (pick.getType() == HitResult.Type.ENTITY && ((EntityHitResult) pick).getEntity() instanceof BSFSnowGolemEntity entity && player.equals(entity.getOwner())) {
                 //显示模式
                 byte locator = entity.getLocator();
                 byte status = entity.getStatus();
-                locateV2I = BSFGui.GOLEM_LOCATOR_GUI.renderRatio(guiGraphics, window, 0.7, 0.5);
+                locateV2I = GOLEM_LOCATOR_GUI.renderRatio(guiGraphics, window, 0.7, 0.5);
                 locateV2I.set(locateV2I.x-1,locateV2I.y-1+locator*20);
-                BSFGui.GOLEM_SELECTOR_GUI.render(guiGraphics, locateV2I.x, locateV2I.y);
-                statusV2I = BSFGui.GOLEM_STATUS_GUI.renderRatio(guiGraphics,window,0.7,0.5,60,0);
+                GOLEM_SELECTOR_GUI.render(guiGraphics, locateV2I.x, locateV2I.y);
+                statusV2I = GOLEM_STATUS_GUI.renderRatio(guiGraphics,window,0.7,0.5,60,0);
                 statusV2I.set(statusV2I.x-1,statusV2I.y-1+status*20);
-                BSFGui.GOLEM_SELECTOR_GUI.render(guiGraphics, statusV2I.x, statusV2I.y);
+                GOLEM_SELECTOR_GUI.render(guiGraphics, statusV2I.x, statusV2I.y);
                 if (entity.getEnhance()){
-                    BSFGui.ADVANCE_MODE_GUI.renderRatio(guiGraphics, window, 0.5, 0.8);
+                    ADVANCE_MODE_GUI.renderRatio(guiGraphics, window, 0.5, 0.8);
                 }
 
 
                 //显示血条/cd
-                BSFGui.V2I barFrame=new BSFGui.V2I(100,10);
+                V2I barFrame=new V2I(100,10);
                 int padding = 2;
-                BSFGui.V2I barPos=new BSFGui.V2I(BSFGui.centerHorizontally(window, barFrame.x),BSFGui.verticallyRatio(window, barFrame.y, 0.1));
-                BSFGui.renderProgressBar(guiGraphics,barPos,barFrame,padding,0xffffffff,0xffe82f27,entity.getHealth()/entity.getMaxHealth());
+                V2I barPos=new V2I(widthFrameCenter(window, barFrame.x),heightFrameRatio(window, barFrame.y, 0.1));
+                renderProgressBar(guiGraphics,barPos,barFrame,padding,0xffffffff,0xffe82f27,entity.getHealth()/entity.getMaxHealth());
                 if (entity.getCore().getItem() instanceof SnowGolemCoreItem item && entity.getCoreCoolDown()>0){
                     barPos.y+=15;
-                    BSFGui.renderProgressBar(guiGraphics,barPos,barFrame,padding,0xffffffff,0xff26a7ff, (float) entity.getCoreCoolDown() /item.getCoolDown());
+                    renderProgressBar(guiGraphics,barPos,barFrame,padding,0xffffffff,0xff26a7ff, (float) entity.getCoreCoolDown() /item.getCoolDown());
                 }
                 if (entity.getPotionSickness()>0){
                     barPos.y+=15;
-                    BSFGui.renderProgressBar(guiGraphics,barPos,barFrame,padding,0xffffffff,0xff62df86, (float) entity.getPotionSickness() /100);
+                    renderProgressBar(guiGraphics,barPos,barFrame,padding,0xffffffff,0xff62df86, (float) entity.getPotionSickness() /100);
                 }
                 //显示装备
                 float partialTick = event.getPartialTick();
-                Vec3 p1 = entity.getEyePosition(partialTick);
-                List<Vec3> list = new ArrayList<>();
-                list.add(p1);
+                List<Pair<Vec3, Consumer<V2I>>> list = new ArrayList<>();
+                Vec3 entityPosition = entity.getPosition(partialTick);
                 Vec3 viewVector = entity.getViewVector(partialTick);
-                list.add(p1.add(new Vec3(viewVector.x,0, viewVector.z).normalize()).add(0,-0.5,0));
-                List<BSFGui.V2I> v2IS = BSFGui.calcScreenPosFromWorldPos(list, guiGraphics.guiWidth(), guiGraphics.guiHeight(), 0, 0, partialTick);
-                v2IS.forEach(v2I -> BSFGui.renderLineTool(guiGraphics,new Vec2(50,50),new Vec2(v2I.x, v2I.y),1,0xffffffff));
+                Vec3 viewVector0Y = new Vec3(viewVector.x, 0, viewVector.z).normalize();
+                ItemStack equip = entity.getWeapon();
+                if (equip != ItemStack.EMPTY){
+                    ItemStack finalEquip = equip;
+                    list.add(new Pair<>(entityPosition.add(viewVector0Y.scale(0.7).add(0,1,0)), v2I -> {
+                        renderEquipIntroduced(guiGraphics,v2I,v2IRatio(window,EQUIPMENT_SLOT_FRAME_GUI.width,EQUIPMENT_SLOT_FRAME_GUI.height,0.3,0.3),widthWinRatio(window,0.2),0xffffffff, finalEquip);
+                    }));
+                }
+                equip=entity.getAmmo();
+                if (equip != ItemStack.EMPTY) {
+                    ItemStack finalEquip = equip;
+                    list.add(new Pair<>(entityPosition.add(viewVector0Y.scale(-0.2).add(0,0.8,0)),v2I -> {
+                        renderEquipIntroduced(guiGraphics,v2I,v2IRatio(window,EQUIPMENT_SLOT_FRAME_GUI.width,EQUIPMENT_SLOT_FRAME_GUI.height,0.3,0.5),widthWinRatio(window,0.4),0xffffffff,finalEquip);
+                    }));
+                }
+                equip=entity.getCore();
+                if (equip != ItemStack.EMPTY) {
+                    ItemStack finalEquip = equip;
+                    list.add(new Pair<>(entityPosition.add(viewVector0Y.scale(0.2).add(0,0.8,0)),v2I -> {
+                        renderEquipIntroduced(guiGraphics,v2I,v2IRatio(window,EQUIPMENT_SLOT_FRAME_GUI.width,EQUIPMENT_SLOT_FRAME_GUI.height,0.3,0.8),widthWinRatio(window,0.2),0xffffffff,finalEquip);
+                    }));
+                }
+                calcScreenPosFromWorldPos(list, guiGraphics.guiWidth(), guiGraphics.guiHeight(), 0, 0, partialTick);
             }
             ItemStack tweaker = null;
             if (mainHandItem.getItem() instanceof SnowGolemModeTweakerItem) {
@@ -209,17 +230,17 @@ public class ClientForgeEvents {
                 CompoundTag tag = tweaker.getOrCreateTag();
                 byte locator = tag.getByte("Locator");
                 byte status = tag.getByte("Status");
-                BSFGui.V2I locateV2IT = BSFGui.TWEAKER_LOCATOR_GUI.renderRatio(guiGraphics, window, 0.7, 0.5,30,0);
+                V2I locateV2IT = TWEAKER_LOCATOR_GUI.renderRatio(guiGraphics, window, 0.7, 0.5,30,0);
                 locateV2IT.set(locateV2IT.x-1, locateV2IT.y-1+locator*20);
-                BSFGui.TWEAKER_SELECTOR_GUI.render(guiGraphics, locateV2IT.x, locateV2IT.y);
-                BSFGui.V2I statusV2IT = BSFGui.TWEAKER_STATUS_GUI.renderRatio(guiGraphics,window,0.7,0.5,90,0);
+                TWEAKER_SELECTOR_GUI.render(guiGraphics, locateV2IT.x, locateV2IT.y);
+                V2I statusV2IT = TWEAKER_STATUS_GUI.renderRatio(guiGraphics,window,0.7,0.5,90,0);
                 statusV2IT.set(statusV2IT.x-1, statusV2IT.y-1+status*20);
-                BSFGui.TWEAKER_SELECTOR_GUI.render(guiGraphics, statusV2IT.x, statusV2IT.y);
+                TWEAKER_SELECTOR_GUI.render(guiGraphics, statusV2IT.x, statusV2IT.y);
                 if (locateV2I!=null &&  locateV2I.y!=locateV2IT.y){
-                    BSFGui.SETTER_ARROW_GUI.render(guiGraphics, locateV2I.x+23, locateV2IT.y+2);
+                    SETTER_ARROW_GUI.render(guiGraphics, locateV2I.x+23, locateV2IT.y+2);
                 }
                 if (statusV2I!=null &&  statusV2I.y!=statusV2IT.y){
-                    BSFGui.SETTER_ARROW_GUI.render(guiGraphics, statusV2I.x+23, statusV2IT.y+2);
+                    SETTER_ARROW_GUI.render(guiGraphics, statusV2I.x+23, statusV2IT.y+2);
                 }
             }
         }
