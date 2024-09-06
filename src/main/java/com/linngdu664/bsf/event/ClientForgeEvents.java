@@ -176,21 +176,21 @@ public class ClientForgeEvents {
                 if (equip != ItemStack.EMPTY) {
                     ItemStack finalEquip = equip;
                     list.add(new Pair<>(entityPosition.add(entity.getMiddleModelForward(partialTick,4).scale(0.7).add(0, 1.3, 0)), v2 -> {
-                        renderEquipIntroduced(guiGraphics, v2, v2IRatio(window, EQUIPMENT_SLOT_FRAME_GUI.width, EQUIPMENT_SLOT_FRAME_GUI.height, 0.3, 0.3).getVec2(), widthWinRatio(window, 0.1), 0xffffffff, finalEquip);
+                        renderEquipIntroduced(guiGraphics, v2, v2IRatio(window, EQUIPMENT_SLOT_FRAME_GUI.width, EQUIPMENT_SLOT_FRAME_GUI.height, 0.2, 0.3).getVec2(), widthWinRatio(window, 0.1), 0xffffffff, finalEquip,instance.font,finalEquip.getDisplayName().getString());
                     }));
                 }
                 equip = entity.getAmmo();
                 if (equip != ItemStack.EMPTY) {
                     ItemStack finalEquip = equip;
                     list.add(new Pair<>(entityPosition.add(viewVector0Y.scale(-0.3).add(0, 1.2, 0)), v2 -> {
-                        renderEquipIntroduced(guiGraphics, v2, v2IRatio(window, EQUIPMENT_SLOT_FRAME_GUI.width, EQUIPMENT_SLOT_FRAME_GUI.height, 0.3, 0.5).getVec2(), widthWinRatio(window, 0.07), 0xffffffff, finalEquip);
+                        renderEquipIntroduced(guiGraphics, v2, v2IRatio(window, EQUIPMENT_SLOT_FRAME_GUI.width, EQUIPMENT_SLOT_FRAME_GUI.height, 0.2, 0.5).getVec2(), widthWinRatio(window, 0.07), 0xffffffff, finalEquip,instance.font,finalEquip.getDisplayName().getString());
                     }));
                 }
                 equip = entity.getCore();
                 if (equip != ItemStack.EMPTY) {
                     ItemStack finalEquip = equip;
                     list.add(new Pair<>(entityPosition.add(viewVector0Y.scale(0.3).add(0, 1.05, 0)), v2 -> {
-                        renderEquipIntroduced(guiGraphics, v2, v2IRatio(window, EQUIPMENT_SLOT_FRAME_GUI.width, EQUIPMENT_SLOT_FRAME_GUI.height, 0.3, 0.8).getVec2(), widthWinRatio(window, 0.12), 0xffffffff, finalEquip);
+                        renderEquipIntroduced(guiGraphics, v2, v2IRatio(window, EQUIPMENT_SLOT_FRAME_GUI.width, EQUIPMENT_SLOT_FRAME_GUI.height, 0.2, 0.7).getVec2(), widthWinRatio(window, 0.12), 0xffffffff, finalEquip,instance.font,finalEquip.getDisplayName().getString());
                     }));
                 }
                 calcScreenPosFromWorldPos(list, guiGraphics.guiWidth(), guiGraphics.guiHeight(), 0, 0, partialTick);
@@ -206,7 +206,6 @@ public class ClientForgeEvents {
                 if (entity.getEnhance()) {
                     ADVANCE_MODE_GUI.renderRatio(guiGraphics, window, 0.5, 0.8);
                 }
-
 
                 //显示血条/cd
                 V2I barFrame = new V2I(100, 10);

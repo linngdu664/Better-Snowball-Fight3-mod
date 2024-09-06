@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderType;
@@ -159,7 +160,7 @@ public class BSFGui {
         guiGraphics.fill(pos.x + padding, pos.y + padding, pos.x + padding + innerW, pos.y + frame.y - padding, innerColor);
     }
 
-    public static void renderEquipIntroduced(GuiGraphics guiGraphics, Vec2 equipPoint, Vec2 framePoint, int lineXDistance, int color, ItemStack itemStack) {
+    public static void renderEquipIntroduced(GuiGraphics guiGraphics, Vec2 equipPoint, Vec2 framePoint, int lineXDistance, int color, ItemStack itemStack, Font font,String msg) {
         Vec2 linkPoint = new Vec2(framePoint.x + EQUIPMENT_SLOT_FRAME_GUI.width, framePoint.y + (float) EQUIPMENT_SLOT_FRAME_GUI.height / 2);
         Vec2 xPoint = new Vec2(equipPoint.x - lineXDistance, linkPoint.y);
         if (xPoint.x < linkPoint.x) {
@@ -168,8 +169,10 @@ public class BSFGui {
         float d = 2;
         renderLineTool(guiGraphics, xPoint.add(new Vec2(0, xPoint.y < equipPoint.y ? 0 : d)),equipPoint, d, color, xPoint.y < equipPoint.y, 0.3f, 0xff808080);
         renderLineTool(guiGraphics, linkPoint, xPoint, d, color, true, 0.3f, 0xff808080);
+        renderFillSquareTool(guiGraphics,equipPoint.add(new Vec2( -1.5f,-1.5f)),equipPoint.add(new Vec2(1.5f,1.5f)),color);
         EQUIPMENT_SLOT_FRAME_GUI.render(guiGraphics, (int) framePoint.x, (int) framePoint.y);
         guiGraphics.renderItem(itemStack, (int) (framePoint.x + 3), (int) (framePoint.y + 3));
+        guiGraphics.drawString(font,msg,framePoint.x-font.width(msg),framePoint.y+7,0xffffffff,true);
     }
 
     public static void renderLineTool(GuiGraphics guiGraphics, Vec2 p1, Vec2 p2, float d, int color, boolean isDown, float padding, int padColor) {
@@ -177,18 +180,27 @@ public class BSFGui {
         Vec2 v1 = ad.scale(d / ad.length());
         Vec2 v2 = new Vec2(-v1.y, v1.x);
         if (isDown) {
+//            Vec2 v2s = v2.scale(padding);
+//            Vec2 v2d = v2.scale(1 - padding);
+//
+//            renderFillTool(guiGraphics, p1, p1.add(v2), p2.add(v2), p2, padColor);
+//            renderFillTool(guiGraphics, p1.add(v2s), p1.add(v2d), p2.add(v2d), p2.add(v2s), color);
+
             Vec2 v2s = v2.scale(padding);
-            Vec2 v2d = v2.scale(1 - padding);
 
             renderFillTool(guiGraphics, p1, p1.add(v2), p2.add(v2), p2, padColor);
-            renderFillTool(guiGraphics, p1.add(v2s), p1.add(v2d), p2.add(v2d), p2.add(v2s), color);
+            renderFillTool(guiGraphics, p1, p1.add(v2s), p2.add(v2s), p2, color);
         } else {
             v2 = v2.negated();
+//            Vec2 v2s = v2.scale(padding);
+//            Vec2 v2d = v2.scale(1 - padding);
+//            p2=p2.add(v2.negated());
+//            renderFillTool(guiGraphics, p1.add(v2), p1, p2, p2.add(v2), padColor);
+//            renderFillTool(guiGraphics, p1.add(v2d), p1.add(v2s), p2.add(v2s), p2.add(v2d), color);
             Vec2 v2s = v2.scale(padding);
-            Vec2 v2d = v2.scale(1 - padding);
             p2=p2.add(v2.negated());
             renderFillTool(guiGraphics, p1.add(v2), p1, p2, p2.add(v2), padColor);
-            renderFillTool(guiGraphics, p1.add(v2d), p1.add(v2s), p2.add(v2s), p2.add(v2d), color);
+            renderFillTool(guiGraphics, p1.add(v2s), p1, p2, p2.add(v2s), color);
         }
 
     }
@@ -206,6 +218,9 @@ public class BSFGui {
         vertexconsumer.vertex(matrix4f, c.x, c.y, 0).color(f, f1, f2, f3).endVertex();
         vertexconsumer.vertex(matrix4f, d.x, d.y, 0).color(f, f1, f2, f3).endVertex();
         guiGraphics.flushIfUnmanaged();
+    }
+    public static void renderFillSquareTool(GuiGraphics guiGraphics, Vec2 a, Vec2 b, int pColor) {
+        renderFillTool(guiGraphics,a,new Vec2(a.x,b.y),b,new Vec2(b.x,a.y),pColor);
     }
 
     public static void calcScreenPosFromWorldPos(List<Pair<Vec3, Consumer<Vec2>>> points, int guiWidth, int guiHeight, int widthProtect, int heightProtect, float partialTicks) {
