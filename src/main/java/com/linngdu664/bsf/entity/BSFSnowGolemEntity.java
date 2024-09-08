@@ -79,6 +79,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     private static final EntityDataAccessor<Integer> POTION_SICKNESS = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> ENHANCE = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> CORE_COOL_DOWN = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<String> TARGET_NAME = SynchedEntityData.defineId(BSFSnowGolemEntity.class, EntityDataSerializers.STRING);
     private float launchVelocity;
     private float launchAccuracy;
     private double shootX;
@@ -124,6 +125,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         entityData.define(POTION_SICKNESS, 0);
         entityData.define(ENHANCE, false);
         entityData.define(CORE_COOL_DOWN, 0);
+        entityData.define(TARGET_NAME, "");
     }
 
     @Override
@@ -145,6 +147,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         pCompound.putInt("PotionSickness", getPotionSickness());
         pCompound.putInt("CoreCoolDown", getCoreCoolDown());
         pCompound.putBoolean("DropEquipment", dropEquipment);
+        pCompound.putString("TargetName", getTargetName());
         if (getTarget() != null) {
             pCompound.putUUID("TargetUUID", getTarget().getUUID());
         } else {
@@ -166,6 +169,7 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
         setPotionSickness(pCompound.getInt("PotionSickness"));
         setCoreCoolDown(pCompound.getInt("CoreCoolDown"));
         dropEquipment = pCompound.getBoolean("DropEquipment");
+        setTargetName(pCompound.getString("TargetName"));
         if (pCompound.contains("TargetUUID")) {
             setTarget((LivingEntity) ((ServerLevel) level()).getEntity(pCompound.getUUID("TargetUUID")));
         }
@@ -183,6 +187,13 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
     }
     public void setLocator(byte locator){
         entityData.set(LOCATOR_FLAG,locator);
+    }
+
+    public String getTargetName(){
+        return entityData.get(TARGET_NAME);
+    }
+    public void setTargetName(String targetName){
+        entityData.set(TARGET_NAME,targetName);
     }
 
     public ItemStack getWeapon() {
@@ -495,6 +506,12 @@ public class BSFSnowGolemEntity extends TamableAnimal implements RangedAttackMob
                         resetCoreCoolDown();
                     }
                 }
+            }
+            LivingEntity target = getTarget();
+            if (target == null) {
+                setTargetName("");
+            }else {
+                setTargetName(target.getName().getString());
             }
         }
         super.tick();

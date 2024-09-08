@@ -2,6 +2,7 @@ package com.linngdu664.bsf.util;
 
 import com.linngdu664.bsf.event.BSFGui;
 import com.mojang.blaze3d.platform.Window;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
@@ -9,6 +10,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -241,5 +245,28 @@ public class BSFCommonUtil {
 
     public static double vec3GetPitch(Vec3 vec) {
         return Math.atan2(vec.y, Math.sqrt(vec.x * vec.x + vec.z * vec.z));
+    }
+    public static MutableComponent getTransMc(String transKey, Object... args){
+        return MutableComponent.create(new TranslatableContents(transKey, null, args));
+    }
+    public static String getTransStr(String transKey, Object... args){
+        return getTransMc(transKey,args).getString();
+    }
+    public static Component getTransCp(String transKey, ChatFormatting format, Object... args){
+        return getTransMc(transKey,args).withStyle(format);
+    }
+    public static void addTrans(List<Component> pTooltipComponents,String transKey, ChatFormatting format, Object... args){
+        pTooltipComponents.add(getTransCp(transKey,format,args));
+    }
+    public static class TipBuilder{
+        public List<Component> tooltipComponents;
+
+        public TipBuilder(List<Component> tooltipComponents) {
+            this.tooltipComponents = tooltipComponents;
+        }
+        public TipBuilder add(String transKey, ChatFormatting format, Object... args){
+            BSFCommonUtil.addTrans(this.tooltipComponents,transKey,format,args);
+            return this;
+        }
     }
 }
