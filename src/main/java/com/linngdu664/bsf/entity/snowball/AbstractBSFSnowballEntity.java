@@ -285,7 +285,7 @@ public abstract class AbstractBSFSnowballEntity extends ThrowableItemProjectile 
         LaunchFrom launchFrom;
 
         public BSFSnowballEntityProperties() {
-            damage = Float.MIN_VALUE;
+            damage = Float.MIN_NORMAL;
             blazeDamage = 3;
             weaknessTicks = 0;
             frozenTicks = 0;

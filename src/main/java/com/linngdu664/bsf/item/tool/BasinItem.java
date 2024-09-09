@@ -187,7 +187,7 @@ public class BasinItem extends Item {
                     livingEntity.setTicksFrozen(t);
                 }
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) (t * 0.5), amp));
-                livingEntity.hurt(pLevel.damageSources().playerAttack(pPlayer), Float.MIN_VALUE);
+                livingEntity.hurt(pLevel.damageSources().playerAttack(pPlayer), Float.MIN_NORMAL);
             }
             livingEntity.addEffect(new MobEffectInstance(EffectRegister.WEAPON_JAM.get(), jamTime, 0));
         }

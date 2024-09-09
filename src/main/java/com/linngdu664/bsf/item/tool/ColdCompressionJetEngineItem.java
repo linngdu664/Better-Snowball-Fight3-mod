@@ -107,7 +107,7 @@ public class ColdCompressionJetEngineItem extends AbstractBSFEnhanceableToolItem
                     entity.setTicksFrozen(100);
                 }
                 if (pLivingEntity instanceof Player player) {
-                    entity.hurt(pLevel.damageSources().playerAttack(player), Float.MIN_VALUE);
+                    entity.hurt(pLevel.damageSources().playerAttack(player), Float.MIN_NORMAL);
                 }
             }
             if (vec3.y > 0) {
